@@ -1,5 +1,15 @@
 # TOCflow
 
+<p align="center">
+  <img src="docs/assets/tocflow-logo.svg" alt="TOCflow — WordPress Table of Contents block" width="440">
+</p>
+
+<p align="center">
+  <a href="https://matthummel-pa.github.io/tocflow/"><strong>Support &amp; docs</strong></a> ·
+  <a href="https://github.com/matthummel-pa/tocflow/releases/latest">Download (free)</a> ·
+  <a href="https://github.com/matthummel-pa/tocflow/issues">Report a bug</a>
+</p>
+
 **A lightweight, server-rendered Table of Contents block for the WordPress block editor.**
 Drop it into a post and it automatically builds a clean, linked outline from your
 headings — fast, SEO-friendly, and accessible out of the box.
