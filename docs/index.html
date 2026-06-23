@@ -70,6 +70,7 @@
   footer a{color:#cfeede}
   .toc-mini{font-size:14.5px;color:var(--muted)}
   .toc-mini a{margin-right:14px;white-space:nowrap}
+  pre code{background:transparent;color:inherit;padding:0;font-size:13px;line-height:1.55}
 </style>
 </head>
 <body>
@@ -97,6 +98,7 @@
     <a href="#screenshots">Screenshots</a>
     <a href="#install">Install</a>
     <a href="#settings">Settings</a>
+    <a href="#code">How it works</a>
     <a href="#troubleshooting">Troubleshooting</a>
     <a href="#faq">FAQ</a>
     <a href="#links">Project links</a>
@@ -156,6 +158,62 @@
       </tbody>
     </table>
     <p>You can also use the standard block controls for <strong>color</strong>, <strong>spacing</strong>, and <strong>typography</strong> to match your theme.</p>
+  </section>
+
+  <section id="code">
+    <h2>Under the hood (for developers)</h2>
+    <p>TOCflow is a small, modern dynamic block. It's an early-stage beta and open to contributions — here are the pieces that make it tick.</p>
+    <h3>Block metadata (block.json)</h3>
+    <pre style="background:#0f1b14;color:#d7f0e2;padding:16px 18px;border-radius:10px;overflow:auto;font-size:13px;line-height:1.55;margin:0 0 16px"><code>{
+  "name": "tocflow/table-of-contents",
+  "title": "Table of Contents",
+  "category": "widgets",
+  "attributes": {
+    "title":   { "type": "string",  "default": "Table of Contents" },
+    "showH2":  { "type": "boolean", "default": true },
+    "showH3":  { "type": "boolean", "default": true },
+    "showH4":  { "type": "boolean", "default": false },
+    "ordered": { "type": "boolean", "default": false }
+  },
+  "render": "file:./render.php"
+}</code></pre>
+    <h3>One heading map, built on the server</h3>
+    <p>A single pass with <code>parse_blocks()</code> collects every heading and stamps a unique slug — the single source of truth for both the list and the anchor IDs.</p>
+    <pre style="background:#0f1b14;color:#d7f0e2;padding:16px 18px;border-radius:10px;overflow:auto;font-size:13px;line-height:1.55;margin:0 0 16px"><code>function tocflow_collect_headings( $blocks, &amp;$used, &amp;$collected ) {
+    foreach ( $blocks as $block ) {
+        if ( 'core/heading' === $block['blockName'] ) {
+            $text  = trim( wp_strip_all_tags( $block['innerHTML'] ) );
+            $level = isset( $block['attrs']['level'] ) ? (int) $block['attrs']['level'] : 2;
+            if ( '' !== $text ) {
+                $collected[] = array(
+                    'level' =&gt; $level,
+                    'text'  =&gt; $text,
+                    'slug'  =&gt; tocflow_make_slug( $text, $used ),
+                );
+            }
+        }
+        if ( ! empty( $block['innerBlocks'] ) ) {
+            tocflow_collect_headings( $block['innerBlocks'], $used, $collected );
+        }
+    }
+}</code></pre>
+    <h3>Anchors that always match</h3>
+    <p>A <code>render_block</code> filter injects the matching <code>id</code> into each heading as it renders, so every TOC link has a target.</p>
+    <pre style="background:#0f1b14;color:#d7f0e2;padding:16px 18px;border-radius:10px;overflow:auto;font-size:13px;line-height:1.55;margin:0 0 16px"><code>add_filter( 'render_block', 'tocflow_add_heading_ids', 10, 2 );
+
+function tocflow_add_heading_ids( $block_content, $block ) {
+    if ( 'core/heading' !== ( $block['blockName'] ?? '' ) || ! is_singular() ) {
+        return $block_content;
+    }
+    // Pull the precomputed slug for this heading, then add id="slug".
+    return preg_replace(
+        '/(&lt;h[1-6])(\s|&gt;)/i',
+        '$1 id="' . esc_attr( $slug ) . '"$2',
+        $block_content,
+        1
+    );
+}</code></pre>
+    <p>Read the full source on <a href="https://github.com/matthummel-pa/tocflow">GitHub</a>, or jump straight to <a href="https://github.com/matthummel-pa/tocflow/blob/main/tocflow.php">tocflow.php</a>.</p>
   </section>
 
   <section id="troubleshooting">
