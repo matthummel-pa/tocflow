@@ -10,23 +10,23 @@ assignees: ''
 A clear, concise description of what's wrong.
 
 **To reproduce**
-Steps to reproduce the behavior:
 1. Go to '...'
-2. Add the block / click on '...'
+2. Add the Table of Contents block / enable auto-insert / use `[tocflow]`
 3. See error
 
 **Expected behavior**
 What you expected to happen.
 
 **Screenshots**
-If applicable, add screenshots to help explain the problem.
+If applicable, add a screenshot of the editor and of the front end.
 
 **Environment**
 - WordPress version:
 - PHP version:
-- Plugin version:
+- TOCflow version:
 - Active theme:
+- Editor: block / classic / site editor
 - Browser:
 
 **Additional context**
-Anything else that might help (console errors, other active plugins, etc.).
+Other TOC plugins, sticky headers, or `the_content` filters that might interfere.

@@ -2,7 +2,7 @@
 
 Briefly describe the change and the motivation.
 
-Closes #<!-- issue number, if any -->
+Closes #
 
 ## Type of change
 
@@ -13,14 +13,15 @@ Closes #<!-- issue number, if any -->
 
 ## How was this tested?
 
-Describe how you verified the change (WP version, steps, what you checked).
+WordPress version, PHP version, and what you clicked (block, shortcode, auto-insert, settings).
 
 ## Checklist
 
 - [ ] `npm run build` completes without errors
 - [ ] `npm run lint:js` and `npm run lint:css` pass
-- [ ] Block inserts, renders, and saves without console errors
-- [ ] TOC links scroll to the correct headings on the front end
-- [ ] No PHP notices/warnings with `WP_DEBUG` on
-- [ ] I did not commit the `build/` directory
-- [ ] Docs updated if behavior changed
+- [ ] Block inserts, live-previews headings, and saves without console errors
+- [ ] Front-end TOC links scroll to the correct headings (including custom HTML anchors)
+- [ ] No PHP notices with `WP_DEBUG` on
+- [ ] I did not commit `node_modules/` or `build/`
+- [ ] Docs / `readme.txt` / `CHANGELOG.md` updated if behavior changed
+- [ ] Text domain is the literal string `tocflow` (not a variable)

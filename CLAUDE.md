@@ -4,57 +4,63 @@ Context file for Claude (Cowork / Claude Code) working on this project.
 
 ## What this is
 A single-purpose WordPress block plugin: a **Table of Contents** block that
-auto-generates a linked outline from a post's headings. Built deliberately as
-ONE focused block (not a block library) to compete on quality, not quantity.
+auto-generates a linked outline from a post's headings. Built as ONE focused
+block (not a block library).
 
-This is Matt's first WordPress product — it doubles as portfolio for an eventual
-WordPress agency and as a freemium passive-income product.
+Display name **TOCflow**. GitHub / WordPress.org / folder / text domain slug:
+**`tocflow`**. Do not rename it (see `docs/NAMING.md`).
+
+Matt's first WordPress product — portfolio for an agency and a freemium product.
+v1.0.0 is the marketplace-ready free core (WordPress.org + CodeCanyon packaging).
+ThemeForest does not sell plugins; themes should *require* this slug instead.
+
+## WordPress.org directory rules
+Treat `.cursor/rules/wordpress-org-plugin-directory.mdc` and
+`docs/wordpress-org/PLUGIN_DIRECTORY.md` as required product constraints
+(FAQ + 18 guidelines). Official docs:
+https://developer.wordpress.org/plugins/wordpress-org/plugin-developer-faq/
+
+This plugin is **Plugin Directory** (settings, auto-insert, shortcode), not
+Block Directory (those cannot have wp-admin UI).
 
 ## Tech / conventions
-- Modern block dev with `@wordpress/scripts` (wp-scripts). Build with `npm run build`,
-  develop with `npm run start`.
-- **Dynamic block**: front-end markup is rendered in `src/render.php` (server-side),
-  so the TOC is present in the initial HTML — good for SEO and accessibility.
-- JS uses JSX + `@wordpress/*` packages. PHP follows WordPress coding standards
-  (tabs, escaping, text domain `tocflow`).
-- Helper PHP functions live in the root file `tocflow.php` (loaded once).
-  `src/render.php` only contains procedural output — never define functions there
-  (it is included on every render and would fatally redeclare them).
+- `@wordpress/scripts` (`create-block` dynamic variant). `npm run build` / `npm run start`.
+- Follow `.cursor/rules/wordpress-block-coding.mdc` (Gutenberg handbook APIs).
+- **Dynamic block**: `block.json` + `src/save.js` (`null`) + `src/render.php`.
+- Wrapper: `useBlockProps` in the editor, `get_block_wrapper_attributes()` on the front end.
+- Visual presets are Gutenberg **Block Styles** (`is-style-*`), not a custom SelectControl.
+- PHP: WordPress coding standards, tabs, text domain literal `tocflow`.
+- Helpers live under `includes/` (loaded once from `tocflow.php`).
+  `src/render.php` is output only — never declare functions there.
+- Admin UI loads only when `is_admin()`.
+- Front-end JS is `src/view.js` via `block.json` `viewScript`.
 
 ## How it works
-1. `tocflow_get_all_headings()` parses the post with `parse_blocks()` and builds
-   ONE slug-stamped list of every heading. This is the single source of truth.
-2. `render.php` filters that list to the selected levels (H2/H3/H4), normalizes
-   depths, and prints a nested `<ul>`/`<ol>` of anchor links.
-3. A `render_block` filter injects matching `id` attributes into the actual
-   headings on the front end so the links have targets. Both sides use the same
-   precomputed slugs, so anchors always match.
+1. `TOCflow_Headings::get_all()` parses the post with `parse_blocks()` and builds
+   ONE slug-stamped list (custom `anchor` / existing `id` wins).
+2. `render.php` → `TOCflow_Headings::render_nav()` filters levels, normalizes
+   depths, prints a nested list inside `<nav>`.
+3. A `render_block` filter injects matching `id` attributes with
+   `WP_HTML_Tag_Processor`. Both sides use the same map.
+4. Settings (`tocflow_settings`) control smooth-scroll offset, auto-insert,
+   schema, and uninstall cleanup.
+5. Auto-insert and `[tocflow]` reuse `render_nav()`; view assets are enqueued
+   when those paths are used because `block.json` only auto-loads for the block.
 
 ## File map
-- `tocflow.php` — plugin header, block registration, all PHP helpers + the heading-id filter.
-- `src/block.json` — block metadata + attributes + supports.
-- `src/index.js` — registers the block.
-- `src/edit.js` — editor UI (InspectorControls: title text, level toggles, ordered toggle).
-- `src/render.php` — server render of the front-end TOC.
-- `src/style.scss` — front-end + shared styles.
-- `src/editor.scss` — editor-only styles.
+- `tocflow.php` — headers, constants, boot.
+- `includes/` — settings, headings, plugin, admin.
+- `admin/` — settings/support views + CSS.
+- `src/block.json` — metadata, attributes, supports.
+- `src/index.js` / `edit.js` / `save.js` / `view.js` / `headings.js` / `render.php`
+- `uninstall.php` — deletes data only if the owner opted in.
+- `docs/` — GitHub Pages support site + marketplace kit.
+- `.wordpress-org/` — directory banner/icon sources.
 
-## Roadmap (free vs pro)
-**Free (this repo):** auto TOC, choose H2/H3/H4, numbered/bulleted, smooth anchors,
-server-rendered, accessible `<nav>`.
+## Roadmap
+**Free (this repo, v1.0):** block + shortcode + auto-insert, presets, collapse,
+sticky, scroll-spy, offset, schema opt-in, admin support pages.
 
-**Next free polish:**
-- Smooth-scroll + scroll offset for sticky admin bars/headers.
-- "Collapse/expand" toggle for the list.
-- ServerSideRender live preview in the editor.
-
-**Pro ideas (paid upgrade):**
-- Sticky sidebar TOC with scroll-spy active highlighting.
-- Multiple style presets / numbering styles.
-- Auto-insert before first H2 site-wide (no manual block placement).
-- Per-post include/exclude of specific headings.
-- Schema / structured-data output.
-
-## Current status
-v0.1.0 — core free feature set scaffolded and building. Next task: test in a real
-WP install (wp-env or Local), then add smooth-scroll offset.
+**Later / Pro ideas:** extra numbering styles, per-heading include/exclude UI,
+site-editor pattern library, premium presets. Do not cripple the free plugin
+to upsell — WordPress.org and Envato both reject that.
