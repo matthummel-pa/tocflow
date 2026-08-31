@@ -11,7 +11,7 @@
 
 Please **do not** open a public GitHub issue for a security report.
 
-Email **matthew.r.hummel@gmail.com** with:
+Email **matt@matthummel.com** with:
 
 - WordPress and PHP versions
 - TOCflow version
