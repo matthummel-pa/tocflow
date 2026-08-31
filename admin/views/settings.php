@@ -75,6 +75,7 @@ $support_url = 'https://github.com/matthummel-pa/tocflow/issues';
 			</section>
 		</div>
 	<?php else : ?>
+		<?php $opt = TOCflow_Settings::OPTION; ?>
 		<form action="options.php" method="post" class="tocflow-admin__form">
 			<?php settings_fields( 'tocflow_settings_group' ); ?>
 
@@ -85,7 +86,7 @@ $support_url = 'https://github.com/matthummel-pa/tocflow/issues';
 						<th scope="row"><?php esc_html_e( 'Smooth scroll', 'tocflow' ); ?></th>
 						<td>
 							<label>
-								<input type="checkbox" name="<?php echo esc_attr( TOCflow_Settings::OPTION ); ?>[smooth_scroll]" value="1" <?php checked( $settings['smooth_scroll'], 1 ); ?>>
+								<input type="checkbox" name="<?php echo esc_attr( $opt ); ?>[smooth_scroll]" value="1" <?php checked( $settings['smooth_scroll'], 1 ); ?>>
 								<?php esc_html_e( 'Animate jumps to headings (respects reduced-motion preferences).', 'tocflow' ); ?>
 							</label>
 						</td>
@@ -93,7 +94,7 @@ $support_url = 'https://github.com/matthummel-pa/tocflow/issues';
 					<tr>
 						<th scope="row"><label for="tocflow-scroll-offset"><?php esc_html_e( 'Scroll offset (px)', 'tocflow' ); ?></label></th>
 						<td>
-							<input name="<?php echo esc_attr( TOCflow_Settings::OPTION ); ?>[scroll_offset]" id="tocflow-scroll-offset" type="number" min="0" max="400" class="small-text" value="<?php echo esc_attr( (string) $settings['scroll_offset'] ); ?>">
+							<input name="<?php echo esc_attr( $opt ); ?>[scroll_offset]" id="tocflow-scroll-offset" type="number" min="0" max="400" class="small-text" value="<?php echo esc_attr( (string) $settings['scroll_offset'] ); ?>">
 							<p class="description"><?php esc_html_e( 'Space to leave under a sticky admin bar or site header so headings are not covered.', 'tocflow' ); ?></p>
 						</td>
 					</tr>
@@ -101,7 +102,7 @@ $support_url = 'https://github.com/matthummel-pa/tocflow/issues';
 						<th scope="row"><?php esc_html_e( 'Highlight active heading', 'tocflow' ); ?></th>
 						<td>
 							<label>
-								<input type="checkbox" name="<?php echo esc_attr( TOCflow_Settings::OPTION ); ?>[highlight_active]" value="1" <?php checked( $settings['highlight_active'], 1 ); ?>>
+								<input type="checkbox" name="<?php echo esc_attr( $opt ); ?>[highlight_active]" value="1" <?php checked( $settings['highlight_active'], 1 ); ?>>
 								<?php esc_html_e( 'Mark the section currently in view in the table of contents.', 'tocflow' ); ?>
 							</label>
 						</td>
@@ -109,7 +110,7 @@ $support_url = 'https://github.com/matthummel-pa/tocflow/issues';
 					<tr>
 						<th scope="row"><label for="tocflow-min-headings"><?php esc_html_e( 'Minimum headings', 'tocflow' ); ?></label></th>
 						<td>
-							<input name="<?php echo esc_attr( TOCflow_Settings::OPTION ); ?>[min_headings]" id="tocflow-min-headings" type="number" min="1" max="10" class="small-text" value="<?php echo esc_attr( (string) $settings['min_headings'] ); ?>">
+							<input name="<?php echo esc_attr( $opt ); ?>[min_headings]" id="tocflow-min-headings" type="number" min="1" max="10" class="small-text" value="<?php echo esc_attr( (string) $settings['min_headings'] ); ?>">
 							<p class="description"><?php esc_html_e( 'Hide the TOC when a post has fewer matching headings than this.', 'tocflow' ); ?></p>
 						</td>
 					</tr>
@@ -117,29 +118,158 @@ $support_url = 'https://github.com/matthummel-pa/tocflow/issues';
 			</section>
 
 			<section class="tocflow-card">
-				<h2><?php esc_html_e( 'Auto-insert', 'tocflow' ); ?></h2>
-				<p class="description"><?php esc_html_e( 'If a post already contains the Table of Contents block or the [tocflow] shortcode, auto-insert is skipped.', 'tocflow' ); ?></p>
+				<h2><?php esc_html_e( 'Auto-generate the block', 'tocflow' ); ?></h2>
+				<p class="description"><?php esc_html_e( 'Prints the Table of Contents Gutenberg block on the front end. Posts that already have the block (or the [tocflow] shortcode) are left alone. You can still insert the block by hand in the editor.', 'tocflow' ); ?></p>
 				<table class="form-table" role="presentation">
 					<tr>
 						<th scope="row"><?php esc_html_e( 'Position', 'tocflow' ); ?></th>
 						<td>
 							<fieldset>
-								<label><input type="radio" name="<?php echo esc_attr( TOCflow_Settings::OPTION ); ?>[auto_insert]" value="none" <?php checked( $settings['auto_insert'], 'none' ); ?>> <?php esc_html_e( 'Off — only show when the block or shortcode is added', 'tocflow' ); ?></label><br>
-								<label><input type="radio" name="<?php echo esc_attr( TOCflow_Settings::OPTION ); ?>[auto_insert]" value="before" <?php checked( $settings['auto_insert'], 'before' ); ?>> <?php esc_html_e( 'Top of content', 'tocflow' ); ?></label><br>
-								<label><input type="radio" name="<?php echo esc_attr( TOCflow_Settings::OPTION ); ?>[auto_insert]" value="after_first_heading" <?php checked( $settings['auto_insert'], 'after_first_heading' ); ?>> <?php esc_html_e( 'After the first heading', 'tocflow' ); ?></label>
+								<label><input type="radio" name="<?php echo esc_attr( $opt ); ?>[auto_insert]" value="none" <?php checked( $settings['auto_insert'], 'none' ); ?>> <?php esc_html_e( 'Off — only show when the block or shortcode is added', 'tocflow' ); ?></label><br>
+								<label><input type="radio" name="<?php echo esc_attr( $opt ); ?>[auto_insert]" value="before" <?php checked( $settings['auto_insert'], 'before' ); ?>> <?php esc_html_e( 'Top of content', 'tocflow' ); ?></label><br>
+								<label><input type="radio" name="<?php echo esc_attr( $opt ); ?>[auto_insert]" value="after_first_heading" <?php checked( $settings['auto_insert'], 'after_first_heading' ); ?>> <?php esc_html_e( 'After the first heading', 'tocflow' ); ?></label>
 							</fieldset>
 						</td>
 					</tr>
 					<tr>
 						<th scope="row"><?php esc_html_e( 'Post types', 'tocflow' ); ?></th>
 						<td>
-							<fieldset>
+							<fieldset class="tocflow-admin__checks">
 								<?php foreach ( $types as $type ) : ?>
-									<label style="display:inline-block;margin:0 16px 8px 0;">
-										<input type="checkbox" name="<?php echo esc_attr( TOCflow_Settings::OPTION ); ?>[auto_insert_types][]" value="<?php echo esc_attr( $type->name ); ?>" <?php checked( in_array( $type->name, $settings['auto_insert_types'], true ) ); ?>>
+									<label>
+										<input type="checkbox" name="<?php echo esc_attr( $opt ); ?>[auto_insert_types][]" value="<?php echo esc_attr( $type->name ); ?>" <?php checked( in_array( $type->name, $settings['auto_insert_types'], true ) ); ?>>
 										<?php echo esc_html( $type->labels->singular_name ); ?>
 									</label>
 								<?php endforeach; ?>
+							</fieldset>
+						</td>
+					</tr>
+					<tr>
+						<th scope="row"><label for="tocflow-auto-title"><?php esc_html_e( 'Title', 'tocflow' ); ?></label></th>
+						<td>
+							<input name="<?php echo esc_attr( $opt ); ?>[auto_title]" id="tocflow-auto-title" type="text" class="regular-text" value="<?php echo esc_attr( $settings['auto_title'] ); ?>">
+							<p>
+								<label>
+									<input type="checkbox" name="<?php echo esc_attr( $opt ); ?>[auto_show_title]" value="1" <?php checked( $settings['auto_show_title'], 1 ); ?>>
+									<?php esc_html_e( 'Show the title above the list', 'tocflow' ); ?>
+								</label>
+							</p>
+						</td>
+					</tr>
+					<tr>
+						<th scope="row"><label for="tocflow-auto-title-tag"><?php esc_html_e( 'Title element', 'tocflow' ); ?></label></th>
+						<td>
+							<select name="<?php echo esc_attr( $opt ); ?>[auto_title_tag]" id="tocflow-auto-title-tag">
+								<option value="p" <?php selected( $settings['auto_title_tag'], 'p' ); ?>><?php esc_html_e( 'Paragraph', 'tocflow' ); ?></option>
+								<option value="h2" <?php selected( $settings['auto_title_tag'], 'h2' ); ?>>H2</option>
+								<option value="h3" <?php selected( $settings['auto_title_tag'], 'h3' ); ?>>H3</option>
+								<option value="h4" <?php selected( $settings['auto_title_tag'], 'h4' ); ?>>H4</option>
+							</select>
+						</td>
+					</tr>
+					<tr>
+						<th scope="row"><?php esc_html_e( 'Heading levels', 'tocflow' ); ?></th>
+						<td>
+							<fieldset class="tocflow-admin__checks">
+								<?php
+								$level_keys = array(
+									'auto_show_h1' => 'H1',
+									'auto_show_h2' => 'H2',
+									'auto_show_h3' => 'H3',
+									'auto_show_h4' => 'H4',
+									'auto_show_h5' => 'H5',
+									'auto_show_h6' => 'H6',
+								);
+								foreach ( $level_keys as $key => $label ) :
+									?>
+									<label>
+										<input type="checkbox" name="<?php echo esc_attr( $opt ); ?>[<?php echo esc_attr( $key ); ?>]" value="1" <?php checked( $settings[ $key ], 1 ); ?>>
+										<?php echo esc_html( $label ); ?>
+									</label>
+								<?php endforeach; ?>
+							</fieldset>
+							<p class="description"><?php esc_html_e( 'H1 is usually the post title. Leave it off unless headings inside the content use H1.', 'tocflow' ); ?></p>
+						</td>
+					</tr>
+					<tr>
+						<th scope="row"><?php esc_html_e( 'List', 'tocflow' ); ?></th>
+						<td>
+							<fieldset>
+								<label>
+									<input type="checkbox" name="<?php echo esc_attr( $opt ); ?>[auto_ordered]" value="1" <?php checked( $settings['auto_ordered'], 1 ); ?>>
+									<?php esc_html_e( 'Numbered list', 'tocflow' ); ?>
+								</label><br>
+								<label for="tocflow-auto-numbering"><?php esc_html_e( 'Numbering', 'tocflow' ); ?></label>
+								<select name="<?php echo esc_attr( $opt ); ?>[auto_numbering]" id="tocflow-auto-numbering">
+									<option value="default" <?php selected( $settings['auto_numbering'], 'default' ); ?>><?php esc_html_e( 'Sequential (1, 2, 3)', 'tocflow' ); ?></option>
+									<option value="nested" <?php selected( $settings['auto_numbering'], 'nested' ); ?>><?php esc_html_e( 'Nested (1, 1.1, 1.1.1)', 'tocflow' ); ?></option>
+								</select>
+								<p class="description"><?php esc_html_e( 'Nested numbering applies when the list is numbered.', 'tocflow' ); ?></p>
+								<label>
+									<input type="checkbox" name="<?php echo esc_attr( $opt ); ?>[auto_hide_markers]" value="1" <?php checked( $settings['auto_hide_markers'], 1 ); ?>>
+									<?php esc_html_e( 'Hide bullets and browser numbers', 'tocflow' ); ?>
+								</label>
+							</fieldset>
+						</td>
+					</tr>
+					<tr>
+						<th scope="row"><label for="tocflow-auto-style"><?php esc_html_e( 'Style', 'tocflow' ); ?></label></th>
+						<td>
+							<select name="<?php echo esc_attr( $opt ); ?>[auto_style]" id="tocflow-auto-style">
+								<?php
+								$styles = array(
+									'default'   => __( 'Default', 'tocflow' ),
+									'minimal'   => __( 'Minimal', 'tocflow' ),
+									'boxed'     => __( 'Boxed', 'tocflow' ),
+									'underline' => __( 'Underline', 'tocflow' ),
+									'card'      => __( 'Card', 'tocflow' ),
+								);
+								foreach ( $styles as $slug => $label ) :
+									?>
+									<option value="<?php echo esc_attr( $slug ); ?>" <?php selected( $settings['auto_style'], $slug ); ?>><?php echo esc_html( $label ); ?></option>
+								<?php endforeach; ?>
+							</select>
+							<p class="description"><?php esc_html_e( 'Same Block Styles as in the editor Styles panel.', 'tocflow' ); ?></p>
+						</td>
+					</tr>
+					<tr>
+						<th scope="row"><?php esc_html_e( 'Layout', 'tocflow' ); ?></th>
+						<td>
+							<fieldset>
+								<label>
+									<input type="checkbox" name="<?php echo esc_attr( $opt ); ?>[auto_compact]" value="1" <?php checked( $settings['auto_compact'], 1 ); ?>>
+									<?php esc_html_e( 'Compact spacing', 'tocflow' ); ?>
+								</label><br>
+								<label>
+									<input type="checkbox" name="<?php echo esc_attr( $opt ); ?>[auto_two_columns]" value="1" <?php checked( $settings['auto_two_columns'], 1 ); ?>>
+									<?php esc_html_e( 'Two columns (stacks on small screens)', 'tocflow' ); ?>
+								</label><br>
+								<label>
+									<input type="checkbox" name="<?php echo esc_attr( $opt ); ?>[auto_underline]" value="1" <?php checked( $settings['auto_underline'], 1 ); ?>>
+									<?php esc_html_e( 'Always underline links', 'tocflow' ); ?>
+								</label><br>
+								<label for="tocflow-auto-max-height"><?php esc_html_e( 'Max height (px)', 'tocflow' ); ?></label>
+								<input name="<?php echo esc_attr( $opt ); ?>[auto_max_height]" id="tocflow-auto-max-height" type="number" min="0" max="800" step="40" class="small-text" value="<?php echo esc_attr( (string) $settings['auto_max_height'] ); ?>">
+								<p class="description"><?php esc_html_e( '0 is unlimited. A max height makes long outlines scroll.', 'tocflow' ); ?></p>
+							</fieldset>
+						</td>
+					</tr>
+					<tr>
+						<th scope="row"><?php esc_html_e( 'Behavior', 'tocflow' ); ?></th>
+						<td>
+							<fieldset>
+								<label>
+									<input type="checkbox" name="<?php echo esc_attr( $opt ); ?>[auto_sticky]" value="1" <?php checked( $settings['auto_sticky'], 1 ); ?>>
+									<?php esc_html_e( 'Sticky while scrolling', 'tocflow' ); ?>
+								</label><br>
+								<label>
+									<input type="checkbox" name="<?php echo esc_attr( $opt ); ?>[auto_collapsible]" value="1" <?php checked( $settings['auto_collapsible'], 1 ); ?>>
+									<?php esc_html_e( 'Collapsible', 'tocflow' ); ?>
+								</label><br>
+								<label>
+									<input type="checkbox" name="<?php echo esc_attr( $opt ); ?>[auto_collapsed]" value="1" <?php checked( $settings['auto_collapsed'], 1 ); ?>>
+									<?php esc_html_e( 'Start collapsed', 'tocflow' ); ?>
+								</label>
 							</fieldset>
 						</td>
 					</tr>

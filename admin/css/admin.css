@@ -75,6 +75,19 @@
 	margin-bottom: 16px;
 }
 
+.tocflow-admin__checks {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 6px 18px;
+}
+
+.tocflow-admin__checks label {
+	display: inline-flex;
+	align-items: center;
+	gap: 6px;
+	margin: 0;
+}
+
 .tocflow-admin__links {
 	margin: 8px 0 0;
 	padding-left: 18px;

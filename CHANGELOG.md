@@ -14,7 +14,7 @@ Marketplace-ready release: WordPress.org / CodeCanyon coding standards, a comple
 - Per-block layout: nested 1.1.1 numbering, hide markers, two columns, compact spacing, max height, title element, H1, and smooth-scroll override.
 - Smooth-scroll with a configurable offset for sticky headers (honors `prefers-reduced-motion`).
 - H5 / H6 heading support.
-- Site-wide settings: auto-insert, minimum heading count, schema JSON-LD, uninstall cleanup.
+- Site-wide settings: auto-generate the Gutenberg block (with layout options), minimum heading count, schema JSON-LD, uninstall cleanup.
 - `[tocflow]` shortcode for classic content and theme templates.
 - Skip headings with the CSS class `no-toc` or `tocflow-skip`.
 - In-plugin **Settings** and **Docs & Support** screens.

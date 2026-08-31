@@ -42,10 +42,11 @@ Block Directory (those cannot have wp-admin UI).
    depths, prints a nested list inside `<nav>`.
 3. A `render_block` filter injects matching `id` attributes with
    `WP_HTML_Tag_Processor`. Both sides use the same map.
-4. Settings (`tocflow_settings`) control smooth-scroll offset, auto-insert,
-   schema, and uninstall cleanup.
-5. Auto-insert and `[tocflow]` reuse `render_nav()`; view assets are enqueued
-   when those paths are used because `block.json` only auto-loads for the block.
+4. Settings (`tocflow_settings`) control smooth-scroll offset, auto-generate
+   of the Gutenberg block, schema, and uninstall cleanup.
+5. Auto-generate calls `WP_Block::render()` with settings as block attributes.
+   `[tocflow]` still maps to the same `render_nav()` output for classic content.
+   View assets enqueue when the block, shortcode, or auto-generate is in use.
 
 ## File map
 - `tocflow.php` — headers, constants, boot.
