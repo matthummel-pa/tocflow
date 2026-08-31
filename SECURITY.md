@@ -11,7 +11,7 @@
 
 Please **do not** open a public GitHub issue for a security report.
 
-Email **matthew.r.hummel@gmail.com** with:
+Email **matt@matthummel.com** with:
 
 - WordPress and PHP versions
 - TOCflow version
@@ -20,4 +20,4 @@ Email **matthew.r.hummel@gmail.com** with:
 
 You should receive an acknowledgement within 7 days. Fixes for confirmed issues ship in a patch release as soon as they are ready.
 
-This plugin does not call remote APIs and does not store personal data beyond normal WordPress options (`tocflow_settings`) and an optional per-user welcome-dismissal flag.
+This plugin does not call remote APIs and does not store personal data beyond normal WordPress options (`tocflow_settings`) and an optional per-user welcome-dismissal flag. See [PRIVACY.md](PRIVACY.md).

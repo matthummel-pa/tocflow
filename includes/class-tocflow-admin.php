@@ -10,7 +10,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 /**
- * wp-admin UI. Loaded only when is_admin().
+ * Admin settings UI. Loaded only when is_admin().
  */
 class TOCflow_Admin {
 

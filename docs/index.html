@@ -10,30 +10,34 @@
 <meta property="og:description" content="One focused Gutenberg block. Server-rendered outline from your headings.">
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://matthummel-pa.github.io/tocflow/">
+<meta property="og:image" content="https://matthummel-pa.github.io/tocflow/assets/social-preview.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://matthummel-pa.github.io/tocflow/assets/social-preview.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,700&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,600;1,6..72,400&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@500;600;700;800&display=swap" rel="stylesheet">
 <style>
   :root{
     --paper:#f3eee4; --ink:#1c1915; --muted:#5c564c; --moss:#275c3e; --moss-d:#1c3d2a;
     --copper:#c46b32; --line:rgba(28,25,21,.12); --card:#fffaf3; --max:1080px;
+    --sans:Outfit,"Segoe UI",system-ui,sans-serif;
   }
   *{box-sizing:border-box}
   html{scroll-behavior:smooth}
   body{margin:0;background:var(--paper);color:var(--ink);
-    font:18px/1.6 Newsreader,Georgia,serif;
+    font:600 18px/1.6 var(--sans);
     background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cpath fill='none' stroke='%23275c3e' stroke-opacity='.07' d='M0 90c30-40 60 40 90 0s60 40 90 0M0 40c30-30 60 30 90 0s60 30 90 0M0 140c30-30 60 30 90 0s60 30 90 0'/%3E%3C/svg%3E");
   }
   a{color:var(--moss);text-underline-offset:3px}
   a:hover{color:var(--copper)}
   .wrap{max-width:var(--max);margin:0 auto;padding:0 24px}
   header.hero{padding:48px 0 56px;border-bottom:1px solid var(--line)}
-  .kicker{font-family:Fraunces,serif;letter-spacing:.18em;text-transform:uppercase;font-size:12px;color:var(--moss);margin:0 0 18px}
-  .hero h1{font-family:Fraunces,serif;font-size:clamp(48px,8vw,92px);line-height:.9;letter-spacing:-.03em;margin:0 0 18px;font-weight:700}
-  .hero h1 em{font-style:italic;color:var(--moss);font-weight:500}
+  .kicker{font-family:var(--sans);font-weight:700;letter-spacing:.18em;text-transform:uppercase;font-size:12px;color:var(--moss);margin:0 0 18px}
+  .hero h1{font-family:var(--sans);font-size:clamp(48px,8vw,92px);line-height:.9;letter-spacing:-.03em;margin:0 0 18px;font-weight:800}
+  .hero h1 em{font-style:normal;color:var(--moss);font-weight:800}
   .lede{font-size:22px;max-width:38rem;color:var(--muted);margin:0 0 28px}
   .btns{display:flex;flex-wrap:wrap;gap:12px}
-  .btn{display:inline-block;padding:12px 20px;border-radius:999px;font-family:Fraunces,serif;font-size:16px;text-decoration:none;font-weight:700}
+  .btn{display:inline-block;padding:12px 20px;border-radius:999px;font-family:var(--sans);font-size:16px;text-decoration:none;font-weight:700}
   .btn.primary{background:var(--moss);color:#f4efe6}
   .btn.primary:hover{background:var(--moss-d);color:#fff}
   .btn.ghost{border:1.5px solid var(--ink);color:var(--ink)}
@@ -41,22 +45,22 @@
   .chip{border:1px solid var(--line);padding:4px 10px;border-radius:999px;font-size:13px;color:var(--muted)}
   nav.toc{display:flex;flex-wrap:wrap;gap:10px 18px;padding:16px 0;font-size:15px;border-bottom:1px solid var(--line)}
   section{padding:48px 0;border-bottom:1px solid var(--line)}
-  h2{font-family:Fraunces,serif;font-size:36px;margin:0 0 8px;letter-spacing:-.03em}
-  .chap{font-family:Fraunces,serif;color:var(--copper);font-size:13px;letter-spacing:.14em;text-transform:uppercase;margin:0 0 6px}
+  h2{font-family:var(--sans);font-size:36px;margin:0 0 8px;letter-spacing:-.03em;font-weight:800}
+  .chap{font-family:var(--sans);font-weight:700;color:var(--copper);font-size:13px;letter-spacing:.14em;text-transform:uppercase;margin:0 0 6px}
   .grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:22px}
   .card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:18px 18px 8px;box-shadow:0 1px 0 rgba(28,25,21,.04)}
-  .card h3{font-family:Fraunces,serif;margin:0 0 6px;font-size:20px}
+  .card h3{font-family:var(--sans);margin:0 0 6px;font-size:20px;font-weight:800}
   figure{margin:0;background:var(--card);border:1px solid var(--line);border-radius:16px;padding:16px}
   figure img{width:100%;height:auto;display:block;border-radius:8px}
   figcaption{font-size:14px;color:var(--muted);margin-top:8px;text-align:center}
   .split{display:grid;grid-template-columns:1fr 1fr;gap:22px}
   table{width:100%;border-collapse:collapse;background:var(--card);border:1px solid var(--line);border-radius:12px;overflow:hidden}
   th,td{text-align:left;padding:12px 14px;border-bottom:1px solid var(--line);vertical-align:top;font-size:16px}
-  th{background:#ebe4d6;font-family:Fraunces,serif;font-size:14px}
+  th{background:#ebe4d6;font-family:var(--sans);font-size:14px;font-weight:700}
   code{background:#ebe4d6;padding:1px 6px;border-radius:4px;font-size:14px}
   ol,ul{padding-left:1.2rem}
   details{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:4px 16px;margin:8px 0}
-  summary{cursor:pointer;font-family:Fraunces,serif;padding:10px 0}
+  summary{cursor:pointer;font-family:var(--sans);font-weight:700;padding:10px 0}
   footer{padding:36px 0 48px;color:var(--muted);font-size:15px}
   .name{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:14px;background:#1c1915;color:#f3eee4;padding:10px 14px;border-radius:10px;display:inline-block}
   @media(max-width:800px){.grid,.split{grid-template-columns:1fr}.hero h1{font-size:52px}}
@@ -120,7 +124,7 @@
     <div class="split">
       <figure>
         <img src="assets/tocflow-settings-panel.svg" alt="TOCflow block settings in the WordPress editor">
-        <figcaption>Block sidebar — levels, list style, later presets in v1.0.</figcaption>
+        <figcaption>Block sidebar — heading levels, list style, and five style presets.</figcaption>
       </figure>
       <figure>
         <img src="assets/tocflow-output.svg" alt="Front-end table of contents">
@@ -165,7 +169,6 @@
     <p class="chap">Chapter 06</p>
     <h2>FAQ</h2>
     <details><summary>Is the GitHub repo supposed to be called something else?</summary><p>No. Keep it <code>tocflow</code>. That is the WordPress plugin slug and the text domain.</p></details>
-    <details><summary>ThemeForest or CodeCanyon?</summary><p>Plugins sell on <strong>CodeCanyon</strong>. ThemeForest is themes — those themes should require the plugin slug <code>tocflow</code> rather than baking a TOC into the theme.</p></details>
     <details><summary>Classic Editor?</summary><p>Use <code>[tocflow]</code>.</p></details>
     <details><summary>Does it phone home?</summary><p>No remote APIs, no tracking, no accounts.</p></details>
     <details><summary>Where do I file a bug?</summary><p><a href="https://github.com/matthummel-pa/tocflow/issues">GitHub issues</a>. Security: see <a href="support.html">the support page</a>.</p></details>
@@ -174,11 +177,11 @@
 
 <footer>
   <div class="wrap">
-    TOCflow by <a href="https://matthummel.com">Matt Hummel</a> ·
+    © 2026 <a href="https://matthummel.com">Matt Hummel</a> ·
     <a href="https://github.com/matthummel-pa/tocflow">GitHub</a> ·
     <a href="documentation.html">Docs</a> ·
     <a href="support.html">Support</a> ·
-    GPL-2.0-or-later
+    GPLv2 or later
   </div>
 </footer>
 </body>

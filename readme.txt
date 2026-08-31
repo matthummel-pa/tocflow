@@ -51,7 +51,7 @@ Add the CSS class `no-toc` or `tocflow-skip` to a Heading block (Advanced → Ad
 
 = Privacy =
 
-TOCflow does not collect personal data, set cookies, or call remote services. Optional JSON-LD is printed in the page HTML only if you enable it in settings.
+TOCflow does not collect personal data, set cookies, or call remote services. Optional JSON-LD is printed in the page HTML only if you enable it in settings. Details: https://github.com/matthummel-pa/tocflow/blob/main/PRIVACY.md
 
 = Support =
 
@@ -90,6 +90,10 @@ Each instance lists the same headings from that post. Prefer one outline per pag
 
 No.
 
+= What license is TOCflow under? =
+
+GNU GPLv2 or later, covering the whole plugin (PHP, JavaScript, CSS, and images). Copyright Matt Hummel. Full text: `license.txt`.
+
 == Screenshots ==
 
 1. Table of Contents block in a post, with the settings sidebar.
@@ -113,3 +117,7 @@ No.
 
 = 1.0.0 =
 Adds live preview, auto-insert, shortcode, presets, and admin settings. Existing blocks keep working.
+
+== License ==
+
+TOCflow is copyright 2026 Matt Hummel and licensed under the GNU General Public License, version 2 or later — the same family as WordPress. That 100% GPL grant covers every file in the plugin zip, which keeps the plugin eligible for WordPress.org and for Envato’s 100% GPL WordPress listing. Selling copies is allowed under the GPL; the paid listing is support and packaging, not a proprietary lock.

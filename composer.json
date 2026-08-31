@@ -1,0 +1,38 @@
+{
+	"name": "matthummel/tocflow",
+	"description": "A server-rendered Table of Contents block for the WordPress editor.",
+	"type": "wordpress-plugin",
+	"license": "GPL-2.0-or-later",
+	"homepage": "https://matthummel-pa.github.io/tocflow/",
+	"authors": [
+		{
+			"name": "Matt Hummel",
+			"email": "matt@matthummel.com",
+			"homepage": "https://matthummel.com"
+		}
+	],
+	"support": {
+		"issues": "https://github.com/matthummel-pa/tocflow/issues",
+		"docs": "https://matthummel-pa.github.io/tocflow/",
+		"source": "https://github.com/matthummel-pa/tocflow",
+		"email": "matt@matthummel.com"
+	},
+	"require": {
+		"php": ">=7.4"
+	},
+	"require-dev": {
+		"squizlabs/php_codesniffer": "^3.11",
+		"wp-coding-standards/wpcs": "^3.1",
+		"phpcompatibility/phpcompatibility-wp": "^2.1",
+		"dealerdirect/phpcodesniffer-composer-installer": "^1.0"
+	},
+	"scripts": {
+		"phpcs": "phpcs",
+		"phpcbf": "phpcbf"
+	},
+	"config": {
+		"allow-plugins": {
+			"dealerdirect/phpcodesniffer-composer-installer": true
+		}
+	}
+}

@@ -8,8 +8,9 @@ Standard operating procedure for contributing to **TOCflow**. Architecture: [`CL
 
 | Tool | Version | Why |
 | --- | --- | --- |
-| Node.js | 20 LTS | `@wordpress/scripts` |
+| Node.js | 20 LTS (`.nvmrc`) | `@wordpress/scripts` |
 | npm | 9+ | Lockfile |
+| Composer | 2+ (optional) | `phpcs` via `composer.json` |
 | Git | recent | VCS |
 | WordPress | 6.4+ / PHP 7.4+ | `wp-env`, Local, or Docker |
 
@@ -33,10 +34,10 @@ npm install
 ```bash
 npm run start      # watch → build/
 npm run build      # production
-npx wp-env start   # http://localhost:8888  admin / password
+npx --package=@wordpress/env wp-env start   # http://localhost:8888  admin / password
 ```
 
-Symlink this folder to `wp-content/plugins/tocflow` if you are not using wp-env.
+`.wp-env.json` maps this repo as the plugin. Symlink this folder to `wp-content/plugins/tocflow` if you are not using wp-env.
 
 ---
 
@@ -67,6 +68,7 @@ Prefixes: `feat/`, `fix/`, `docs/`, `chore/`. Imperative commit messages.
 npm run lint:js
 npm run lint:css
 npm run format
+composer phpcs     # after composer install
 ```
 
 Match [Gutenberg block coding](https://developer.wordpress.org/block-editor/getting-started/tutorial/): `block.json` as metadata, `useBlockProps` / `get_block_wrapper_attributes()`, Block Styles in `block.json`, `@wordpress/*` packages only. Front-end `view.js` must not require jQuery. See `.cursor/rules/wordpress-block-coding.mdc`.
@@ -77,6 +79,7 @@ Match [Gutenberg block coding](https://developer.wordpress.org/block-editor/gett
 
 - [ ] `npm run build`
 - [ ] `npm run lint:js` and `npm run lint:css`
+- [ ] `composer phpcs` if PHP tooling is installed
 - [ ] Block inserts, live-previews headings, saves
 - [ ] Front-end links hit the right `id` (including custom anchors)
 - [ ] Level toggles, presets, collapse, sticky
@@ -98,7 +101,7 @@ Bump **all** of: `tocflow.php` (`Version` + `TOCFLOW_VERSION`), `package.json`, 
 
 1. Dated `CHANGELOG.md` + `readme.txt` changelog.
 2. `npm run build` && `npm run plugin-zip`
-3. Tag `vX.Y.Z` and attach the ZIP to a GitHub Release.
+3. Push a tag `vX.Y.Z`. GitHub Actions attaches `tocflow.zip` to the release.
 4. WordPress.org: SVN tag matching `Stable tag`.
 5. CodeCanyon: upload the same ZIP + HTML docs.
 

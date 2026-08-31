@@ -13,6 +13,8 @@ Display name **TOCflow**. GitHub / WordPress.org / folder / text domain slug:
 Matt's first WordPress product — portfolio for an agency and a freemium product.
 v1.0.0 is the marketplace-ready free core (WordPress.org + CodeCanyon packaging).
 ThemeForest does not sell plugins; themes should *require* this slug instead.
+License is **100% GPLv2 or later** (not Envato split). See
+`docs/marketplace/licensing.md`.
 
 ## WordPress.org directory rules
 Treat `.cursor/rules/wordpress-org-plugin-directory.mdc` and
@@ -34,6 +36,9 @@ Block Directory (those cannot have wp-admin UI).
   `src/render.php` is output only — never declare functions there.
 - Admin UI loads only when `is_admin()`.
 - Front-end JS is `src/view.js` via `block.json` `viewScript`.
+- **Typography:** bold sans-serif only (Outfit / system UI). Never serif.
+  See `.cursor/rules/brand-typography.mdc`. The front-end TOC block
+  inherits the theme; do not inject a branded (or serif) font there.
 
 ## How it works
 1. `TOCflow_Headings::get_all()` parses the post with `parse_blocks()` and builds
@@ -55,8 +60,9 @@ Block Directory (those cannot have wp-admin UI).
 - `src/block.json` — metadata, attributes, supports.
 - `src/index.js` / `edit.js` / `save.js` / `view.js` / `headings.js` / `render.php`
 - `uninstall.php` — deletes data only if the owner opted in.
+- `languages/tocflow.pot` — translation template.
 - `docs/` — GitHub Pages support site + marketplace kit.
-- `.wordpress-org/` — directory banner/icon sources.
+- `.wordpress-org/` — directory banner/icon assets (PNG + SVG).
 
 ## Roadmap
 **Free (this repo, v1.0):** block + shortcode + auto-insert, presets, collapse,

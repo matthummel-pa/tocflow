@@ -45,7 +45,7 @@ TOCflow ships **admin settings, auto-insert, and a shortcode**, so it is a **Plu
 
 ## The 18 guidelines (must all hold)
 
-1. GPL-compatible (prefer `GPL-2.0-or-later`); all bundled assets too.
+1. GPL-compatible (prefer `GPL-2.0-or-later`); all bundled assets too. Never Envato split-license (CSS/JS/images proprietary) if this plugin is listed on WordPress.org — use 100% GPL. See `docs/marketplace/licensing.md`.
 2. Author is responsible for every file and every third-party API’s terms.
 3. The Directory copy is the copy users get — keep it current.
 4. Human-readable code; document the build (`npm run build`) in the readme/repo.

@@ -1,9 +1,45 @@
 {
 	"name": "tocflow",
 	"version": "1.0.0",
-	"description": "A lightweight Table of Contents block for the WordPress block editor.",
-	"author": "Matt Hummel",
+	"description": "A server-rendered Table of Contents block for the WordPress editor.",
+	"author": {
+		"name": "Matt Hummel",
+		"email": "matt@matthummel.com",
+		"url": "https://matthummel.com"
+	},
 	"license": "GPL-2.0-or-later",
+	"homepage": "https://matthummel-pa.github.io/tocflow/",
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/matthummel-pa/tocflow.git"
+	},
+	"bugs": {
+		"url": "https://github.com/matthummel-pa/tocflow/issues",
+		"email": "matt@matthummel.com"
+	},
+	"keywords": [
+		"wordpress",
+		"gutenberg",
+		"block",
+		"table-of-contents",
+		"toc"
+	],
+	"engines": {
+		"node": ">=20"
+	},
+	"files": [
+		"tocflow.php",
+		"uninstall.php",
+		"readme.txt",
+		"license.txt",
+		"LICENSE",
+		"admin",
+		"includes",
+		"src",
+		"build",
+		"languages",
+		"assets"
+	],
 	"main": "build/index.js",
 	"scripts": {
 		"build": "wp-scripts build",
