@@ -5,7 +5,7 @@ Tags: table of contents, toc, block, gutenberg, navigation
 Requires at least: 6.4
 Tested up to: 6.8
 Requires PHP: 7.4
-Stable tag: 1.0.0
+Stable tag: 1.0.1
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -103,6 +103,10 @@ GNU GPLv2 or later, covering the whole plugin (PHP, JavaScript, CSS, and images)
 
 == Changelog ==
 
+= 1.0.1 =
+* First installable GitHub zip of the 1.0 feature set (build + plugin-zip on tag).
+* Docs site, 100% GPLv2-or-later packaging, translation template, and WordPress.org banner/icon assets.
+
 = 1.0.0 =
 * Live editor preview, style presets, collapse, sticky, and scroll-spy.
 * Smooth scroll with offset; H5/H6 support.
@@ -114,6 +118,9 @@ GNU GPLv2 or later, covering the whole plugin (PHP, JavaScript, CSS, and images)
 * Initial release: core Table of Contents block.
 
 == Upgrade Notice ==
+
+= 1.0.1 =
+Installable GitHub zip plus docs and packaging polish. Block behavior is unchanged from 1.0.0.
 
 = 1.0.0 =
 Adds live preview, auto-insert, shortcode, presets, and admin settings. Existing blocks keep working.
