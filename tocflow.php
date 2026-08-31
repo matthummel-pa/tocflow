@@ -13,7 +13,9 @@
  * Text Domain:       tocflow
  * Domain Path:       /languages
  *
- * @package TOCflow
+ * @package   TOCflow
+ * @copyright 2026 Matt Hummel
+ * @license   GPL-2.0-or-later
  */
 
 if ( ! defined( 'ABSPATH' ) ) {

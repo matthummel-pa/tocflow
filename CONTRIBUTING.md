@@ -40,4 +40,5 @@ discuss before building anything large.
 ## License
 
 By contributing, you agree that your contributions will be licensed under the
-**GPL-2.0-or-later** license that covers this project.
+**GPL-2.0-or-later** license that covers this project (100% of the plugin).
+See [`docs/marketplace/licensing.md`](docs/marketplace/licensing.md).

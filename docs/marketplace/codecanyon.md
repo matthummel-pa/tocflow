@@ -2,7 +2,9 @@
 
 WordPress plugins are sold on **CodeCanyon**, category **WordPress**, not on ThemeForest.
 
-Envato WordPress items must remain **GPL-compatible**. You are selling a convenient package, documentation, and item support — not a proprietary PHP lock-in.
+Envato WordPress items can use a **split license** (PHP GPL, other assets under the Regular License) or **100% GPL**. TOCflow uses **100% GPLv2 or later** so the same zip stays eligible for WordPress.org. On the item form, choose 100% GPL — not split. Details: [licensing.md](licensing.md).
+
+You are selling a convenient package, documentation, and item support — not a proprietary PHP lock-in.
 
 ## Item title (recommended)
 

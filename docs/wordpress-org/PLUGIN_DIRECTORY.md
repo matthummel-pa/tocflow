@@ -36,7 +36,7 @@ TOCflow is listed/submitted as a **normal plugin** (block + settings + shortcode
 
 ## The 18 guidelines (short)
 
-1. GPL (prefer GPLv2 or later) for **everything** in the zip.  
+1. GPL (prefer GPLv2 or later) for **everything** in the zip. No Envato split license.  
 2. You own what the plugin does, including libraries and APIs.  
 3. Directory copy is the distributed copy.  
 4. Human-readable; publish source / build docs.  

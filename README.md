@@ -147,4 +147,6 @@ See [`docs/DEVELOPER_SOP.md`](docs/DEVELOPER_SOP.md) and [`CONTRIBUTING.md`](CON
 
 ## License
 
-[GPL-2.0-or-later](LICENSE). WordPress.org and Envato both require GPL-compatible PHP for WordPress items.
+[GPL-2.0-or-later](LICENSE) — **100% of the plugin**, same family as WordPress.
+
+Copyright © 2026 Matt Hummel. You may sell copies (CodeCanyon, your own site). Do **not** use Envato split licensing if you also list on WordPress.org. Playbook: [`docs/marketplace/licensing.md`](docs/marketplace/licensing.md).

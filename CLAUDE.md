@@ -13,6 +13,8 @@ Display name **TOCflow**. GitHub / WordPress.org / folder / text domain slug:
 Matt's first WordPress product — portfolio for an agency and a freemium product.
 v1.0.0 is the marketplace-ready free core (WordPress.org + CodeCanyon packaging).
 ThemeForest does not sell plugins; themes should *require* this slug instead.
+License is **100% GPLv2 or later** (not Envato split). See
+`docs/marketplace/licensing.md`.
 
 ## WordPress.org directory rules
 Treat `.cursor/rules/wordpress-org-plugin-directory.mdc` and
