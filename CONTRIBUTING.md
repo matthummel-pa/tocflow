@@ -18,8 +18,8 @@ checklist, and the release process — see
 ## Ground rules
 
 - Keep PRs small and focused on a single change.
-- Match the existing code style (WordPress PHP standards; `@wordpress/scripts`
-  for JS/CSS lint + format).
+- Match the existing code style (WordPress PHP standards; Gutenberg handbook /
+  `create-block` APIs for the block; `@wordpress/scripts` for JS/CSS lint + format).
 - Escape all output and sanitize all input in PHP.
 - Stay compatible with the [WordPress.org Plugin Directory FAQ and guidelines](docs/wordpress-org/PLUGIN_DIRECTORY.md). Don't add trialware, forced credits, tracking, or undismissible nags.
 - Don't commit the `build/` directory — it's generated and git-ignored.

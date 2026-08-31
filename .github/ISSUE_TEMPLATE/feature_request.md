@@ -1,23 +1,19 @@
 ---
 name: Feature request
-about: Suggest an idea for TOCflow
+about: Suggest an enhancement to TOCflow
 title: "[Feature] "
 labels: enhancement
 assignees: ''
 ---
 
-**Is your feature request related to a problem?**
-A clear description of the problem. Ex: "I'm always frustrated when..."
+**Problem**
+What is hard or missing today?
 
-**Describe the solution you'd like**
-What you want to happen.
+**Proposal**
+How should it work in the block, shortcode, and/or Settings → TOCflow?
 
-**Describe alternatives you've considered**
-Any alternative solutions or features you've thought about.
+**Who it helps**
+Site owners, theme authors, or developers?
 
-**Roadmap check**
-Have you reviewed the roadmap in `CLAUDE.md`? Some ideas are reserved for a
-future Pro version.
-
-**Additional context**
-Add any other context or mockups about the feature here.
+**Alternatives**
+Anything you already tried (custom CSS, another plugin, a hook)?

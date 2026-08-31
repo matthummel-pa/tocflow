@@ -1,118 +1,116 @@
 # User SOP — TOCflow
 
-A step-by-step guide for **using** the TOCflow plugin on your WordPress
-site. No coding required.
+A step-by-step guide for **using** the TOCflow plugin. No coding required.
 
-TOCflow adds one block — **Table of Contents** — that automatically
-builds a linked outline from the headings in your post.
+TOCflow adds one block — **Table of Contents** — that builds a linked outline from the headings in your post. You can also auto-insert it on every post or place it with a shortcode.
 
----
-
-## 1. Install the plugin
-
-**Option A — Upload the ZIP (most common)**
-
-1. Download the latest `tocflow.zip` from the
-   [Releases page](https://github.com/matthummel-pa/tocflow/releases).
-2. In your WordPress admin, go to **Plugins → Add New → Upload Plugin**.
-3. Choose the ZIP, click **Install Now**, then **Activate**.
-
-**Option B — Manual install**
-
-1. Unzip the file.
-2. Copy the `tocflow` folder into `wp-content/plugins/` on your server.
-3. Go to **Plugins**, find **TOCflow**, and click **Activate**.
+Online version: https://matthummel-pa.github.io/tocflow/
 
 ---
 
-## 2. Add a Table of Contents to a post
+## 1. Install
 
-1. Edit (or create) a post that has some **Heading** blocks (H2, H3, H4).
-2. Click the **+** (block inserter) where you want the TOC — usually right after
-   your intro paragraph.
-3. Search for **“Table of Contents”** and select it.
-4. That's it — the outline is generated automatically from your headings.
+**Option A — ZIP**
 
-> The list updates from your actual headings when the page loads, so you don't
-> have to maintain it by hand.
+1. Download `tocflow.zip` from [Releases](https://github.com/matthummel-pa/tocflow/releases).
+2. WordPress admin: **Plugins → Add New → Upload Plugin**.
+3. Install, then **Activate**.
+
+**Option B — Folder**
+
+Copy the `tocflow` folder into `wp-content/plugins/` and activate **TOCflow**.
+
+Open **Settings → TOCflow** once. Set a scroll offset if your site has a sticky header (try 80–120px).
 
 ---
 
-## 3. Customize it
+## 2. Add a table of contents
 
-With the block selected, open the **Settings** sidebar (the gear icon) to adjust:
+1. Edit a post that has **Heading** blocks (H2–H6).
+2. Click **+**, search **Table of Contents**, insert it (usually after the intro).
+3. The editor shows a live outline. Publish/preview to click the links.
+
+---
+
+## 3. Customize the block
+
+With the block selected, use the sidebar:
 
 | Setting | What it does |
 | --- | --- |
-| **Title** | The heading shown above the list (default: “Table of Contents”). |
-| **Show H2 / H3 / H4** | Choose which heading levels appear in the outline. |
-| **Numbered list** | Toggle between a numbered (1, 2, 3) and bulleted list. |
+| **Heading text** | Title above the list. Blank hides it. |
+| **Include H2–H6** | Which heading levels appear. |
+| **Numbered list** | `ol` vs `ul`. |
+| **Style preset** | Default, Minimal, Boxed, Underline, Card. |
+| **Sticky** | Stays on screen while the post scrolls (best in a sidebar column). |
+| **Collapsible** | Adds a toggle; optionally start collapsed. |
+| **Highlight section** | Marks the heading currently in view. |
+| **Scroll offset override** | `-1` inherits **Settings → TOCflow**. |
 
-You can also use the standard block controls for **color**, **spacing**, and
-**typography** (font size, line height).
-
----
-
-## 4. Verify the links work
-
-1. Click **Preview** or **View Post**.
-2. The Table of Contents appears with each heading as a link.
-3. Click any link — the page should jump to that heading.
-
-Because the TOC is built on the server, it's already in the page when it loads,
-which is good for SEO and screen readers.
+Color, spacing, typography, and border are the normal block controls.
 
 ---
 
-## 5. Troubleshooting
+## 4. Auto-insert (optional)
 
-**The TOC is empty or missing headings**
-- Make sure your headings are real **Heading blocks**, not bold text styled to
-  look like headings.
-- Check that the levels you used (e.g. H4) are enabled in the block settings.
+**Settings → TOCflow → Auto-insert**
 
-**Links don't scroll to the right place**
-- TOCflow adds anchor IDs automatically. If a heading already had a
-  custom HTML anchor set in its block settings, that one is respected — make sure
-  it's unique.
-- A sticky header/menu can cover the target. This is a known limitation; a
-  scroll-offset option is on the roadmap.
+- Off (default)
+- Top of content
+- After the first heading
 
-**The block doesn't appear in the inserter**
-- Confirm the plugin is **Activated** under *Plugins*.
-- Make sure you're using the **block editor** (Gutenberg), not the Classic editor.
-
-**Styling looks off with my theme**
-- Use the block's color/spacing/typography controls to match your theme, or add
-  custom CSS targeting the `.tocflow` / `.tocflow__sub` classes.
+Choose post types (Posts, Pages, …). If a post already has the block or `[tocflow]`, auto-insert is skipped.
 
 ---
 
-## 6. Common mistakes to avoid
+## 5. Shortcode
 
-- Adding the block to a post with **no headings** — there's nothing to list.
-- Disabling **all** heading levels in settings — the list will be empty.
-- Expecting it to read headings from **other** posts — each TOC reflects the
-  post it lives in.
+```
+[tocflow]
+[tocflow title="On this page" ordered="1" style="boxed" collapsible="1"]
+```
 
----
-
-## 7. Frequently asked questions
-
-**Does it work with the Classic Editor?**
-No. It's a block for the WordPress block editor (Gutenberg).
-
-**Will it slow down my site?**
-No. The outline is rendered on the server as plain HTML — there's no heavy
-JavaScript on the front end.
-
-**Can I have more than one TOC on a page?**
-It's designed for one per post. Multiple blocks will each list the same headings.
+Attributes: `title`, `h2`, `h3`, `h4`, `h5`, `h6`, `ordered`, `collapsible`, `collapsed`, `sticky`, `style`.
 
 ---
 
-## 8. Getting help
+## 6. Skip a heading
 
-Found a bug or have a feature request? Open an issue at
-[github.com/matthummel-pa/tocflow/issues](https://github.com/matthummel-pa/tocflow/issues).
-Please include your WordPress version, theme, and a screenshot if you can.
+On the Heading block: **Advanced → Additional CSS class(es)** → `no-toc` (or `tocflow-skip`).
+
+---
+
+## 7. Troubleshooting
+
+**Empty TOC**
+- Use real Heading blocks, not bold paragraphs.
+- Enable that heading level in the sidebar.
+- Raise/lower **Minimum headings** in settings.
+
+**Links miss the heading**
+- Sticky headers need a larger **Scroll offset**.
+- Custom HTML anchors on the heading are kept; keep them unique.
+
+**Block missing from the inserter**
+- Plugin activated? Using the block editor (not Classic unless you use the shortcode)?
+
+**Styles clash with the theme**
+- Try another preset, or CSS on `.tocflow`, `.tocflow__link`, `.tocflow__link.is-active`.
+
+---
+
+## 8. FAQ
+
+**Classic Editor?** Use `[tocflow]`.
+
+**Slow site?** No. The outline is PHP-rendered HTML. A small script loads only on pages that have a TOC (smooth scroll / collapse / highlight).
+
+**Multiple TOCs?** They all list the same headings. Prefer one.
+
+**Data leaving the site?** No.
+
+---
+
+## 9. Getting help
+
+[GitHub Issues](https://github.com/matthummel-pa/tocflow/issues) — include WordPress version, theme, and a screenshot. Policy: [SUPPORT.md](../SUPPORT.md).

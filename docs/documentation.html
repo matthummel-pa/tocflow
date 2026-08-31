@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>TOCflow documentation</title>
+<meta name="description" content="Full documentation for the TOCflow WordPress plugin: install, block, shortcode, auto-insert, styles, developers, marketplace.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600&family=Newsreader:opsz,wght@6..72,400;6..72,600&display=swap" rel="stylesheet">
+<style>
+  :root{--paper:#f3eee4;--ink:#1c1915;--muted:#5c564c;--moss:#275c3e;--line:rgba(28,25,21,.12);--card:#fffaf3}
+  body{margin:0;background:var(--paper);color:var(--ink);font:18px/1.6 Newsreader,Georgia,serif}
+  .wrap{max-width:820px;margin:0 auto;padding:32px 22px 64px}
+  a{color:var(--moss)}
+  h1,h2,h3{font-family:Fraunces,serif;letter-spacing:-.03em}
+  h1{font-size:42px;margin:12px 0 8px}
+  h2{font-size:28px;margin:36px 0 10px;border-top:1px solid var(--line);padding-top:28px}
+  .kicker{letter-spacing:.16em;text-transform:uppercase;font-size:12px;color:var(--moss);font-family:Fraunces,serif}
+  code{background:#ebe4d6;padding:1px 6px;border-radius:4px;font-size:15px}
+  pre{background:#1c1915;color:#f3eee4;padding:16px;border-radius:12px;overflow:auto;font-size:14px;line-height:1.5}
+  table{width:100%;border-collapse:collapse;background:var(--card);border:1px solid var(--line)}
+  th,td{text-align:left;padding:10px 12px;border-bottom:1px solid var(--line);vertical-align:top;font-size:16px}
+  th{background:#ebe4d6;font-family:Fraunces,serif;font-size:14px}
+  .top{font-size:15px;margin-bottom:24px}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <p class="top"><a href="index.html">← TOCflow home</a> · <a href="support.html">Support</a></p>
+  <p class="kicker">Plugin documentation · v1.0.0</p>
+  <h1>TOCflow</h1>
+  <p>A server-rendered Table of Contents for the WordPress block editor. GitHub and WordPress.org slug: <code>tocflow</code>.</p>
+
+  <h2>1. Install</h2>
+  <ol>
+    <li>Download <code>tocflow.zip</code> from GitHub Releases (or your marketplace purchase).</li>
+    <li>WordPress → Plugins → Add New → Upload Plugin.</li>
+    <li>Activate. Open <strong>Settings → TOCflow</strong>.</li>
+  </ol>
+  <p>Developers: clone the repo into <code>wp-content/plugins/tocflow</code>, then <code>npm install && npm run build</code>.</p>
+
+  <h2>2. The block</h2>
+  <p>Insert <strong>Table of Contents</strong> in a post that contains Heading blocks. The editor shows a live outline.</p>
+  <table>
+    <thead><tr><th>Sidebar</th><th>Purpose</th></tr></thead>
+    <tbody>
+      <tr><td>Heading text</td><td>Title; empty hides the title</td></tr>
+      <tr><td>H2–H6 toggles</td><td>Which levels appear</td></tr>
+      <tr><td>Numbered list</td><td>Ordered vs bulleted</td></tr>
+      <tr><td>Style preset</td><td>default, minimal, boxed, underline, card</td></tr>
+      <tr><td>Sticky / collapsible / highlight</td><td>Reading behavior</td></tr>
+      <tr><td>Scroll offset override</td><td><code>-1</code> = use site setting</td></tr>
+    </tbody>
+  </table>
+  <p>Skip a heading: additional CSS class <code>no-toc</code> or <code>tocflow-skip</code>.</p>
+
+  <h2>3. Site settings</h2>
+  <p><strong>Settings → TOCflow</strong></p>
+  <ul>
+    <li>Smooth scroll (honors reduced motion)</li>
+    <li>Scroll offset in pixels (sticky header clearance)</li>
+    <li>Highlight the heading in view</li>
+    <li>Minimum headings before a TOC prints</li>
+    <li>Auto-insert: off, top of content, after first heading + post types</li>
+    <li>Optional ItemList JSON-LD</li>
+    <li>Delete settings when the plugin is deleted (never on deactivate)</li>
+  </ul>
+
+  <h2>4. Shortcode</h2>
+<pre>[tocflow]
+[tocflow title="On this page" ordered="1" style="boxed" collapsible="1"]</pre>
+  <p>Attributes: <code>title</code>, <code>h2</code>–<code>h6</code> (<code>1</code>/<code>0</code>), <code>ordered</code>, <code>collapsible</code>, <code>collapsed</code>, <code>sticky</code>, <code>style</code>.</p>
+
+  <h2>5. Theme CSS</h2>
+  <p>Hooks: <code>.tocflow</code>, <code>.tocflow--boxed</code> (and other presets), <code>.tocflow.is-sticky</code>, <code>.tocflow.is-collapsed</code>, <code>.tocflow__link.is-active</code>, <code>.tocflow__title</code>.</p>
+
+  <h2>6. Developers</h2>
+  <ul>
+    <li>Block: <code>tocflow/table-of-contents</code></li>
+    <li>Heading map: <code>TOCflow_Headings::get_all( $post_id )</code></li>
+    <li>Do not declare functions in <code>src/render.php</code></li>
+    <li>Text domain literal: <code>'tocflow'</code></li>
+    <li>Build: <code>npm run build</code></li>
+  </ul>
+  <p>See <a href="https://github.com/matthummel-pa/tocflow/blob/main/docs/DEVELOPER_SOP.md">DEVELOPER_SOP.md</a> and <a href="https://github.com/matthummel-pa/tocflow/blob/main/docs/NAMING.md">NAMING.md</a>.</p>
+
+  <h2>7. Changelog</h2>
+  <p>v1.0.0 — live preview, presets, collapse, sticky, scroll-spy, auto-insert, shortcode, admin docs, marketplace packaging.</p>
+  <p>Full list: <a href="https://github.com/matthummel-pa/tocflow/blob/main/CHANGELOG.md">CHANGELOG.md</a></p>
+
+  <h2>8. License</h2>
+  <p>GPL-2.0-or-later. Required for WordPress.org and Envato WordPress items.</p>
+</div>
+</body>
+</html>

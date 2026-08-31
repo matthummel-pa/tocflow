@@ -3,272 +3,178 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>TOCflow — Support &amp; Docs | WordPress Table of Contents Block</title>
-<meta name="description" content="Support and documentation for TOCflow, a free, lightweight, server-rendered Table of Contents block for the WordPress block editor. Install guide, settings reference, troubleshooting, FAQ, and free download.">
+<title>TOCflow — Table of Contents block for WordPress</title>
+<meta name="description" content="TOCflow is a server-rendered Table of Contents block for WordPress. Live preview, auto-insert, shortcode, accessible and SEO-friendly. Slug: tocflow.">
 <link rel="canonical" href="https://matthummel-pa.github.io/tocflow/">
-<meta property="og:title" content="TOCflow — Support &amp; Docs">
-<meta property="og:description" content="Free, server-rendered Table of Contents block for WordPress. Install guide, settings reference, troubleshooting, and download.">
+<meta property="og:title" content="TOCflow — WordPress Table of Contents">
+<meta property="og:description" content="One focused Gutenberg block. Server-rendered outline from your headings.">
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://matthummel-pa.github.io/tocflow/">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,700&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,600;1,6..72,400&display=swap" rel="stylesheet">
 <style>
   :root{
-    --bg:#f7f8fa; --card:#ffffff; --ink:#1b1f24; --muted:#5b6470;
-    --line:#e7eaef; --brand:#2f6f4e; --brand-d:#245c40; --accent:#3858e9; --code:#f2f4f7;
-    --maxw:880px;
+    --paper:#f3eee4; --ink:#1c1915; --muted:#5c564c; --moss:#275c3e; --moss-d:#1c3d2a;
+    --copper:#c46b32; --line:rgba(28,25,21,.12); --card:#fffaf3; --max:1080px;
   }
   *{box-sizing:border-box}
   html{scroll-behavior:smooth}
-  body{margin:0;background:var(--bg);color:var(--ink);
-    font:16px/1.65 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;}
-  a{color:var(--brand);text-decoration:none}
-  a:hover{text-decoration:underline}
-  .wrap{max-width:var(--maxw);margin:0 auto;padding:0 20px}
-  header.hero{background:linear-gradient(135deg,#264d3a,#2f6f4e 55%,#3a8a61);color:#fff;padding:56px 0 48px}
-  .hero h1{margin:0 0 6px;font-size:40px;letter-spacing:-.5px}
-  .hero .tag{font-size:18px;opacity:.95;margin:0 0 22px;max-width:620px}
-  .badges{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:24px}
-  .badge{background:rgba(255,255,255,.16);color:#fff;border:1px solid rgba(255,255,255,.25);
-    padding:3px 10px;border-radius:999px;font-size:12.5px}
+  body{margin:0;background:var(--paper);color:var(--ink);
+    font:18px/1.6 Newsreader,Georgia,serif;
+    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cpath fill='none' stroke='%23275c3e' stroke-opacity='.07' d='M0 90c30-40 60 40 90 0s60 40 90 0M0 40c30-30 60 30 90 0s60 30 90 0M0 140c30-30 60 30 90 0s60 30 90 0'/%3E%3C/svg%3E");
+  }
+  a{color:var(--moss);text-underline-offset:3px}
+  a:hover{color:var(--copper)}
+  .wrap{max-width:var(--max);margin:0 auto;padding:0 24px}
+  header.hero{padding:48px 0 56px;border-bottom:1px solid var(--line)}
+  .kicker{font-family:Fraunces,serif;letter-spacing:.18em;text-transform:uppercase;font-size:12px;color:var(--moss);margin:0 0 18px}
+  .hero h1{font-family:Fraunces,serif;font-size:clamp(48px,8vw,92px);line-height:.9;letter-spacing:-.03em;margin:0 0 18px;font-weight:700}
+  .hero h1 em{font-style:italic;color:var(--moss);font-weight:500}
+  .lede{font-size:22px;max-width:38rem;color:var(--muted);margin:0 0 28px}
   .btns{display:flex;flex-wrap:wrap;gap:12px}
-  .btn{display:inline-block;padding:12px 20px;border-radius:8px;font-weight:600;font-size:15px}
-  .btn.primary{background:#fff;color:var(--brand-d)}
-  .btn.primary:hover{background:#eef6f1;text-decoration:none}
-  .btn.ghost{background:transparent;color:#fff;border:1.5px solid rgba(255,255,255,.6)}
-  .btn.ghost:hover{background:rgba(255,255,255,.12);text-decoration:none}
-  main{padding:8px 0 40px}
-  section{padding:34px 0;border-bottom:1px solid var(--line)}
-  section:last-child{border-bottom:0}
-  h2{font-size:26px;margin:0 0 14px;letter-spacing:-.3px}
-  h3{font-size:18px;margin:26px 0 8px}
-  p{margin:0 0 14px;color:#2a2f37}
-  ul,ol{margin:0 0 14px;padding-left:22px}
-  li{margin:6px 0}
-  .lead{font-size:18px;color:var(--muted)}
-  .grid{display:grid;grid-template-columns:1fr 1fr;gap:22px}
-  @media(max-width:680px){.grid{grid-template-columns:1fr}.hero h1{font-size:32px}}
-  figure{margin:0;background:var(--card);border:1px solid var(--line);border-radius:12px;padding:16px;
-    box-shadow:0 1px 2px rgba(16,24,40,.04)}
-  figure img{width:100%;height:auto;display:block;border-radius:6px}
-  figcaption{margin-top:10px;font-size:13.5px;color:var(--muted);text-align:center}
-  table{width:100%;border-collapse:collapse;margin:6px 0 16px;background:var(--card);
-    border:1px solid var(--line);border-radius:10px;overflow:hidden}
-  th,td{text-align:left;padding:11px 14px;border-bottom:1px solid var(--line);font-size:14.5px;vertical-align:top}
-  th{background:#f0f3f6;font-size:13px;letter-spacing:.3px;text-transform:uppercase;color:#48505b}
-  tr:last-child td{border-bottom:0}
-  code{background:var(--code);padding:1.5px 6px;border-radius:5px;font-size:13.5px;
-    font-family:"SFMono-Regular",Consolas,"Liberation Mono",Menlo,monospace}
-  .callout{background:#eef6f1;border-left:4px solid var(--brand);padding:12px 16px;border-radius:0 8px 8px 0;margin:14px 0;color:#2a4435}
-  .cards{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:8px}
-  @media(max-width:680px){.cards{grid-template-columns:1fr}}
-  .card{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:16px}
-  .card h3{margin:0 0 6px;font-size:15.5px}
-  .card a{font-size:14.5px}
-  details{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:4px 16px;margin:10px 0}
-  summary{cursor:pointer;font-weight:600;padding:10px 0}
-  details p{margin:0 0 12px}
-  footer{background:#1b1f24;color:#aeb6c0;padding:28px 0;font-size:14px}
-  footer a{color:#cfeede}
-  .toc-mini{font-size:14.5px;color:var(--muted)}
-  .toc-mini a{margin-right:14px;white-space:nowrap}
-  pre code{background:transparent;color:inherit;padding:0;font-size:13px;line-height:1.55}
+  .btn{display:inline-block;padding:12px 20px;border-radius:999px;font-family:Fraunces,serif;font-size:16px;text-decoration:none;font-weight:700}
+  .btn.primary{background:var(--moss);color:#f4efe6}
+  .btn.primary:hover{background:var(--moss-d);color:#fff}
+  .btn.ghost{border:1.5px solid var(--ink);color:var(--ink)}
+  .meta{display:flex;flex-wrap:wrap;gap:8px;margin-top:28px}
+  .chip{border:1px solid var(--line);padding:4px 10px;border-radius:999px;font-size:13px;color:var(--muted)}
+  nav.toc{display:flex;flex-wrap:wrap;gap:10px 18px;padding:16px 0;font-size:15px;border-bottom:1px solid var(--line)}
+  section{padding:48px 0;border-bottom:1px solid var(--line)}
+  h2{font-family:Fraunces,serif;font-size:36px;margin:0 0 8px;letter-spacing:-.03em}
+  .chap{font-family:Fraunces,serif;color:var(--copper);font-size:13px;letter-spacing:.14em;text-transform:uppercase;margin:0 0 6px}
+  .grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:22px}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:18px 18px 8px;box-shadow:0 1px 0 rgba(28,25,21,.04)}
+  .card h3{font-family:Fraunces,serif;margin:0 0 6px;font-size:20px}
+  figure{margin:0;background:var(--card);border:1px solid var(--line);border-radius:16px;padding:16px}
+  figure img{width:100%;height:auto;display:block;border-radius:8px}
+  figcaption{font-size:14px;color:var(--muted);margin-top:8px;text-align:center}
+  .split{display:grid;grid-template-columns:1fr 1fr;gap:22px}
+  table{width:100%;border-collapse:collapse;background:var(--card);border:1px solid var(--line);border-radius:12px;overflow:hidden}
+  th,td{text-align:left;padding:12px 14px;border-bottom:1px solid var(--line);vertical-align:top;font-size:16px}
+  th{background:#ebe4d6;font-family:Fraunces,serif;font-size:14px}
+  code{background:#ebe4d6;padding:1px 6px;border-radius:4px;font-size:14px}
+  ol,ul{padding-left:1.2rem}
+  details{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:4px 16px;margin:8px 0}
+  summary{cursor:pointer;font-family:Fraunces,serif;padding:10px 0}
+  footer{padding:36px 0 48px;color:var(--muted);font-size:15px}
+  .name{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:14px;background:#1c1915;color:#f3eee4;padding:10px 14px;border-radius:10px;display:inline-block}
+  @media(max-width:800px){.grid,.split{grid-template-columns:1fr}.hero h1{font-size:52px}}
 </style>
 </head>
 <body>
 <header class="hero">
   <div class="wrap">
-    <h1 style="margin:0 0 16px"><img src="assets/tocflow-logo-light.svg" alt="TOCflow" width="400" style="max-width:82%;height:auto"></h1>
-    <p class="tag">A free, lightweight, <strong>server-rendered Table of Contents block</strong> for the WordPress block editor. Add one block and it auto-builds an accessible, SEO-friendly linked outline from your post's headings.</p>
-    <div class="badges">
-      <span class="badge">Version 0.1.0</span>
-      <span class="badge">WordPress 6.4+</span>
-      <span class="badge">PHP 7.4+</span>
-      <span class="badge">GPL-2.0-or-later</span>
-      <span class="badge">Gutenberg block</span>
-    </div>
+    <p class="kicker">WordPress plugin · slug <strong>tocflow</strong></p>
+    <h1>The outline,<br><em>already in the HTML.</em></h1>
+    <p class="lede">TOCflow is a single Gutenberg block that turns post headings into an accessible, SEO-friendly table of contents — rendered on the server, not injected by a script after paint.</p>
     <div class="btns">
-      <a class="btn primary" href="https://github.com/matthummel-pa/tocflow/releases/latest">⬇ Download free (.zip)</a>
-      <a class="btn ghost" href="https://github.com/matthummel-pa/tocflow">View on GitHub</a>
+      <a class="btn primary" href="https://github.com/matthummel-pa/tocflow/releases/latest">Download tocflow.zip</a>
+      <a class="btn ghost" href="documentation.html">Documentation</a>
+      <a class="btn ghost" href="support.html">Support</a>
+    </div>
+    <div class="meta">
+      <span class="chip">v1.0.0</span>
+      <span class="chip">WordPress 6.4+</span>
+      <span class="chip">PHP 7.4+</span>
+      <span class="chip">GPL-2.0-or-later</span>
+      <span class="chip">GitHub repo: tocflow</span>
     </div>
   </div>
 </header>
 
-<main class="wrap">
-  <nav class="toc-mini" style="padding:18px 0 0" aria-label="On this page">
-    <a href="#overview">Overview</a>
-    <a href="#screenshots">Screenshots</a>
-    <a href="#install">Install</a>
+<div class="wrap">
+  <nav class="toc" aria-label="On this page">
+    <a href="#name">Name</a>
+    <a href="#features">Features</a>
+    <a href="#screens">Screens</a>
+    <a href="#start">Quick start</a>
     <a href="#settings">Settings</a>
-    <a href="#code">How it works</a>
-    <a href="#troubleshooting">Troubleshooting</a>
     <a href="#faq">FAQ</a>
-    <a href="#links">Project links</a>
   </nav>
 
-  <section id="overview">
-    <h2>What TOCflow does</h2>
-    <p class="lead">One focused block — <strong>Table of Contents</strong> — that turns the headings in your post into a clean, clickable outline. No shortcodes, no settings to wrangle.</p>
-    <p>The outline is rendered <strong>on the server</strong>, so it's present in the page's initial HTML. That's good for SEO and screen readers, and there's no heavy JavaScript on the front end. TOCflow also adds matching anchor IDs to your headings automatically, so every link scrolls to the right place.</p>
-    <div class="cards">
-      <div class="card"><h3>Automatic</h3>Builds itself from your H2/H3/H4 headings — and updates when they change.</div>
-      <div class="card"><h3>Accessible</h3>Outputs a proper <code>&lt;nav&gt;</code> landmark with in-page anchor links.</div>
-      <div class="card"><h3>SEO-friendly</h3>Server-rendered into the page HTML on load, not injected by JS.</div>
-    </div>
+  <section id="name">
+    <p class="chap">Chapter 01</p>
+    <h2>What to call it</h2>
+    <p>On GitHub, WordPress.org, and in <code>wp-content/plugins/</code>, the name is the slug:</p>
+    <p class="name">tocflow</p>
+    <p>Display name <strong>TOCflow</strong>. Directory title can read “TOCflow – Table of Contents Block.” Do not rename the repo to <code>wp-toc</code> or <code>toc-flow-plugin</code> — invented brands stay one lowercase token, same idea as Akismet or Jetpack. <a href="https://github.com/matthummel-pa/tocflow/blob/main/docs/NAMING.md">Full naming notes</a>.</p>
   </section>
 
-  <section id="screenshots">
-    <h2>Screenshots</h2>
+  <section id="features">
+    <p class="chap">Chapter 02</p>
+    <h2>What it does</h2>
     <div class="grid">
+      <article class="card"><h3>Live preview</h3><p>The editor outline updates as you add Heading blocks. No placeholder-only box.</p></article>
+      <article class="card"><h3>Server-rendered</h3><p>The <code>&lt;nav&gt;</code> is in the first response. Search engines and screen readers see it immediately.</p></article>
+      <article class="card"><h3>Honest anchors</h3><p>IDs are injected with the same slug map the list uses. Custom HTML anchors win.</p></article>
+      <article class="card"><h3>Auto-insert</h3><p>Optional site-wide TOC at the top of content or after the first heading.</p></article>
+      <article class="card"><h3>Shortcode</h3><p><code>[tocflow]</code> for classic content and theme templates.</p></article>
+      <article class="card"><h3>Reading aids</h3><p>Smooth scroll + offset, collapse, sticky, scroll-spy. Reduced motion is respected.</p></article>
+    </div>
+  </section>
+
+  <section id="screens">
+    <p class="chap">Chapter 03</p>
+    <h2>In the editor, on the page</h2>
+    <div class="split">
       <figure>
-        <img src="assets/tocflow-settings-panel.svg" alt="TOCflow block settings panel in the WordPress editor showing the Heading text field and toggles for including H2, H3 and H4 headings and using a numbered list">
-        <figcaption>Block settings — heading text, which levels to include, and list style.</figcaption>
+        <img src="assets/tocflow-settings-panel.svg" alt="TOCflow block settings in the WordPress editor">
+        <figcaption>Block sidebar — levels, list style, later presets in v1.0.</figcaption>
       </figure>
       <figure>
-        <img src="assets/tocflow-output.svg" alt="Front-end Table of Contents output: a nested bulleted list of linked headings generated by TOCflow">
-        <figcaption>Front-end output — a nested, linked outline generated from the post.</figcaption>
+        <img src="assets/tocflow-output.svg" alt="Front-end table of contents">
+        <figcaption>Front-end nested outline generated from the post.</figcaption>
       </figure>
     </div>
   </section>
 
-  <section id="install">
+  <section id="start">
+    <p class="chap">Chapter 04</p>
     <h2>Quick start</h2>
-    <h3>1. Install the plugin</h3>
     <ol>
-      <li><a href="https://github.com/matthummel-pa/tocflow/releases/latest">Download <code>tocflow.zip</code></a> from the latest release.</li>
-      <li>In WordPress admin, go to <strong>Plugins → Add New → Upload Plugin</strong>.</li>
-      <li>Choose the ZIP, click <strong>Install Now</strong>, then <strong>Activate</strong>.</li>
+      <li>Install and activate the plugin from the <a href="https://github.com/matthummel-pa/tocflow/releases/latest">latest ZIP</a>.</li>
+      <li>Edit a post that has Heading blocks.</li>
+      <li>Insert <strong>Table of Contents</strong>.</li>
+      <li>Optional: <strong>Settings → TOCflow</strong> for scroll offset and auto-insert.</li>
     </ol>
-    <h3>2. Add a Table of Contents</h3>
-    <ol>
-      <li>Edit a post that has some <strong>Heading</strong> blocks (H2, H3, H4).</li>
-      <li>Click the <strong>+</strong> inserter where you want the TOC — usually right after your intro.</li>
-      <li>Search for <strong>"Table of Contents"</strong> and select it. The outline is generated automatically.</li>
-    </ol>
-    <div class="callout">The list is built from your real headings when the page loads, so you never have to maintain it by hand.</div>
+    <p>Skip a heading by adding the CSS class <code>no-toc</code> on that Heading block.</p>
   </section>
 
   <section id="settings">
-    <h2>Settings reference</h2>
-    <p>Select the block and open the <strong>Settings</strong> sidebar (gear icon) to adjust:</p>
+    <p class="chap">Chapter 05</p>
+    <h2>Settings at a glance</h2>
     <table>
-      <thead><tr><th>Setting</th><th>What it does</th></tr></thead>
+      <thead><tr><th>Control</th><th>Where</th><th>Does</th></tr></thead>
       <tbody>
-        <tr><td><strong>Heading text</strong></td><td>The title shown above the list (default: <em>Table of Contents</em>). Leave it blank to hide the title.</td></tr>
-        <tr><td><strong>Include H2 / H3 / H4</strong></td><td>Choose which heading levels appear in the outline. H2 and H3 are on by default; H4 is off.</td></tr>
-        <tr><td><strong>Use a numbered list</strong></td><td>Switch between a numbered (1, 2, 3) and a bulleted list.</td></tr>
+        <tr><td>Heading levels, title, numbered list, presets</td><td>Block sidebar</td><td>Per-post outline</td></tr>
+        <tr><td>Smooth scroll / offset / highlight</td><td>Settings → TOCflow</td><td>Site-wide reading</td></tr>
+        <tr><td>Auto-insert + post types</td><td>Settings → TOCflow</td><td>No block required</td></tr>
+        <tr><td>Delete data on uninstall</td><td>Settings → TOCflow</td><td>Opt-in cleanup</td></tr>
+        <tr><td><code>[tocflow]</code></td><td>Content / widget</td><td>Classic or templates</td></tr>
       </tbody>
     </table>
-    <p>You can also use the standard block controls for <strong>color</strong>, <strong>spacing</strong>, and <strong>typography</strong> to match your theme.</p>
-  </section>
-
-  <section id="code">
-    <h2>Under the hood (for developers)</h2>
-    <p>TOCflow is a small, modern dynamic block. It's an early-stage beta and open to contributions — here are the pieces that make it tick.</p>
-    <h3>Block metadata (block.json)</h3>
-    <pre style="background:#0f1b14;color:#d7f0e2;padding:16px 18px;border-radius:10px;overflow:auto;font-size:13px;line-height:1.55;margin:0 0 16px"><code>{
-  "name": "tocflow/table-of-contents",
-  "title": "Table of Contents",
-  "category": "widgets",
-  "attributes": {
-    "title":   { "type": "string",  "default": "Table of Contents" },
-    "showH2":  { "type": "boolean", "default": true },
-    "showH3":  { "type": "boolean", "default": true },
-    "showH4":  { "type": "boolean", "default": false },
-    "ordered": { "type": "boolean", "default": false }
-  },
-  "render": "file:./render.php"
-}</code></pre>
-    <h3>One heading map, built on the server</h3>
-    <p>A single pass with <code>parse_blocks()</code> collects every heading and stamps a unique slug — the single source of truth for both the list and the anchor IDs.</p>
-    <pre style="background:#0f1b14;color:#d7f0e2;padding:16px 18px;border-radius:10px;overflow:auto;font-size:13px;line-height:1.55;margin:0 0 16px"><code>function tocflow_collect_headings( $blocks, &amp;$used, &amp;$collected ) {
-    foreach ( $blocks as $block ) {
-        if ( 'core/heading' === $block['blockName'] ) {
-            $text  = trim( wp_strip_all_tags( $block['innerHTML'] ) );
-            $level = isset( $block['attrs']['level'] ) ? (int) $block['attrs']['level'] : 2;
-            if ( '' !== $text ) {
-                $collected[] = array(
-                    'level' =&gt; $level,
-                    'text'  =&gt; $text,
-                    'slug'  =&gt; tocflow_make_slug( $text, $used ),
-                );
-            }
-        }
-        if ( ! empty( $block['innerBlocks'] ) ) {
-            tocflow_collect_headings( $block['innerBlocks'], $used, $collected );
-        }
-    }
-}</code></pre>
-    <h3>Anchors that always match</h3>
-    <p>A <code>render_block</code> filter injects the matching <code>id</code> into each heading as it renders, so every TOC link has a target.</p>
-    <pre style="background:#0f1b14;color:#d7f0e2;padding:16px 18px;border-radius:10px;overflow:auto;font-size:13px;line-height:1.55;margin:0 0 16px"><code>add_filter( 'render_block', 'tocflow_add_heading_ids', 10, 2 );
-
-function tocflow_add_heading_ids( $block_content, $block ) {
-    if ( 'core/heading' !== ( $block['blockName'] ?? '' ) || ! is_singular() ) {
-        return $block_content;
-    }
-    // Pull the precomputed slug for this heading, then add id="slug".
-    return preg_replace(
-        '/(&lt;h[1-6])(\s|&gt;)/i',
-        '$1 id="' . esc_attr( $slug ) . '"$2',
-        $block_content,
-        1
-    );
-}</code></pre>
-    <p>Read the full source on <a href="https://github.com/matthummel-pa/tocflow">GitHub</a>, or jump straight to <a href="https://github.com/matthummel-pa/tocflow/blob/main/tocflow.php">tocflow.php</a>.</p>
-  </section>
-
-  <section id="troubleshooting">
-    <h2>Troubleshooting</h2>
-    <h3>The TOC is empty or missing headings</h3>
-    <ul>
-      <li>Make sure your headings are real <strong>Heading blocks</strong>, not bold text styled to look like headings.</li>
-      <li>Check that the levels you used (e.g. H4) are enabled in the block settings.</li>
-    </ul>
-    <h3>Links don't scroll to the right place</h3>
-    <ul>
-      <li>TOCflow adds anchor IDs automatically. If a heading already has a custom HTML anchor, that one is respected — make sure it's unique.</li>
-      <li>A sticky header/menu can cover the target. A scroll-offset option is on the roadmap.</li>
-    </ul>
-    <h3>The block doesn't appear in the inserter</h3>
-    <ul>
-      <li>Confirm the plugin is <strong>Activated</strong> under <em>Plugins</em>.</li>
-      <li>Make sure you're using the <strong>block editor</strong> (Gutenberg), not the Classic editor.</li>
-    </ul>
-    <h3>Common mistakes to avoid</h3>
-    <ul>
-      <li>Adding the block to a post with <strong>no headings</strong> — there's nothing to list.</li>
-      <li>Disabling <strong>all</strong> heading levels — the list will be empty.</li>
-      <li>Expecting it to read headings from <strong>other</strong> posts — each TOC reflects the post it lives in.</li>
-    </ul>
+    <p><a href="documentation.html">Open the full documentation →</a></p>
   </section>
 
   <section id="faq">
-    <h2>Frequently asked questions</h2>
-    <details><summary>Does it work with the Classic Editor?</summary><p>No. It's a block for the WordPress block editor (Gutenberg).</p></details>
-    <details><summary>Will it slow down my site?</summary><p>No. The outline is rendered on the server as plain HTML — there's no heavy JavaScript on the front end.</p></details>
-    <details><summary>Can I have more than one TOC on a page?</summary><p>It's designed for one per post. Multiple blocks will each list the same headings.</p></details>
-    <details><summary>Is it really free?</summary><p>Yes — TOCflow is free and open source under the GPL-2.0-or-later license. Download it, test it, and use it on as many sites as you like.</p></details>
+    <p class="chap">Chapter 06</p>
+    <h2>FAQ</h2>
+    <details><summary>Is the GitHub repo supposed to be called something else?</summary><p>No. Keep it <code>tocflow</code>. That is the WordPress plugin slug and the text domain.</p></details>
+    <details><summary>ThemeForest or CodeCanyon?</summary><p>Plugins sell on <strong>CodeCanyon</strong>. ThemeForest is themes — those themes should require the plugin slug <code>tocflow</code> rather than baking a TOC into the theme.</p></details>
+    <details><summary>Classic Editor?</summary><p>Use <code>[tocflow]</code>.</p></details>
+    <details><summary>Does it phone home?</summary><p>No remote APIs, no tracking, no accounts.</p></details>
+    <details><summary>Where do I file a bug?</summary><p><a href="https://github.com/matthummel-pa/tocflow/issues">GitHub issues</a>. Security: see <a href="support.html">the support page</a>.</p></details>
   </section>
-
-  <section id="links">
-    <h2>Project links</h2>
-    <div class="cards">
-      <div class="card"><h3>Source code</h3><a href="https://github.com/matthummel-pa/tocflow">github.com/matthummel-pa/tocflow</a></div>
-      <div class="card"><h3>Download</h3><a href="https://github.com/matthummel-pa/tocflow/releases/latest">Latest release (.zip)</a></div>
-      <div class="card"><h3>Report a bug</h3><a href="https://github.com/matthummel-pa/tocflow/issues">Open an issue</a></div>
-      <div class="card"><h3>Contributing</h3><a href="https://github.com/matthummel-pa/tocflow/blob/main/CONTRIBUTING.md">CONTRIBUTING.md</a></div>
-      <div class="card"><h3>Changelog</h3><a href="https://github.com/matthummel-pa/tocflow/blob/main/CHANGELOG.md">CHANGELOG.md</a></div>
-      <div class="card"><h3>License</h3><a href="https://github.com/matthummel-pa/tocflow/blob/main/LICENSE">GPL-2.0-or-later</a></div>
-    </div>
-    <p style="margin-top:18px">Found a bug or have a feature request? <a href="https://github.com/matthummel-pa/tocflow/issues">Open an issue</a> and include your WordPress version, theme, and a screenshot if you can.</p>
-  </section>
-</main>
+</div>
 
 <footer>
   <div class="wrap">
-    TOCflow — a WordPress Table of Contents block by <a href="https://matthummel.com">Matt Hummel</a>.
-    Free &amp; open source under GPL-2.0-or-later. ·
+    TOCflow by <a href="https://matthummel.com">Matt Hummel</a> ·
     <a href="https://github.com/matthummel-pa/tocflow">GitHub</a> ·
-    <a href="https://github.com/matthummel-pa/tocflow/releases/latest">Download</a>
+    <a href="documentation.html">Docs</a> ·
+    <a href="support.html">Support</a> ·
+    GPL-2.0-or-later
   </div>
 </footer>
 </body>

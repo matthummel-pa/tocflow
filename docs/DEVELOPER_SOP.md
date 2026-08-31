@@ -61,7 +61,7 @@ Prefixes: `feat/`, `fix/`, `docs/`, `chore/`. Imperative commit messages.
 - Admin classes load only when `is_admin()`.
 - Heading IDs: `WP_HTML_Tag_Processor`, not a second regex parser, when available.
 
-**JavaScript**
+**JavaScript / block**
 
 ```bash
 npm run lint:js
@@ -69,7 +69,7 @@ npm run lint:css
 npm run format
 ```
 
-Use `@wordpress/*` packages. Front-end `view.js` must not require jQuery.
+Match [Gutenberg block coding](https://developer.wordpress.org/block-editor/getting-started/tutorial/): `block.json` as metadata, `useBlockProps` / `get_block_wrapper_attributes()`, Block Styles in `block.json`, `@wordpress/*` packages only. Front-end `view.js` must not require jQuery. See `.cursor/rules/wordpress-block-coding.mdc`.
 
 ---
 

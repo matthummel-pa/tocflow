@@ -24,8 +24,11 @@ This plugin is **Plugin Directory** (settings, auto-insert, shortcode), not
 Block Directory (those cannot have wp-admin UI).
 
 ## Tech / conventions
-- `@wordpress/scripts`. `npm run build` / `npm run start`.
-- **Dynamic block**: front-end markup in `src/render.php` (server-side).
+- `@wordpress/scripts` (`create-block` dynamic variant). `npm run build` / `npm run start`.
+- Follow `.cursor/rules/wordpress-block-coding.mdc` (Gutenberg handbook APIs).
+- **Dynamic block**: `block.json` + `src/save.js` (`null`) + `src/render.php`.
+- Wrapper: `useBlockProps` in the editor, `get_block_wrapper_attributes()` on the front end.
+- Visual presets are Gutenberg **Block Styles** (`is-style-*`), not a custom SelectControl.
 - PHP: WordPress coding standards, tabs, text domain literal `tocflow`.
 - Helpers live under `includes/` (loaded once from `tocflow.php`).
   `src/render.php` is output only — never declare functions there.
@@ -49,7 +52,7 @@ Block Directory (those cannot have wp-admin UI).
 - `includes/` — settings, headings, plugin, admin.
 - `admin/` — settings/support views + CSS.
 - `src/block.json` — metadata, attributes, supports.
-- `src/index.js` / `edit.js` / `view.js` / `headings.js` / `render.php`
+- `src/index.js` / `edit.js` / `save.js` / `view.js` / `headings.js` / `render.php`
 - `uninstall.php` — deletes data only if the owner opted in.
 - `docs/` — GitHub Pages support site + marketplace kit.
 - `.wordpress-org/` — directory banner/icon sources.

@@ -1,0 +1,8 @@
+blank_issues_enabled: false
+contact_links:
+  - name: Documentation
+    url: https://matthummel-pa.github.io/tocflow/
+    about: Install, settings, shortcode, and FAQ.
+  - name: Security report
+    url: https://github.com/matthummel-pa/tocflow/blob/main/SECURITY.md
+    about: Do not file public issues for vulnerabilities.
