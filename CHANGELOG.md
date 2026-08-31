@@ -11,6 +11,7 @@ Marketplace-ready release: WordPress.org / CodeCanyon coding standards, a comple
 - Live outline preview in the block editor (updates as you type headings).
 - Style presets: Default, Minimal, Boxed, Underline, Card.
 - Collapsible list, sticky positioning, and scroll-spy highlighting.
+- Per-block layout: nested 1.1.1 numbering, hide markers, two columns, compact spacing, max height, title element, H1, and smooth-scroll override.
 - Smooth-scroll with a configurable offset for sticky headers (honors `prefers-reduced-motion`).
 - H5 / H6 heading support.
 - Site-wide settings: auto-insert, minimum heading count, schema JSON-LD, uninstall cleanup.

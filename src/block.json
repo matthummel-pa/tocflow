@@ -74,16 +74,35 @@
 			"default": "Table of Contents",
 			"role": "content"
 		},
+		"showTitle": { "type": "boolean", "default": true },
+		"titleTag": { "type": "string", "default": "p" },
+		"showH1": { "type": "boolean", "default": false },
 		"showH2": { "type": "boolean", "default": true },
 		"showH3": { "type": "boolean", "default": true },
 		"showH4": { "type": "boolean", "default": false },
 		"showH5": { "type": "boolean", "default": false },
 		"showH6": { "type": "boolean", "default": false },
 		"ordered": { "type": "boolean", "default": false },
+		"numbering": { "type": "string", "default": "default" },
+		"hideMarkers": { "type": "boolean", "default": false },
 		"collapsible": { "type": "boolean", "default": false },
 		"collapsedDefault": { "type": "boolean", "default": false },
 		"sticky": { "type": "boolean", "default": false },
+		"compact": { "type": "boolean", "default": false },
+		"twoColumns": { "type": "boolean", "default": false },
+		"underlineLinks": { "type": "boolean", "default": false },
 		"highlightActive": { "type": "boolean", "default": true },
+		"maxHeight": { "type": "number", "default": 0 },
+		"minHeadings": {
+			"type": "number",
+			"default": -1,
+			"role": "local"
+		},
+		"smoothScroll": {
+			"type": "string",
+			"default": "inherit",
+			"role": "local"
+		},
 		"stylePreset": {
 			"type": "string",
 			"default": "default",

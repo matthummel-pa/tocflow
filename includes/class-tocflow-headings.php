@@ -171,6 +171,7 @@ class TOCflow_Headings {
 	public static function levels_from_attributes( $attributes ) {
 		$levels = array();
 		$map    = array(
+			'showH1' => 1,
 			'showH2' => 2,
 			'showH3' => 3,
 			'showH4' => 4,
@@ -253,6 +254,9 @@ class TOCflow_Headings {
 		$items  = self::filter_and_normalize( $all, $levels );
 
 		$min = (int) TOCflow_Settings::get_value( 'min_headings', 2 );
+		if ( isset( $attributes['minHeadings'] ) && (int) $attributes['minHeadings'] >= 1 ) {
+			$min = (int) $attributes['minHeadings'];
+		}
 		if ( count( $items ) < $min ) {
 			return '';
 		}
@@ -262,6 +266,9 @@ class TOCflow_Headings {
 		$title_raw  = isset( $attributes['title'] ) ? (string) $attributes['title'] : '';
 		$title_text = trim( wp_strip_all_tags( $title_raw ) );
 		$label      = '' !== $title_text ? $title_text : __( 'Table of Contents', 'tocflow' );
+		$show_title = ! isset( $attributes['showTitle'] ) || ! empty( $attributes['showTitle'] );
+		$show_title = $show_title && '' !== $title_text;
+		$title_tag  = self::title_tag_from_attributes( $attributes );
 		$preset     = self::style_slug_from_attributes( $attributes );
 		$class_name = isset( $attributes['className'] ) ? (string) $attributes['className'] : '';
 		$classes    = array(
@@ -287,8 +294,32 @@ class TOCflow_Headings {
 		if ( ! empty( $attributes['sticky'] ) ) {
 			$classes[] = 'is-sticky';
 		}
-		if ( ! empty( $attributes['highlightActive'] ) || ! empty( $settings['highlight_active'] ) ) {
+		if ( ! empty( $attributes['compact'] ) ) {
+			$classes[] = 'is-compact';
+		}
+		if ( ! empty( $attributes['hideMarkers'] ) ) {
+			$classes[] = 'is-no-markers';
+		}
+		if ( ! empty( $attributes['twoColumns'] ) ) {
+			$classes[] = 'has-columns-2';
+		}
+		if ( ! empty( $attributes['underlineLinks'] ) ) {
+			$classes[] = 'has-underlined-links';
+		}
+		if ( ! empty( $attributes['ordered'] ) && isset( $attributes['numbering'] ) && 'nested' === $attributes['numbering'] ) {
+			$classes[] = 'is-nested-counters';
+		}
+
+		$highlight = array_key_exists( 'highlightActive', $attributes )
+			? ! empty( $attributes['highlightActive'] )
+			: ! empty( $settings['highlight_active'] );
+		if ( $highlight ) {
 			$classes[] = 'has-scroll-spy';
+		}
+
+		$max_height = isset( $attributes['maxHeight'] ) ? (int) $attributes['maxHeight'] : 0;
+		if ( $max_height > 0 ) {
+			$classes[] = 'has-max-height';
 		}
 
 		$offset = (int) $settings['scroll_offset'];
@@ -296,8 +327,24 @@ class TOCflow_Headings {
 			$offset = (int) $attributes['scrollOffset'];
 		}
 
+		$smooth = 'inherit';
+		if ( ! empty( $attributes['smoothScroll'] ) ) {
+			$smooth = sanitize_key( $attributes['smoothScroll'] );
+		}
+		if ( 'on' === $smooth ) {
+			$smooth_flag = '1';
+		} elseif ( 'off' === $smooth ) {
+			$smooth_flag = '0';
+		} else {
+			$smooth_flag = ! empty( $settings['smooth_scroll'] ) ? '1' : '0';
+		}
+
 		$class_attr = implode( ' ', array_map( 'sanitize_html_class', $classes ) );
-		$style_attr = '--tocflow-offset:' . (int) $offset . 'px';
+		$style_parts = array( '--tocflow-offset:' . (int) $offset . 'px' );
+		if ( $max_height > 0 ) {
+			$style_parts[] = '--tocflow-max-height:' . $max_height . 'px';
+		}
+		$style_attr = implode( ';', $style_parts );
 
 		if ( $wrap ) {
 			$wrapper = get_block_wrapper_attributes(
@@ -305,7 +352,7 @@ class TOCflow_Headings {
 					'class'               => $class_attr,
 					'aria-label'          => $label,
 					'data-tocflow-offset' => (string) $offset,
-					'data-tocflow-smooth' => ! empty( $settings['smooth_scroll'] ) ? '1' : '0',
+					'data-tocflow-smooth' => $smooth_flag,
 					'style'               => $style_attr,
 				)
 			);
@@ -316,14 +363,18 @@ class TOCflow_Headings {
 				esc_attr( $class_attr . ' wp-block-tocflow-table-of-contents' ),
 				esc_attr( $label ),
 				esc_attr( (string) $offset ),
-				! empty( $settings['smooth_scroll'] ) ? '1' : '0',
+				esc_attr( $smooth_flag ),
 				esc_attr( $style_attr )
 			);
 		}
 
-		if ( '' !== $title_text ) {
+		if ( $show_title || ! empty( $attributes['collapsible'] ) ) {
 			$html .= '<div class="tocflow__header">';
-			$html .= '<p class="tocflow__title">' . esc_html( $title_text ) . '</p>';
+			if ( $show_title ) {
+				$html .= '<' . $title_tag . ' class="tocflow__title">' . esc_html( $title_text ) . '</' . $title_tag . '>';
+			} elseif ( ! empty( $attributes['collapsible'] ) ) {
+				$html .= '<span class="tocflow__title tocflow__visually-hidden">' . esc_html( $label ) . '</span>';
+			}
 			if ( ! empty( $attributes['collapsible'] ) ) {
 				$expanded = empty( $attributes['collapsedDefault'] ) ? 'true' : 'false';
 				$html    .= '<button type="button" class="tocflow__toggle" aria-expanded="' . esc_attr( $expanded ) . '">';
@@ -491,5 +542,17 @@ class TOCflow_Headings {
 		}
 
 		return $preset;
+	}
+
+	/**
+	 * Allowed title element for the outline heading.
+	 *
+	 * @param array $attributes Block attributes.
+	 * @return string
+	 */
+	public static function title_tag_from_attributes( $attributes ) {
+		$allowed = array( 'p', 'h2', 'h3', 'h4' );
+		$tag     = isset( $attributes['titleTag'] ) ? strtolower( (string) $attributes['titleTag'] ) : 'p';
+		return in_array( $tag, $allowed, true ) ? $tag : 'p';
 	}
 }

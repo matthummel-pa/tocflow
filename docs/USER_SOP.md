@@ -38,14 +38,16 @@ With the block selected, use the sidebar:
 
 | Setting | What it does |
 | --- | --- |
-| **Heading text** | Title above the list. Blank hides it. |
-| **Include H2–H6** | Which heading levels appear. |
-| **Numbered list** | `ol` vs `ul`. |
-| **Style preset** | Default, Minimal, Boxed, Underline, Card. |
-| **Sticky** | Stays on screen while the post scrolls (best in a sidebar column). |
-| **Collapsible** | Adds a toggle; optionally start collapsed. |
-| **Highlight section** | Marks the heading currently in view. |
-| **Scroll offset override** | `-1` inherits **Settings → TOCflow**. |
+| **Title** (on the block) | Label above the list. Sidebar: show/hide, paragraph vs H2–H4. |
+| **Include H1–H6** | Which heading levels appear. H1 is off by default. |
+| **Numbered list** | Toolbar: bullets vs numbers. Numbered lists can use nested 1.1.1 counters. |
+| **Hide markers** | Drop bullets/numbers (nested counters still show). |
+| **Two columns / compact** | Layout density. Columns stack on small screens. |
+| **Always underline links** | Keep TOC links underlined, not only on hover. |
+| **Max height** | Scroll the list when it is taller than this (0 = unlimited). |
+| **Style** | Block Styles panel: Default, Minimal, Boxed, Underline, Card. |
+| **Sticky / collapsible / highlight** | Reading behavior. Smooth scroll can inherit the site setting or override it. |
+| **Minimum headings / scroll offset** | `-1` inherits **Settings → TOCflow**. |
 
 Color, spacing, typography, and border are the normal block controls.
 
@@ -67,10 +69,10 @@ Choose post types (Posts, Pages, …). If a post already has the block or `[tocf
 
 ```
 [tocflow]
-[tocflow title="On this page" ordered="1" style="boxed" collapsible="1"]
+[tocflow title="On this page" ordered="1" numbering="nested" style="boxed" collapsible="1"]
 ```
 
-Attributes: `title`, `h2`, `h3`, `h4`, `h5`, `h6`, `ordered`, `collapsible`, `collapsed`, `sticky`, `style`.
+Attributes: `title`, `showtitle`, `titletag`, `h1`–`h6`, `ordered`, `numbering`, `markers`, `collapsible`, `collapsed`, `sticky`, `compact`, `columns`, `underline`, `highlight`, `maxheight`, `min`, `smooth`, `style`.
 
 ---
 

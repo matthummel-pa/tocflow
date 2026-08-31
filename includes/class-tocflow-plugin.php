@@ -86,15 +86,27 @@ class TOCflow_Plugin {
 		$atts = shortcode_atts(
 			array(
 				'title'       => __( 'Table of Contents', 'tocflow' ),
+				'showtitle'   => '1',
+				'titletag'    => 'p',
+				'h1'          => '0',
 				'h2'          => '1',
 				'h3'          => '1',
 				'h4'          => '0',
 				'h5'          => '0',
 				'h6'          => '0',
 				'ordered'     => '0',
+				'numbering'   => 'default',
+				'markers'     => '1',
 				'collapsible' => '0',
 				'collapsed'   => '0',
 				'sticky'      => '0',
+				'compact'     => '0',
+				'columns'     => '1',
+				'underline'   => '0',
+				'highlight'   => '',
+				'maxheight'   => '0',
+				'min'         => '-1',
+				'smooth'      => 'inherit',
 				'style'       => 'default',
 			),
 			$atts,
@@ -111,21 +123,51 @@ class TOCflow_Plugin {
 			$style = 'default';
 		}
 
+		$numbering = sanitize_key( $atts['numbering'] );
+		if ( ! in_array( $numbering, array( 'default', 'nested' ), true ) ) {
+			$numbering = 'default';
+		}
+
+		$smooth = sanitize_key( $atts['smooth'] );
+		if ( ! in_array( $smooth, array( 'inherit', 'on', 'off' ), true ) ) {
+			$smooth = 'inherit';
+		}
+
+		$title_tag = strtolower( sanitize_html_class( $atts['titletag'] ) );
+		if ( ! in_array( $title_tag, array( 'p', 'h2', 'h3', 'h4' ), true ) ) {
+			$title_tag = 'p';
+		}
+
+		$highlight = '' === $atts['highlight']
+			? (bool) TOCflow_Settings::get_value( 'highlight_active' )
+			: $this->is_truthy( $atts['highlight'] );
+
 		$attributes = array(
 			'title'            => sanitize_text_field( $atts['title'] ),
+			'showTitle'        => $this->is_truthy( $atts['showtitle'] ),
+			'titleTag'         => $title_tag,
+			'showH1'           => $this->is_truthy( $atts['h1'] ),
 			'showH2'           => $this->is_truthy( $atts['h2'] ),
 			'showH3'           => $this->is_truthy( $atts['h3'] ),
 			'showH4'           => $this->is_truthy( $atts['h4'] ),
 			'showH5'           => $this->is_truthy( $atts['h5'] ),
 			'showH6'           => $this->is_truthy( $atts['h6'] ),
-			'ordered'          => $this->is_truthy( $atts['ordered'] ),
+			'ordered'          => $this->is_truthy( $atts['ordered'] ) || 'nested' === $numbering,
+			'numbering'        => $numbering,
+			'hideMarkers'      => ! $this->is_truthy( $atts['markers'] ),
 			'collapsible'      => $this->is_truthy( $atts['collapsible'] ),
 			'collapsedDefault' => $this->is_truthy( $atts['collapsed'] ),
 			'sticky'           => $this->is_truthy( $atts['sticky'] ),
+			'compact'          => $this->is_truthy( $atts['compact'] ),
+			'twoColumns'       => (int) $atts['columns'] >= 2,
+			'underlineLinks'   => $this->is_truthy( $atts['underline'] ),
 			'stylePreset'      => $style,
 			'className'        => 'is-style-' . $style,
-			'highlightActive'  => (bool) TOCflow_Settings::get_value( 'highlight_active' ),
+			'highlightActive'  => $highlight,
 			'scrollOffset'     => -1,
+			'maxHeight'        => max( 0, (int) $atts['maxheight'] ),
+			'minHeadings'      => (int) $atts['min'],
+			'smoothScroll'     => $smooth,
 		);
 
 		return TOCflow_Headings::render_nav( $attributes, $post_id, false );

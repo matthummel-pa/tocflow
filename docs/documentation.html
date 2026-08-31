@@ -45,12 +45,13 @@
   <table>
     <thead><tr><th>Sidebar</th><th>Purpose</th></tr></thead>
     <tbody>
-      <tr><td>Heading text</td><td>Title; empty hides the title</td></tr>
-      <tr><td>H2–H6 toggles</td><td>Which levels appear</td></tr>
-      <tr><td>Numbered list</td><td>Ordered vs bulleted</td></tr>
-      <tr><td>Style preset</td><td>default, minimal, boxed, underline, card</td></tr>
-      <tr><td>Sticky / collapsible / highlight</td><td>Reading behavior</td></tr>
-      <tr><td>Scroll offset override</td><td><code>-1</code> = use site setting</td></tr>
+      <tr><td>Title show/hide and title element</td><td>Visible label; paragraph or H2–H4</td></tr>
+      <tr><td>H1–H6 toggles</td><td>Which levels appear (H1 off by default)</td></tr>
+      <tr><td>Numbered list / nested numbering</td><td>Bullets, 1 2 3, or 1.1.1 counters</td></tr>
+      <tr><td>Hide markers, two columns, compact, underline, max height</td><td>Layout</td></tr>
+      <tr><td>Style preset</td><td>Styles panel: default, minimal, boxed, underline, card</td></tr>
+      <tr><td>Sticky / collapsible / highlight / smooth scroll</td><td>Reading behavior; smooth scroll can inherit the site setting</td></tr>
+      <tr><td>Minimum headings / scroll offset override</td><td><code>-1</code> = use site setting</td></tr>
     </tbody>
   </table>
   <p>Skip a heading: additional CSS class <code>no-toc</code> or <code>tocflow-skip</code>.</p>
@@ -69,8 +70,8 @@
 
   <h2>4. Shortcode</h2>
 <pre>[tocflow]
-[tocflow title="On this page" ordered="1" style="boxed" collapsible="1"]</pre>
-  <p>Attributes: <code>title</code>, <code>h2</code>–<code>h6</code> (<code>1</code>/<code>0</code>), <code>ordered</code>, <code>collapsible</code>, <code>collapsed</code>, <code>sticky</code>, <code>style</code>.</p>
+[tocflow title="On this page" ordered="1" numbering="nested" style="boxed" collapsible="1"]</pre>
+  <p>Attributes: <code>title</code>, <code>showtitle</code>, <code>titletag</code>, <code>h1</code>–<code>h6</code> (<code>1</code>/<code>0</code>), <code>ordered</code>, <code>numbering</code> (<code>default</code> or <code>nested</code>), <code>markers</code>, <code>collapsible</code>, <code>collapsed</code>, <code>sticky</code>, <code>compact</code>, <code>columns</code>, <code>underline</code>, <code>highlight</code>, <code>maxheight</code>, <code>min</code>, <code>smooth</code> (<code>inherit</code>/<code>on</code>/<code>off</code>), <code>style</code>.</p>
 
   <h2>5. Theme CSS</h2>
   <p>Hooks: <code>.tocflow</code>, <code>.tocflow--boxed</code> (and other presets), <code>.tocflow.is-sticky</code>, <code>.tocflow.is-collapsed</code>, <code>.tocflow__link.is-active</code>, <code>.tocflow__title</code>.</p>

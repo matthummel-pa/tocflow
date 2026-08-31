@@ -65,8 +65,8 @@ $support_url = 'https://github.com/matthummel-pa/tocflow/issues';
 				<h2><?php esc_html_e( 'Shortcode', 'tocflow' ); ?></h2>
 				<p><?php esc_html_e( 'Use this in classic content, widgets, or a theme template (via do_shortcode):', 'tocflow' ); ?></p>
 				<p><code>[tocflow]</code></p>
-				<p><?php esc_html_e( 'Optional attributes:', 'tocflow' ); ?> <code>title</code>, <code>h2</code>, <code>h3</code>, <code>h4</code>, <code>h5</code>, <code>h6</code>, <code>ordered</code>, <code>collapsible</code>, <code>collapsed</code>, <code>sticky</code>, <code>style</code></p>
-				<p><code>[tocflow title="On this page" ordered="1" style="boxed"]</code></p>
+				<p><?php esc_html_e( 'Optional attributes:', 'tocflow' ); ?> <code>title</code>, <code>showtitle</code>, <code>titletag</code>, <code>h1</code>–<code>h6</code>, <code>ordered</code>, <code>numbering</code>, <code>markers</code>, <code>collapsible</code>, <code>collapsed</code>, <code>sticky</code>, <code>compact</code>, <code>columns</code>, <code>underline</code>, <code>highlight</code>, <code>maxheight</code>, <code>min</code>, <code>smooth</code>, <code>style</code></p>
+				<p><code>[tocflow title="On this page" ordered="1" numbering="nested" style="boxed"]</code></p>
 			</section>
 
 			<section class="tocflow-card tocflow-card--wide">

@@ -18,8 +18,10 @@ TOCflow adds a single Table of Contents block to the WordPress editor. Add it to
 = Features =
 
 * Standard Gutenberg block (`block.json`, live editor preview, Block Styles)
-* Choose H2–H6 heading levels
-* Numbered or bulleted lists
+* Choose H1–H6 heading levels
+* Numbered or bulleted lists, including nested 1.1.1 numbering
+* Hide markers, two-column layout, compact spacing, max height
+* Show or hide the title; render it as a paragraph or H2–H4
 * Five style presets (default, minimal, boxed, underline, card)
 * Smooth scroll with an offset for sticky headers
 * Collapsible outline and optional sticky positioning
@@ -41,7 +43,7 @@ TOCflow adds a single Table of Contents block to the WordPress editor. Add it to
 
 `[tocflow]`
 
-Optional attributes: `title`, `h2`, `h3`, `h4`, `h5`, `h6`, `ordered`, `collapsible`, `collapsed`, `sticky`, `style`.
+Optional attributes: `title`, `showtitle`, `titletag`, `h1`–`h6`, `ordered`, `numbering`, `markers`, `collapsible`, `collapsed`, `sticky`, `compact`, `columns`, `underline`, `highlight`, `maxheight`, `min`, `smooth`, `style`.
 
 = Skip a heading =
 
