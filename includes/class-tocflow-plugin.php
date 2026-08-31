@@ -313,7 +313,7 @@ class TOCflow_Plugin {
 		if ( TOCFLOW_BASENAME !== $file ) {
 			return $links;
 		}
-		$links[] = '<a href="https://github.com/matthummel-pa/tocflow#readme" target="_blank" rel="noopener noreferrer">' . esc_html__( 'Documentation', 'tocflow' ) . '</a>';
+		$links[] = '<a href="https://matthummel-pa.github.io/tocflow/" target="_blank" rel="noopener noreferrer">' . esc_html__( 'Documentation', 'tocflow' ) . '</a>';
 		$links[] = '<a href="https://github.com/matthummel-pa/tocflow/issues" target="_blank" rel="noopener noreferrer">' . esc_html__( 'Support', 'tocflow' ) . '</a>';
 		return $links;
 	}

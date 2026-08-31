@@ -60,8 +60,9 @@ Block Directory (those cannot have wp-admin UI).
 - `src/block.json` — metadata, attributes, supports.
 - `src/index.js` / `edit.js` / `save.js` / `view.js` / `headings.js` / `render.php`
 - `uninstall.php` — deletes data only if the owner opted in.
+- `languages/tocflow.pot` — translation template.
 - `docs/` — GitHub Pages support site + marketplace kit.
-- `.wordpress-org/` — directory banner/icon sources.
+- `.wordpress-org/` — directory banner/icon assets (PNG + SVG).
 
 ## Roadmap
 **Free (this repo, v1.0):** block + shortcode + auto-insert, presets, collapse,

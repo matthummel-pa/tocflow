@@ -26,7 +26,7 @@ Open **Settings → TOCflow** once. Set a scroll offset if your site has a stick
 
 ## 2. Add a table of contents
 
-1. Edit a post that has **Heading** blocks (H2–H6).
+1. Edit a post that has **Heading** blocks (H1–H6; H1 is off by default).
 2. Click **+**, search **Table of Contents**, insert it (usually after the intro).
 3. The editor shows a live outline. Publish/preview to click the links.
 

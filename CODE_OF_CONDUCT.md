@@ -20,13 +20,14 @@ Examples of behavior that contributes to a positive environment:
 Examples of unacceptable behavior:
 
 - Harassment, insults, or derogatory comments
-- Publishing others' private information without permission
+- Publishing others’ private information without permission
 - Other conduct which could reasonably be considered inappropriate
 
 ## Enforcement
 
-Instances of abusive or unacceptable behavior may be reported to the project
-maintainer. All complaints will be reviewed and investigated promptly and fairly.
+Report abusive or unacceptable behavior to **matt@matthummel.com**. All complaints
+will be reviewed and investigated promptly and fairly. The maintainer is obligated
+to respect the privacy and security of the reporter.
 
-This Code of Conduct is adapted from the [Contributor Covenant](https://www.contributor-covenant.org/),
+This Code of Conduct is adapted from the [Contributor Covenant](https://www.contributor-covenant.org/version/2/1/code_of_conduct.html),
 version 2.1.

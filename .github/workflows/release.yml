@@ -1,0 +1,27 @@
+name: Release
+
+on:
+  push:
+    tags: ['v*.*.*']
+
+permissions:
+  contents: write
+
+jobs:
+  zip:
+    name: Build plugin zip
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version-file: .nvmrc
+          cache: npm
+      - run: npm ci
+      - run: npm run build
+      - run: npm run plugin-zip
+      - uses: softprops/action-gh-release@v2
+        with:
+          files: tocflow.zip
+          generate_release_notes: true
+          fail_on_unmatched_files: true

@@ -20,4 +20,4 @@ Email **matt@matthummel.com** with:
 
 You should receive an acknowledgement within 7 days. Fixes for confirmed issues ship in a patch release as soon as they are ready.
 
-This plugin does not call remote APIs and does not store personal data beyond normal WordPress options (`tocflow_settings`) and an optional per-user welcome-dismissal flag.
+This plugin does not call remote APIs and does not store personal data beyond normal WordPress options (`tocflow_settings`) and an optional per-user welcome-dismissal flag. See [PRIVACY.md](PRIVACY.md).

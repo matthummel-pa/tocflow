@@ -51,7 +51,7 @@ Add the CSS class `no-toc` or `tocflow-skip` to a Heading block (Advanced → Ad
 
 = Privacy =
 
-TOCflow does not collect personal data, set cookies, or call remote services. Optional JSON-LD is printed in the page HTML only if you enable it in settings.
+TOCflow does not collect personal data, set cookies, or call remote services. Optional JSON-LD is printed in the page HTML only if you enable it in settings. Details: https://github.com/matthummel-pa/tocflow/blob/main/PRIVACY.md
 
 = Support =
 

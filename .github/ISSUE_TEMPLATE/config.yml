@@ -3,6 +3,9 @@ contact_links:
   - name: Documentation
     url: https://matthummel-pa.github.io/tocflow/
     about: Install, settings, shortcode, and FAQ.
+  - name: Support policy
+    url: https://matthummel-pa.github.io/tocflow/support.html
+    about: What we cover, and how to file a useful report.
   - name: Security report
     url: https://github.com/matthummel-pa/tocflow/blob/main/SECURITY.md
-    about: Do not file public issues for vulnerabilities.
+    about: Email matt@matthummel.com — do not file a public issue.

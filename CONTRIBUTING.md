@@ -23,7 +23,7 @@ checklist, and the release process — see
 - Escape all output and sanitize all input in PHP.
 - Stay compatible with the [WordPress.org Plugin Directory FAQ and guidelines](docs/wordpress-org/PLUGIN_DIRECTORY.md). Don't add trialware, forced credits, tracking, or undismissible nags.
 - Don't commit the `build/` directory — it's generated and git-ignored.
-- Be respectful. See [`CODE_OF_CONDUCT.md`](CODE_OF_CONDUCT.md).
+- Be respectful. See [`CODE_OF_CONDUCT.md`](CODE_OF_CONDUCT.md) (reports: matt@matthummel.com).
 
 ## Reporting bugs
 
@@ -33,9 +33,9 @@ theme, and steps to reproduce.
 
 ## Proposing features
 
-Check the roadmap in [`CLAUDE.md`](CLAUDE.md) first — some ideas are intentionally
-reserved for a future Pro version. Then open a **Feature request** issue to
-discuss before building anything large.
+Check the [changelog](CHANGELOG.md) and open issues first — some ideas are
+intentionally reserved for a later paid add-on. Then open a **Feature request**
+issue to discuss before building anything large.
 
 ## License
 

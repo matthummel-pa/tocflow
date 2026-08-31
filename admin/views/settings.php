@@ -39,7 +39,7 @@ $support_url = 'https://github.com/matthummel-pa/tocflow/issues';
 			<section class="tocflow-card">
 				<h2><?php esc_html_e( 'Get started', 'tocflow' ); ?></h2>
 				<ol>
-					<li><?php esc_html_e( 'Edit a post that has Heading blocks (H2–H6).', 'tocflow' ); ?></li>
+					<li><?php esc_html_e( 'Edit a post that has Heading blocks (H1–H6; H1 is off by default).', 'tocflow' ); ?></li>
 					<li><?php esc_html_e( 'Click + and search for “Table of Contents”.', 'tocflow' ); ?></li>
 					<li><?php esc_html_e( 'Optional: pick a style, numbered list, collapse, or sticky in the block sidebar.', 'tocflow' ); ?></li>
 					<li><?php esc_html_e( 'Preview the post and click a link — it should jump to that heading.', 'tocflow' ); ?></li>
@@ -135,10 +135,10 @@ $support_url = 'https://github.com/matthummel-pa/tocflow/issues';
 						<th scope="row"><?php esc_html_e( 'Post types', 'tocflow' ); ?></th>
 						<td>
 							<fieldset class="tocflow-admin__checks">
-								<?php foreach ( $types as $type ) : ?>
+								<?php foreach ( $types as $post_type_obj ) : ?>
 									<label>
-										<input type="checkbox" name="<?php echo esc_attr( $opt ); ?>[auto_insert_types][]" value="<?php echo esc_attr( $type->name ); ?>" <?php checked( in_array( $type->name, $settings['auto_insert_types'], true ) ); ?>>
-										<?php echo esc_html( $type->labels->singular_name ); ?>
+										<input type="checkbox" name="<?php echo esc_attr( $opt ); ?>[auto_insert_types][]" value="<?php echo esc_attr( $post_type_obj->name ); ?>" <?php checked( in_array( $post_type_obj->name, $settings['auto_insert_types'], true ) ); ?>>
+										<?php echo esc_html( $post_type_obj->labels->singular_name ); ?>
 									</label>
 								<?php endforeach; ?>
 							</fieldset>

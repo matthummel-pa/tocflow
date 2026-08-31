@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="256" height="256" viewBox="0 0 256 256" role="img" aria-label="TOCflow">
+  <rect width="256" height="256" rx="56" fill="#2f6f4e"/>
+  <circle cx="72" cy="78" r="14" fill="#ffffff"/>
+  <rect x="100" y="66" width="92" height="24" rx="12" fill="#ffffff"/>
+  <circle cx="94" cy="128" r="12" fill="#cdebda"/>
+  <rect x="122" y="116" width="70" height="24" rx="12" fill="#dff3e8"/>
+  <circle cx="94" cy="178" r="12" fill="#cdebda"/>
+  <rect x="122" y="166" width="70" height="24" rx="12" fill="#dff3e8"/>
+</svg>

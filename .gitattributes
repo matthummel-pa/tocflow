@@ -1,0 +1,15 @@
+* text=auto eol=lf
+
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.gif binary
+*.webp binary
+*.woff binary
+*.woff2 binary
+*.ico binary
+
+/.cursor export-ignore
+/CLAUDE.md export-ignore
+/.github export-ignore
+/docs/marketplace export-ignore
