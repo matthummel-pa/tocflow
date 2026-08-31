@@ -53,15 +53,19 @@ Color, spacing, typography, and border are the normal block controls.
 
 ---
 
-## 4. Auto-insert (optional)
+## 4. Auto-generate (optional)
 
-**Settings → TOCflow → Auto-insert**
+**Settings → TOCflow → Auto-generate the block**
 
-- Off (default)
+This prints the same **Table of Contents** Gutenberg block on the front end. It is not a shortcode.
+
+- Off (default) — add the block yourself, or use `[tocflow]` in classic content
 - Top of content
 - After the first heading
 
-Choose post types (Posts, Pages, …). If a post already has the block or `[tocflow]`, auto-insert is skipped.
+Choose post types (Posts, Pages, …). Set title, heading levels, style, columns, collapse, and the rest of the layout on that same screen.
+
+If a post already has the block or `[tocflow]`, auto-generate is skipped so you never get two outlines.
 
 ---
 

@@ -243,24 +243,7 @@ class TOCflow_Plugin {
 			return $content;
 		}
 
-		$attributes = array(
-			'title'            => __( 'Table of Contents', 'tocflow' ),
-			'showH2'           => true,
-			'showH3'           => true,
-			'showH4'           => false,
-			'showH5'           => false,
-			'showH6'           => false,
-			'ordered'          => false,
-			'collapsible'      => false,
-			'collapsedDefault' => false,
-			'sticky'           => false,
-			'stylePreset'      => 'default',
-			'className'        => 'is-style-default',
-			'highlightActive'  => (bool) $settings['highlight_active'],
-			'scrollOffset'     => -1,
-		);
-
-		$toc = TOCflow_Headings::render_nav( $attributes, $post->ID, false );
+		$toc = self::render_auto_block( (int) $post->ID );
 		if ( '' === $toc ) {
 			return $content;
 		}
@@ -271,6 +254,39 @@ class TOCflow_Plugin {
 		}
 
 		return $toc . $content;
+	}
+
+	/**
+	 * Render the Gutenberg Table of Contents block using auto-generate settings.
+	 *
+	 * @param int $post_id Post ID (passed through block context).
+	 * @return string
+	 */
+	public static function render_auto_block( $post_id ) {
+		$attributes = TOCflow_Settings::block_attributes();
+		$registry   = WP_Block_Type_Registry::get_instance();
+
+		if ( class_exists( 'WP_Block' ) && $registry->is_registered( 'tocflow/table-of-contents' ) ) {
+			$block = new WP_Block(
+				array(
+					'blockName'    => 'tocflow/table-of-contents',
+					'attrs'        => $attributes,
+					'innerBlocks'  => array(),
+					'innerHTML'    => '',
+					'innerContent' => array(),
+				),
+				array(
+					'postId'   => (int) $post_id,
+					'postType' => get_post_type( $post_id ),
+				)
+			);
+			$html = $block->render( array( 'dynamic' => true ) );
+			if ( is_string( $html ) && '' !== $html ) {
+				return $html;
+			}
+		}
+
+		return TOCflow_Headings::render_nav( $attributes, $post_id, false );
 	}
 
 	/**

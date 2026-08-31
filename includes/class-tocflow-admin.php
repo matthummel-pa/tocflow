@@ -101,9 +101,16 @@ class TOCflow_Admin {
 		);
 		$screen->add_help_tab(
 			array(
+				'id'      => 'tocflow-auto',
+				'title'   => __( 'Auto-generate', 'tocflow' ),
+				'content' => '<p>' . esc_html__( 'Settings → TOCflow can print the Table of Contents block at the top of content or after the first heading. Customize title, heading levels, style, and layout there. Manual blocks and the [tocflow] shortcode still skip auto-generate so you never get two outlines.', 'tocflow' ) . '</p>',
+			)
+		);
+		$screen->add_help_tab(
+			array(
 				'id'      => 'tocflow-shortcode',
 				'title'   => __( 'Shortcode', 'tocflow' ),
-				'content' => '<p><code>[tocflow]</code> ' . esc_html__( 'prints the same outline. Optional attributes: title, h2, h3, h4, h5, h6, ordered, collapsible, collapsed, sticky, style.', 'tocflow' ) . '</p>',
+				'content' => '<p><code>[tocflow]</code> ' . esc_html__( 'prints the same outline in classic content, widgets, or a theme template. The Gutenberg block is the primary placement method.', 'tocflow' ) . '</p>',
 			)
 		);
 		$screen->set_help_sidebar(
@@ -154,7 +161,7 @@ class TOCflow_Admin {
 		<div class="notice notice-success is-dismissible tocflow-welcome" data-nonce="<?php echo esc_attr( wp_create_nonce( 'tocflow_dismiss_welcome' ) ); ?>">
 			<p>
 				<strong><?php esc_html_e( 'TOCflow is ready.', 'tocflow' ); ?></strong>
-				<?php esc_html_e( 'Add the Table of Contents block to a post, or set auto-insert under Settings → TOCflow.', 'tocflow' ); ?>
+				<?php esc_html_e( 'Add the Table of Contents block to a post, or auto-generate it under Settings → TOCflow. The [tocflow] shortcode still works in classic content.', 'tocflow' ); ?>
 				<a href="<?php echo esc_url( admin_url( 'options-general.php?page=tocflow' ) ); ?>"><?php esc_html_e( 'Open settings', 'tocflow' ); ?></a>
 			</p>
 		</div>

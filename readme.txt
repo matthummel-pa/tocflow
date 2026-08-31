@@ -26,7 +26,7 @@ TOCflow adds a single Table of Contents block to the WordPress editor. Add it to
 * Smooth scroll with an offset for sticky headers
 * Collapsible outline and optional sticky positioning
 * Highlights the section currently in view
-* Optional auto-insert at the top of content or after the first heading
+* Optional auto-generate of the Gutenberg block at the top of content or after the first heading
 * `[tocflow]` shortcode for classic content
 * Skip a heading with the CSS class `no-toc`
 * Accessible `<nav>` landmark
@@ -37,7 +37,7 @@ TOCflow adds a single Table of Contents block to the WordPress editor. Add it to
 
 1. Edit a post that contains Heading blocks.
 2. Insert the **Table of Contents** block (typically after the introduction).
-3. Optionally open **Settings → TOCflow** for site-wide smooth-scroll offset and auto-insert.
+3. Optionally open **Settings → TOCflow** to auto-generate the block site-wide, or to set a scroll offset.
 
 = Shortcode =
 
@@ -94,7 +94,7 @@ No.
 
 1. Table of Contents block in a post, with the settings sidebar.
 2. Front-end outline with nested links.
-3. Settings → TOCflow (smooth scroll, auto-insert, uninstall).
+3. Settings → TOCflow (smooth scroll, auto-generate block, uninstall).
 4. Docs & Support screen inside wp-admin.
 
 == Changelog ==
@@ -102,7 +102,7 @@ No.
 = 1.0.0 =
 * Live editor preview, style presets, collapse, sticky, and scroll-spy.
 * Smooth scroll with offset; H5/H6 support.
-* Auto-insert, `[tocflow]` shortcode, skip class `no-toc`.
+* Auto-generate the Gutenberg block, `[tocflow]` shortcode, skip class `no-toc`.
 * Settings and Docs & Support admin screens.
 * Heading IDs via WP_HTML_Tag_Processor; custom anchors respected.
 
