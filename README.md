@@ -5,126 +5,146 @@
 </p>
 
 <p align="center">
-  <a href="https://matthummel-pa.github.io/tocflow/"><strong>Support &amp; docs</strong></a> ·
-  <a href="https://github.com/matthummel-pa/tocflow/releases/latest">Download (free)</a> ·
-  <a href="https://github.com/matthummel-pa/tocflow/issues">Report a bug</a>
+  <strong>A server-rendered Table of Contents block for WordPress.</strong><br>
+  Add one block. Get an accessible, SEO-friendly outline from your headings.
 </p>
 
-**A lightweight, server-rendered Table of Contents block for the WordPress block editor.**
-Drop it into a post and it automatically builds a clean, linked outline from your
-headings — fast, SEO-friendly, and accessible out of the box.
+<p align="center">
+  <a href="https://matthummel-pa.github.io/tocflow/"><strong>Docs &amp; support</strong></a>
+  ·
+  <a href="https://github.com/matthummel-pa/tocflow/releases/latest">Download</a>
+  ·
+  <a href="https://github.com/matthummel-pa/tocflow/issues">Issues</a>
+  ·
+  <a href="LICENSE">GPL-2.0-or-later</a>
+</p>
 
-> TOCflow is the free core of a freemium product. See [`CLAUDE.md`](CLAUDE.md)
-> for the architecture notes and the Pro roadmap.
+<p align="center">
+  <img alt="Version" src="https://img.shields.io/badge/version-1.0.0-2f6f4e">
+  <img alt="WordPress" src="https://img.shields.io/badge/WordPress-6.4%2B-3858e9">
+  <img alt="PHP" src="https://img.shields.io/badge/PHP-7.4%2B-777bb3">
+  <img alt="License" src="https://img.shields.io/badge/license-GPL--2.0--or--later-1b1f24">
+</p>
+
+---
+
+## GitHub / WordPress.org name
+
+**Keep this repository named `tocflow`.** That is the plugin slug.
+
+| Surface | Value |
+| --- | --- |
+| **GitHub repo** | `tocflow` |
+| **WordPress.org slug** | `tocflow` (folder + updates URL) |
+| **Display name** | TOCflow |
+| **Main file** | `tocflow.php` |
+| **Text domain** | `tocflow` |
+| **Function / class prefix** | `tocflow_` / `TOCflow_` |
+| **Block name** | `tocflow/table-of-contents` |
+
+WordPress plugin slugs are lowercase. Hyphens are for multi-word *descriptive* names (`easy-table-of-contents`). Invented single-word brands stay one token — the same pattern as `akismet`, `jetpack`, and `woocommerce`. Do **not** rename this to `wp-toc`, `wordpress-toc`, or `toc-flow-plugin`: those fight the Plugin Directory rules (no `wp-` prefix, no `wordpress` in the slug) and would force a text-domain change after release.
+
+The public title on WordPress.org can still read **“TOCflow – Table of Contents Block”**. The slug stays `tocflow`.
+
+Full naming notes: [`docs/NAMING.md`](docs/NAMING.md).
 
 ---
 
 ## Why TOCflow
 
-- **Zero config** — add the block; the outline builds itself from your headings.
-- **Server-rendered** — the list is in the initial HTML, so search engines and
-  screen readers see it immediately (no JavaScript required on the front end).
-- **Accurate anchors** — matching `id`s are injected into your headings
-  automatically, so every link scrolls to the right place.
-- **Accessible** — output is a proper `<nav>` landmark.
-- **Focused** — one block done well, not a bloated block library.
+- **Zero config** — insert the block; the outline builds itself.
+- **Server-rendered** — the list is in the first HTML response (SEO + screen readers, no front-end framework).
+- **Accurate anchors** — matching `id`s are injected into headings; custom HTML anchors are respected.
+- **Accessible** — a `<nav>` landmark, keyboard-friendly collapse, `aria-current` while you read.
+- **Focused** — one block done well, not a block library.
 
-### Features (v0.1.0)
-- Auto-generates the TOC from H2 / H3 / H4 headings
-- Toggle which heading levels are included
-- Numbered or bulleted list
-- Color, spacing, and typography controls via standard block settings
+### Features (v1.0.0)
+
+- Live preview in the editor as you add or edit headings
+- H2–H6, numbered or bulleted, five style presets
+- Smooth scroll + offset for sticky headers (`prefers-reduced-motion` respected)
+- Collapse/expand, sticky outline, scroll-spy highlight
+- Auto-insert (top of content or after the first heading)
+- `[tocflow]` shortcode
+- Skip a heading with the class `no-toc`
+- Optional ItemList JSON-LD
+- Settings + Docs & Support screens in wp-admin
 
 ---
 
-# Standard Operating Procedure
+## Install
 
-This README is written as an SOP. Follow the section that matches what you're
-doing.
+1. Download `tocflow.zip` from [Releases](https://github.com/matthummel-pa/tocflow/releases).
+2. In WordPress: **Plugins → Add New → Upload Plugin**.
+3. Activate. Optional: **Settings → TOCflow**.
 
-## SOP A — Install & use (site owners)
+Or clone this repo into `wp-content/plugins/tocflow`, run `npm install && npm run build`, and activate.
 
-1. **Get the plugin.** Download `tocflow.zip` from the
-   [Releases page](https://github.com/matthummel-pa/tocflow/releases).
-2. **Install.** In WordPress admin: **Plugins → Add New → Upload Plugin**, choose
-   the ZIP, click **Install Now**, then **Activate**.
-3. **Add the block.** Edit a post that has Heading blocks. Click **+**, search
-   **“Table of Contents,”** and insert it (usually right after your intro).
-4. **Customize (optional).** With the block selected, open the **Settings**
-   sidebar to set the title, choose which heading levels appear (H2/H3/H4), and
-   switch between a numbered or bulleted list.
-5. **Verify.** Preview the post and click a TOC link — it should jump to the
-   matching heading.
+### Use the block
 
-Full walkthrough, troubleshooting, and FAQ: **[`docs/USER_SOP.md`](docs/USER_SOP.md)**.
+1. Edit a post that has **Heading** blocks.
+2. Insert **Table of Contents** (usually right after the intro).
+3. In the sidebar: title, heading levels, list style, preset, collapse, sticky.
 
-## SOP B — Develop locally (contributors)
+### Shortcode
+
+```
+[tocflow]
+[tocflow title="On this page" ordered="1" style="boxed"]
+```
+
+---
+
+## Screenshots
+
+<p align="center">
+  <img src="docs/assets/tocflow-settings-panel.svg" alt="Block settings" width="420">
+  <img src="docs/assets/tocflow-output.svg" alt="Front-end outline" width="420">
+</p>
+
+---
+
+## Documentation
+
+| Doc | Who it is for |
+| --- | --- |
+| [Support site](https://matthummel-pa.github.io/tocflow/) | Users, buyers, reviewers |
+| [User SOP](docs/USER_SOP.md) | Site owners |
+| [Developer SOP](docs/DEVELOPER_SOP.md) | Contributors |
+| [Support policy](SUPPORT.md) | Buyers / WordPress.org users |
+| [Security policy](SECURITY.md) | Vulnerability reports |
+| [Marketplace kit](docs/marketplace/README.md) | WordPress.org, CodeCanyon, ThemeForest themes |
+| [Changelog](CHANGELOG.md) | Everyone |
+| [WordPress.org directory rules](docs/wordpress-org/PLUGIN_DIRECTORY.md) | Plugin Directory FAQ + 18 guidelines |
+
+---
+
+## Develop
 
 ```bash
-# 1. Fork on GitHub, then clone your fork:
-git clone https://github.com/<your-username>/tocflow.git
+git clone https://github.com/matthummel-pa/tocflow.git
 cd tocflow
-
-# 2. Install build tooling:
 npm install
-
-# 3. Build in watch mode while you work:
-npm run start
-# ...or a one-off production build:
-npm run build
+npm run start          # watch
+# npm run build        # production
 ```
 
-Make the plugin visible to a local WordPress site (e.g. `wp-env`, Local, or by
-copying this folder into `wp-content/plugins/tocflow`), then activate it and test.
+The compiled `build/` directory is gitignored — build at least once before activating the plugin.
 
-> The compiled `build/` directory is git-ignored — you must build at least once
-> before the plugin runs.
+```bash
+npm run lint:js
+npm run lint:css
+npx wp-env start       # optional local WordPress
+```
 
-Full setup, coding standards, testing checklist, and release steps:
-**[`docs/DEVELOPER_SOP.md`](docs/DEVELOPER_SOP.md)**.
+See [`docs/DEVELOPER_SOP.md`](docs/DEVELOPER_SOP.md) and [`CONTRIBUTING.md`](CONTRIBUTING.md).
 
-## SOP C — Contribute a change
+### Suggested GitHub topics
 
-1. Branch off `main` (`feat/…`, `fix/…`, `docs/…`).
-2. Make your change; run `npm run lint:js`, `npm run lint:css`, `npm run build`.
-3. Confirm the block inserts, renders, and links scroll correctly.
-4. Open a Pull Request against `main` and fill in the template.
-
-See [`CONTRIBUTING.md`](CONTRIBUTING.md) and [`CODE_OF_CONDUCT.md`](CODE_OF_CONDUCT.md).
-
-## SOP D — Cut a release (maintainers)
-
-1. Bump the version in **all four** places so they match: `tocflow.php`,
-   `package.json`, `src/block.json`, and `readme.txt` (`Stable tag`).
-2. Add a dated entry to [`CHANGELOG.md`](CHANGELOG.md) and `readme.txt`.
-3. `npm run build` then `npm run plugin-zip` to produce `tocflow.zip`.
-4. Commit, tag (`git tag vX.Y.Z && git push --tags`), and publish a GitHub
-   Release with the ZIP attached.
+`wordpress` · `wordpress-plugin` · `gutenberg` · `block-editor` · `table-of-contents` · `toc` · `php` · `javascript`
 
 ---
-
-## Project layout
-
-```
-tocflow.php            Plugin header + PHP helpers + heading-id filter
-src/
-  block.json           Block metadata, attributes, supports
-  index.js             Block registration
-  edit.js              Editor UI
-  render.php           Server-side front-end render
-  style.scss           Front-end styles
-  editor.scss          Editor-only styles
-build/                 Compiled output (generated by npm run build)
-docs/                  USER_SOP.md, DEVELOPER_SOP.md
-```
-
-## Documentation index
-
-- [User SOP](docs/USER_SOP.md) — install, use, troubleshoot
-- [Developer SOP](docs/DEVELOPER_SOP.md) — build, branch, test, release
-- [Contributing](CONTRIBUTING.md) · [Code of Conduct](CODE_OF_CONDUCT.md) · [Changelog](CHANGELOG.md)
-- [CLAUDE.md](CLAUDE.md) — architecture + roadmap
 
 ## License
 
-[GPL-2.0-or-later](LICENSE)
+[GPL-2.0-or-later](LICENSE). WordPress.org and Envato both require GPL-compatible PHP for WordPress items.
