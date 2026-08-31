@@ -18,6 +18,7 @@
 		"@wordpress/scripts": "^32.4.1"
 	},
 	"dependencies": {
-		"@wordpress/icons": "^15.5.0"
+		"@wordpress/icons": "^15.5.0",
+		"@wordpress/primitives": "^4.54.0"
 	}
 }
