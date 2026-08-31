@@ -34,6 +34,9 @@ Block Directory (those cannot have wp-admin UI).
   `src/render.php` is output only — never declare functions there.
 - Admin UI loads only when `is_admin()`.
 - Front-end JS is `src/view.js` via `block.json` `viewScript`.
+- **Typography:** bold sans-serif only (Outfit / system UI). Never serif.
+  See `.cursor/rules/brand-typography.mdc`. The front-end TOC block
+  inherits the theme; do not inject a branded (or serif) font there.
 
 ## How it works
 1. `TOCflow_Headings::get_all()` parses the post with `parse_blocks()` and builds
