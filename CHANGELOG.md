@@ -3,6 +3,20 @@
 All notable changes to TOCflow are documented here.
 This project adheres to [Semantic Versioning](https://semver.org/).
 
+## [1.0.1] - 2026-08-31
+
+First **installable** GitHub Release of the 1.0 plugin. The June `v1.0.0` tag had no working zip; `v0.1.0` was still marked Latest. Download `tocflow.zip` from this release.
+
+### Added
+- GitHub Actions release workflow: tagging `vX.Y.Z` builds and attaches `tocflow.zip`.
+- `languages/tocflow.pot`, PHPCS (`composer.json` / `phpcs.xml.dist`), Dependabot.
+- WordPress.org banner and icon assets in `.wordpress-org/`.
+- Privacy policy, code of conduct contact (`matt@matthummel.com`), 100% GPLv2-or-later grant with copyright.
+- Docs site: bold sans-serif (Outfit), consistent footers, social preview.
+
+### Changed
+- Plugin Documentation and Settings links point at the GitHub Pages site.
+
 ## [1.0.0] - 2026-08-31
 
 Marketplace-ready release: WordPress.org / CodeCanyon coding standards, a complete free feature set, and listing-quality docs.
