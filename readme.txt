@@ -108,8 +108,9 @@ GNU GPLv2 or later, covering the whole plugin (PHP, JavaScript, CSS, and images)
 == Changelog ==
 
 = 1.0.2 =
-* Plugin Check: drop `load_plugin_textdomain()` (WordPress.org loads translations by slug since WP 4.6).
-* Plugin Check: prefix template/uninstall variables with `tocflow_` so PrefixAllGlobals is clean.
+* WordPress.org Plugin Check: removed `load_plugin_textdomain()` (directory plugins auto-load the `tocflow` text domain since WP 4.6).
+* WordPress.org Plugin Check: prefixed template and uninstall variables with `tocflow_`.
+* `Tested up to` 7.1. License section is GPLv2 or later for the whole plugin (no Envato split-license wording).
 
 = 1.0.1 =
 * First installable GitHub zip of the 1.0 feature set (build + plugin-zip on tag).
@@ -128,7 +129,7 @@ GNU GPLv2 or later, covering the whole plugin (PHP, JavaScript, CSS, and images)
 == Upgrade Notice ==
 
 = 1.0.2 =
-Plugin Check cleanup for the WordPress.org review. Same block, settings, and shortcode behavior as 1.0.1.
+Plugin Check and readme cleanup for the WordPress.org review: no `load_plugin_textdomain()`, Tested up to 7.1, GPLv2 or later. Same block, settings, and shortcode as 1.0.1.
 
 = 1.0.1 =
 Installable GitHub zip plus docs and packaging polish. Block behavior is unchanged from 1.0.0.
