@@ -17,15 +17,15 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-$toc_post_id = 0;
+$tocflow_post_id = 0;
 if ( isset( $block ) && $block instanceof WP_Block && ! empty( $block->context['postId'] ) ) {
-	$toc_post_id = (int) $block->context['postId'];
+	$tocflow_post_id = (int) $block->context['postId'];
 }
-if ( ! $toc_post_id ) {
-	$toc_post_id = (int) get_the_ID();
+if ( ! $tocflow_post_id ) {
+	$tocflow_post_id = (int) get_the_ID();
 }
-if ( ! $toc_post_id ) {
+if ( ! $tocflow_post_id ) {
 	return;
 }
 
-echo TOCflow_Headings::render_nav( $attributes, $toc_post_id, true ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- markup is escaped inside render_nav().
+echo TOCflow_Headings::render_nav( $attributes, $tocflow_post_id, true ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- markup is escaped inside render_nav().

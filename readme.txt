@@ -5,7 +5,7 @@ Tags: table of contents, toc, block, gutenberg, navigation
 Requires at least: 6.4
 Tested up to: 7.1
 Requires PHP: 7.4
-Stable tag: 1.0.1
+Stable tag: 1.0.2
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -107,6 +107,10 @@ GNU GPLv2 or later, covering the whole plugin (PHP, JavaScript, CSS, and images)
 
 == Changelog ==
 
+= 1.0.2 =
+* Plugin Check: drop `load_plugin_textdomain()` (WordPress.org loads translations by slug since WP 4.6).
+* Plugin Check: prefix template/uninstall variables with `tocflow_` so PrefixAllGlobals is clean.
+
 = 1.0.1 =
 * First installable GitHub zip of the 1.0 feature set (build + plugin-zip on tag).
 * Docs site, 100% GPLv2-or-later packaging, translation template, and WordPress.org banner/icon assets.
@@ -122,6 +126,9 @@ GNU GPLv2 or later, covering the whole plugin (PHP, JavaScript, CSS, and images)
 * Initial release: core Table of Contents block.
 
 == Upgrade Notice ==
+
+= 1.0.2 =
+Plugin Check cleanup for the WordPress.org review. Same block, settings, and shortcode behavior as 1.0.1.
 
 = 1.0.1 =
 Installable GitHub zip plus docs and packaging polish. Block behavior is unchanged from 1.0.0.

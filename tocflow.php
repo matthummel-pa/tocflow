@@ -3,7 +3,7 @@
  * Plugin Name:       TOCflow
  * Plugin URI:        https://github.com/matthummel-pa/tocflow
  * Description:       A lightweight Table of Contents block that auto-generates a linked outline from your post headings.
- * Version:           1.0.1
+ * Version:           1.0.2
  * Requires at least: 6.4
  * Requires PHP:      7.4
  * Author:            Matt Hummel
@@ -22,7 +22,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-define( 'TOCFLOW_VERSION', '1.0.1' );
+define( 'TOCFLOW_VERSION', '1.0.2' );
 define( 'TOCFLOW_FILE', __FILE__ );
 define( 'TOCFLOW_DIR', plugin_dir_path( __FILE__ ) );
 define( 'TOCFLOW_URL', plugin_dir_url( __FILE__ ) );
