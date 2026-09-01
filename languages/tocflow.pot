@@ -2,7 +2,7 @@
 # This file is distributed under the GNU General Public License v2 or later.
 msgid ""
 msgstr ""
-"Project-Id-Version: TOCflow 1.0.1\n"
+"Project-Id-Version: TOCflow 1.0.2\n"
 "Report-Msgid-Bugs-To: https://github.com/matthummel-pa/tocflow/issues\n"
 "POT-Creation-Date: 2026-08-31 17:29+0000\n"
 "MIME-Version: 1.0\n"

@@ -3,6 +3,15 @@
 All notable changes to TOCflow are documented here.
 This project adheres to [Semantic Versioning](https://semver.org/).
 
+## [1.0.2] - 2026-09-01
+
+WordPress.org Plugin Check cleanup for the directory review (v1.0.1 is Awaiting Review). Behavior is unchanged.
+
+### Changed
+- Removed `load_plugin_textdomain()` so Plugin Check is clean. WordPress.org auto-loads translations from the `tocflow` text domain (WP 4.6+).
+- Prefixed uninstall and admin/render template variables with `tocflow_` (`PrefixAllGlobals`).
+- `Tested up to` 7.1; zip-facing license copy is GPLv2 or later with no Envato split-license language; readme documents `src/` + `npm run build`.
+
 ## [1.0.1] - 2026-08-31
 
 First **installable** GitHub Release of the 1.0 plugin. The June `v1.0.0` tag had no working zip; `v0.1.0` was still marked Latest. Download `tocflow.zip` from this release.

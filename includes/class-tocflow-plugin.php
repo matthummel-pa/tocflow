@@ -37,7 +37,6 @@ class TOCflow_Plugin {
 	 * Hook everything. Safe to call once.
 	 */
 	public function boot() {
-		add_action( 'init', array( $this, 'load_textdomain' ), 1 );
 		add_action( 'init', array( $this, 'register_block' ) );
 		add_action( 'init', array( $this, 'register_shortcode' ) );
 		add_action( 'admin_init', array( 'TOCflow_Settings', 'register' ) );
@@ -51,18 +50,6 @@ class TOCflow_Plugin {
 			require_once TOCFLOW_DIR . 'includes/class-tocflow-admin.php';
 			TOCflow_Admin::instance()->boot();
 		}
-	}
-
-	/**
-	 * Load translations. Required for off-directory (Envato) distribution.
-	 * WordPress.org also auto-loads from /languages when Domain Path is set.
-	 */
-	public function load_textdomain() {
-		load_plugin_textdomain(
-			'tocflow',
-			false,
-			dirname( TOCFLOW_BASENAME ) . '/languages'
-		);
 	}
 
 	/**

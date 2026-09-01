@@ -3,9 +3,9 @@ Contributors: matthummel
 Donate link: https://matthummel.com
 Tags: table of contents, toc, block, gutenberg, navigation
 Requires at least: 6.4
-Tested up to: 6.8
+Tested up to: 7.1
 Requires PHP: 7.4
-Stable tag: 1.0.1
+Stable tag: 1.0.2
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -32,6 +32,10 @@ TOCflow adds a single Table of Contents block to the WordPress editor. Add it to
 * Accessible `<nav>` landmark
 * Optional ItemList JSON-LD
 * No account, no external API calls, no tracking
+
+= Source =
+
+Unminified JavaScript and SCSS ship in `src/`. Compiled assets are in `build/`. Development: https://github.com/matthummel-pa/tocflow (`npm run build`).
 
 = How to use =
 
@@ -103,6 +107,10 @@ GNU GPLv2 or later, covering the whole plugin (PHP, JavaScript, CSS, and images)
 
 == Changelog ==
 
+= 1.0.2 =
+* Plugin Check: drop `load_plugin_textdomain()` (WordPress.org loads translations by slug since WP 4.6).
+* Plugin Check: prefix template/uninstall variables with `tocflow_` so PrefixAllGlobals is clean.
+
 = 1.0.1 =
 * First installable GitHub zip of the 1.0 feature set (build + plugin-zip on tag).
 * Docs site, 100% GPLv2-or-later packaging, translation template, and WordPress.org banner/icon assets.
@@ -119,6 +127,9 @@ GNU GPLv2 or later, covering the whole plugin (PHP, JavaScript, CSS, and images)
 
 == Upgrade Notice ==
 
+= 1.0.2 =
+Plugin Check cleanup for the WordPress.org review. Same block, settings, and shortcode behavior as 1.0.1.
+
 = 1.0.1 =
 Installable GitHub zip plus docs and packaging polish. Block behavior is unchanged from 1.0.0.
 
@@ -127,4 +138,4 @@ Adds live preview, auto-insert, shortcode, presets, and admin settings. Existing
 
 == License ==
 
-TOCflow is copyright 2026 Matt Hummel and licensed under the GNU General Public License, version 2 or later — the same family as WordPress. That 100% GPL grant covers every file in the plugin zip, which keeps the plugin eligible for WordPress.org and for Envato’s 100% GPL WordPress listing. Selling copies is allowed under the GPL; the paid listing is support and packaging, not a proprietary lock.
+TOCflow is copyright 2026 Matt Hummel and licensed under the GNU General Public License, version 2 or later. That license covers the whole plugin (PHP, JavaScript, CSS, and images). The full text is in `license.txt`.
