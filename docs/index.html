@@ -144,16 +144,16 @@
 
 <header class="hero">
   <div class="wrap">
-    <p class="kicker">WordPress plugin · slug <strong>tocflow</strong> · v1.1.0</p>
+    <p class="kicker">WordPress plugin · slug <strong>tocflow</strong> · v1.2.0</p>
     <h1>The TOC that reads<br><em>with your reader.</em></h1>
     <p class="lede">TOCflow is the first Table of Contents block with a built-in Reading Guide — section previews, read-time estimates, hover tooltips, emoji reactions, and one-click academic citations. Server-rendered. Zero external APIs. Works with every theme and SEO plugin.</p>
     <div class="btns">
       <a class="btn primary" href="https://github.com/matthummel-pa/tocflow/releases/latest">Download free — tocflow.zip</a>
       <a class="btn ghost" href="documentation.html">Full documentation</a>
-      <a class="btn ghost" href="#reading-guide">What's new in 1.1</a>
+      <a class="btn ghost" href="#study-assistant">What's new in 1.2</a>
     </div>
     <div class="chips">
-      <span class="chip green">v1.1.0</span>
+      <span class="chip green">v1.2.0</span>
       <span class="chip">WordPress 6.4 – 7.1</span>
       <span class="chip">PHP 7.4 – 8.3</span>
       <span class="chip">GPL-2.0-or-later</span>
@@ -165,6 +165,7 @@
 <div class="wrap">
   <nav class="page-nav" aria-label="On this page">
     <a href="#features">Features</a>
+    <a href="#study-assistant">Study assistant</a>
     <a href="#reading-guide">Reading Guide</a>
     <a href="#settings">Settings</a>
     <a href="#compatibility">Compatibility</a>
@@ -226,9 +227,53 @@
     </div>
   </section>
 
+  <!-- ── Study assistant ── -->
+  <section id="study-assistant">
+    <p class="chap">New in v1.2.0 — study assistant</p>
+    <h2>Private notes, a progress bar, and a resume bookmark.</h2>
+    <p style="color:var(--muted);max-width:42rem">Opt-in tools for long-form reading. State stays in the reader’s browser — no accounts, no server, no tracking.</p>
+    <div class="guide-grid">
+      <div class="guide-card">
+        <span class="g-icon">📝</span>
+        <div>
+          <h3>Reader note pads</h3>
+          <p>A 📝 button on each section lets readers jot personal notes. Stored in <code>localStorage</code> only. Enable with <code>rnotes="1"</code> or the block sidebar toggle.</p>
+        </div>
+      </div>
+      <div class="guide-card">
+        <span class="g-icon">📊</span>
+        <div>
+          <h3>Reading progress bar</h3>
+          <p>A thin animated bar shows 0–100% of the document read, based on headings scrolled past. Enable with <code>rprogress="1"</code>.</p>
+        </div>
+      </div>
+      <div class="guide-card">
+        <span class="g-icon">↩</span>
+        <div>
+          <h3>Resume bookmark</h3>
+          <p>TOCflow remembers the last heading the reader reached and offers a ↩ Resume button on the next visit. Enable with <code>bookmark="1"</code>.</p>
+        </div>
+      </div>
+      <div class="guide-card">
+        <span class="g-icon">✅</span>
+        <div>
+          <h3>Section Planner</h3>
+          <p>Writers mark each heading Draft, In progress, or Done in the editor, and can still attach a reader-facing teaser note.</p>
+        </div>
+      </div>
+      <div class="guide-card">
+        <span class="g-icon">⏱</span>
+        <div>
+          <h3>Total read-time badge</h3>
+          <p>When Reading Guide + read-time are on, the TOC header shows the aggregated read time for the whole post.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
   <!-- ── Reading Guide ── -->
   <section id="reading-guide">
-    <p class="chap">New in v1.1.0 — what no other TOC plugin does</p>
+    <p class="chap">From v1.1.0 — what no other TOC plugin does</p>
     <h2>Reading Guide mode turns your TOC into a reading companion.</h2>
     <p style="color:var(--muted);max-width:42rem">Enable one toggle in the block sidebar. Every enrichment is extracted from your block content server-side — zero JavaScript fetches, zero external services, zero accounts.</p>
     <div class="guide-grid">
@@ -322,7 +367,10 @@
         <tr><td>Minimum headings</td><td>Hide this block when the post has fewer headings</td></tr>
         <tr><td><strong>Hover section preview</strong></td><td>Floating tooltip on hover — no full Reading Guide needed</td></tr>
         <tr><td><strong>Full Reading Guide</strong></td><td>Inline previews, density bars, read time, progress, reactions, citations</td></tr>
-        <tr><td><strong>Section Notes</strong></td><td>Author teaser per heading, revealed by reader tap</td></tr>
+        <tr><td><strong>Section Planner</strong></td><td>Per-heading writing status plus author teaser, revealed by reader tap</td></tr>
+        <tr><td><strong>Reader note pads</strong></td><td>Private per-section notes in localStorage</td></tr>
+        <tr><td><strong>Reading progress bar</strong></td><td>0–100% document progress from headings scrolled past</td></tr>
+        <tr><td><strong>Resume bookmark</strong></td><td>Return-visit jump to the last-read heading</td></tr>
         <tr><td>Citation format</td><td>APA · MLA · Chicago · Harvard · Plain link</td></tr>
       </tbody>
     </table>

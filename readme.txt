@@ -81,6 +81,8 @@ Layout & behavior: `title`, `showtitle`, `titletag`, `h1`–`h6`, `ordered`, `nu
 
 Reading Guide: `preview="1"` (hover tooltip on links), `guide="1"` (full Reading Guide mode), `previews="1"`, `density="1"`, `readtime="1"`, `progress="1"`, `reactions="1"`, `citations="1"`, `citation="apa|mla|chicago|harvard|plain"`.
 
+Study assistant: `rprogress="1"` (document progress bar), `bookmark="1"` (resume last heading), `rnotes="1"` (private reader note pads).
+
 Examples:
 
 `[tocflow title="On this page" style="boxed" preview="1"]`
@@ -224,6 +226,9 @@ GNU GPLv2 or later, covering the whole plugin (PHP, JavaScript, CSS, and images)
 * Heading IDs via WP_HTML_Tag_Processor; custom anchors respected.
 
 == Upgrade Notice ==
+
+= 1.2.0 =
+Adds study-assistant features: reader note pads, a reading progress bar, resume bookmark, Section Planner writing status, and a total read-time badge. No breaking changes — all new features are opt-in via the block sidebar or shortcode.
 
 = 1.1.0 =
 Adds Reading Guide mode: section previews, density bars, read-time estimates, reading progress, author notes, emoji reactions, and per-section academic citations. No breaking changes — all new features are opt-in via the block sidebar.
