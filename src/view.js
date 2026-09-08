@@ -327,6 +327,99 @@ const initCitations = ( nav ) => {
 	} );
 };
 
+// ── Section hover-preview tooltip ────────────────────────────────────────────
+
+/**
+ * Show a floating tooltip with the section's opening text when the reader
+ * hovers over (or focuses) a TOC link. Works independently of guide mode.
+ *
+ * Uses one shared `position: fixed` bubble per nav so the tooltip escapes
+ * any overflow:hidden or max-height constraints on the nav container.
+ */
+const initHoverPreviews = ( nav ) => {
+	const items = Array.from(
+		nav.querySelectorAll( '.tocflow__item.has-hover-preview' )
+	);
+	if ( ! items.length ) {
+		return;
+	}
+
+	const bubble = document.createElement( 'div' );
+	bubble.className = 'tocflow__tip-bubble';
+	bubble.setAttribute( 'aria-hidden', 'true' );
+	document.body.appendChild( bubble );
+
+	let hideTimer = null;
+
+	const positionBubble = ( anchor ) => {
+		const rect = anchor.getBoundingClientRect();
+		const gap = 12;
+		const vw = window.innerWidth;
+		const vh = window.innerHeight;
+		const bw = Math.min( 280, vw - 24 );
+
+		bubble.style.maxWidth = bw + 'px';
+		// Measure height off-screen first.
+		bubble.style.visibility = 'hidden';
+		bubble.style.top = '-9999px';
+		bubble.style.left = '0px';
+
+		const bh = bubble.offsetHeight;
+
+		// Prefer placing to the right; fall back to the left.
+		let left = rect.right + gap;
+		let side = 'is-right';
+		if ( left + bw > vw - 8 ) {
+			left = rect.left - gap - bw;
+			side = 'is-left';
+		}
+		left = Math.max( 8, left );
+
+		// Center vertically on the anchor; clamp to viewport.
+		let top = rect.top + rect.height / 2 - bh / 2;
+		top = Math.max( 8, Math.min( top, vh - bh - 8 ) );
+
+		bubble.classList.remove( 'is-right', 'is-left' );
+		bubble.classList.add( side );
+		bubble.style.visibility = '';
+		bubble.style.top = Math.round( top ) + 'px';
+		bubble.style.left = Math.round( left ) + 'px';
+	};
+
+	const showBubble = ( item ) => {
+		clearTimeout( hideTimer );
+		const label = item.querySelector( '.tocflow__tip-label' );
+		const text = label ? label.textContent.trim() : '';
+		if ( ! text ) {
+			return;
+		}
+		const anchor =
+			item.querySelector( '.tocflow__link' ) || item;
+		bubble.textContent = text;
+		bubble.classList.add( 'is-visible' );
+		positionBubble( anchor );
+	};
+
+	const hideBubble = () => {
+		clearTimeout( hideTimer );
+		// Brief delay so moving between tight items feels smooth.
+		hideTimer = setTimeout(
+			() => bubble.classList.remove( 'is-visible' ),
+			60
+		);
+	};
+
+	items.forEach( ( item ) => {
+		const link = item.querySelector( '.tocflow__link' );
+		item.addEventListener( 'mouseenter', () => showBubble( item ) );
+		item.addEventListener( 'mouseleave', hideBubble );
+		if ( link ) {
+			link.addEventListener( 'focus', () => showBubble( item ) );
+			link.addEventListener( 'blur', hideBubble );
+		}
+	} );
+};
+
 // ── Bootstrap ─────────────────────────────────────────────────────────────────
 
 const initNav = ( nav ) => {
@@ -337,6 +430,10 @@ const initNav = ( nav ) => {
 	initToggle( nav );
 	initSmoothScroll( nav );
 	initScrollSpy( nav );
+
+	if ( nav.classList.contains( 'has-hover-preview' ) ) {
+		initHoverPreviews( nav );
+	}
 
 	if ( nav.classList.contains( 'has-guide-mode' ) ) {
 		initProgressTracking( nav );

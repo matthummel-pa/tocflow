@@ -495,3 +495,74 @@
 		transform: none;
 	}
 }
+
+// ── Hover preview tooltip bubble (floating, JS-positioned) ────────────────────
+// Appended to <body> by initHoverPreviews(); rendered once per TOC.
+
+.tocflow__tip-bubble {
+	position: fixed;
+	z-index: 99999;
+	max-width: 280px;
+	padding: 0.6rem 0.8rem;
+	background: rgba(16, 16, 16, 0.88);
+	-webkit-backdrop-filter: blur(6px);
+	backdrop-filter: blur(6px);
+	color: #f3f3f3;
+	font-size: 0.8em;
+	line-height: 1.6;
+	border-radius: 8px;
+	box-shadow: 0 4px 20px rgba(0, 0, 0, 0.22), 0 1px 6px rgba(0, 0, 0, 0.14);
+	pointer-events: none;
+	opacity: 0;
+	transition: opacity 0.14s ease;
+	word-break: break-word;
+	hyphens: auto;
+
+	// Small arrow pointing toward the TOC (overridden by JS class)
+	&::before {
+		content: "";
+		position: absolute;
+		top: 50%;
+		transform: translateY(-50%);
+		border: 6px solid transparent;
+	}
+
+	// Default: arrow points left (tooltip is to the right of the TOC)
+	&.is-right::before {
+		left: -11px;
+		border-right-color: rgba(16, 16, 16, 0.88);
+	}
+
+	// Tooltip is to the left of the TOC
+	&.is-left::before {
+		right: -11px;
+		border-left-color: rgba(16, 16, 16, 0.88);
+	}
+
+	&.is-visible {
+		opacity: 1;
+	}
+}
+
+@media (prefers-color-scheme: dark) {
+
+	.tocflow__tip-bubble {
+		background: rgba(238, 238, 238, 0.92);
+		color: #111;
+
+		&.is-right::before {
+			border-right-color: rgba(238, 238, 238, 0.92);
+		}
+
+		&.is-left::before {
+			border-left-color: rgba(238, 238, 238, 0.92);
+		}
+	}
+}
+
+@media (prefers-reduced-motion: reduce) {
+
+	.tocflow__tip-bubble {
+		transition: none;
+	}
+}

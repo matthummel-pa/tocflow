@@ -330,13 +330,14 @@ class TOCflow_Headings {
 
 		$list_tag = ( 'ol' === $list_tag ) ? 'ol' : 'ul';
 
-		$show_time      = ! empty( $guide['show_read_time'] );
-		$show_density   = ! empty( $guide['show_density'] );
-		$show_preview   = ! empty( $guide['show_previews'] );
-		$show_reactions = ! empty( $guide['show_reactions'] );
-		$show_citations = ! empty( $guide['show_citations'] );
-		$notes          = isset( $guide['section_notes'] ) && is_array( $guide['section_notes'] ) ? $guide['section_notes'] : array();
-		$any_guide      = $show_time || $show_density || $show_preview || $show_reactions || $show_citations || ! empty( $notes );
+		$show_time        = ! empty( $guide['show_read_time'] );
+		$show_density     = ! empty( $guide['show_density'] );
+		$show_preview     = ! empty( $guide['show_previews'] );
+		$show_reactions   = ! empty( $guide['show_reactions'] );
+		$show_citations   = ! empty( $guide['show_citations'] );
+		$preview_on_hover = ! empty( $guide['preview_on_hover'] );
+		$notes            = isset( $guide['section_notes'] ) && is_array( $guide['section_notes'] ) ? $guide['section_notes'] : array();
+		$any_guide        = $show_time || $show_density || $show_preview || $show_reactions || $show_citations || ! empty( $notes ) || $preview_on_hover;
 
 		// Denominator for density bar proportions.
 		$max_words = 1;
@@ -374,13 +375,20 @@ class TOCflow_Headings {
 			}
 
 			// ── Item opening tag ──────────────────────────────────────────────
+			$tip_id = $preview_on_hover ? 'tocflow-tip-' . sanitize_html_class( $slug ) : '';
 			if ( $any_guide ) {
+				$item_extra = '';
+				if ( $preview_on_hover ) {
+					$item_extra = ' class="tocflow__item has-hover-preview"';
+				} else {
+					$item_extra = ' class="tocflow__item"';
+				}
 				$item_style = '';
 				if ( $show_density && isset( $heading['word_count'] ) ) {
 					$density    = $max_words > 0 ? min( 1.0, (float) $heading['word_count'] / $max_words ) : 0.0;
 					$item_style = ' style="--tocflow-density:' . esc_attr( number_format( $density, 3, '.', '' ) ) . '"';
 				}
-				$html .= '<li class="tocflow__item"'
+				$html .= '<li' . $item_extra
 					. ' data-tocflow-slug="' . esc_attr( $slug ) . '"'
 					. ' data-tocflow-heading="' . esc_attr( $text ) . '"'
 					. $item_style . '>';
@@ -392,7 +400,15 @@ class TOCflow_Headings {
 			if ( $any_guide ) {
 				$html .= '<div class="tocflow__item-row">';
 			}
-			$html .= '<a class="tocflow__link" href="#' . esc_attr( $slug ) . '">' . esc_html( $text ) . '</a>';
+
+			// Link — include aria-describedby when hover tooltip is active.
+			if ( $tip_id ) {
+				$html .= '<a class="tocflow__link" href="#' . esc_attr( $slug ) . '"'
+					. ' aria-describedby="' . esc_attr( $tip_id ) . '">'
+					. esc_html( $text ) . '</a>';
+			} else {
+				$html .= '<a class="tocflow__link" href="#' . esc_attr( $slug ) . '">' . esc_html( $text ) . '</a>';
+			}
 			if ( $show_time && isset( $heading['read_minutes'] ) ) {
 				$mins = (int) $heading['read_minutes'];
 				$html .= '<span class="tocflow__time" aria-hidden="true">~'
@@ -403,6 +419,15 @@ class TOCflow_Headings {
 			}
 			if ( $any_guide ) {
 				$html .= '</div>';
+			}
+
+			// ── Hover tooltip label (screen-reader target for aria-describedby) ─
+			if ( $preview_on_hover && ! empty( $heading['preview'] ) ) {
+				$html .= '<span class="tocflow__tip-label tocflow__visually-hidden"'
+					. ' id="' . esc_attr( $tip_id ) . '"'
+					. ' role="tooltip">'
+					. esc_html( $heading['preview'] )
+					. '</span>';
 			}
 
 			// ── Density bar ───────────────────────────────────────────────────
@@ -493,15 +518,21 @@ class TOCflow_Headings {
 		$all    = self::get_all( $post_id );
 		$items  = self::filter_and_normalize( $all, $levels );
 
-		// ── Reading Guide mode ────────────────────────────────────────────────
-		$guide = array();
-		if ( ! empty( $attributes['guideMode'] ) ) {
-			$sections    = self::get_sections( $post_id );
-			$section_map = array();
+		// ── Section data (shared by guide mode and hover previews) ───────────
+		$sections    = array();
+		$section_map = array();
+		$need_sections = ! empty( $attributes['guideMode'] ) || ! empty( $attributes['previewOnHover'] );
+		if ( $need_sections ) {
+			$sections = self::get_sections( $post_id );
 			foreach ( $sections as $section ) {
 				$section_map[ $section['slug'] ] = $section;
 			}
-			// Merge section content data into the filtered items.
+		}
+
+		// ── Reading Guide mode ────────────────────────────────────────────────
+		$guide = array();
+		if ( ! empty( $attributes['guideMode'] ) ) {
+			// Merge full section content data into the filtered items.
 			foreach ( $items as &$item ) {
 				if ( isset( $section_map[ $item['slug'] ] ) ) {
 					$s                    = $section_map[ $item['slug'] ];
@@ -520,13 +551,28 @@ class TOCflow_Headings {
 			}
 
 			$guide = array(
-				'show_previews'  => ! empty( $attributes['showPreviews'] ),
-				'show_density'   => ! empty( $attributes['showDensity'] ),
-				'show_read_time' => ! empty( $attributes['showReadTime'] ),
-				'show_reactions' => ! empty( $attributes['showReactions'] ),
-				'show_citations' => ! empty( $attributes['showCitations'] ),
-				'section_notes'  => $notes,
+				'show_previews'   => ! empty( $attributes['showPreviews'] ),
+				'show_density'    => ! empty( $attributes['showDensity'] ),
+				'show_read_time'  => ! empty( $attributes['showReadTime'] ),
+				'show_reactions'  => ! empty( $attributes['showReactions'] ),
+				'show_citations'  => ! empty( $attributes['showCitations'] ),
+				'section_notes'   => $notes,
+				'preview_on_hover'=> ! empty( $attributes['previewOnHover'] ),
 			);
+		} elseif ( ! empty( $attributes['previewOnHover'] ) ) {
+			// Hover previews only — merge just the preview text into items.
+			foreach ( $items as &$item ) {
+				if ( isset( $section_map[ $item['slug'] ] ) ) {
+					$item['preview'] = $section_map[ $item['slug'] ]['preview'];
+				}
+			}
+			unset( $item );
+			$guide = array( 'preview_on_hover' => true );
+		}
+
+		// Always propagate the hover flag so render_list() can use it.
+		if ( ! empty( $attributes['previewOnHover'] ) ) {
+			$guide['preview_on_hover'] = true;
 		}
 
 		$min = (int) TOCflow_Settings::get_value( 'min_headings', 2 );
@@ -594,6 +640,9 @@ class TOCflow_Headings {
 		}
 		if ( ! empty( $attributes['guideMode'] ) ) {
 			$classes[] = 'has-guide-mode';
+		}
+		if ( ! empty( $attributes['previewOnHover'] ) ) {
+			$classes[] = 'has-hover-preview';
 		}
 
 		$max_height = isset( $attributes['maxHeight'] ) ? (int) $attributes['maxHeight'] : 0;

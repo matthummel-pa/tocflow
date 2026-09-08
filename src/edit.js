@@ -107,6 +107,7 @@ export default function Edit( { attributes, setAttributes } ) {
 		minHeadings,
 		smoothScroll,
 		scrollOffset,
+		previewOnHover,
 		guideMode,
 		showPreviews,
 		showDensity,
@@ -485,13 +486,25 @@ export default function Edit( { attributes, setAttributes } ) {
 				>
 					<ToggleControl
 						__nextHasNoMarginBottom
-						label={ __( 'Enable Reading Guide', 'tocflow' ) }
+						label={ __( 'Hover section preview', 'tocflow' ) }
+						checked={ previewOnHover }
+						onChange={ ( value ) =>
+							setAttributes( { previewOnHover: value } )
+						}
+						help={ __(
+							'Show the opening sentence of each section in a floating tooltip when hovering over its TOC link. Works on its own — no need to enable the full Reading Guide.',
+							'tocflow'
+						) }
+					/>
+					<ToggleControl
+						__nextHasNoMarginBottom
+						label={ __( 'Full Reading Guide', 'tocflow' ) }
 						checked={ guideMode }
 						onChange={ ( value ) =>
 							setAttributes( { guideMode: value } )
 						}
 						help={ __(
-							'Transforms the TOC into a full reading companion: section previews, read-time estimates, density bars, reactions, and per-section citations.',
+							'Adds inline section previews, read-time estimates, density bars, reading progress, reactions, and per-section citations.',
 							'tocflow'
 						) }
 					/>

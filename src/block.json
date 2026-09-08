@@ -113,6 +113,7 @@
 			"default": -1,
 			"role": "local"
 		},
+		"previewOnHover": { "type": "boolean", "default": false },
 		"guideMode": { "type": "boolean", "default": false },
 		"showPreviews": { "type": "boolean", "default": true },
 		"showDensity": { "type": "boolean", "default": true },
