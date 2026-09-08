@@ -22,11 +22,15 @@ import {
 	ToggleControl,
 	RangeControl,
 	SelectControl,
+	TextareaControl,
 	ToolbarGroup,
 	ToolbarButton,
 } from '@wordpress/components';
 import { formatListBullets, formatListNumbered } from '@wordpress/icons';
 import { collectHeadings, filterAndNormalize } from './headings';
+
+/** @type {Object} Status emoji map */
+const STATUS_ICON = { draft: '✏️', progress: '🔄', done: '✅' };
 
 /**
  * Nested outline preview (read-only; front end is server-rendered).
@@ -34,8 +38,9 @@ import { collectHeadings, filterAndNormalize } from './headings';
  * @param {Object}  props
  * @param {Array}   props.items
  * @param {boolean} props.ordered
+ * @param {Object}  props.sectionStatus Writing status map slug→status.
  */
-function PreviewList( { items, ordered } ) {
+function PreviewList( { items, ordered, sectionStatus = {} } ) {
 	const Tag = ordered ? 'ol' : 'ul';
 	const tree = [];
 	const stack = [ tree ];
@@ -68,6 +73,17 @@ function PreviewList( { items, ordered } ) {
 					{ node.text ? (
 						<a className="tocflow__link" href={ `#${ node.slug }` }>
 							{ node.text }
+							{ sectionStatus[ node.slug ] && (
+								<span
+									className="tocflow__status-dot"
+									title={ sectionStatus[ node.slug ] }
+									aria-hidden="true"
+								>
+									{ STATUS_ICON[
+										sectionStatus[ node.slug ]
+									] || '' }
+								</span>
+							) }
 						</a>
 					) : null }
 					{ node.children?.length
@@ -106,6 +122,21 @@ export default function Edit( { attributes, setAttributes } ) {
 		minHeadings,
 		smoothScroll,
 		scrollOffset,
+		previewOnHover,
+		guideMode,
+		showPreviews,
+		showDensity,
+		showReadTime,
+		trackProgress,
+		showReactions,
+		showCitations,
+		citationStyle,
+		sectionNotes,
+		sectionStatus,
+		showExport,
+		showReaderNotes,
+		showReadingProgress,
+		showBookmark,
 	} = attributes;
 
 	const blocks = useSelect(
@@ -122,8 +153,11 @@ export default function Edit( { attributes, setAttributes } ) {
 		showH6 && 6,
 	].filter( Boolean );
 
+	// All headings — used for the Section Notes panel.
+	const allHeadings = collectHeadings( blocks );
+
 	const items = filterAndNormalize(
-		collectHeadings( blocks ),
+		allHeadings,
 		levels.length ? levels : [ 2 ]
 	);
 
@@ -463,6 +497,297 @@ export default function Edit( { attributes, setAttributes } ) {
 							'tocflow'
 						) }
 					/>
+					<ToggleControl
+						__nextHasNoMarginBottom
+						label={ __( 'Export / print bar', 'tocflow' ) }
+						checked={ showExport }
+						onChange={ ( value ) =>
+							setAttributes( { showExport: value } )
+						}
+						help={ __(
+							'Adds Copy, Download (.md), Download (.doc), and Print buttons below the outline. Useful for writers and researchers.',
+							'tocflow'
+						) }
+					/>
+				</PanelBody>
+
+				{ /* ── Study Tools ──────────────────────────────────────── */ }
+				<PanelBody
+					title={ __( 'Study Tools', 'tocflow' ) }
+					initialOpen={ false }
+				>
+					<p className="components-base-control__help">
+						{ __(
+							"Reader-facing tools — stored locally in each visitor's browser. No account or server calls required.",
+							'tocflow'
+						) }
+					</p>
+					<ToggleControl
+						__nextHasNoMarginBottom
+						label={ __( 'Reading progress bar', 'tocflow' ) }
+						checked={ showReadingProgress }
+						onChange={ ( value ) =>
+							setAttributes( { showReadingProgress: value } )
+						}
+						help={ __(
+							'A thin bar shows readers how far through the article they are (0–100 %).',
+							'tocflow'
+						) }
+					/>
+					<ToggleControl
+						__nextHasNoMarginBottom
+						label={ __( 'Resume reading bookmark', 'tocflow' ) }
+						checked={ showBookmark }
+						onChange={ ( value ) =>
+							setAttributes( { showBookmark: value } )
+						}
+						help={ __(
+							'Remembers the reader\'s last position. A "Resume" button appears on their next visit to jump back.',
+							'tocflow'
+						) }
+					/>
+					<ToggleControl
+						__nextHasNoMarginBottom
+						label={ __( 'Reader note pads', 'tocflow' ) }
+						checked={ showReaderNotes }
+						onChange={ ( value ) =>
+							setAttributes( { showReaderNotes: value } )
+						}
+						help={ __(
+							'Readers can jot personal notes per section (📝). Notes are saved privately in their browser — great for research and study.',
+							'tocflow'
+						) }
+					/>
+				</PanelBody>
+
+				{ /* ── Reading Guide ───────────────────────────────────── */ }
+				<PanelBody
+					title={ __( 'Reading Guide', 'tocflow' ) }
+					initialOpen={ false }
+				>
+					<ToggleControl
+						__nextHasNoMarginBottom
+						label={ __( 'Hover section preview', 'tocflow' ) }
+						checked={ previewOnHover }
+						onChange={ ( value ) =>
+							setAttributes( { previewOnHover: value } )
+						}
+						help={ __(
+							'Show the opening sentence of each section in a floating tooltip when hovering over its TOC link. Works on its own — no need to enable the full Reading Guide.',
+							'tocflow'
+						) }
+					/>
+					<ToggleControl
+						__nextHasNoMarginBottom
+						label={ __( 'Full Reading Guide', 'tocflow' ) }
+						checked={ guideMode }
+						onChange={ ( value ) =>
+							setAttributes( { guideMode: value } )
+						}
+						help={ __(
+							'Adds inline section previews, read-time estimates, density bars, reading progress, reactions, and per-section citations.',
+							'tocflow'
+						) }
+					/>
+					{ guideMode && (
+						<>
+							<ToggleControl
+								__nextHasNoMarginBottom
+								label={ __( 'Section previews', 'tocflow' ) }
+								checked={ showPreviews }
+								onChange={ ( value ) =>
+									setAttributes( { showPreviews: value } )
+								}
+								help={ __(
+									'Show the opening sentence of each section beneath its TOC link.',
+									'tocflow'
+								) }
+							/>
+							<ToggleControl
+								__nextHasNoMarginBottom
+								label={ __( 'Section length bars', 'tocflow' ) }
+								checked={ showDensity }
+								onChange={ ( value ) =>
+									setAttributes( { showDensity: value } )
+								}
+								help={ __(
+									'Thin bar showing relative word count — readers see which sections are short vs long at a glance.',
+									'tocflow'
+								) }
+							/>
+							<ToggleControl
+								__nextHasNoMarginBottom
+								label={ __( 'Read-time estimates', 'tocflow' ) }
+								checked={ showReadTime }
+								onChange={ ( value ) =>
+									setAttributes( { showReadTime: value } )
+								}
+								help={ __(
+									'Show ~N min alongside each section link.',
+									'tocflow'
+								) }
+							/>
+							<ToggleControl
+								__nextHasNoMarginBottom
+								label={ __( 'Reading progress', 'tocflow' ) }
+								checked={ trackProgress }
+								onChange={ ( value ) =>
+									setAttributes( { trackProgress: value } )
+								}
+								help={ __(
+									'Fade sections as the reader scrolls past them.',
+									'tocflow'
+								) }
+							/>
+							<ToggleControl
+								__nextHasNoMarginBottom
+								label={ __( 'Emoji reactions', 'tocflow' ) }
+								checked={ showReactions }
+								onChange={ ( value ) =>
+									setAttributes( { showReactions: value } )
+								}
+								help={ __(
+									'Readers react per section (💡 ⭐ 🤔 ✅). Stored in their browser — no account needed.',
+									'tocflow'
+								) }
+							/>
+							<ToggleControl
+								__nextHasNoMarginBottom
+								label={ __(
+									'Per-section citations',
+									'tocflow'
+								) }
+								checked={ showCitations }
+								onChange={ ( value ) =>
+									setAttributes( { showCitations: value } )
+								}
+								help={ __(
+									'One-click copy of a formatted academic citation (APA, MLA, Chicago, etc.) for any section. Perfect for research content.',
+									'tocflow'
+								) }
+							/>
+							{ showCitations && (
+								<SelectControl
+									__nextHasNoMarginBottom
+									__next40pxDefaultSize
+									label={ __( 'Citation format', 'tocflow' ) }
+									value={ citationStyle }
+									options={ [
+										{ label: 'APA', value: 'apa' },
+										{ label: 'MLA', value: 'mla' },
+										{
+											label: 'Chicago',
+											value: 'chicago',
+										},
+										{
+											label: 'Harvard',
+											value: 'harvard',
+										},
+										{
+											label: __(
+												'Plain link',
+												'tocflow'
+											),
+											value: 'plain',
+										},
+									] }
+									onChange={ ( value ) =>
+										setAttributes( {
+											citationStyle: value,
+										} )
+									}
+								/>
+							) }
+						</>
+					) }
+				</PanelBody>
+
+				{ /* ── Section Planner (author tools) ────────────────── */ }
+				<PanelBody
+					title={ __( 'Section Planner', 'tocflow' ) }
+					initialOpen={ false }
+				>
+					<p className="components-base-control__help">
+						{ __(
+							'Track writing status per section and add reader-facing teasers (shown in Reading Guide mode).',
+							'tocflow'
+						) }
+					</p>
+					{ allHeadings.length === 0 && (
+						<p>
+							{ __(
+								'Add Heading blocks to this post and they will appear here.',
+								'tocflow'
+							) }
+						</p>
+					) }
+					{ allHeadings.map( ( heading ) => (
+						<div
+							key={ heading.slug }
+							style={ { marginBottom: '1rem' } }
+						>
+							<SelectControl
+								__nextHasNoMarginBottom
+								__next40pxDefaultSize
+								label={ heading.text }
+								value={ sectionStatus[ heading.slug ] || '' }
+								options={ [
+									{
+										label: __( '— No status —', 'tocflow' ),
+										value: '',
+									},
+									{
+										label: __( '✏️ Draft', 'tocflow' ),
+										value: 'draft',
+									},
+									{
+										label: __(
+											'🔄 In progress',
+											'tocflow'
+										),
+										value: 'progress',
+									},
+									{
+										label: __( '✅ Done', 'tocflow' ),
+										value: 'done',
+									},
+								] }
+								onChange={ ( value ) => {
+									const updated = { ...sectionStatus };
+									if ( value ) {
+										updated[ heading.slug ] = value;
+									} else {
+										delete updated[ heading.slug ];
+									}
+									setAttributes( {
+										sectionStatus: updated,
+									} );
+								} }
+							/>
+							<TextareaControl
+								label={ __(
+									'Reader teaser (optional)',
+									'tocflow'
+								) }
+								value={ sectionNotes[ heading.slug ] || '' }
+								onChange={ ( value ) => {
+									const updated = { ...sectionNotes };
+									if ( value ) {
+										updated[ heading.slug ] = value;
+									} else {
+										delete updated[ heading.slug ];
+									}
+									setAttributes( { sectionNotes: updated } );
+								} }
+								rows={ 2 }
+								__nextHasNoMarginBottom
+								placeholder={ __(
+									'Teaser or hook for this section…',
+									'tocflow'
+								) }
+							/>
+						</div>
+					) ) }
 				</PanelBody>
 			</InspectorControls>
 
@@ -481,7 +806,11 @@ export default function Edit( { attributes, setAttributes } ) {
 				<Disabled>
 					<div className="tocflow__body">
 						{ items.length ? (
-							<PreviewList items={ items } ordered={ ordered } />
+							<PreviewList
+								items={ items }
+								ordered={ ordered }
+								sectionStatus={ sectionStatus }
+							/>
 						) : (
 							<p className="tocflow__placeholder">
 								{ __(

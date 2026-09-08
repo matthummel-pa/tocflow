@@ -3,11 +3,11 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>TOCflow documentation</title>
-<meta name="description" content="Full documentation for the TOCflow WordPress plugin: install, block, shortcode, auto-insert, styles, developers, marketplace.">
+<title>TOCflow documentation — Table of Contents block for WordPress</title>
+<meta name="description" content="Full documentation for TOCflow v1.1.0: install, block sidebar, Reading Guide mode, hover previews, section citations, auto-insert, shortcode, settings reference, compatibility, and developer filters.">
 <link rel="canonical" href="https://matthummel-pa.github.io/tocflow/documentation.html">
 <meta property="og:title" content="TOCflow documentation">
-<meta property="og:description" content="Install, block, shortcode, auto-insert, and developer notes.">
+<meta property="og:description" content="Install, block sidebar, Reading Guide, hover previews, citations, auto-insert, shortcode, settings, compatibility, and developer notes.">
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://matthummel-pa.github.io/tocflow/documentation.html">
 <meta property="og:image" content="https://matthummel-pa.github.io/tocflow/assets/social-preview.png">
@@ -16,100 +16,398 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@500;600;700;800&display=swap" rel="stylesheet">
 <style>
-  :root{--paper:#f3eee4;--ink:#1c1915;--muted:#5c564c;--moss:#275c3e;--line:rgba(28,25,21,.12);--card:#fffaf3;--sans:Outfit,"Segoe UI",system-ui,sans-serif}
-  body{margin:0;background:var(--paper);color:var(--ink);font:600 18px/1.6 var(--sans)}
-  .wrap{max-width:820px;margin:0 auto;padding:32px 22px 64px}
-  a{color:var(--moss)}
-  h1,h2,h3{font-family:var(--sans);letter-spacing:-.03em;font-weight:800}
-  h1{font-size:42px;margin:12px 0 8px}
-  h2{font-size:28px;margin:36px 0 10px;border-top:1px solid var(--line);padding-top:28px}
-  .kicker{letter-spacing:.16em;text-transform:uppercase;font-size:12px;color:var(--moss);font-family:var(--sans);font-weight:700}
-  code{background:#ebe4d6;padding:1px 6px;border-radius:4px;font-size:15px}
-  pre{background:#1c1915;color:#f3eee4;padding:16px;border-radius:12px;overflow:auto;font-size:14px;line-height:1.5}
-  table{width:100%;border-collapse:collapse;background:var(--card);border:1px solid var(--line)}
-  th,td{text-align:left;padding:10px 12px;border-bottom:1px solid var(--line);vertical-align:top;font-size:16px}
-  th{background:#ebe4d6;font-family:var(--sans);font-size:14px;font-weight:700}
-  .top{font-size:15px;margin-bottom:24px}
-  footer{padding:36px 0 0;color:var(--muted);font-size:15px;border-top:1px solid var(--line);margin-top:48px}
+  :root{
+    --paper:#f3eee4;--ink:#1c1915;--muted:#5c564c;
+    --moss:#275c3e;--moss-d:#1c3d2a;--moss-l:#eaf3ed;
+    --copper:#c46b32;--line:rgba(28,25,21,.1);--card:#fffaf3;
+    --sans:Outfit,"Segoe UI",system-ui,sans-serif;
+    --mono:ui-monospace,SFMono-Regular,Menlo,monospace;
+  }
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{margin:0;background:var(--paper);color:var(--ink);font:600 17px/1.65 var(--sans)}
+  a{color:var(--moss);text-underline-offset:3px}
+  a:hover{color:var(--copper)}
+
+  /* ── Layout ── */
+  .page{display:grid;grid-template-columns:220px 1fr;max-width:1100px;margin:0 auto;gap:0;min-height:100vh}
+  aside{position:sticky;top:0;height:100vh;overflow-y:auto;border-right:1px solid var(--line);padding:28px 20px;font-size:14px}
+  aside .logo{font-family:var(--sans);font-weight:800;font-size:18px;letter-spacing:-.02em;margin-bottom:20px;display:block;text-decoration:none;color:var(--ink)}
+  aside .logo em{color:var(--moss);font-style:normal}
+  aside nav a{display:block;padding:4px 0;text-decoration:none;color:var(--muted);line-height:1.4}
+  aside nav a:hover{color:var(--moss)}
+  aside nav .section-label{font-size:11px;letter-spacing:.12em;text-transform:uppercase;font-weight:700;color:var(--copper);margin:18px 0 6px}
+  aside nav .sub{padding-left:12px;font-size:13px}
+  .content{padding:36px 40px 80px;max-width:820px}
+
+  /* ── Typography ── */
+  .kicker{font-weight:700;color:var(--copper);font-size:11px;letter-spacing:.16em;text-transform:uppercase;margin:0 0 6px}
+  h1{font-family:var(--sans);font-size:38px;margin:4px 0 12px;letter-spacing:-.035em;font-weight:800;line-height:1.1}
+  h2{font-family:var(--sans);font-size:26px;margin:48px 0 10px;letter-spacing:-.025em;font-weight:800;border-top:1px solid var(--line);padding-top:40px}
+  h3{font-family:var(--sans);font-size:18px;margin:28px 0 8px;font-weight:800}
+  p{margin:0 0 14px;color:var(--muted)}
+  p strong{color:var(--ink)}
+  .intro{color:var(--ink);font-size:18px;max-width:36rem;line-height:1.55;margin-bottom:24px}
+  .breadcrumb{font-size:14px;color:var(--muted);margin-bottom:28px}
+  .breadcrumb a{color:var(--muted);text-decoration:none}
+  .breadcrumb a:hover{color:var(--moss)}
+
+  /* ── Code ── */
+  code{font-family:var(--mono);background:#ebe4d6;padding:1px 6px;border-radius:4px;font-size:14px;color:var(--ink)}
+  pre{background:#1c1915;color:#e8e0d4;padding:18px 20px;border-radius:12px;overflow-x:auto;font-size:14px;line-height:1.55;margin:14px 0}
+  pre code{background:none;padding:0;color:inherit;font-size:inherit}
+
+  /* ── Tables ── */
+  table{width:100%;border-collapse:collapse;margin:14px 0 24px;font-size:15px;background:var(--card);border:1px solid var(--line);border-radius:10px;overflow:hidden}
+  th,td{text-align:left;padding:10px 14px;border-bottom:1px solid var(--line);vertical-align:top}
+  th{font-family:var(--sans);font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;background:#ebe4d6}
+  tr:last-child td{border-bottom:none}
+
+  /* ── Cards ── */
+  .callout{background:var(--moss-l);border:1px solid rgba(39,92,62,.2);border-radius:10px;padding:14px 18px;margin:18px 0;font-size:15px}
+  .callout p{color:var(--moss-d);margin:0}
+  .callout strong{color:var(--moss-d)}
+  .warn{background:#fef9ec;border:1px solid #f0d98c;border-radius:10px;padding:14px 18px;margin:18px 0;font-size:15px}
+  .warn p{color:#6b5a1e;margin:0}
+
+  /* ── New badge ── */
+  .badge-new{display:inline-block;background:var(--moss);color:#fff;font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;padding:2px 7px;border-radius:4px;margin-left:6px;vertical-align:middle;line-height:1.5}
+
+  /* ── Compat ── */
+  .compat-row{display:flex;gap:8px;flex-wrap:wrap;margin:10px 0}
+  .compat-pill{border:1px solid rgba(39,92,62,.25);color:var(--moss);background:var(--moss-l);border-radius:999px;padding:3px 12px;font-size:13px;font-weight:700}
+
+  /* ── Footer ── */
+  footer{padding:24px 0;border-top:1px solid var(--line);color:var(--muted);font-size:14px;margin-top:24px}
+
+  @media(max-width:760px){
+    .page{grid-template-columns:1fr}
+    aside{position:static;height:auto;border-right:none;border-bottom:1px solid var(--line)}
+    .content{padding:28px 20px 60px}
+  }
 </style>
 </head>
 <body>
-<div class="wrap">
-  <p class="top"><a href="index.html">← TOCflow home</a> · <a href="support.html">Support</a></p>
-  <p class="kicker">Plugin documentation · v1.0.2</p>
+<div class="page">
+
+<!-- ── Sidebar nav ── -->
+<aside>
+  <a class="logo" href="index.html">TOC<em>flow</em></a>
+  <nav>
+    <div class="section-label">Getting started</div>
+    <a href="#install">Install</a>
+    <a href="#quick-start">Quick start</a>
+
+    <div class="section-label">The block</div>
+    <a href="#block-sidebar">Block sidebar</a>
+    <a href="#styles">Style presets</a>
+    <a href="#skip">Skip a heading</a>
+
+    <div class="section-label">Reading Guide</div>
+    <a href="#reading-guide">Overview</a>
+    <a href="#hover-preview">Hover preview</a>
+    <a href="#guide-features">Guide features</a>
+    <a href="#section-notes">Section notes</a>
+    <a href="#citations">Citations</a>
+    <a href="#reactions">Emoji reactions</a>
+
+    <div class="section-label">Site-wide</div>
+    <a href="#settings">Settings page</a>
+    <a href="#auto-insert">Auto-insert</a>
+    <a href="#shortcode">Shortcode</a>
+
+    <div class="section-label">Compatibility</div>
+    <a href="#compatibility">Overview</a>
+    <a href="#seo-plugins">SEO plugins</a>
+    <a href="#themes">Themes</a>
+    <a href="#page-builders">Page builders</a>
+    <a href="#multilingual">Multilingual &amp; more</a>
+
+    <div class="section-label">Developers</div>
+    <a href="#dev-build">Build</a>
+    <a href="#dev-filters">Filters</a>
+    <a href="#privacy">Privacy</a>
+  </nav>
+</aside>
+
+<!-- ── Main content ── -->
+<div class="content">
+  <p class="breadcrumb"><a href="index.html">← TOCflow home</a> · <a href="support.html">Support</a></p>
+  <p class="kicker">Plugin documentation · v1.1.0</p>
   <h1>TOCflow</h1>
-  <p>A server-rendered Table of Contents for the WordPress block editor. GitHub and WordPress.org slug: <code>tocflow</code>.</p>
+  <p class="intro">A server-rendered Table of Contents for the WordPress block editor — and the only TOC plugin with a built-in Reading Guide. Slug: <code>tocflow</code>.</p>
 
-  <h2>1. Install</h2>
+  <!-- Install -->
+  <h2 id="install">1. Install</h2>
+  <p><strong>From WordPress.org</strong> — go to <em>Plugins → Add New</em>, search for <em>tocflow</em>, click Install Now.</p>
+  <p><strong>From a ZIP</strong> — download <code>tocflow.zip</code> from <a href="https://github.com/matthummel-pa/tocflow/releases/latest">GitHub Releases</a>, then <em>Plugins → Add New → Upload Plugin</em>.</p>
+  <p><strong>Developers</strong> — clone into <code>wp-content/plugins/tocflow</code> and run:</p>
+  <pre><code>npm install
+npm run build</code></pre>
+  <p>Source files are in <code>src/</code>. Compiled assets land in <code>build/</code>. Run <code>npm run start</code> for watch mode.</p>
+
+  <!-- Quick start -->
+  <h2 id="quick-start">2. Quick start</h2>
   <ol>
-    <li>Download <code>tocflow.zip</code> from GitHub Releases (or your marketplace purchase).</li>
-    <li>WordPress → Plugins → Add New → Upload Plugin.</li>
-    <li>Activate. Open <strong>Settings → TOCflow</strong>.</li>
+    <li>Edit a post that has Heading blocks (H2–H6 appear by default; H1 is off).</li>
+    <li>Click <strong>+</strong> and search for <em>Table of Contents</em>. Insert it anywhere — typically after the intro paragraph.</li>
+    <li>The editor shows a live outline. Rearrange your headings and watch it update.</li>
+    <li>To enable sitewide auto-insert, open <strong>Settings → TOCflow</strong> in wp-admin.</li>
   </ol>
-  <p>Developers: clone the repo into <code>wp-content/plugins/tocflow</code>, then <code>npm install && npm run build</code>.</p>
 
-  <h2>2. The block</h2>
-  <p>Insert <strong>Table of Contents</strong> in a post that contains Heading blocks. The editor shows a live outline.</p>
+  <!-- Block sidebar -->
+  <h2 id="block-sidebar">3. Block sidebar</h2>
+  <p>Every block instance is configured through the block sidebar in the editor.</p>
   <table>
-    <thead><tr><th>Sidebar</th><th>Purpose</th></tr></thead>
+    <thead><tr><th>Panel / control</th><th>What it does</th></tr></thead>
     <tbody>
-      <tr><td>Title show/hide and title element</td><td>Visible label; paragraph or H2–H4</td></tr>
-      <tr><td>H1–H6 toggles</td><td>Which levels appear (H1 off by default)</td></tr>
-      <tr><td>Numbered list / nested numbering</td><td>Bullets, 1 2 3, or 1.1.1 counters</td></tr>
-      <tr><td>Hide markers, two columns, compact, underline, max height</td><td>Layout</td></tr>
-      <tr><td>Style preset</td><td>Styles panel: default, minimal, boxed, underline, card</td></tr>
-      <tr><td>Sticky / collapsible / highlight / smooth scroll</td><td>Reading behavior; smooth scroll can inherit the site setting</td></tr>
-      <tr><td>Minimum headings / scroll offset override</td><td><code>-1</code> = use site setting</td></tr>
+      <tr><td>Title — text, show/hide, HTML tag</td><td>Editable on the canvas via RichText. Tag: P (default), H2, H3, or H4.</td></tr>
+      <tr><td>H1–H6 toggles</td><td>Which heading levels appear in this block's outline.</td></tr>
+      <tr><td>Numbered list (toolbar)</td><td>Switches between <code>&lt;ul&gt;</code> and <code>&lt;ol&gt;</code>.</td></tr>
+      <tr><td>Numbering style</td><td>Sequential (1, 2, 3) or Nested (1, 1.1, 1.1.1).</td></tr>
+      <tr><td>Hide markers</td><td>Removes bullets and browser-generated numbers while preserving structure.</td></tr>
+      <tr><td>Style preset</td><td>Styles panel: Default · Minimal · Boxed · Underline · Card.</td></tr>
+      <tr><td>Two columns</td><td>Displays the outline in two columns; collapses to one on small screens.</td></tr>
+      <tr><td>Compact spacing</td><td>Tighter line height for shorter lists.</td></tr>
+      <tr><td>Underline links</td><td>Always underline TOC links (vs. underline-on-hover).</td></tr>
+      <tr><td>Max height</td><td>Adds a scrollable container when the list exceeds N pixels.</td></tr>
+      <tr><td>Sticky</td><td>Keeps the block fixed during scroll using <code>position: sticky</code>.</td></tr>
+      <tr><td>Collapsible / start collapsed</td><td>Adds a toggle button. Start collapsed defaults the block closed.</td></tr>
+      <tr><td>Highlight active heading</td><td>Scroll-spy marks the section currently in view with <code>aria-current</code>.</td></tr>
+      <tr><td>Smooth scroll</td><td>Per-block override: Inherit site default · On · Off.</td></tr>
+      <tr><td>Scroll offset override</td><td>Pixels to leave above a sticky header. −1 inherits the site-wide offset.</td></tr>
+      <tr><td>Minimum headings</td><td>Hide this block when the post has fewer matching headings.</td></tr>
     </tbody>
   </table>
-  <p>Skip a heading: additional CSS class <code>no-toc</code> or <code>tocflow-skip</code>.</p>
 
-  <h2>3. Site settings</h2>
-  <p><strong>Settings → TOCflow</strong></p>
+  <!-- Styles -->
+  <h2 id="styles">4. Style presets</h2>
+  <p>Switch presets from the <strong>Styles panel</strong> (the paintbrush icon in the toolbar). Each preset is a Gutenberg Block Style (<code>is-style-{name}</code>) so it works with theme.json color palettes and FSE style overrides.</p>
+  <table>
+    <thead><tr><th>Preset</th><th>Description</th></tr></thead>
+    <tbody>
+      <tr><td><strong>Default</strong></td><td>Clean list with a subtle left border accent.</td></tr>
+      <tr><td><strong>Minimal</strong></td><td>No border, no background, plain links.</td></tr>
+      <tr><td><strong>Boxed</strong></td><td>Contained in a card with background fill and border.</td></tr>
+      <tr><td><strong>Underline</strong></td><td>Links always underlined; minimal chrome.</td></tr>
+      <tr><td><strong>Card</strong></td><td>Elevated card with shadow and accent border.</td></tr>
+    </tbody>
+  </table>
+  <p>All presets inherit the theme's foreground and link colors via CSS custom properties.</p>
+
+  <!-- Skip -->
+  <h2 id="skip">5. Skip a heading</h2>
+  <p>Add CSS class <code>no-toc</code> or <code>tocflow-skip</code> to a Heading block under <em>Advanced → Additional CSS class(es)</em>. That heading is excluded from both the TOC list and the anchor injection.</p>
+
+  <!-- Reading Guide -->
+  <h2 id="reading-guide">6. Reading Guide <span class="badge-new">New in 1.1</span></h2>
+  <p class="intro">Reading Guide mode transforms the TOC from a navigation list into an intelligent reading companion. Enable it in the block sidebar under <strong>Reading Guide</strong>.</p>
+  <div class="callout"><p><strong>All features are opt-in.</strong> Disabling everything gives you a standard, fast, server-rendered TOC identical to v1.0. Enable features individually as needed.</p></div>
+
+  <h3 id="hover-preview">Hover section preview</h3>
+  <p>A floating tooltip showing the section's opening text appears when a reader hovers over (or focuses) a TOC link. The reader sees section content without scrolling.</p>
   <ul>
-    <li>Smooth scroll (honors reduced motion)</li>
-    <li>Scroll offset in pixels (sticky header clearance)</li>
-    <li>Highlight the heading in view</li>
-    <li>Minimum headings before a TOC prints</li>
-    <li>Auto-generate the Gutenberg block: off, top of content, or after the first heading, with title, heading levels, style, and layout</li>
-    <li>Optional ItemList JSON-LD</li>
-    <li>Delete settings when the plugin is deleted (never on deactivate)</li>
+    <li>Toggle: <strong>Reading Guide → Hover section preview</strong>. Works without enabling Full Reading Guide.</li>
+    <li>Text is extracted server-side from your parsed block content — no JS fetch, no network call.</li>
+    <li>Tooltip is positioned right or left of the link depending on available viewport space, and clamped vertically within the viewport.</li>
+    <li>Accessible: the link gets <code>aria-describedby</code> pointing to a <code>role="tooltip"</code> span — screen readers access it on focus.</li>
+    <li>60 ms hide debounce for smooth movement between adjacent items.</li>
   </ul>
 
-  <h2>4. Shortcode</h2>
-<pre>[tocflow]
-[tocflow title="On this page" ordered="1" numbering="nested" style="boxed" collapsible="1"]</pre>
-  <p>Attributes: <code>title</code>, <code>showtitle</code>, <code>titletag</code>, <code>h1</code>–<code>h6</code> (<code>1</code>/<code>0</code>), <code>ordered</code>, <code>numbering</code> (<code>default</code> or <code>nested</code>), <code>markers</code>, <code>collapsible</code>, <code>collapsed</code>, <code>sticky</code>, <code>compact</code>, <code>columns</code>, <code>underline</code>, <code>highlight</code>, <code>maxheight</code>, <code>min</code>, <code>smooth</code> (<code>inherit</code>/<code>on</code>/<code>off</code>), <code>style</code>.</p>
+  <h3 id="guide-features">Full Reading Guide features</h3>
+  <p>Enable with <strong>Reading Guide → Full Reading Guide</strong>. Each sub-feature can be toggled independently.</p>
+  <table>
+    <thead><tr><th>Feature</th><th>How it works</th></tr></thead>
+    <tbody>
+      <tr><td><strong>Section content previews</strong></td><td>Always-visible opening ~20 words beneath each TOC link. Extracted server-side from block content; container blocks (Group, Columns, Cover) are handled without double-counting.</td></tr>
+      <tr><td><strong>Section length bars</strong></td><td>Thin bar showing word count as a proportion of the longest section. Rendered as a CSS custom property (<code>--tocflow-density</code>) set per item at PHP render time.</td></tr>
+      <tr><td><strong>Read-time estimates</strong></td><td><code>~N min</code> badge. Calculated as <code>ceil(words / 200)</code> at render time. Minimum 1 min.</td></tr>
+      <tr><td><strong>Reading progress</strong></td><td>IntersectionObserver fades TOC items as the reader scrolls each heading past the top of the viewport. No timers; pure intersection tracking.</td></tr>
+    </tbody>
+  </table>
 
-  <h2>5. Theme CSS</h2>
-  <p>Hooks: <code>.tocflow</code>, <code>.tocflow--boxed</code> (and other presets), <code>.tocflow.is-sticky</code>, <code>.tocflow.is-collapsed</code>, <code>.tocflow__link.is-active</code>, <code>.tocflow__title</code>.</p>
+  <h3 id="section-notes">Section notes (author → reader)</h3>
+  <p>Writers type a short teaser or hook per heading in the <strong>Section Notes</strong> sidebar panel. All headings in the post appear as text inputs; notes are stored in the <code>sectionNotes</code> block attribute (a plain object keyed by heading slug).</p>
+  <p>On the front end, each section with a note shows a small ✍ button. The reader taps it to reveal the note. No database round-trip — the note is in the block markup.</p>
+  <div class="warn"><p><strong>Notes are per-block-instance.</strong> If you have two TOC blocks in a post, each stores its own notes independently.</p></div>
 
-  <h2>6. Developers</h2>
+  <h3 id="citations">Per-section academic citations <span class="badge-new">New in 1.1</span></h3>
+  <p>A <strong>§</strong> button on each TOC item copies a formatted academic citation for that section — including the direct <code>#anchor</code> URL.</p>
+  <p>Supported formats: <strong>APA</strong>, <strong>MLA</strong>, <strong>Chicago</strong>, <strong>Harvard</strong>, <strong>Plain link</strong>. Choose the default in <em>Reading Guide → Citation format</em>.</p>
+  <p>All citation data comes from WordPress: <code>get_the_author_meta('display_name')</code>, <code>get_the_title()</code>, <code>get_bloginfo('name')</code>, <code>get_the_date('Y-m-d')</code>, <code>get_permalink()</code>. <strong>Zero external API calls.</strong></p>
+  <p><strong>Example APA output:</strong></p>
+  <pre><code>Smith, J. (2026, September 8). Section Title. In Post Title. Site Name. https://example.com/post/#section-slug</code></pre>
+
+  <h3 id="reactions">Emoji reactions (reader → writer)</h3>
+  <p>Readers react to individual sections with four emoji: 💡 Insightful · ⭐ Saved · 🤔 Unclear · ✅ Got it.</p>
   <ul>
-    <li>Block: <code>tocflow/table-of-contents</code></li>
-    <li>Heading map: <code>TOCflow_Headings::get_all( $post_id )</code></li>
-    <li>Do not declare functions in <code>src/render.php</code></li>
-    <li>Text domain literal: <code>'tocflow'</code></li>
-    <li>Build: <code>npm run build</code></li>
+    <li>State is stored in <code>localStorage</code> with a key of <code>tocflow-r-{postId}-{slug}-{emoji}</code>.</li>
+    <li>Reactions are per-device and per-browser. Nothing is sent to your server or any third party.</li>
+    <li>Accessible: each button has <code>aria-pressed</code> reflecting its state.</li>
+    <li>Respects <code>prefers-reduced-motion</code> — the pop animation is disabled when the user prefers reduced motion.</li>
   </ul>
-  <p>See <a href="https://github.com/matthummel-pa/tocflow/blob/main/docs/DEVELOPER_SOP.md">DEVELOPER_SOP.md</a> and <a href="https://github.com/matthummel-pa/tocflow/blob/main/docs/NAMING.md">NAMING.md</a>.</p>
 
-  <h2>7. Changelog</h2>
-  <p>v1.0.2 — WordPress.org Plugin Check cleanup (`load_plugin_textdomain` removed, `Tested up to` 7.1, GPLv2 or later). Behavior unchanged from 1.0.1.</p>
-  <p>v1.0.1 — installable GitHub zip, docs and packaging polish on top of the 1.0 feature set.</p>
-  <p>v1.0.0 — live preview, presets, collapse, sticky, scroll-spy, auto-insert, shortcode, admin docs, marketplace packaging.</p>
-  <p>Full list: <a href="https://github.com/matthummel-pa/tocflow/blob/main/CHANGELOG.md">CHANGELOG.md</a></p>
+  <!-- Settings -->
+  <h2 id="settings">7. Settings → TOCflow</h2>
+  <p>Find these under <strong>WordPress admin → Settings → TOCflow</strong>.</p>
 
-  <h2>8. License</h2>
-  <p>TOCflow is <strong>100% GPLv2 or later</strong> — PHP, JavaScript, CSS, and images. Copyright 2026 Matt Hummel. That is the WordPress.org requirement and the Envato “100% GPL” option (not a split license). Selling copies is allowed; you are selling the package and support, not locking the code.</p>
-</div>
-<footer>
-  <div class="wrap">
-    © 2026 <a href="https://matthummel.com">Matt Hummel</a> ·
-    <a href="index.html">Home</a> ·
-    <a href="support.html">Support</a> ·
-    GPLv2 or later
+  <h3>Reading experience</h3>
+  <table>
+    <thead><tr><th>Setting</th><th>Default</th><th>Notes</th></tr></thead>
+    <tbody>
+      <tr><td>Smooth scroll</td><td>On</td><td>Animates anchor jumps. Automatically skipped for users who prefer reduced motion.</td></tr>
+      <tr><td>Scroll offset (px)</td><td>0</td><td>Pixels of space to leave under a sticky admin bar or theme header. Typical values: 32 (admin bar) + header height.</td></tr>
+      <tr><td>Highlight active heading</td><td>On</td><td>Site-wide default. Overridable per block.</td></tr>
+      <tr><td>Minimum headings</td><td>2</td><td>Hides the TOC when a post has fewer matching headings. Overridable per block.</td></tr>
+    </tbody>
+  </table>
+
+  <h3 id="auto-insert">Auto-generate the block</h3>
+  <table>
+    <thead><tr><th>Setting</th><th>Notes</th></tr></thead>
+    <tbody>
+      <tr><td>Position: Off / Top of content / After first heading</td><td>Posts already containing the block or <code>[tocflow]</code> shortcode are skipped.</td></tr>
+      <tr><td>Post types</td><td>Checkboxes for all registered public post types.</td></tr>
+      <tr><td>Title text and show/hide</td><td>Default title for the auto-generated block.</td></tr>
+      <tr><td>Title element</td><td>P, H2, H3, or H4.</td></tr>
+      <tr><td>Heading levels H1–H6</td><td>H1 off by default.</td></tr>
+      <tr><td>List type and numbering</td><td>Bullets, sequential, or nested.</td></tr>
+      <tr><td>Style preset</td><td>Default, Minimal, Boxed, Underline, Card.</td></tr>
+      <tr><td>Layout options</td><td>Compact, two columns, underline links, max height.</td></tr>
+      <tr><td>Behavior</td><td>Sticky, collapsible, start collapsed.</td></tr>
+    </tbody>
+  </table>
+
+  <h3>SEO &amp; data</h3>
+  <table>
+    <thead><tr><th>Setting</th><th>Default</th><th>Notes</th></tr></thead>
+    <tbody>
+      <tr><td>Schema markup (JSON-LD)</td><td>Off</td><td>Outputs an ItemList structured data block for the outline. Leave off if Yoast SEO, Rank Math, or Schema Pro is already outputting a TOC schema.</td></tr>
+      <tr><td>Delete data on uninstall</td><td>Off</td><td>Removes plugin options when the plugin is deleted. Deactivating never deletes data.</td></tr>
+    </tbody>
+  </table>
+
+  <!-- Shortcode -->
+  <h2 id="shortcode">8. Shortcode</h2>
+  <p>Use <code>[tocflow]</code> in Classic Editor content, text widgets, or theme templates via <code>do_shortcode('[tocflow]')</code>.</p>
+  <p>All block attributes are available as shortcode attributes (snake_case or camelCase):</p>
+  <pre><code>[tocflow title="Contents" ordered="1" numbering="nested" style="boxed" h4="1" min="3"]</code></pre>
+  <table>
+    <thead><tr><th>Attribute</th><th>Values</th><th>Default</th></tr></thead>
+    <tbody>
+      <tr><td><code>title</code></td><td>Any string</td><td>Table of Contents</td></tr>
+      <tr><td><code>showtitle</code></td><td>0 / 1</td><td>1</td></tr>
+      <tr><td><code>titletag</code></td><td>p, h2, h3, h4</td><td>p</td></tr>
+      <tr><td><code>h1</code>–<code>h6</code></td><td>0 / 1</td><td>h2=1, h3=1, others=0</td></tr>
+      <tr><td><code>ordered</code></td><td>0 / 1</td><td>0</td></tr>
+      <tr><td><code>numbering</code></td><td>default / nested</td><td>default</td></tr>
+      <tr><td><code>markers</code></td><td>0 / 1 (1 = show)</td><td>1</td></tr>
+      <tr><td><code>collapsible</code></td><td>0 / 1</td><td>0</td></tr>
+      <tr><td><code>collapsed</code></td><td>0 / 1</td><td>0</td></tr>
+      <tr><td><code>sticky</code></td><td>0 / 1</td><td>0</td></tr>
+      <tr><td><code>compact</code></td><td>0 / 1</td><td>0</td></tr>
+      <tr><td><code>columns</code></td><td>1 / 2</td><td>1</td></tr>
+      <tr><td><code>underline</code></td><td>0 / 1</td><td>0</td></tr>
+      <tr><td><code>highlight</code></td><td>0 / 1</td><td>site default</td></tr>
+      <tr><td><code>maxheight</code></td><td>pixels (0 = unlimited)</td><td>0</td></tr>
+      <tr><td><code>min</code></td><td>integer</td><td>site default</td></tr>
+      <tr><td><code>smooth</code></td><td>inherit / on / off</td><td>inherit</td></tr>
+      <tr><td><code>style</code></td><td>default, minimal, boxed, underline, card</td><td>default</td></tr>
+    </tbody>
+  </table>
+
+  <!-- Compatibility -->
+  <h2 id="compatibility">9. Compatibility</h2>
+  <p class="intro">Compatibility is a core design principle of TOCflow. The block inherits theme colors and fonts, never loads from third-party CDNs, and makes zero remote calls in any mode.</p>
+
+  <h3 id="seo-plugins">SEO plugins</h3>
+  <div class="compat-row">
+    <span class="compat-pill">Yoast SEO</span>
+    <span class="compat-pill">Rank Math</span>
+    <span class="compat-pill">All in One SEO</span>
+    <span class="compat-pill">Schema Pro</span>
+    <span class="compat-pill">SEOPress</span>
   </div>
-</footer>
+  <p>TOCflow's JSON-LD schema is <strong>off by default</strong> and outputs only when you enable it. If your SEO plugin already generates a TOC schema, leave TOCflow's off to avoid duplicate structured data. The block navigation landmark itself is invisible to SEO plugins.</p>
+  <div class="callout"><p><strong>Yoast &amp; Rank Math:</strong> Both plugins read heading structure directly from the post content — the TOC <code>&lt;nav&gt;</code> block does not affect their content analysis.</p></div>
+
+  <h3 id="themes">Themes</h3>
+  <p>The front-end TOC block inherits the active theme's font family, font size, and link color via <code>currentColor</code> and CSS custom properties. TOCflow never injects a branded or third-party font on the front end.</p>
+  <div class="compat-row">
+    <span class="compat-pill">Twenty Twenty-Four</span>
+    <span class="compat-pill">Twenty Twenty-Five</span>
+    <span class="compat-pill">Astra</span>
+    <span class="compat-pill">Kadence</span>
+    <span class="compat-pill">GeneratePress</span>
+    <span class="compat-pill">OceanWP</span>
+    <span class="compat-pill">Blocksy</span>
+    <span class="compat-pill">Hello Elementor</span>
+    <span class="compat-pill">Any block theme</span>
+  </div>
+
+  <h3 id="page-builders">Page builders</h3>
+  <p>Place <code>[tocflow]</code> in any Shortcode, HTML, or Code element in your page builder. TOCflow automatically reads heading data from each builder's stored meta and injects matching anchor IDs into the rendered page via a late <code>the_content</code> filter (priority 999, runs after all builder output).</p>
+  <table>
+    <thead><tr><th>Builder</th><th>Heading detection</th><th>Notes</th></tr></thead>
+    <tbody>
+      <tr><td><strong>Elementor</strong></td><td>Heading widget JSON parsed from <code>_elementor_data</code> meta</td><td>Add a Shortcode widget with <code>[tocflow]</code>. Heading and Text Editor widgets are both supported. Works with Elementor Pro.</td></tr>
+      <tr><td><strong>Bricks Builder</strong></td><td>Heading and rich-text elements parsed from <code>_bricks_page_content_2</code> meta</td><td>Use a Code or Shortcode element. Bricks heading and rich-text elements both detected.</td></tr>
+      <tr><td><strong>Divi</strong></td><td>HTML scan of rendered output</td><td>Use a Code module or Shortcode module for <code>[tocflow]</code>. Heading tags inside Divi text/heading modules are captured in the rendered HTML.</td></tr>
+      <tr><td><strong>Beaver Builder</strong></td><td>HTML scan; shortcode detection in builder meta</td><td>Use an HTML module or Shortcode module. Beaver Builder module data is scanned for <code>tocflow</code> references to trigger ID injection.</td></tr>
+      <tr><td><strong>WPBakery / Visual Composer</strong></td><td>HTML scan of rendered output</td><td>Use a Raw HTML element or the Shortcode element. Works with both the Classic and block-based WPBakery.</td></tr>
+      <tr><td><strong>Oxygen Builder</strong></td><td>HTML scan; <code>ct_builder_shortcodes</code> meta detected</td><td>Use a Shortcode element or Code Block with <code>[tocflow]</code>.</td></tr>
+      <tr><td><strong>Breakdance</strong></td><td>HTML scan; <code>breakdance_data</code> meta detected</td><td>Use a Shortcode element. Compatible with Breakdance's heading components.</td></tr>
+      <tr><td><strong>Gutenberg (native)</strong></td><td>Block parse via <code>parse_blocks()</code></td><td>The canonical integration path. Heading IDs are injected via the <code>render_block</code> filter — no <code>the_content</code> overhead on block sites.</td></tr>
+    </tbody>
+  </table>
+  <div class="callout"><p><strong>How builder ID injection works:</strong> A <code>the_content</code> filter at priority 999 runs after every page builder has finished generating its HTML. TOCflow uses <code>WP_HTML_Tag_Processor</code> (or a regex fallback for older WordPress) to find heading tags without an <code>id</code> attribute and stamps each one with the same slug used in the TOC link. Headings with existing IDs are left untouched.</p></div>
+
+  <h3 id="multilingual">Multilingual</h3>
+  <table>
+    <thead><tr><th>Plugin / tool</th><th>Status</th><th>Notes</th></tr></thead>
+    <tbody>
+      <tr><td>WPML</td><td>✓ Compatible</td><td>All user-facing strings use the <code>tocflow</code> text domain and are translatable via WPML's string translation module.</td></tr>
+      <tr><td>Polylang</td><td>✓ Compatible</td><td>No locale-specific slug or permalink issues.</td></tr>
+      <tr><td>TranslatePress</td><td>✓ Compatible</td><td>Front-end translated strings render correctly in the TOC.</td></tr>
+      <tr><td>WooCommerce</td><td>✓ Compatible</td><td>Works in product descriptions that use Heading blocks (requires WooCommerce block editor for products).</td></tr>
+      <tr><td>BuddyPress / BuddyBoss</td><td>✓ Compatible</td><td>Works in any post type registered as public.</td></tr>
+    </tbody>
+  </table>
+
+  <!-- Developer -->
+  <h2 id="dev-build">10. Developer: build</h2>
+  <pre><code>git clone https://github.com/matthummel-pa/tocflow.git
+cd tocflow
+npm install
+npm run build   # production build → build/
+npm run start   # development watch mode</code></pre>
+  <p>Requires Node.js 18+ and npm 9+. The build uses <code>@wordpress/scripts</code>. Unminified source is in <code>src/</code>; compiled assets land in <code>build/</code> (gitignored, built on release via GitHub Actions).</p>
+
+  <h2 id="dev-filters">11. Developer: PHP filters</h2>
+  <p>Hook into TOCflow's rendering to customize headings, skip post types, or alter the output:</p>
+  <table>
+    <thead><tr><th>Filter</th><th>Args</th><th>Purpose</th></tr></thead>
+    <tbody>
+      <tr><td><code>tocflow_headings</code></td><td><code>$headings, $post_id</code></td><td>Modify the heading list before rendering. Each entry has <code>level</code>, <code>text</code>, <code>slug</code>.</td></tr>
+      <tr><td><code>tocflow_nav_classes</code></td><td><code>$classes, $attributes</code></td><td>Add or remove CSS classes on the <code>&lt;nav&gt;</code> wrapper.</td></tr>
+      <tr><td><code>tocflow_render_nav</code></td><td><code>$html, $attributes, $post_id</code></td><td>Filter the final rendered nav HTML.</td></tr>
+      <tr><td><code>tocflow_skip_post_types</code></td><td><code>$post_types</code></td><td>Return an array of post type slugs to exclude from auto-insert.</td></tr>
+    </tbody>
+  </table>
+  <pre><code>// Example: exclude headings with a specific CSS class
+add_filter( 'tocflow_headings', function( $headings, $post_id ) {
+    return array_filter( $headings, function( $h ) {
+        return strpos( $h['slug'], 'sponsor' ) === false;
+    });
+}, 10, 2 );</code></pre>
+
+  <h2 id="privacy">12. Privacy</h2>
+  <p>TOCflow does not collect personal data, set cookies, or call remote services. Emoji reactions use the browser's own <code>localStorage</code> — no data leaves the reader's device. Citation data is built from post meta that is already public. JSON-LD is printed only if you opt in. <a href="https://github.com/matthummel-pa/tocflow/blob/main/PRIVACY.md">Full privacy policy →</a></p>
+
+  <footer>
+    <p>© 2026 <a href="https://matthummel.com">Matt Hummel</a> · <a href="index.html">Home</a> · <a href="support.html">Support</a> · <a href="https://github.com/matthummel-pa/tocflow">GitHub</a> · GPLv2 or later</p>
+  </footer>
+</div>
+</div>
 </body>
 </html>

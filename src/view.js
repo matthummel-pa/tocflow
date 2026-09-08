@@ -4,6 +4,9 @@
  * Loaded via block.json `viewScript`. wp-scripts extracts `@wordpress/*`
  * imports as script dependencies (no jQuery, no IIFE wrapper).
  *
+ * Reading Guide features (progress tracking, reactions, author notes,
+ * per-section citations) activate only when the nav carries `has-guide-mode`.
+ *
  * @see https://developer.wordpress.org/block-editor/reference-guides/block-api/block-metadata/#view-script
  */
 import domReady from '@wordpress/dom-ready';
@@ -17,6 +20,27 @@ const offsetOf = ( nav ) =>
 const smoothEnabled = ( nav ) =>
 	nav.getAttribute( 'data-tocflow-smooth' ) !== '0';
 
+/**
+ * Announce a short message to screen readers via the nav's live region.
+ *
+ * @param {HTMLElement} nav     The TOC nav element.
+ * @param {string}      message Text to announce.
+ */
+const announce = ( nav, message ) => {
+	const region = nav.querySelector( '.tocflow__live-region' );
+	if ( ! region ) {
+		return;
+	}
+	// Clear first so the same text re-announces if repeated.
+	region.textContent = '';
+	// Allow the DOM to settle before setting the new text.
+	window.requestAnimationFrame( () => {
+		region.textContent = message;
+	} );
+};
+
+// ── Collapse toggle ───────────────────────────────────────────────────────────
+
 const initToggle = ( nav ) => {
 	const button = nav.querySelector( '.tocflow__toggle' );
 	if ( ! button ) {
@@ -28,6 +52,8 @@ const initToggle = ( nav ) => {
 		nav.classList.toggle( 'is-collapsed', expanded );
 	} );
 };
+
+// ── Smooth scroll ─────────────────────────────────────────────────────────────
 
 const initSmoothScroll = ( nav ) => {
 	nav.addEventListener( 'click', ( event ) => {
@@ -60,6 +86,8 @@ const initSmoothScroll = ( nav ) => {
 		target.focus( { preventScroll: true } );
 	} );
 };
+
+// ── Scroll spy (highlight active section) ────────────────────────────────────
 
 const initScrollSpy = ( nav ) => {
 	if ( ! nav.classList.contains( 'has-scroll-spy' ) ) {
@@ -113,6 +141,808 @@ const initScrollSpy = ( nav ) => {
 	window.addEventListener( 'resize', pick );
 };
 
+// ── Reading progress: mark sections as read when scrolled past ────────────────
+
+const initProgressTracking = ( nav ) => {
+	if ( nav.getAttribute( 'data-tocflow-progress' ) !== '1' ) {
+		return;
+	}
+	if ( typeof window.IntersectionObserver === 'undefined' ) {
+		return;
+	}
+
+	const entries = Array.from(
+		nav.querySelectorAll( '.tocflow__link[href^="#"]' )
+	)
+		.map( ( link ) => {
+			const id = decodeURIComponent(
+				( link.getAttribute( 'href' ) || '' ).slice( 1 )
+			);
+			const heading = id ? document.getElementById( id ) : null;
+			const item = link.closest( '.tocflow__item' );
+			return heading && item ? { heading, item } : null;
+		} )
+		.filter( Boolean );
+
+	if ( ! entries.length ) {
+		return;
+	}
+
+	// eslint-disable-next-line no-undef
+	const observer = new IntersectionObserver(
+		( changes ) => {
+			changes.forEach( ( change ) => {
+				const entry = entries.find(
+					( e ) => e.heading === change.target
+				);
+				if ( ! entry ) {
+					return;
+				}
+				if (
+					! change.isIntersecting &&
+					change.boundingClientRect.top < 0
+				) {
+					entry.item.classList.add( 'is-read' );
+				} else if ( change.isIntersecting ) {
+					entry.item.classList.remove( 'is-read' );
+				}
+			} );
+		},
+		{ threshold: 0 }
+	);
+
+	entries.forEach( ( { heading } ) => observer.observe( heading ) );
+};
+
+// ── Emoji reactions (localStorage, no server required) ────────────────────────
+
+const reactionKey = ( postId, slug, emoji ) =>
+	`tocflow-r-${ postId }-${ slug }-${ emoji }`;
+
+const initReactions = ( nav ) => {
+	const postId = nav.getAttribute( 'data-tocflow-post' );
+	if ( ! postId ) {
+		return;
+	}
+
+	nav.querySelectorAll( '.tocflow__reaction' ).forEach( ( btn ) => {
+		const item = btn.closest( '.tocflow__item' );
+		const slug = item ? item.getAttribute( 'data-tocflow-slug' ) : null;
+		const emoji = btn.getAttribute( 'data-reaction' );
+		if ( ! slug || ! emoji ) {
+			return;
+		}
+
+		// Restore persisted state.
+		try {
+			const saved = localStorage.getItem(
+				reactionKey( postId, slug, emoji )
+			);
+			if ( saved === '1' ) {
+				btn.setAttribute( 'aria-pressed', 'true' );
+			}
+		} catch {
+			// localStorage may be blocked (private mode, security policy).
+		}
+
+		btn.addEventListener( 'click', () => {
+			const pressed = btn.getAttribute( 'aria-pressed' ) === 'true';
+			const next = ! pressed;
+			btn.setAttribute( 'aria-pressed', next ? 'true' : 'false' );
+
+			try {
+				const key = reactionKey( postId, slug, emoji );
+				if ( next ) {
+					localStorage.setItem( key, '1' );
+				} else {
+					localStorage.removeItem( key );
+				}
+			} catch {
+				// localStorage may be blocked.
+			}
+
+			if ( ! prefersReduced() ) {
+				btn.classList.add( 'is-popped' );
+				setTimeout( () => btn.classList.remove( 'is-popped' ), 300 );
+			}
+		} );
+	} );
+};
+
+// ── Author section notes (toggle reveal) ─────────────────────────────────────
+
+const initNotes = ( nav ) => {
+	nav.querySelectorAll( '.tocflow__note-toggle' ).forEach( ( btn ) => {
+		btn.addEventListener( 'click', () => {
+			const expanded = btn.getAttribute( 'aria-expanded' ) === 'true';
+			btn.setAttribute( 'aria-expanded', expanded ? 'false' : 'true' );
+			const targetId = btn.getAttribute( 'aria-controls' );
+			const note = targetId ? document.getElementById( targetId ) : null;
+			if ( note ) {
+				if ( expanded ) {
+					note.setAttribute( 'hidden', '' );
+				} else {
+					note.removeAttribute( 'hidden' );
+				}
+			}
+		} );
+	} );
+};
+
+// ── Per-section academic citations ────────────────────────────────────────────
+
+const MONTHS = [
+	'January',
+	'February',
+	'March',
+	'April',
+	'May',
+	'June',
+	'July',
+	'August',
+	'September',
+	'October',
+	'November',
+	'December',
+];
+
+const formatCitation = ( meta, headingText, slug, style ) => {
+	const { author, title, site, date, url } = meta;
+	const sectionUrl = url + '#' + slug;
+	const dateObj = date ? new Date( date ) : new Date();
+	const year = dateObj.getUTCFullYear();
+	const monthLong = MONTHS[ dateObj.getUTCMonth() ];
+	const day = dateObj.getUTCDate();
+
+	switch ( style ) {
+		case 'mla':
+			return `${ author }. "${ headingText }." ${ title }, ${ site }, ${ day } ${ monthLong } ${ year }, ${ sectionUrl }.`;
+		case 'chicago':
+			return `${ author }. "${ headingText }." ${ title }. ${ site }. ${ monthLong } ${ day }, ${ year }. ${ sectionUrl }.`;
+		case 'harvard':
+			return `${ author } (${ year }) '${ headingText }' in ${ title }. ${ site }. Available at: ${ sectionUrl }.`;
+		case 'plain':
+			return `"${ headingText }" — ${ title } (${ sectionUrl })`;
+		case 'apa':
+		default:
+			return `${ author }. (${ year }, ${ monthLong } ${ day }). ${ headingText }. In ${ title }. ${ site }. ${ sectionUrl }`;
+	}
+};
+
+/**
+ * @param {HTMLElement}      btn The button to mark as copied.
+ * @param {HTMLElement|null} nav Optional nav for live-region announcement.
+ */
+const showCopied = ( btn, nav ) => {
+	btn.classList.add( 'is-copied' );
+	if ( nav ) {
+		announce( nav, 'Citation copied.' );
+	}
+	setTimeout( () => btn.classList.remove( 'is-copied' ), 2200 );
+};
+
+/**
+ * @param {string}           text Text to copy.
+ * @param {HTMLElement}      btn  Button triggering the copy.
+ * @param {HTMLElement|null} nav  Optional nav for live-region announcement.
+ */
+const copyText = ( text, btn, nav = null ) => {
+	if ( navigator.clipboard && navigator.clipboard.writeText ) {
+		navigator.clipboard
+			.writeText( text )
+			.then( () => showCopied( btn, nav ) );
+		return;
+	}
+	// execCommand fallback for older browsers.
+	const ta = document.createElement( 'textarea' );
+	ta.value = text;
+	ta.style.cssText = 'position:fixed;opacity:0;top:0;left:0';
+	document.body.appendChild( ta );
+	ta.focus();
+	ta.select();
+	try {
+		document.execCommand( 'copy' );
+		showCopied( btn, nav );
+	} finally {
+		document.body.removeChild( ta );
+	}
+};
+
+const initCitations = ( nav ) => {
+	const rawMeta = nav.getAttribute( 'data-tocflow-meta' );
+	if ( ! rawMeta ) {
+		return;
+	}
+	let meta;
+	try {
+		meta = JSON.parse( rawMeta );
+	} catch {
+		return;
+	}
+	const style = meta.citationStyle || 'apa';
+
+	nav.querySelectorAll( '.tocflow__cite-btn' ).forEach( ( btn ) => {
+		const item = btn.closest( '.tocflow__item' );
+		const slug = item ? item.getAttribute( 'data-tocflow-slug' ) : null;
+		const headingText = item
+			? item.getAttribute( 'data-tocflow-heading' )
+			: null;
+		if ( ! slug || ! headingText ) {
+			return;
+		}
+
+		btn.addEventListener( 'click', () => {
+			copyText(
+				formatCitation( meta, headingText, slug, style ),
+				btn,
+				nav
+			);
+		} );
+	} );
+};
+
+// ── Reader annotation notes (localStorage) ────────────────────────────────────
+
+/**
+ * @param {string} postId Post ID string.
+ * @param {string} slug   Section slug.
+ * @return {string} localStorage key.
+ */
+const noteKey = ( postId, slug ) => `tocflow-rn-${ postId }-${ slug }`;
+
+/**
+ * @param {HTMLElement} nav The TOC nav element.
+ */
+const initReaderNotes = ( nav ) => {
+	const postId = nav.getAttribute( 'data-tocflow-post' );
+	if ( ! postId ) {
+		return;
+	}
+
+	nav.querySelectorAll( '.tocflow__rnote-toggle' ).forEach( ( btn ) => {
+		const item = btn.closest( '.tocflow__item' );
+		const slug = item ? item.getAttribute( 'data-tocflow-slug' ) : null;
+		if ( ! slug ) {
+			return;
+		}
+
+		const padId = btn.getAttribute( 'aria-controls' );
+		const pad = padId ? document.getElementById( padId ) : null;
+		const ta = pad ? pad.querySelector( '.tocflow__rnote-ta' ) : null;
+		if ( ! pad || ! ta ) {
+			return;
+		}
+
+		// Restore saved note and show indicator.
+		try {
+			const saved = localStorage.getItem( noteKey( postId, slug ) );
+			if ( saved ) {
+				ta.value = saved;
+				btn.classList.add( 'has-content' );
+			}
+		} catch {
+			// localStorage may be blocked.
+		}
+
+		// Toggle open/close.
+		btn.addEventListener( 'click', () => {
+			const expanded = btn.getAttribute( 'aria-expanded' ) === 'true';
+			btn.setAttribute( 'aria-expanded', expanded ? 'false' : 'true' );
+			if ( expanded ) {
+				pad.setAttribute( 'hidden', '' );
+			} else {
+				pad.removeAttribute( 'hidden' );
+				ta.focus();
+			}
+		} );
+
+		// Debounced auto-save.
+		let saveTimer;
+		ta.addEventListener( 'input', () => {
+			clearTimeout( saveTimer );
+			saveTimer = setTimeout( () => {
+				try {
+					const val = ta.value.trim();
+					if ( val ) {
+						localStorage.setItem( noteKey( postId, slug ), val );
+						btn.classList.add( 'has-content' );
+					} else {
+						localStorage.removeItem( noteKey( postId, slug ) );
+						btn.classList.remove( 'has-content' );
+					}
+				} catch {
+					// localStorage may be blocked.
+				}
+			}, 400 );
+		} );
+	} );
+};
+
+// ── Reading progress bar (% of headings scrolled past) ────────────────────────
+
+/**
+ * @param {HTMLElement} nav The TOC nav element.
+ */
+const initReadingProgress = ( nav ) => {
+	if ( nav.getAttribute( 'data-tocflow-reader-progress' ) !== '1' ) {
+		return;
+	}
+	if ( typeof window.IntersectionObserver === 'undefined' ) {
+		return;
+	}
+
+	const bar = nav.querySelector( '.tocflow__reading-bar' );
+	if ( ! bar ) {
+		return;
+	}
+
+	const links = Array.from(
+		nav.querySelectorAll( '.tocflow__link[href^="#"]' )
+	);
+	if ( ! links.length ) {
+		return;
+	}
+
+	const headings = links
+		.map( ( link ) => {
+			const id = decodeURIComponent(
+				( link.getAttribute( 'href' ) || '' ).slice( 1 )
+			);
+			return id ? document.getElementById( id ) : null;
+		} )
+		.filter( Boolean );
+
+	if ( ! headings.length ) {
+		return;
+	}
+
+	const wrap = nav.querySelector( '.tocflow__reading-wrap' );
+	let passed = 0;
+
+	const update = () => {
+		const pct = headings.length
+			? Math.round( ( passed / headings.length ) * 100 )
+			: 0;
+		bar.style.width = pct + '%';
+		if ( wrap ) {
+			wrap.setAttribute( 'aria-valuenow', String( pct ) );
+		}
+	};
+
+	// eslint-disable-next-line no-undef
+	const observer = new IntersectionObserver(
+		( changes ) => {
+			changes.forEach( ( change ) => {
+				// Count a heading as "read" once it has scrolled above the fold.
+				if (
+					! change.isIntersecting &&
+					change.boundingClientRect.top < 0
+				) {
+					const idx = headings.indexOf( change.target );
+					if ( idx !== -1 ) {
+						passed = Math.max( passed, idx + 1 );
+					}
+				}
+			} );
+			update();
+		},
+		{ threshold: 0 }
+	);
+
+	headings.forEach( ( h ) => observer.observe( h ) );
+};
+
+// ── Resume reading bookmark (localStorage) ────────────────────────────────────
+
+/**
+ * @param {string} postId Post ID string.
+ * @return {string} localStorage key.
+ */
+const bookmarkKey = ( postId ) => `tocflow-bm-${ postId }`;
+
+/**
+ * @param {HTMLElement} nav The TOC nav element.
+ */
+const initBookmark = ( nav ) => {
+	const postId = nav.getAttribute( 'data-tocflow-post' );
+	if ( ! postId ) {
+		return;
+	}
+	if ( nav.getAttribute( 'data-tocflow-bookmark' ) !== '1' ) {
+		return;
+	}
+	if ( typeof window.IntersectionObserver === 'undefined' ) {
+		return;
+	}
+
+	const resumeBtn = nav.querySelector( '.tocflow__resume-btn' );
+	const key = bookmarkKey( postId );
+
+	// Track the last visible heading as the reader scrolls.
+	const links = Array.from(
+		nav.querySelectorAll( '.tocflow__link[href^="#"]' )
+	);
+
+	// eslint-disable-next-line no-undef
+	const tracker = new IntersectionObserver(
+		( changes ) => {
+			changes.forEach( ( change ) => {
+				if ( change.isIntersecting ) {
+					try {
+						localStorage.setItem( key, change.target.id );
+					} catch {
+						// localStorage may be blocked.
+					}
+				}
+			} );
+		},
+		{ rootMargin: '-30% 0px -60% 0px', threshold: 0 }
+	);
+
+	links.forEach( ( link ) => {
+		const id = decodeURIComponent(
+			( link.getAttribute( 'href' ) || '' ).slice( 1 )
+		);
+		const heading = id ? document.getElementById( id ) : null;
+		if ( heading ) {
+			tracker.observe( heading );
+		}
+	} );
+
+	// Show the Resume button if a bookmark exists.
+	try {
+		const saved = localStorage.getItem( key );
+		if ( saved && resumeBtn ) {
+			const target = document.getElementById( saved );
+			// Escape the slug for a CSS attribute-value selector.
+			const escapedSlug = saved.replace(
+				/([!"#$%&'()*+,./:;<=>?@[\\\]^`{|}~])/g,
+				'\\$1'
+			);
+			const targetLink = target
+				? nav.querySelector( `a[href="#${ escapedSlug }"]` )
+				: null;
+			if ( targetLink ) {
+				resumeBtn.removeAttribute( 'hidden' );
+				resumeBtn.addEventListener( 'click', () => {
+					targetLink.click();
+					// Remove the Resume button after use so it's not confusing.
+					resumeBtn.setAttribute( 'hidden', '' );
+				} );
+			}
+		}
+	} catch {
+		// localStorage may be blocked.
+	}
+};
+
+// ── Section hover-preview tooltip ────────────────────────────────────────────
+
+/**
+ * Show a floating tooltip with the section's opening text when the reader
+ * hovers over (or focuses) a TOC link. Works independently of guide mode.
+ *
+ * Uses one shared `position: fixed` bubble per nav so the tooltip escapes
+ * any overflow:hidden or max-height constraints on the nav container.
+ *
+ * @param {HTMLElement} nav The TOC nav element.
+ */
+const initHoverPreviews = ( nav ) => {
+	const items = Array.from(
+		nav.querySelectorAll( '.tocflow__item.has-hover-preview' )
+	);
+	if ( ! items.length ) {
+		return;
+	}
+
+	const bubble = document.createElement( 'div' );
+	bubble.className = 'tocflow__tip-bubble';
+	bubble.setAttribute( 'aria-hidden', 'true' );
+	document.body.appendChild( bubble );
+
+	let hideTimer = null;
+
+	const positionBubble = ( anchor ) => {
+		const rect = anchor.getBoundingClientRect();
+		const gap = 12;
+		const vw = window.innerWidth;
+		const vh = window.innerHeight;
+		const bw = Math.min( 280, vw - 24 );
+
+		bubble.style.maxWidth = bw + 'px';
+		// Measure height off-screen first.
+		bubble.style.visibility = 'hidden';
+		bubble.style.top = '-9999px';
+		bubble.style.left = '0px';
+
+		const bh = bubble.offsetHeight;
+
+		// Prefer placing to the right; fall back to the left.
+		let left = rect.right + gap;
+		let side = 'is-right';
+		if ( left + bw > vw - 8 ) {
+			left = rect.left - gap - bw;
+			side = 'is-left';
+		}
+		left = Math.max( 8, left );
+
+		// Center vertically on the anchor; clamp to viewport.
+		let top = rect.top + rect.height / 2 - bh / 2;
+		top = Math.max( 8, Math.min( top, vh - bh - 8 ) );
+
+		bubble.classList.remove( 'is-right', 'is-left' );
+		bubble.classList.add( side );
+		bubble.style.visibility = '';
+		bubble.style.top = Math.round( top ) + 'px';
+		bubble.style.left = Math.round( left ) + 'px';
+	};
+
+	const showBubble = ( item ) => {
+		clearTimeout( hideTimer );
+		const label = item.querySelector( '.tocflow__tip-label' );
+		const text = label ? label.textContent.trim() : '';
+		if ( ! text ) {
+			return;
+		}
+		const anchor = item.querySelector( '.tocflow__link' ) || item;
+		bubble.textContent = text;
+		bubble.classList.add( 'is-visible' );
+		positionBubble( anchor );
+	};
+
+	const hideBubble = () => {
+		clearTimeout( hideTimer );
+		// Brief delay so moving between tight items feels smooth.
+		hideTimer = setTimeout(
+			() => bubble.classList.remove( 'is-visible' ),
+			60
+		);
+	};
+
+	items.forEach( ( item ) => {
+		const link = item.querySelector( '.tocflow__link' );
+		item.addEventListener( 'mouseenter', () => showBubble( item ) );
+		item.addEventListener( 'mouseleave', hideBubble );
+		if ( link ) {
+			link.addEventListener( 'focus', () => showBubble( item ) );
+			link.addEventListener( 'blur', hideBubble );
+		}
+	} );
+};
+
+// ── Export / print bar ────────────────────────────────────────────────────────
+
+/**
+ * Collect the TOC as a flat [{depth, text, slug}] array from the rendered DOM.
+ *
+ * @param {HTMLElement} nav The TOC nav element.
+ * @return {Array<{depth: number, text: string, slug: string}>} Flat ordered list.
+ */
+const collectItems = ( nav ) => {
+	const items = [];
+	nav.querySelectorAll( '.tocflow__item' ).forEach( ( li ) => {
+		const link = li.querySelector( '.tocflow__link' );
+		if ( ! link ) {
+			return;
+		}
+		const text = link.textContent.trim();
+		const slug = ( link.getAttribute( 'href' ) || '' ).replace( /^#/, '' );
+		// Depth = nesting level (tocflow__list = 1, tocflow__sub = 2, …).
+		let depth = 1;
+		let parent = li.parentElement;
+		while ( parent && ! parent.classList.contains( 'tocflow__body' ) ) {
+			if (
+				parent.classList.contains( 'tocflow__sub' ) ||
+				parent.tagName === 'OL' ||
+				parent.tagName === 'UL'
+			) {
+				depth++;
+			}
+			parent = parent.parentElement;
+		}
+		depth = Math.max( 1, depth );
+		items.push( { depth, text, slug } );
+	} );
+	return items;
+};
+
+/**
+ * Convert collected TOC items to a Markdown string.
+ *
+ * @param {string}                                             title Post title.
+ * @param {Array<{depth: number, text: string, slug: string}>} items TOC items.
+ * @param {string}                                             url   Current page URL.
+ * @return {string} Markdown-formatted outline.
+ */
+const toMarkdown = ( title, items, url ) => {
+	const lines = [ `# ${ title }`, '' ];
+	const minDepth = items.reduce(
+		( m, i ) => Math.min( m, i.depth ),
+		Infinity
+	);
+	items.forEach( ( item ) => {
+		const indent = '  '.repeat( item.depth - minDepth );
+		lines.push( `${ indent }- [${ item.text }](${ url }#${ item.slug })` );
+	} );
+	lines.push( '' );
+	return lines.join( '\n' );
+};
+
+/**
+ * Build a minimal Word-compatible HTML string for the outline.
+ *
+ * @param {string}                                             title Post title.
+ * @param {Array<{depth: number, text: string, slug: string}>} items TOC items.
+ * @param {string}                                             url   Current page URL.
+ * @return {string} HTML document string.
+ */
+const toWordHtml = ( title, items, url ) => {
+	const esc = ( s ) =>
+		s
+			.replace( /&/g, '&amp;' )
+			.replace( /</g, '&lt;' )
+			.replace( />/g, '&gt;' );
+	let inner = `<h1>${ esc( title ) }</h1><ul>`;
+	const minDepth = items.reduce(
+		( m, i ) => Math.min( m, i.depth ),
+		Infinity
+	);
+	let prevDepth = minDepth;
+	items.forEach( ( item ) => {
+		if ( item.depth > prevDepth ) {
+			inner += '<ul>'.repeat( item.depth - prevDepth );
+		} else if ( item.depth < prevDepth ) {
+			inner += '</ul></li>'.repeat( prevDepth - item.depth );
+		}
+		inner += `<li><a href="${ esc( url ) }#${ esc( item.slug ) }">${ esc(
+			item.text
+		) }</a>`;
+		prevDepth = item.depth;
+	} );
+	inner += '</li></ul>'.repeat( prevDepth - minDepth + 1 );
+	return (
+		`<!DOCTYPE html>\n<html><head><meta charset="utf-8">` +
+		`<title>${ esc( title ) }</title></head><body>${ inner }</body></html>`
+	);
+};
+
+/**
+ * Trigger a browser file download.
+ *
+ * @param {string} content  File content.
+ * @param {string} filename Suggested file name.
+ * @param {string} mime     MIME type.
+ */
+const downloadFile = ( content, filename, mime ) => {
+	const blob = new Blob( [ content ], { type: mime } );
+	const href = URL.createObjectURL( blob );
+	const a = document.createElement( 'a' );
+	a.href = href;
+	a.download = filename;
+	document.body.appendChild( a );
+	a.click();
+	document.body.removeChild( a );
+	setTimeout( () => URL.revokeObjectURL( href ), 10000 );
+};
+
+/**
+ * Open a minimal print window containing only the TOC outline.
+ *
+ * @param {string} title Post title.
+ * @param {string} html  Word-compatible HTML outline (reused for print).
+ */
+const printOutline = ( title, html ) => {
+	const win = window.open( '', '_blank', 'width=800,height=600' );
+	if ( ! win ) {
+		return;
+	}
+	win.document.write(
+		html.replace(
+			'</head>',
+			`<style>body{font-family:sans-serif;max-width:640px;margin:2rem auto}` +
+				`a{color:inherit}h1{font-size:1.4rem;margin-bottom:1rem}` +
+				`ul,ol{padding-left:1.5rem}li{margin:.3rem 0}</style></head>`
+		)
+	);
+	win.document.close();
+	win.focus();
+	win.print();
+};
+
+/**
+ * Wire up export / print buttons in the toolbar.
+ *
+ * @param {HTMLElement} nav The TOC nav element.
+ */
+const initExport = ( nav ) => {
+	const bar = nav.querySelector( '.tocflow__export-bar' );
+	if ( ! bar ) {
+		return;
+	}
+
+	const pageTitle =
+		bar.getAttribute( 'data-tocflow-export-title' ) ||
+		document.title ||
+		'Table of Contents';
+	const pageUrl = window.location.href.split( '#' )[ 0 ];
+	const slug = pageTitle
+		.toLowerCase()
+		.replace( /[^a-z0-9]+/g, '-' )
+		.replace( /(^-|-$)/g, '' );
+
+	bar.querySelectorAll( '.tocflow__export-btn' ).forEach( ( btn ) => {
+		const action = btn.getAttribute( 'data-tocflow-action' );
+
+		btn.addEventListener( 'click', () => {
+			const items = collectItems( nav );
+			const md = toMarkdown( pageTitle, items, pageUrl );
+			const docHtml = toWordHtml( pageTitle, items, pageUrl );
+
+			switch ( action ) {
+				case 'copy-md': {
+					const onCopy = () => {
+						announce( nav, 'Outline copied as Markdown.' );
+						btn.classList.add( 'is-copied' );
+						const confirm = btn.querySelector(
+							'.tocflow__export-confirm'
+						);
+						if ( confirm ) {
+							confirm.textContent = '✓';
+						}
+						setTimeout( () => {
+							btn.classList.remove( 'is-copied' );
+							if ( confirm ) {
+								confirm.textContent = '';
+							}
+						}, 2200 );
+					};
+
+					if (
+						navigator.clipboard &&
+						navigator.clipboard.writeText
+					) {
+						navigator.clipboard.writeText( md ).then( onCopy );
+					} else {
+						const ta = document.createElement( 'textarea' );
+						ta.value = md;
+						ta.style.cssText =
+							'position:fixed;opacity:0;top:0;left:0';
+						document.body.appendChild( ta );
+						ta.focus();
+						ta.select();
+						try {
+							document.execCommand( 'copy' );
+							onCopy();
+						} finally {
+							document.body.removeChild( ta );
+						}
+					}
+					break;
+				}
+				case 'download-md':
+					downloadFile( md, `${ slug }.md`, 'text/markdown' );
+					announce( nav, 'Markdown file downloaded.' );
+					break;
+				case 'download-doc':
+					downloadFile(
+						docHtml,
+						`${ slug }.doc`,
+						'application/msword'
+					);
+					announce( nav, 'Word document downloaded.' );
+					break;
+				case 'print':
+					printOutline( pageTitle, docHtml );
+					break;
+				default:
+					break;
+			}
+		} );
+	} );
+};
+
+// ── Bootstrap ─────────────────────────────────────────────────────────────────
+
 const initNav = ( nav ) => {
 	if ( nav.dataset.tocflowReady ) {
 		return;
@@ -121,6 +951,32 @@ const initNav = ( nav ) => {
 	initToggle( nav );
 	initSmoothScroll( nav );
 	initScrollSpy( nav );
+
+	if ( nav.classList.contains( 'has-hover-preview' ) ) {
+		initHoverPreviews( nav );
+	}
+
+	if ( nav.classList.contains( 'has-guide-mode' ) ) {
+		initProgressTracking( nav );
+		initReactions( nav );
+		initNotes( nav );
+		initCitations( nav );
+	}
+
+	// Study tools (work independently of guide mode).
+	if ( nav.classList.contains( 'has-reader-notes' ) ) {
+		initReaderNotes( nav );
+	}
+	if ( nav.classList.contains( 'has-reading-progress' ) ) {
+		initReadingProgress( nav );
+	}
+	if ( nav.classList.contains( 'has-bookmark' ) ) {
+		initBookmark( nav );
+	}
+
+	if ( nav.classList.contains( 'has-export' ) ) {
+		initExport( nav );
+	}
 };
 
 domReady( () => {

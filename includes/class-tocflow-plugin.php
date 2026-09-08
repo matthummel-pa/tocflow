@@ -40,7 +40,13 @@ class TOCflow_Plugin {
 		add_action( 'init', array( $this, 'register_block' ) );
 		add_action( 'init', array( $this, 'register_shortcode' ) );
 		add_action( 'admin_init', array( 'TOCflow_Settings', 'register' ) );
+
+		// Gutenberg: ID injection via block rendering pipeline.
 		add_filter( 'render_block', array( 'TOCflow_Headings', 'add_heading_ids' ), 10, 2 );
+
+		// Page builders: ID injection via rendered HTML (runs after builder output).
+		add_filter( 'the_content', array( $this, 'inject_builder_heading_ids' ), 999 );
+
 		add_filter( 'the_content', array( $this, 'auto_insert' ), 12 );
 		add_action( 'wp_enqueue_scripts', array( $this, 'enqueue_front_assets' ), 20 );
 		add_filter( 'plugin_action_links_' . TOCFLOW_BASENAME, array( $this, 'action_links' ) );
@@ -61,6 +67,45 @@ class TOCflow_Plugin {
 			return;
 		}
 		register_block_type( $build );
+	}
+
+	/**
+	 * Inject heading IDs into page-builder-rendered HTML via the_content filter.
+	 *
+	 * This runs at priority 999 — after Elementor, Divi, Beaver Builder, Bricks,
+	 * WPBakery, and Oxygen have all generated their output — so headings that exist
+	 * only inside builder widgets receive the same ID slugs as the TOC links.
+	 * Skips gracefully on pure Gutenberg posts (render_block already handled those).
+	 *
+	 * @param string $content Rendered post content.
+	 * @return string
+	 */
+	public function inject_builder_heading_ids( $content ) {
+		if ( is_admin() || ! is_singular() || ! in_the_loop() || ! is_main_query() ) {
+			return $content;
+		}
+
+		if ( ! TOCflow_Headings::should_inject_ids() ) {
+			return $content;
+		}
+
+		$post_id = get_the_ID();
+		if ( ! $post_id ) {
+			return $content;
+		}
+
+		// Pure Gutenberg posts: render_block already injected the IDs.
+		$post = get_post( $post_id );
+		if ( $post && has_blocks( $post->post_content ) ) {
+			return $content;
+		}
+
+		$headings = TOCflow_Headings::get_all( $post_id );
+		if ( empty( $headings ) ) {
+			return $content;
+		}
+
+		return TOCflow_Headings::inject_ids_in_html( $content, $headings );
 	}
 
 	/**
@@ -95,6 +140,21 @@ class TOCflow_Plugin {
 				'min'         => '-1',
 				'smooth'      => 'inherit',
 				'style'       => 'default',
+				// Reading Guide shortcode attributes.
+				'preview'     => '0',   // hover-preview tooltip on TOC links.
+				'guide'       => '0',   // full Reading Guide mode.
+				'previews'    => '0',   // inline section content previews.
+				'density'     => '0',   // section density bars.
+				'readtime'    => '0',   // per-section read-time estimates.
+				'progress'    => '0',   // reading progress fade.
+				'reactions'   => '0',   // emoji reactions per section.
+				'citations'   => '0',   // one-click academic citations.
+				'citation'    => 'apa', // citation format (apa|mla|chicago|harvard|plain).
+				'export'      => '0',   // show copy/download/print toolbar.
+			// Study tool shortcode attributes.
+			'rprogress'   => '0',   // reading progress bar.
+			'bookmark'    => '0',   // resume reading bookmark.
+			'rnotes'      => '0',   // reader note pads per section.
 			),
 			$atts,
 			'tocflow'
@@ -129,6 +189,15 @@ class TOCflow_Plugin {
 			? (bool) TOCflow_Settings::get_value( 'highlight_active' )
 			: $this->is_truthy( $atts['highlight'] );
 
+		$guide_mode   = $this->is_truthy( $atts['guide'] );
+		$preview_hover = $this->is_truthy( $atts['preview'] );
+
+		$allowed_citation = array( 'apa', 'mla', 'chicago', 'harvard', 'plain' );
+		$citation_style   = sanitize_key( $atts['citation'] );
+		if ( ! in_array( $citation_style, $allowed_citation, true ) ) {
+			$citation_style = 'apa';
+		}
+
 		$attributes = array(
 			'title'            => sanitize_text_field( $atts['title'] ),
 			'showTitle'        => $this->is_truthy( $atts['showtitle'] ),
@@ -155,6 +224,22 @@ class TOCflow_Plugin {
 			'maxHeight'        => max( 0, (int) $atts['maxheight'] ),
 			'minHeadings'      => (int) $atts['min'],
 			'smoothScroll'     => $smooth,
+			// Reading Guide attributes.
+			'previewOnHover'   => $preview_hover,
+			'guideMode'        => $guide_mode,
+			'showPreviews'     => $guide_mode && $this->is_truthy( $atts['previews'] ),
+			'showDensity'      => $guide_mode && $this->is_truthy( $atts['density'] ),
+			'showReadTime'     => $guide_mode && $this->is_truthy( $atts['readtime'] ),
+			'trackProgress'    => $guide_mode && $this->is_truthy( $atts['progress'] ),
+			'showReactions'    => $guide_mode && $this->is_truthy( $atts['reactions'] ),
+			'showCitations'    => $guide_mode && $this->is_truthy( $atts['citations'] ),
+			'citationStyle'    => $citation_style,
+			'sectionNotes'        => array(),
+			'sectionStatus'       => array(),
+			'showExport'          => $this->is_truthy( $atts['export'] ),
+			'showReadingProgress' => $this->is_truthy( $atts['rprogress'] ),
+			'showBookmark'        => $this->is_truthy( $atts['bookmark'] ),
+			'showReaderNotes'     => $this->is_truthy( $atts['rnotes'] ),
 		);
 
 		return TOCflow_Headings::render_nav( $attributes, $post_id, false );
@@ -182,7 +267,8 @@ class TOCflow_Plugin {
 		$settings = TOCflow_Settings::get();
 		$needed   = has_block( 'tocflow/table-of-contents', $post )
 			|| has_shortcode( $post->post_content, 'tocflow' )
-			|| ( 'none' !== $settings['auto_insert'] && in_array( $post->post_type, $settings['auto_insert_types'], true ) );
+			|| ( 'none' !== $settings['auto_insert'] && in_array( $post->post_type, $settings['auto_insert_types'], true ) )
+			|| TOCflow_Headings::should_inject_ids(); // covers page-builder shortcode placements
 		if ( ! $needed ) {
 			return;
 		}

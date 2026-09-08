@@ -31,7 +31,7 @@ $tocflow_support_url = 'https://github.com/matthummel-pa/tocflow/issues';
 
 	<nav class="nav-tab-wrapper tocflow-admin__tabs" aria-label="<?php esc_attr_e( 'TOCflow sections', 'tocflow' ); ?>">
 		<a href="<?php echo esc_url( admin_url( 'options-general.php?page=tocflow' ) ); ?>" class="nav-tab <?php echo 'settings' === $tab ? 'nav-tab-active' : ''; ?>"><?php esc_html_e( 'Settings', 'tocflow' ); ?></a>
-		<a href="<?php echo esc_url( admin_url( 'options-general.php?page=tocflow&tab=support' ) ); ?>" class="nav-tab <?php echo 'support' === $tab ? 'nav-tab-active' : ''; ?>"><?php esc_html_e( 'Docs & Support', 'tocflow' ); ?></a>
+		<a href="<?php echo esc_url( admin_url( 'options-general.php?page=tocflow&tab=support' ) ); ?>" class="nav-tab <?php echo 'support' === $tab ? 'nav-tab-active' : ''; ?>"><?php esc_html_e( 'Docs &amp; Support', 'tocflow' ); ?></a>
 	</nav>
 
 	<?php if ( 'support' === $tab ) : ?>
@@ -39,13 +39,13 @@ $tocflow_support_url = 'https://github.com/matthummel-pa/tocflow/issues';
 			<section class="tocflow-card">
 				<h2><?php esc_html_e( 'Get started', 'tocflow' ); ?></h2>
 				<ol>
-					<li><?php esc_html_e( 'Edit a post that has Heading blocks (H1–H6; H1 is off by default).', 'tocflow' ); ?></li>
-					<li><?php esc_html_e( 'Click + and search for “Table of Contents”.', 'tocflow' ); ?></li>
+					<li><?php esc_html_e( 'Edit a post that has Heading blocks (H1-H6; H1 is off by default).', 'tocflow' ); ?></li>
+					<li><?php esc_html_e( 'Click + and search for "Table of Contents".', 'tocflow' ); ?></li>
 					<li><?php esc_html_e( 'Optional: pick a style, numbered list, collapse, or sticky in the block sidebar.', 'tocflow' ); ?></li>
-					<li><?php esc_html_e( 'Preview the post and click a link — it should jump to that heading.', 'tocflow' ); ?></li>
+					<li><?php esc_html_e( 'Preview the post and click a link - it should jump to that heading.', 'tocflow' ); ?></li>
 				</ol>
 				<p>
-					<a class="button button-primary" href="<?php echo esc_url( $tocflow_docs_url ); ?>" target="_blank" rel="noopener noreferrer"><?php esc_html_e( 'Open full documentation', 'tocflow' ); ?></a>
+					<a class="button button-primary" href="<?php echo esc_url( $tocflow_docs_url . 'documentation.html' ); ?>" target="_blank" rel="noopener noreferrer"><?php esc_html_e( 'Full documentation', 'tocflow' ); ?></a>
 					<a class="button" href="<?php echo esc_url( $tocflow_github_url ); ?>" target="_blank" rel="noopener noreferrer"><?php esc_html_e( 'GitHub repository', 'tocflow' ); ?></a>
 				</p>
 			</section>
@@ -55,23 +55,76 @@ $tocflow_support_url = 'https://github.com/matthummel-pa/tocflow/issues';
 				<p><?php esc_html_e( 'Support is provided through GitHub issues. Include your WordPress version, PHP version, theme, and steps to reproduce.', 'tocflow' ); ?></p>
 				<p><a class="button" href="<?php echo esc_url( $tocflow_support_url ); ?>" target="_blank" rel="noopener noreferrer"><?php esc_html_e( 'Report a bug or request a feature', 'tocflow' ); ?></a></p>
 				<ul class="tocflow-admin__links">
-					<li><a href="<?php echo esc_url( $tocflow_docs_url ); ?>" target="_blank" rel="noopener noreferrer"><?php esc_html_e( 'User guide & FAQ', 'tocflow' ); ?></a></li>
+					<li><a href="<?php echo esc_url( $tocflow_docs_url . 'documentation.html' ); ?>" target="_blank" rel="noopener noreferrer"><?php esc_html_e( 'Full documentation', 'tocflow' ); ?></a></li>
+					<li><a href="<?php echo esc_url( $tocflow_docs_url . 'documentation.html#reading-guide' ); ?>" target="_blank" rel="noopener noreferrer"><?php esc_html_e( 'Reading Guide docs', 'tocflow' ); ?></a></li>
+					<li><a href="<?php echo esc_url( $tocflow_docs_url . 'documentation.html#compatibility' ); ?>" target="_blank" rel="noopener noreferrer"><?php esc_html_e( 'Compatibility notes', 'tocflow' ); ?></a></li>
 					<li><a href="<?php echo esc_url( $tocflow_github_url . '/blob/main/CHANGELOG.md' ); ?>" target="_blank" rel="noopener noreferrer"><?php esc_html_e( 'Changelog', 'tocflow' ); ?></a></li>
 					<li><a href="<?php echo esc_url( $tocflow_github_url . '/blob/main/SECURITY.md' ); ?>" target="_blank" rel="noopener noreferrer"><?php esc_html_e( 'Security policy', 'tocflow' ); ?></a></li>
 				</ul>
 			</section>
 
+			<section class="tocflow-card tocflow-card--wide tocflow-compat-card">
+				<h2><?php esc_html_e( 'Compatibility', 'tocflow' ); ?></h2>
+				<p class="description"><?php esc_html_e( 'TOCflow works with every major theme, SEO plugin, and multilingual plugin. It inherits your theme\'s fonts and colors, makes zero remote calls, and loads no third-party assets.', 'tocflow' ); ?></p>
+				<div class="tocflow-compat-grid">
+					<div class="tocflow-compat-group">
+						<strong><?php esc_html_e( 'WordPress &amp; PHP', 'tocflow' ); ?></strong>
+						<ul>
+							<li><?php esc_html_e( 'WordPress 6.4 through 7.1', 'tocflow' ); ?></li>
+							<li><?php esc_html_e( 'PHP 7.4, 8.0, 8.1, 8.2, 8.3', 'tocflow' ); ?></li>
+							<li><?php esc_html_e( 'Block editor + Classic Editor (shortcode)', 'tocflow' ); ?></li>
+						</ul>
+					</div>
+					<div class="tocflow-compat-group">
+						<strong><?php esc_html_e( 'SEO plugins', 'tocflow' ); ?></strong>
+						<ul>
+							<li><?php esc_html_e( 'Yoast SEO - no schema conflicts', 'tocflow' ); ?></li>
+							<li><?php esc_html_e( 'Rank Math - schema opt-in only', 'tocflow' ); ?></li>
+							<li><?php esc_html_e( 'All in One SEO, SEOPress', 'tocflow' ); ?></li>
+						</ul>
+					</div>
+					<div class="tocflow-compat-group">
+						<strong><?php esc_html_e( 'Themes', 'tocflow' ); ?></strong>
+						<ul>
+							<li><?php esc_html_e( 'Twenty Twenty-Four / Twenty Twenty-Five', 'tocflow' ); ?></li>
+							<li><?php esc_html_e( 'Astra, Kadence, GeneratePress, Blocksy', 'tocflow' ); ?></li>
+							<li><?php esc_html_e( 'Any theme - inherits your colors &amp; fonts', 'tocflow' ); ?></li>
+						</ul>
+					</div>
+					<div class="tocflow-compat-group">
+						<strong><?php esc_html_e( 'Page builders', 'tocflow' ); ?></strong>
+						<ul>
+							<li><?php esc_html_e( 'Elementor - heading JSON parsed automatically', 'tocflow' ); ?></li>
+							<li><?php esc_html_e( 'Bricks, Divi, Beaver, WPBakery, Oxygen', 'tocflow' ); ?></li>
+							<li><?php esc_html_e( 'Any builder - HTML scan fallback', 'tocflow' ); ?></li>
+						</ul>
+					</div>
+				</div>
+				<p><a href="<?php echo esc_url( $tocflow_docs_url . 'documentation.html#compatibility' ); ?>" target="_blank" rel="noopener noreferrer"><?php esc_html_e( 'Full compatibility notes', 'tocflow' ); ?> &rarr;</a></p>
+			</section>
+
+			<section class="tocflow-card tocflow-card--wide">
+				<h2><?php esc_html_e( 'Reading Guide', 'tocflow' ); ?> <span class="tocflow-badge-new">v1.1</span></h2>
+				<p class="description"><?php esc_html_e( 'Enable in the block sidebar. Adds hover section previews, read-time estimates, content density bars, reading progress, emoji reactions, author notes, and one-click academic citations. Everything is extracted server-side - zero external APIs.', 'tocflow' ); ?></p>
+				<p><a href="<?php echo esc_url( $tocflow_docs_url . 'documentation.html#reading-guide' ); ?>" target="_blank" rel="noopener noreferrer"><?php esc_html_e( 'Reading Guide documentation', 'tocflow' ); ?> &rarr;</a></p>
+			</section>
+
 			<section class="tocflow-card tocflow-card--wide">
 				<h2><?php esc_html_e( 'Shortcode', 'tocflow' ); ?></h2>
-				<p><?php esc_html_e( 'Use this in classic content, widgets, or a theme template (via do_shortcode):', 'tocflow' ); ?></p>
+				<p><?php esc_html_e( 'Use this in classic content, page-builder text widgets, or a theme template (via do_shortcode):', 'tocflow' ); ?></p>
 				<p><code>[tocflow]</code></p>
-				<p><?php esc_html_e( 'Optional attributes:', 'tocflow' ); ?> <code>title</code>, <code>showtitle</code>, <code>titletag</code>, <code>h1</code>–<code>h6</code>, <code>ordered</code>, <code>numbering</code>, <code>markers</code>, <code>collapsible</code>, <code>collapsed</code>, <code>sticky</code>, <code>compact</code>, <code>columns</code>, <code>underline</code>, <code>highlight</code>, <code>maxheight</code>, <code>min</code>, <code>smooth</code>, <code>style</code></p>
-				<p><code>[tocflow title="On this page" ordered="1" numbering="nested" style="boxed"]</code></p>
+				<p><?php esc_html_e( 'Layout &amp; behavior:', 'tocflow' ); ?> <code>title</code>, <code>showtitle</code>, <code>titletag</code>, <code>h1</code>&ndash;<code>h6</code>, <code>ordered</code>, <code>numbering</code>, <code>markers</code>, <code>collapsible</code>, <code>collapsed</code>, <code>sticky</code>, <code>compact</code>, <code>columns</code>, <code>underline</code>, <code>highlight</code>, <code>maxheight</code>, <code>min</code>, <code>smooth</code>, <code>style</code></p>
+				<p><?php esc_html_e( 'Reading Guide:', 'tocflow' ); ?> <code>preview="1"</code> <?php esc_html_e( '(hover tooltip)', 'tocflow' ); ?>, <code>guide="1"</code> <?php esc_html_e( '(full guide mode)', 'tocflow' ); ?>, <code>previews="1"</code>, <code>density="1"</code>, <code>readtime="1"</code>, <code>progress="1"</code>, <code>reactions="1"</code>, <code>citations="1"</code>, <code>citation="apa|mla|chicago|harvard|plain"</code></p>
+			<p><?php esc_html_e( 'Study tools:', 'tocflow' ); ?> <code>rprogress="1"</code> <?php esc_html_e( '(reading progress bar)', 'tocflow' ); ?>, <code>bookmark="1"</code> <?php esc_html_e( '(resume reading)', 'tocflow' ); ?>, <code>rnotes="1"</code> <?php esc_html_e( '(reader note pads per section)', 'tocflow' ); ?></p>
+			<p><?php esc_html_e( 'Export &amp; print:', 'tocflow' ); ?> <code>export="1"</code> <?php esc_html_e( '(adds Copy / .md / .doc / Print buttons)', 'tocflow' ); ?></p>
+			<p><code>[tocflow title="On this page" style="boxed" preview="1" export="1"]</code></p>
+			<p><code>[tocflow guide="1" previews="1" readtime="1" reactions="1" citations="1" export="1"]</code></p>
+			<p><code>[tocflow rprogress="1" bookmark="1" rnotes="1"]</code></p>
 			</section>
 
 			<section class="tocflow-card tocflow-card--wide">
 				<h2><?php esc_html_e( 'Skip a heading', 'tocflow' ); ?></h2>
-				<p><?php esc_html_e( 'Add the CSS class no-toc or tocflow-skip to a Heading block (Advanced → Additional CSS class(es)) to keep it out of the outline.', 'tocflow' ); ?></p>
+				<p><?php esc_html_e( 'Add the CSS class no-toc or tocflow-skip to a Heading block (Advanced > Additional CSS class(es)) to keep it out of the outline.', 'tocflow' ); ?></p>
 			</section>
 		</div>
 	<?php else : ?>
@@ -125,7 +178,7 @@ $tocflow_support_url = 'https://github.com/matthummel-pa/tocflow/issues';
 						<th scope="row"><?php esc_html_e( 'Position', 'tocflow' ); ?></th>
 						<td>
 							<fieldset>
-								<label><input type="radio" name="<?php echo esc_attr( $tocflow_opt ); ?>[auto_insert]" value="none" <?php checked( $settings['auto_insert'], 'none' ); ?>> <?php esc_html_e( 'Off — only show when the block or shortcode is added', 'tocflow' ); ?></label><br>
+								<label><input type="radio" name="<?php echo esc_attr( $tocflow_opt ); ?>[auto_insert]" value="none" <?php checked( $settings['auto_insert'], 'none' ); ?>> <?php esc_html_e( 'Off - only show when the block or shortcode is added', 'tocflow' ); ?></label><br>
 								<label><input type="radio" name="<?php echo esc_attr( $tocflow_opt ); ?>[auto_insert]" value="before" <?php checked( $settings['auto_insert'], 'before' ); ?>> <?php esc_html_e( 'Top of content', 'tocflow' ); ?></label><br>
 								<label><input type="radio" name="<?php echo esc_attr( $tocflow_opt ); ?>[auto_insert]" value="after_first_heading" <?php checked( $settings['auto_insert'], 'after_first_heading' ); ?>> <?php esc_html_e( 'After the first heading', 'tocflow' ); ?></label>
 							</fieldset>
@@ -277,7 +330,7 @@ $tocflow_support_url = 'https://github.com/matthummel-pa/tocflow/issues';
 			</section>
 
 			<section class="tocflow-card">
-				<h2><?php esc_html_e( 'SEO & data', 'tocflow' ); ?></h2>
+				<h2><?php esc_html_e( 'SEO &amp; data', 'tocflow' ); ?></h2>
 				<table class="form-table" role="presentation">
 					<tr>
 						<th scope="row"><?php esc_html_e( 'Schema markup', 'tocflow' ); ?></th>
