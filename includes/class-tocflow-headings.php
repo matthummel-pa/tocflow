@@ -190,24 +190,172 @@ class TOCflow_Headings {
 	}
 
 	/**
+	 * Flatten all block content into a linear sequence for text extraction.
+	 *
+	 * Walks the block tree in document order, emitting heading or content items.
+	 * Container blocks (Group, Columns, etc.) have empty innerHTML so they are
+	 * skipped naturally; their children are reached via recursion.
+	 *
+	 * @param array $blocks Parsed blocks.
+	 * @param array $flat   Growing flat sequence, passed by reference.
+	 */
+	private static function flatten_content( $blocks, &$flat ) {
+		foreach ( $blocks as $block ) {
+			$name      = isset( $block['blockName'] ) ? (string) $block['blockName'] : '';
+			$html      = isset( $block['innerHTML'] ) ? (string) $block['innerHTML'] : '';
+			$has_inner = ! empty( $block['innerBlocks'] );
+
+			if ( 'core/heading' === $name ) {
+				/*
+				 * Headings are always leaf blocks. Extract text and record a
+				 * heading marker regardless of whether innerBlocks is set.
+				 */
+				$text = trim( wp_strip_all_tags( $html ) );
+				if ( '' !== $text && ! self::should_skip( $block, $html ) ) {
+					$flat[] = array( 'type' => 'heading', 'text' => $text );
+				}
+			} elseif ( ! $has_inner ) {
+				/*
+				 * Only extract text content from leaf blocks (no innerBlocks).
+				 * Container blocks (Group, Columns, Cover, etc.) carry their
+				 * children's text in innerHTML too, so reading it here would
+				 * double-count that text; recursion below handles those children.
+				 */
+				$text = trim( wp_strip_all_tags( $html ) );
+				if ( '' !== $text ) {
+					$flat[] = array( 'type' => 'content', 'text' => $text );
+				}
+			}
+
+			if ( $has_inner ) {
+				self::flatten_content( $block['innerBlocks'], $flat );
+			}
+		}
+	}
+
+	/**
+	 * Get headings enriched with section-level content data for Reading Guide mode.
+	 *
+	 * Extracts word count, estimated reading time, and a brief content preview
+	 * for each section entirely from parsed block content — no external API calls.
+	 *
+	 * @param int $post_id Post ID.
+	 * @return array Headings with added keys: word_count, read_minutes, preview.
+	 */
+	public static function get_sections( $post_id ) {
+		static $cache = array();
+		$post_id      = (int) $post_id;
+
+		if ( isset( $cache[ $post_id ] ) ) {
+			return $cache[ $post_id ];
+		}
+
+		$post = get_post( $post_id );
+		if ( ! $post ) {
+			$cache[ $post_id ] = array();
+			return array();
+		}
+
+		// Flatten block tree into a linear heading / content sequence.
+		$flat = array();
+		self::flatten_content( parse_blocks( $post->post_content ), $flat );
+
+		// Accumulate body text per section (split at every heading boundary).
+		$section_texts = array();
+		$heading_idx   = -1;
+		foreach ( $flat as $item ) {
+			if ( 'heading' === $item['type'] ) {
+				$heading_idx++;
+				$section_texts[ $heading_idx ] = '';
+			} elseif ( $heading_idx >= 0 ) {
+				$section_texts[ $heading_idx ] .= ' ' . $item['text'];
+			}
+		}
+
+		// Merge section data into the base headings list.
+		$headings = self::get_all( $post_id );
+		foreach ( $headings as $i => &$heading ) {
+			$text                   = isset( $section_texts[ $i ] ) ? trim( $section_texts[ $i ] ) : '';
+			$words                  = '' !== $text ? str_word_count( $text ) : 0;
+			$heading['word_count']   = $words;
+			$heading['read_minutes'] = max( 1, (int) ceil( max( 1, $words ) / 200 ) );
+			$heading['preview']      = '' !== $text ? wp_trim_words( $text, 20, '' ) : '';
+		}
+		unset( $heading );
+
+		$cache[ $post_id ] = $headings;
+		return $headings;
+	}
+
+	/**
+	 * Build citation metadata from post data for client-side citation formatting.
+	 *
+	 * Returns only already-public WordPress data — no external calls required.
+	 *
+	 * @param int    $post_id       Post ID.
+	 * @param string $citation_style Citation format key (apa|mla|chicago|harvard|plain).
+	 * @return array
+	 */
+	public static function citation_meta( $post_id, $citation_style = 'apa' ) {
+		$post = get_post( $post_id );
+		if ( ! $post ) {
+			return array();
+		}
+
+		$allowed = array( 'apa', 'mla', 'chicago', 'harvard', 'plain' );
+		$style   = in_array( $citation_style, $allowed, true ) ? $citation_style : 'apa';
+
+		return array(
+			'author'        => get_the_author_meta( 'display_name', (int) $post->post_author ),
+			'title'         => html_entity_decode( get_the_title( $post_id ), ENT_QUOTES, 'UTF-8' ),
+			'site'          => html_entity_decode( get_bloginfo( 'name' ), ENT_QUOTES, 'UTF-8' ),
+			'date'          => get_the_date( 'Y-m-d', $post_id ),
+			'url'           => (string) get_permalink( $post_id ),
+			'citationStyle' => $style,
+		);
+	}
+
+	/**
 	 * Render nested list markup from heading data.
 	 *
 	 * @param array  $headings Heading data with normalized 'level'.
 	 * @param string $list_tag 'ol' or 'ul'.
+	 * @param array  $guide    Optional Reading Guide options.
 	 * @return string
 	 */
-	public static function render_list( $headings, $list_tag ) {
+	public static function render_list( $headings, $list_tag, $guide = array() ) {
 		if ( empty( $headings ) ) {
 			return '';
 		}
 
 		$list_tag = ( 'ol' === $list_tag ) ? 'ol' : 'ul';
-		$html     = '';
-		$prev     = 0;
-		$open     = 0;
+
+		$show_time      = ! empty( $guide['show_read_time'] );
+		$show_density   = ! empty( $guide['show_density'] );
+		$show_preview   = ! empty( $guide['show_previews'] );
+		$show_reactions = ! empty( $guide['show_reactions'] );
+		$show_citations = ! empty( $guide['show_citations'] );
+		$notes          = isset( $guide['section_notes'] ) && is_array( $guide['section_notes'] ) ? $guide['section_notes'] : array();
+		$any_guide      = $show_time || $show_density || $show_preview || $show_reactions || $show_citations || ! empty( $notes );
+
+		// Denominator for density bar proportions.
+		$max_words = 1;
+		if ( $show_density ) {
+			foreach ( $headings as $h ) {
+				if ( isset( $h['word_count'] ) && $h['word_count'] > $max_words ) {
+					$max_words = $h['word_count'];
+				}
+			}
+		}
+
+		$html = '';
+		$prev = 0;
+		$open = 0;
 
 		foreach ( $headings as $heading ) {
 			$level = (int) $heading['level'];
+			$slug  = $heading['slug'];
+			$text  = $heading['text'];
 
 			if ( $level > $prev ) {
 				for ( $i = 0; $i < ( $level - $prev ); $i++ ) {
@@ -225,8 +373,100 @@ class TOCflow_Headings {
 				}
 			}
 
-			$html .= '<li class="tocflow__item"><a class="tocflow__link" href="#' . esc_attr( $heading['slug'] ) . '">' . esc_html( $heading['text'] ) . '</a>';
-			$prev  = $level;
+			// ── Item opening tag ──────────────────────────────────────────────
+			if ( $any_guide ) {
+				$item_style = '';
+				if ( $show_density && isset( $heading['word_count'] ) ) {
+					$density    = $max_words > 0 ? min( 1.0, (float) $heading['word_count'] / $max_words ) : 0.0;
+					$item_style = ' style="--tocflow-density:' . esc_attr( number_format( $density, 3, '.', '' ) ) . '"';
+				}
+				$html .= '<li class="tocflow__item"'
+					. ' data-tocflow-slug="' . esc_attr( $slug ) . '"'
+					. ' data-tocflow-heading="' . esc_attr( $text ) . '"'
+					. $item_style . '>';
+			} else {
+				$html .= '<li class="tocflow__item">';
+			}
+
+			// ── Link row (link + optional read-time badge) ────────────────────
+			if ( $any_guide ) {
+				$html .= '<div class="tocflow__item-row">';
+			}
+			$html .= '<a class="tocflow__link" href="#' . esc_attr( $slug ) . '">' . esc_html( $text ) . '</a>';
+			if ( $show_time && isset( $heading['read_minutes'] ) ) {
+				$mins = (int) $heading['read_minutes'];
+				$html .= '<span class="tocflow__time" aria-hidden="true">~'
+					. $mins . '&thinsp;'
+					/* translators: abbreviation for "minute" in read-time estimates, e.g. "~3 min" */
+					. esc_html( __( 'min', 'tocflow' ) )
+					. '</span>';
+			}
+			if ( $any_guide ) {
+				$html .= '</div>';
+			}
+
+			// ── Density bar ───────────────────────────────────────────────────
+			if ( $show_density ) {
+				$html .= '<span class="tocflow__density-bar" aria-hidden="true"></span>';
+			}
+
+			// ── Content preview ───────────────────────────────────────────────
+			if ( $show_preview && ! empty( $heading['preview'] ) ) {
+				$html .= '<span class="tocflow__preview">' . esc_html( $heading['preview'] ) . '</span>';
+			}
+
+			// ── Author note ───────────────────────────────────────────────────
+			if ( isset( $notes[ $slug ] ) && '' !== (string) $notes[ $slug ] ) {
+				$note_id = 'tocflow-note-' . sanitize_html_class( $slug );
+				$html   .= '<div class="tocflow__note-wrap">'
+					. '<button type="button" class="tocflow__note-toggle"'
+					. ' aria-expanded="false"'
+					. ' aria-controls="' . esc_attr( $note_id ) . '">'
+					. '<span class="tocflow__note-icon" aria-hidden="true">&#x270D;</span>'
+					. '<span class="tocflow__visually-hidden">' . esc_html__( "Author's note", 'tocflow' ) . '</span>'
+					. '</button>'
+					. '<span class="tocflow__note" id="' . esc_attr( $note_id ) . '" hidden>'
+					. esc_html( (string) $notes[ $slug ] )
+					. '</span>'
+					. '</div>';
+			}
+
+			// ── Reactions + citation row ───────────────────────────────────────
+			if ( $show_reactions || $show_citations ) {
+				$html .= '<div class="tocflow__actions">';
+
+				if ( $show_reactions ) {
+					$reaction_map = array(
+						'💡' => __( 'Insightful', 'tocflow' ),
+						'⭐' => __( 'Saved', 'tocflow' ),
+						'🤔' => __( 'Unclear', 'tocflow' ),
+						'✅' => __( 'Got it', 'tocflow' ),
+					);
+					$html .= '<div class="tocflow__reactions" role="group" aria-label="'
+						. esc_attr__( 'React to this section', 'tocflow' ) . '">';
+					foreach ( $reaction_map as $emoji => $label ) {
+						$html .= '<button type="button" class="tocflow__reaction"'
+							. ' aria-pressed="false"'
+							. ' aria-label="' . esc_attr( $label ) . '"'
+							. ' data-reaction="' . esc_attr( $emoji ) . '">'
+							. $emoji
+							. '</button>';
+					}
+					$html .= '</div>';
+				}
+
+				if ( $show_citations ) {
+					$html .= '<button type="button" class="tocflow__cite-btn"'
+						. ' aria-label="' . esc_attr__( 'Copy citation for this section', 'tocflow' ) . '">'
+						. '<span class="tocflow__cite-icon" aria-hidden="true">§</span>'
+						. '<span class="tocflow__visually-hidden">' . esc_html__( 'Cite', 'tocflow' ) . '</span>'
+						. '</button>';
+				}
+
+				$html .= '</div>';
+			}
+
+			$prev = $level;
 		}
 
 		$html .= '</li>';
@@ -252,6 +492,42 @@ class TOCflow_Headings {
 		$levels = self::levels_from_attributes( $attributes );
 		$all    = self::get_all( $post_id );
 		$items  = self::filter_and_normalize( $all, $levels );
+
+		// ── Reading Guide mode ────────────────────────────────────────────────
+		$guide = array();
+		if ( ! empty( $attributes['guideMode'] ) ) {
+			$sections    = self::get_sections( $post_id );
+			$section_map = array();
+			foreach ( $sections as $section ) {
+				$section_map[ $section['slug'] ] = $section;
+			}
+			// Merge section content data into the filtered items.
+			foreach ( $items as &$item ) {
+				if ( isset( $section_map[ $item['slug'] ] ) ) {
+					$s                    = $section_map[ $item['slug'] ];
+					$item['word_count']   = $s['word_count'];
+					$item['read_minutes'] = $s['read_minutes'];
+					$item['preview']      = $s['preview'];
+				}
+			}
+			unset( $item );
+
+			$notes = array();
+			if ( ! empty( $attributes['sectionNotes'] ) && is_array( $attributes['sectionNotes'] ) ) {
+				foreach ( $attributes['sectionNotes'] as $k => $v ) {
+					$notes[ sanitize_key( $k ) ] = sanitize_text_field( (string) $v );
+				}
+			}
+
+			$guide = array(
+				'show_previews'  => ! empty( $attributes['showPreviews'] ),
+				'show_density'   => ! empty( $attributes['showDensity'] ),
+				'show_read_time' => ! empty( $attributes['showReadTime'] ),
+				'show_reactions' => ! empty( $attributes['showReactions'] ),
+				'show_citations' => ! empty( $attributes['showCitations'] ),
+				'section_notes'  => $notes,
+			);
+		}
 
 		$min = (int) TOCflow_Settings::get_value( 'min_headings', 2 );
 		if ( isset( $attributes['minHeadings'] ) && (int) $attributes['minHeadings'] >= 1 ) {
@@ -316,6 +592,9 @@ class TOCflow_Headings {
 		if ( $highlight ) {
 			$classes[] = 'has-scroll-spy';
 		}
+		if ( ! empty( $attributes['guideMode'] ) ) {
+			$classes[] = 'has-guide-mode';
+		}
 
 		$max_height = isset( $attributes['maxHeight'] ) ? (int) $attributes['maxHeight'] : 0;
 		if ( $max_height > 0 ) {
@@ -346,25 +625,48 @@ class TOCflow_Headings {
 		}
 		$style_attr = implode( ';', $style_parts );
 
+		// Build extra data attributes for guide mode features.
+		$guide_attrs = array();
+		if ( ! empty( $attributes['guideMode'] ) ) {
+			$guide_attrs['data-tocflow-post'] = (string) $post_id;
+			if ( ! empty( $attributes['trackProgress'] ) ) {
+				$guide_attrs['data-tocflow-progress'] = '1';
+			}
+			if ( ! empty( $guide['show_citations'] ) ) {
+				$cite_style = isset( $attributes['citationStyle'] ) ? sanitize_key( $attributes['citationStyle'] ) : 'apa';
+				$cite_meta  = self::citation_meta( $post_id, $cite_style );
+				if ( ! empty( $cite_meta ) ) {
+					$guide_attrs['data-tocflow-meta'] = (string) wp_json_encode( $cite_meta );
+				}
+			}
+		}
+
 		if ( $wrap ) {
-			$wrapper = get_block_wrapper_attributes(
+			$wrapper_args = array_merge(
 				array(
 					'class'               => $class_attr,
 					'aria-label'          => $label,
 					'data-tocflow-offset' => (string) $offset,
 					'data-tocflow-smooth' => $smooth_flag,
 					'style'               => $style_attr,
-				)
+				),
+				$guide_attrs
 			);
-			$html = '<nav ' . $wrapper . '>';
+			$wrapper = get_block_wrapper_attributes( $wrapper_args );
+			$html    = '<nav ' . $wrapper . '>';
 		} else {
+			$extra = '';
+			foreach ( $guide_attrs as $attr_name => $attr_val ) {
+				$extra .= ' ' . esc_attr( $attr_name ) . '="' . esc_attr( $attr_val ) . '"';
+			}
 			$html = sprintf(
-				'<nav class="%1$s" aria-label="%2$s" data-tocflow-offset="%3$s" data-tocflow-smooth="%4$s" style="%5$s">',
+				'<nav class="%1$s" aria-label="%2$s" data-tocflow-offset="%3$s" data-tocflow-smooth="%4$s" style="%5$s"%6$s>',
 				esc_attr( $class_attr . ' wp-block-tocflow-table-of-contents' ),
 				esc_attr( $label ),
 				esc_attr( (string) $offset ),
 				esc_attr( $smooth_flag ),
-				esc_attr( $style_attr )
+				esc_attr( $style_attr ),
+				$extra
 			);
 		}
 
@@ -386,7 +688,7 @@ class TOCflow_Headings {
 		}
 
 		$html .= '<div class="tocflow__body">';
-		$html .= self::render_list( $items, $list_tag );
+		$html .= self::render_list( $items, $list_tag, $guide );
 		$html .= '</div>';
 		$html .= '</nav>';
 

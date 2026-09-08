@@ -3,6 +3,25 @@
 All notable changes to TOCflow are documented here.
 This project adheres to [Semantic Versioning](https://semver.org/).
 
+## [1.1.0] - 2026-09-08
+
+### Added
+- **Reading Guide mode** — opt-in block feature that enriches the TOC into a full reading companion:
+  - **Section content previews** — opening ~20 words of each section, extracted server-side from parsed block content via `TOCflow_Headings::get_sections()` (no JS fetch, no external API).
+  - **Content density bars** — thin bar showing each section's word count relative to the longest section, computed at render time.
+  - **Per-section read-time estimates** — `~N min` badge based on word count ÷ 200 wpm.
+  - **Reading progress** — IntersectionObserver fades each TOC item as the reader scrolls past its heading.
+- **Author section notes** — block attribute `sectionNotes` (object keyed by heading slug). Writers type a per-section teaser or hook in the new "Section Notes" sidebar panel; readers reveal it with a ✍ toggle button.
+- **Emoji reactions** — readers react per section (💡 ⭐ 🤔 ✅); state stored in `localStorage`, zero server calls.
+- **Per-section academic citations** — § button copies a formatted citation (APA / MLA / Chicago / Harvard / plain link) built entirely from WordPress post meta (author, title, site name, date, permalink + section anchor). No external API.
+- New block attributes: `guideMode`, `showPreviews`, `showDensity`, `showReadTime`, `trackProgress`, `showReactions`, `showCitations`, `citationStyle`, `sectionNotes`.
+- New PHP methods: `TOCflow_Headings::flatten_content()`, `get_sections()`, `citation_meta()`.
+- New editor panels: "Reading Guide" and "Section Notes" in the block sidebar.
+
+### Changed
+- `render_list()` accepts an optional `$guide` array; backward-compatible.
+- `render_nav()` merges section data and embeds citation meta on the `<nav>` when guide mode is active.
+
 ## [1.0.2] - 2026-09-01
 
 WordPress.org Plugin Check cleanup for the directory review (v1.0.1 is Awaiting Review). Behavior is unchanged.

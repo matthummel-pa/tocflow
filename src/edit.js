@@ -22,6 +22,7 @@ import {
 	ToggleControl,
 	RangeControl,
 	SelectControl,
+	TextareaControl,
 	ToolbarGroup,
 	ToolbarButton,
 } from '@wordpress/components';
@@ -106,6 +107,15 @@ export default function Edit( { attributes, setAttributes } ) {
 		minHeadings,
 		smoothScroll,
 		scrollOffset,
+		guideMode,
+		showPreviews,
+		showDensity,
+		showReadTime,
+		trackProgress,
+		showReactions,
+		showCitations,
+		citationStyle,
+		sectionNotes,
 	} = attributes;
 
 	const blocks = useSelect(
@@ -122,8 +132,11 @@ export default function Edit( { attributes, setAttributes } ) {
 		showH6 && 6,
 	].filter( Boolean );
 
+	// All headings — used for the Section Notes panel.
+	const allHeadings = collectHeadings( blocks );
+
 	const items = filterAndNormalize(
-		collectHeadings( blocks ),
+		allHeadings,
 		levels.length ? levels : [ 2 ]
 	);
 
@@ -463,6 +476,182 @@ export default function Edit( { attributes, setAttributes } ) {
 							'tocflow'
 						) }
 					/>
+				</PanelBody>
+
+				{ /* ── Reading Guide ───────────────────────────────────── */ }
+				<PanelBody
+					title={ __( 'Reading Guide', 'tocflow' ) }
+					initialOpen={ false }
+				>
+					<ToggleControl
+						__nextHasNoMarginBottom
+						label={ __( 'Enable Reading Guide', 'tocflow' ) }
+						checked={ guideMode }
+						onChange={ ( value ) =>
+							setAttributes( { guideMode: value } )
+						}
+						help={ __(
+							'Transforms the TOC into a full reading companion: section previews, read-time estimates, density bars, reactions, and per-section citations.',
+							'tocflow'
+						) }
+					/>
+					{ guideMode && (
+						<>
+							<ToggleControl
+								__nextHasNoMarginBottom
+								label={ __( 'Section previews', 'tocflow' ) }
+								checked={ showPreviews }
+								onChange={ ( value ) =>
+									setAttributes( { showPreviews: value } )
+								}
+								help={ __(
+									'Show the opening sentence of each section beneath its TOC link.',
+									'tocflow'
+								) }
+							/>
+							<ToggleControl
+								__nextHasNoMarginBottom
+								label={ __( 'Section length bars', 'tocflow' ) }
+								checked={ showDensity }
+								onChange={ ( value ) =>
+									setAttributes( { showDensity: value } )
+								}
+								help={ __(
+									'Thin bar showing relative word count — readers see which sections are short vs long at a glance.',
+									'tocflow'
+								) }
+							/>
+							<ToggleControl
+								__nextHasNoMarginBottom
+								label={ __( 'Read-time estimates', 'tocflow' ) }
+								checked={ showReadTime }
+								onChange={ ( value ) =>
+									setAttributes( { showReadTime: value } )
+								}
+								help={ __(
+									'Show ~N min alongside each section link.',
+									'tocflow'
+								) }
+							/>
+							<ToggleControl
+								__nextHasNoMarginBottom
+								label={ __( 'Reading progress', 'tocflow' ) }
+								checked={ trackProgress }
+								onChange={ ( value ) =>
+									setAttributes( { trackProgress: value } )
+								}
+								help={ __(
+									'Fade sections as the reader scrolls past them.',
+									'tocflow'
+								) }
+							/>
+							<ToggleControl
+								__nextHasNoMarginBottom
+								label={ __( 'Emoji reactions', 'tocflow' ) }
+								checked={ showReactions }
+								onChange={ ( value ) =>
+									setAttributes( { showReactions: value } )
+								}
+								help={ __(
+									'Readers react per section (💡 ⭐ 🤔 ✅). Stored in their browser — no account needed.',
+									'tocflow'
+								) }
+							/>
+							<ToggleControl
+								__nextHasNoMarginBottom
+								label={ __(
+									'Per-section citations',
+									'tocflow'
+								) }
+								checked={ showCitations }
+								onChange={ ( value ) =>
+									setAttributes( { showCitations: value } )
+								}
+								help={ __(
+									'One-click copy of a formatted academic citation (APA, MLA, Chicago, etc.) for any section. Perfect for research content.',
+									'tocflow'
+								) }
+							/>
+							{ showCitations && (
+								<SelectControl
+									__nextHasNoMarginBottom
+									__next40pxDefaultSize
+									label={ __(
+										'Citation format',
+										'tocflow'
+									) }
+									value={ citationStyle }
+									options={ [
+										{ label: 'APA', value: 'apa' },
+										{ label: 'MLA', value: 'mla' },
+										{
+											label: 'Chicago',
+											value: 'chicago',
+										},
+										{
+											label: 'Harvard',
+											value: 'harvard',
+										},
+										{
+											label: __(
+												'Plain link',
+												'tocflow'
+											),
+											value: 'plain',
+										},
+									] }
+									onChange={ ( value ) =>
+										setAttributes( {
+											citationStyle: value,
+										} )
+									}
+								/>
+							) }
+						</>
+					) }
+				</PanelBody>
+
+				{ /* ── Section Notes (author → reader) ────────────────── */ }
+				<PanelBody
+					title={ __( 'Section Notes', 'tocflow' ) }
+					initialOpen={ false }
+				>
+					<p className="components-base-control__help">
+						{ __(
+							'Write a short teaser or hook for each section. Readers reveal it with a tap when Reading Guide is active.',
+							'tocflow'
+						) }
+					</p>
+					{ allHeadings.length === 0 && (
+						<p>
+							{ __(
+								'Add Heading blocks to this post and they will appear here.',
+								'tocflow'
+							) }
+						</p>
+					) }
+					{ allHeadings.map( ( heading ) => (
+						<TextareaControl
+							key={ heading.slug }
+							label={ heading.text }
+							value={ sectionNotes[ heading.slug ] || '' }
+							onChange={ ( value ) => {
+								const updated = { ...sectionNotes };
+								if ( value ) {
+									updated[ heading.slug ] = value;
+								} else {
+									delete updated[ heading.slug ];
+								}
+								setAttributes( { sectionNotes: updated } );
+							} }
+							rows={ 2 }
+							__nextHasNoMarginBottom
+							placeholder={ __(
+								'Teaser or hook for this section…',
+								'tocflow'
+							) }
+						/>
+					) ) }
 				</PanelBody>
 			</InspectorControls>
 
