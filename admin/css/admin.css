@@ -147,6 +147,90 @@
 	line-height: 1.5;
 }
 
+/* ── Color picker widget ────────────────────────────────────────────────── */
+
+.tocflow-color-field {
+	display: inline-flex;
+	align-items: center;
+	gap: 6px;
+}
+
+.tocflow-color-field input[type="text"] {
+	width: 90px;
+	font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+	font-size: 12px;
+}
+
+.tocflow-color-field input[type="color"] {
+	width: 32px;
+	height: 30px;
+	padding: 1px 2px;
+	border: 1px solid #d8e2db;
+	border-radius: 4px;
+	cursor: pointer;
+	background: none;
+}
+
+.tocflow-color-clear {
+	font-size: 12px;
+	color: #888;
+	text-decoration: none;
+	white-space: nowrap;
+}
+
+.tocflow-color-clear:hover {
+	color: #d63638;
+	text-decoration: underline;
+}
+
+/* ── Section badges ─────────────────────────────────────────────────────── */
+
+.tocflow-section-badge {
+	display: inline-block;
+	font-size: 10px;
+	font-weight: 700;
+	letter-spacing: 0.06em;
+	text-transform: uppercase;
+	padding: 2px 7px;
+	border-radius: 4px;
+	margin-left: 6px;
+	vertical-align: middle;
+	line-height: 1.5;
+}
+
+.tocflow-section-badge--guide {
+	background: #0a5c80;
+	color: #fff;
+}
+
+.tocflow-section-badge--study {
+	background: #5b4200;
+	color: #fff;
+}
+
+/* ── Guide sub-options indent ───────────────────────────────────────────── */
+
+#tocflow-guide-subopts {
+	margin-top: 8px;
+	padding: 12px 16px;
+	background: #f6faf8;
+	border-left: 3px solid #2f6f4e;
+	border-radius: 0 4px 4px 0;
+}
+
+#tocflow-guide-subopts .form-table {
+	margin: 0;
+}
+
+#tocflow-guide-subopts .form-table th {
+	padding: 6px 10px 6px 0;
+	font-size: 13px;
+}
+
+#tocflow-guide-subopts .form-table td {
+	padding: 6px 0;
+}
+
 @media (max-width: 782px) {
 
 	.tocflow-admin__grid {

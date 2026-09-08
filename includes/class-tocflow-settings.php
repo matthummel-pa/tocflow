@@ -23,9 +23,13 @@ class TOCflow_Settings {
 	 */
 	public static function defaults() {
 		return array(
+			// Reading experience.
 			'smooth_scroll'     => 1,
 			'scroll_offset'     => 96,
 			'highlight_active'  => 1,
+			'min_headings'      => 2,
+
+			// Auto-generate.
 			'auto_insert'       => 'none',
 			'auto_insert_types' => array( 'post' ),
 			'auto_title'        => 'Table of Contents',
@@ -48,7 +52,39 @@ class TOCflow_Settings {
 			'auto_underline'    => 0,
 			'auto_style'        => 'default',
 			'auto_max_height'   => 0,
-			'min_headings'      => 2,
+
+			// Reading Guide & Study Tools global defaults.
+			'auto_preview_hover'    => 0,
+			'auto_guide_mode'       => 0,
+			'auto_show_previews'    => 1,
+			'auto_show_density'     => 1,
+			'auto_show_read_time'   => 1,
+			'auto_track_progress'   => 1,
+			'auto_show_reactions'   => 0,
+			'auto_show_citations'   => 0,
+			'auto_citation_style'   => 'apa',
+			'auto_reading_progress' => 0,
+			'auto_bookmark'         => 0,
+			'auto_reader_notes'     => 0,
+			'auto_export'           => 0,
+
+			// Design & Appearance (empty = use built-in styles).
+			'design_bg_color'      => '',
+			'design_text_color'    => '',
+			'design_link_color'    => '',
+			'design_font_size'     => '',
+			'design_font_weight'   => '',
+			'design_line_height'   => '',
+			'design_border_width'  => '',
+			'design_border_color'  => '',
+			'design_border_style'  => '',
+			'design_border_radius' => '',
+			'design_padding'       => '',
+
+			// Accessibility.
+			'focus_style'          => 'default',
+
+			// SEO & data.
 			'schema_markup'     => 0,
 			'delete_data'       => 0,
 		);
@@ -112,7 +148,11 @@ class TOCflow_Settings {
 			$title = __( 'Table of Contents', 'tocflow' );
 		}
 
-		$ordered = ! empty( $settings['auto_ordered'] ) || 'nested' === $numbering;
+		$ordered        = ! empty( $settings['auto_ordered'] ) || 'nested' === $numbering;
+		$guide_mode     = ! empty( $settings['auto_guide_mode'] );
+		$allowed_cite   = array( 'apa', 'mla', 'chicago', 'harvard', 'plain' );
+		$citation_style = isset( $settings['auto_citation_style'] ) && in_array( $settings['auto_citation_style'], $allowed_cite, true )
+			? $settings['auto_citation_style'] : 'apa';
 
 		return array(
 			'title'            => $title,
@@ -140,6 +180,23 @@ class TOCflow_Settings {
 			'maxHeight'        => isset( $settings['auto_max_height'] ) ? max( 0, (int) $settings['auto_max_height'] ) : 0,
 			'minHeadings'      => -1,
 			'smoothScroll'     => 'inherit',
+			// Reading Guide global defaults.
+			'previewOnHover'   => ! empty( $settings['auto_preview_hover'] ),
+			'guideMode'        => $guide_mode,
+			'showPreviews'     => $guide_mode && ! empty( $settings['auto_show_previews'] ),
+			'showDensity'      => $guide_mode && ! empty( $settings['auto_show_density'] ),
+			'showReadTime'     => $guide_mode && ! empty( $settings['auto_show_read_time'] ),
+			'trackProgress'    => $guide_mode && ! empty( $settings['auto_track_progress'] ),
+			'showReactions'    => $guide_mode && ! empty( $settings['auto_show_reactions'] ),
+			'showCitations'    => $guide_mode && ! empty( $settings['auto_show_citations'] ),
+			'citationStyle'    => $citation_style,
+			'sectionNotes'     => array(),
+			'sectionStatus'    => array(),
+			// Study Tools & Export global defaults.
+			'showReadingProgress' => ! empty( $settings['auto_reading_progress'] ),
+			'showBookmark'        => ! empty( $settings['auto_bookmark'] ),
+			'showReaderNotes'     => ! empty( $settings['auto_reader_notes'] ),
+			'showExport'          => ! empty( $settings['auto_export'] ),
 		);
 	}
 
@@ -149,6 +206,57 @@ class TOCflow_Settings {
 	 * @param mixed $input Raw submitted values.
 	 * @return array
 	 */
+	/**
+	 * Sanitize a hex colour string. Returns empty string if invalid.
+	 *
+	 * @param mixed $value Raw value.
+	 * @return string
+	 */
+	private static function sanitize_hex_color( $value ) {
+		$v = trim( (string) $value );
+		if ( '' === $v ) {
+			return '';
+		}
+		if ( preg_match( '/^#[0-9a-fA-F]{3}([0-9a-fA-F]{3})?$/', $v ) ) {
+			return strtolower( $v );
+		}
+		return '';
+	}
+
+	/**
+	 * Sanitize a CSS length (px / rem / em / %). Returns empty string if invalid.
+	 *
+	 * @param mixed $value Raw value.
+	 * @return string
+	 */
+	private static function sanitize_css_length( $value ) {
+		$v = trim( (string) $value );
+		if ( '' === $v ) {
+			return '';
+		}
+		if ( preg_match( '/^[\d.]+(%|px|rem|em)$/', $v ) ) {
+			return $v;
+		}
+		return '';
+	}
+
+	/**
+	 * Sanitize a unitless CSS number (e.g. line-height). Returns empty if invalid.
+	 *
+	 * @param mixed $value Raw value.
+	 * @return string
+	 */
+	private static function sanitize_css_number( $value ) {
+		$v = trim( (string) $value );
+		if ( '' === $v ) {
+			return '';
+		}
+		if ( preg_match( '/^\d+(\.\d+)?$/', $v ) ) {
+			return $v;
+		}
+		return '';
+	}
+
 	public static function sanitize( $input ) {
 		$defaults = self::defaults();
 		if ( ! is_array( $input ) ) {
@@ -177,6 +285,19 @@ class TOCflow_Settings {
 			'auto_compact',
 			'auto_two_columns',
 			'auto_underline',
+			// Reading Guide & Study Tools checkboxes.
+			'auto_preview_hover',
+			'auto_guide_mode',
+			'auto_show_previews',
+			'auto_show_density',
+			'auto_show_read_time',
+			'auto_track_progress',
+			'auto_show_reactions',
+			'auto_show_citations',
+			'auto_reading_progress',
+			'auto_bookmark',
+			'auto_reader_notes',
+			'auto_export',
 		);
 		foreach ( $checkboxes as $key ) {
 			$clean[ $key ] = empty( $input[ $key ] ) ? 0 : 1;
@@ -219,6 +340,36 @@ class TOCflow_Settings {
 		$style = isset( $input['auto_style'] ) ? sanitize_key( $input['auto_style'] ) : 'default';
 		$allowed_styles = array( 'default', 'minimal', 'boxed', 'underline', 'card' );
 		$clean['auto_style'] = in_array( $style, $allowed_styles, true ) ? $style : 'default';
+
+		// Citation style.
+		$allowed_citation = array( 'apa', 'mla', 'chicago', 'harvard', 'plain' );
+		$cite             = isset( $input['auto_citation_style'] ) ? sanitize_key( $input['auto_citation_style'] ) : 'apa';
+		$clean['auto_citation_style'] = in_array( $cite, $allowed_citation, true ) ? $cite : 'apa';
+
+		// Design & Appearance.
+		$clean['design_bg_color']    = self::sanitize_hex_color( isset( $input['design_bg_color'] ) ? $input['design_bg_color'] : '' );
+		$clean['design_text_color']  = self::sanitize_hex_color( isset( $input['design_text_color'] ) ? $input['design_text_color'] : '' );
+		$clean['design_link_color']  = self::sanitize_hex_color( isset( $input['design_link_color'] ) ? $input['design_link_color'] : '' );
+		$clean['design_font_size']   = self::sanitize_css_length( isset( $input['design_font_size'] ) ? $input['design_font_size'] : '' );
+		$clean['design_line_height'] = self::sanitize_css_number( isset( $input['design_line_height'] ) ? $input['design_line_height'] : '' );
+
+		$allowed_fw = array( '100', '200', '300', '400', '500', '600', '700', '800', '900', 'normal', 'bold' );
+		$fw         = isset( $input['design_font_weight'] ) ? trim( (string) $input['design_font_weight'] ) : '';
+		$clean['design_font_weight'] = in_array( $fw, $allowed_fw, true ) ? $fw : '';
+
+		$clean['design_border_width']  = self::sanitize_css_length( isset( $input['design_border_width'] ) ? $input['design_border_width'] : '' );
+		$clean['design_border_color']  = self::sanitize_hex_color( isset( $input['design_border_color'] ) ? $input['design_border_color'] : '' );
+		$clean['design_border_radius'] = self::sanitize_css_length( isset( $input['design_border_radius'] ) ? $input['design_border_radius'] : '' );
+		$clean['design_padding']       = self::sanitize_css_length( isset( $input['design_padding'] ) ? $input['design_padding'] : '' );
+
+		$allowed_bs = array( '', 'solid', 'dashed', 'dotted', 'double', 'none' );
+		$bs         = isset( $input['design_border_style'] ) ? sanitize_key( $input['design_border_style'] ) : '';
+		$clean['design_border_style'] = in_array( $bs, $allowed_bs, true ) ? $bs : '';
+
+		// Accessibility.
+		$allowed_focus = array( 'default', 'bold', 'high-contrast' );
+		$focus         = isset( $input['focus_style'] ) ? sanitize_key( $input['focus_style'] ) : 'default';
+		$clean['focus_style'] = in_array( $focus, $allowed_focus, true ) ? $focus : 'default';
 
 		return $clean;
 	}

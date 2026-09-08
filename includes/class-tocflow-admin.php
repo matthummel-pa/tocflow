@@ -82,6 +82,13 @@ class TOCflow_Admin {
 			array(),
 			TOCFLOW_VERSION
 		);
+		wp_enqueue_script(
+			'tocflow-admin',
+			TOCFLOW_URL . 'admin/js/admin.js',
+			array(),
+			TOCFLOW_VERSION,
+			true
+		);
 	}
 
 	/**
