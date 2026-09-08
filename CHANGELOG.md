@@ -3,6 +3,17 @@
 All notable changes to TOCflow are documented here.
 This project adheres to [Semantic Versioning](https://semver.org/).
 
+## [1.2.0] - 2026-09-08
+
+### Added
+- **Reader note pads** — a 📝 button per section lets readers jot personal notes stored privately in localStorage. No account, no server. Enable with `rnotes="1"` in the shortcode or the "Reader note pads" toggle in the block sidebar.
+- **Reading progress bar** — a thin animated bar shows 0–100% of the document read (headings scrolled past via IntersectionObserver). Enable with `rprogress="1"`.
+- **Resume reading bookmark** — automatically bookmarks the last-read heading in localStorage and shows a "↩ Resume" button on return visits. Enable with `bookmark="1"`.
+- **Section Planner** — the "Section Notes" sidebar panel is now "Section Planner" with per-heading writing status (✏️ Draft / 🔄 In progress / ✅ Done) tracked in the editor canvas and a reader-facing teaser note.
+- **Total read-time badge** — when Reading Guide + read-time are active, the TOC header shows the aggregated total read time for the entire post.
+- New shortcode attributes: `rprogress`, `bookmark`, `rnotes`.
+- New block attributes: `showReaderNotes`, `showReadingProgress`, `showBookmark`, `sectionStatus`.
+
 ## [1.1.0] - 2026-09-08
 
 ### Added

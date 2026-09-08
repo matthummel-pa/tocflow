@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>TOCflow documentation — Table of Contents block for WordPress</title>
-<meta name="description" content="Full documentation for TOCflow v1.1.0: install, block sidebar, Reading Guide mode, hover previews, section citations, auto-insert, shortcode, settings reference, compatibility, and developer filters.">
+<meta name="description" content="Full documentation for TOCflow v1.2.0: install, block sidebar, Reading Guide mode, study assistant (reader notes, progress bar, resume bookmark, section planner), hover previews, section citations, auto-insert, shortcode, settings reference, compatibility, and developer filters.">
 <link rel="canonical" href="https://matthummel-pa.github.io/tocflow/documentation.html">
 <meta property="og:title" content="TOCflow documentation">
 <meta property="og:description" content="Install, block sidebar, Reading Guide, hover previews, citations, auto-insert, shortcode, settings, compatibility, and developer notes.">
@@ -107,7 +107,8 @@
     <a href="#reading-guide">Overview</a>
     <a href="#hover-preview">Hover preview</a>
     <a href="#guide-features">Guide features</a>
-    <a href="#section-notes">Section notes</a>
+    <a href="#section-notes">Section Planner</a>
+    <a href="#study-assistant">Study assistant</a>
     <a href="#citations">Citations</a>
     <a href="#reactions">Emoji reactions</a>
 
@@ -133,7 +134,7 @@
 <!-- ── Main content ── -->
 <div class="content">
   <p class="breadcrumb"><a href="index.html">← TOCflow home</a> · <a href="support.html">Support</a></p>
-  <p class="kicker">Plugin documentation · v1.1.0</p>
+  <p class="kicker">Plugin documentation · v1.2.0</p>
   <h1>TOCflow</h1>
   <p class="intro">A server-rendered Table of Contents for the WordPress block editor — and the only TOC plugin with a built-in Reading Guide. Slug: <code>tocflow</code>.</p>
 
@@ -200,7 +201,7 @@ npm run build</code></pre>
   <p>Add CSS class <code>no-toc</code> or <code>tocflow-skip</code> to a Heading block under <em>Advanced → Additional CSS class(es)</em>. That heading is excluded from both the TOC list and the anchor injection.</p>
 
   <!-- Reading Guide -->
-  <h2 id="reading-guide">6. Reading Guide <span class="badge-new">New in 1.1</span></h2>
+  <h2 id="reading-guide">6. Reading Guide <span class="badge-new">1.1+</span></h2>
   <p class="intro">Reading Guide mode transforms the TOC from a navigation list into an intelligent reading companion. Enable it in the block sidebar under <strong>Reading Guide</strong>.</p>
   <div class="callout"><p><strong>All features are opt-in.</strong> Disabling everything gives you a standard, fast, server-rendered TOC identical to v1.0. Enable features individually as needed.</p></div>
 
@@ -226,10 +227,22 @@ npm run build</code></pre>
     </tbody>
   </table>
 
-  <h3 id="section-notes">Section notes (author → reader)</h3>
-  <p>Writers type a short teaser or hook per heading in the <strong>Section Notes</strong> sidebar panel. All headings in the post appear as text inputs; notes are stored in the <code>sectionNotes</code> block attribute (a plain object keyed by heading slug).</p>
+  <h3 id="section-notes">Section Planner (author → reader) <span class="badge-new">1.2</span></h3>
+  <p>Writers type a short teaser or hook per heading in the <strong>Section Planner</strong> sidebar panel and can mark each heading as ✏️ Draft, 🔄 In progress, or ✅ Done. Status is stored in the <code>sectionStatus</code> block attribute; teasers stay in <code>sectionNotes</code> (objects keyed by heading slug).</p>
   <p>On the front end, each section with a note shows a small ✍ button. The reader taps it to reveal the note. No database round-trip — the note is in the block markup.</p>
   <div class="warn"><p><strong>Notes are per-block-instance.</strong> If you have two TOC blocks in a post, each stores its own notes independently.</p></div>
+
+  <h3 id="study-assistant">Study assistant <span class="badge-new">New in 1.2</span></h3>
+  <p>These reader tools are opt-in. They store state in the browser only — no accounts, no server calls.</p>
+  <table>
+    <thead><tr><th>Feature</th><th>How it works</th></tr></thead>
+    <tbody>
+      <tr><td><strong>Reader note pads</strong></td><td>A 📝 button per section opens a private pad stored in <code>localStorage</code>. Toggle: <strong>Reader note pads</strong> or shortcode <code>rnotes="1"</code>.</td></tr>
+      <tr><td><strong>Reading progress bar</strong></td><td>A thin 0–100% bar tracks headings scrolled past via IntersectionObserver. Toggle or <code>rprogress="1"</code>.</td></tr>
+      <tr><td><strong>Resume bookmark</strong></td><td>Remembers the last-read heading and shows a ↩ Resume button on return visits. Toggle or <code>bookmark="1"</code>.</td></tr>
+      <tr><td><strong>Total read-time badge</strong></td><td>When Reading Guide + read-time are on, the TOC header shows the aggregated read time for the post.</td></tr>
+    </tbody>
+  </table>
 
   <h3 id="citations">Per-section academic citations <span class="badge-new">New in 1.1</span></h3>
   <p>A <strong>§</strong> button on each TOC item copies a formatted academic citation for that section — including the direct <code>#anchor</code> URL.</p>
@@ -313,6 +326,9 @@ npm run build</code></pre>
       <tr><td><code>min</code></td><td>integer</td><td>site default</td></tr>
       <tr><td><code>smooth</code></td><td>inherit / on / off</td><td>inherit</td></tr>
       <tr><td><code>style</code></td><td>default, minimal, boxed, underline, card</td><td>default</td></tr>
+      <tr><td><code>rprogress</code></td><td>0 / 1</td><td>0</td></tr>
+      <tr><td><code>bookmark</code></td><td>0 / 1</td><td>0</td></tr>
+      <tr><td><code>rnotes</code></td><td>0 / 1</td><td>0</td></tr>
     </tbody>
   </table>
 
