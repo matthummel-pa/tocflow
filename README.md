@@ -28,9 +28,28 @@
 
 ---
 
-## What's new — v1.2.0 (Sep 2026)
+## What's new — v1.2.2 (Sep 2026)
 
 > For WordPress.org reviewers: the sections below describe every change since v1.0.2.
+
+### v1.2.2 — WordPress.org compliance fixes
+
+| Fix | Detail |
+|---|---|
+| **`TOCFLOW_VERSION` constant** | Was stuck at `1.2.0`; corrected to `1.2.2` — admin version badge now matches the plugin header |
+| **`Tested up to`** | Updated from `6.7` → `7.1` (WP 7.1 "Mary Lou" released 2026-08-19) |
+| **Tags** | Removed third-party trademark `elementor`; replaced with `study tools` |
+| **PHP indentation** | Fixed WPCS 3-tab → 4-tab on shortcode Study-tool attrs and admin settings view |
+| **readme.txt entries** | Added `= 1.2.1 =` and `= 1.2.2 =` Changelog + Upgrade Notice entries (stable tag must have matching entries) |
+| **GitHub Actions** | Bumped `softprops/action-gh-release` from v2 → v3 (Node 20 → Node 24 runtime) |
+
+### v1.2.1 — Performance patch
+
+| Fix | Detail |
+|---|---|
+| **Bookmark localStorage debounce** | Debounced resume-bookmark writes from every `IntersectionObserver` callback to every 500 ms — prevents redundant writes during fast scrolling |
+
+### v1.2.0 — Study assistant & writer tools
 
 ### v1.2.0 — Study assistant & writer tools
 
