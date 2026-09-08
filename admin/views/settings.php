@@ -115,8 +115,9 @@ $tocflow_support_url = 'https://github.com/matthummel-pa/tocflow/issues';
 				<p><code>[tocflow]</code></p>
 				<p><?php esc_html_e( 'Layout &amp; behavior:', 'tocflow' ); ?> <code>title</code>, <code>showtitle</code>, <code>titletag</code>, <code>h1</code>&ndash;<code>h6</code>, <code>ordered</code>, <code>numbering</code>, <code>markers</code>, <code>collapsible</code>, <code>collapsed</code>, <code>sticky</code>, <code>compact</code>, <code>columns</code>, <code>underline</code>, <code>highlight</code>, <code>maxheight</code>, <code>min</code>, <code>smooth</code>, <code>style</code></p>
 				<p><?php esc_html_e( 'Reading Guide:', 'tocflow' ); ?> <code>preview="1"</code> <?php esc_html_e( '(hover tooltip)', 'tocflow' ); ?>, <code>guide="1"</code> <?php esc_html_e( '(full guide mode)', 'tocflow' ); ?>, <code>previews="1"</code>, <code>density="1"</code>, <code>readtime="1"</code>, <code>progress="1"</code>, <code>reactions="1"</code>, <code>citations="1"</code>, <code>citation="apa|mla|chicago|harvard|plain"</code></p>
-				<p><code>[tocflow title="On this page" ordered="1" style="boxed" preview="1"]</code></p>
-				<p><code>[tocflow guide="1" previews="1" readtime="1" reactions="1" citations="1"]</code></p>
+				<p><?php esc_html_e( 'Accessibility &amp; export:', 'tocflow' ); ?> <code>export="1"</code> <?php esc_html_e( '(adds Copy / .md / .doc / Print buttons)', 'tocflow' ); ?></p>
+				<p><code>[tocflow title="On this page" style="boxed" preview="1" export="1"]</code></p>
+				<p><code>[tocflow guide="1" previews="1" readtime="1" reactions="1" citations="1" export="1"]</code></p>
 			</section>
 
 			<section class="tocflow-card tocflow-card--wide">

@@ -117,6 +117,7 @@ export default function Edit( { attributes, setAttributes } ) {
 		showCitations,
 		citationStyle,
 		sectionNotes,
+		showExport,
 	} = attributes;
 
 	const blocks = useSelect(
@@ -474,6 +475,18 @@ export default function Edit( { attributes, setAttributes } ) {
 						}
 						help={ __(
 							'Use −1 to inherit the site-wide offset from Settings → TOCflow.',
+							'tocflow'
+						) }
+					/>
+					<ToggleControl
+						__nextHasNoMarginBottom
+						label={ __( 'Export / print bar', 'tocflow' ) }
+						checked={ showExport }
+						onChange={ ( value ) =>
+							setAttributes( { showExport: value } )
+						}
+						help={ __(
+							'Adds Copy, Download (.md), Download (.doc), and Print buttons below the outline. Useful for writers and researchers.',
 							'tocflow'
 						) }
 					/>

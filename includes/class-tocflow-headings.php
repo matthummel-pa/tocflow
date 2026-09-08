@@ -779,6 +779,9 @@ class TOCflow_Headings {
 		if ( ! empty( $attributes['previewOnHover'] ) ) {
 			$classes[] = 'has-hover-preview';
 		}
+		if ( ! empty( $attributes['showExport'] ) ) {
+			$classes[] = 'has-export';
+		}
 
 		$max_height = isset( $attributes['maxHeight'] ) ? (int) $attributes['maxHeight'] : 0;
 		if ( $max_height > 0 ) {
@@ -854,6 +857,9 @@ class TOCflow_Headings {
 			);
 		}
 
+		// Hidden live region — picks up copy-to-clipboard and other state changes.
+		$html .= '<span class="tocflow__live-region tocflow__visually-hidden" aria-live="polite" aria-atomic="true"></span>';
+
 		if ( $show_title || ! empty( $attributes['collapsible'] ) ) {
 			$html .= '<div class="tocflow__header">';
 			if ( $show_title ) {
@@ -874,6 +880,42 @@ class TOCflow_Headings {
 		$html .= '<div class="tocflow__body">';
 		$html .= self::render_list( $items, $list_tag, $guide );
 		$html .= '</div>';
+
+		// ── Export / print bar ────────────────────────────────────────────────
+		if ( ! empty( $attributes['showExport'] ) ) {
+			$post_title = html_entity_decode( get_the_title( $post_id ), ENT_QUOTES, 'UTF-8' );
+			$html .= '<div class="tocflow__export-bar" role="group"'
+				. ' aria-label="' . esc_attr__( 'Export table of contents', 'tocflow' ) . '"'
+				. ' data-tocflow-export-title="' . esc_attr( $post_title ) . '">';
+
+			$html .= '<button type="button" class="tocflow__export-btn" data-tocflow-action="copy-md"'
+				. ' aria-label="' . esc_attr__( 'Copy outline as Markdown', 'tocflow' ) . '">'
+				. '<span aria-hidden="true">📋</span> '
+				. '<span>' . esc_html__( 'Copy', 'tocflow' ) . '</span>'
+				. '<span class="tocflow__export-confirm tocflow__visually-hidden" role="status" aria-live="polite"></span>'
+				. '</button>';
+
+			$html .= '<button type="button" class="tocflow__export-btn" data-tocflow-action="download-md"'
+				. ' aria-label="' . esc_attr__( 'Download outline as Markdown file', 'tocflow' ) . '">'
+				. '<span aria-hidden="true">⬇</span> '
+				. '<span>' . esc_html__( '.md', 'tocflow' ) . '</span>'
+				. '</button>';
+
+			$html .= '<button type="button" class="tocflow__export-btn" data-tocflow-action="download-doc"'
+				. ' aria-label="' . esc_attr__( 'Download outline as Word document', 'tocflow' ) . '">'
+				. '<span aria-hidden="true">⬇</span> '
+				. '<span>' . esc_html__( '.doc', 'tocflow' ) . '</span>'
+				. '</button>';
+
+			$html .= '<button type="button" class="tocflow__export-btn" data-tocflow-action="print"'
+				. ' aria-label="' . esc_attr__( 'Print table of contents', 'tocflow' ) . '">'
+				. '<span aria-hidden="true">🖨</span> '
+				. '<span>' . esc_html__( 'Print', 'tocflow' ) . '</span>'
+				. '</button>';
+
+			$html .= '</div>';
+		}
+
 		$html .= '</nav>';
 
 		if ( ! empty( $settings['schema_markup'] ) ) {

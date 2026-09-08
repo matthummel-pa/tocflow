@@ -150,6 +150,7 @@ class TOCflow_Plugin {
 				'reactions'   => '0',   // emoji reactions per section.
 				'citations'   => '0',   // one-click academic citations.
 				'citation'    => 'apa', // citation format (apa|mla|chicago|harvard|plain).
+				'export'      => '0',   // show copy/download/print toolbar.
 			),
 			$atts,
 			'tocflow'
@@ -230,6 +231,7 @@ class TOCflow_Plugin {
 			'showCitations'    => $guide_mode && $this->is_truthy( $atts['citations'] ),
 			'citationStyle'    => $citation_style,
 			'sectionNotes'     => array(),
+			'showExport'       => $this->is_truthy( $atts['export'] ),
 		);
 
 		return TOCflow_Headings::render_nav( $attributes, $post_id, false );

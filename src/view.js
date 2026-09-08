@@ -20,6 +20,25 @@ const offsetOf = ( nav ) =>
 const smoothEnabled = ( nav ) =>
 	nav.getAttribute( 'data-tocflow-smooth' ) !== '0';
 
+/**
+ * Announce a short message to screen readers via the nav's live region.
+ *
+ * @param {HTMLElement} nav     The TOC nav element.
+ * @param {string}      message Text to announce.
+ */
+const announce = ( nav, message ) => {
+	const region = nav.querySelector( '.tocflow__live-region' );
+	if ( ! region ) {
+		return;
+	}
+	// Clear first so the same text re-announces if repeated.
+	region.textContent = '';
+	// Allow the DOM to settle before setting the new text.
+	window.requestAnimationFrame( () => {
+		region.textContent = message;
+	} );
+};
+
 // ── Collapse toggle ───────────────────────────────────────────────────────────
 
 const initToggle = ( nav ) => {
@@ -290,14 +309,28 @@ const formatCitation = ( meta, headingText, slug, style ) => {
 	}
 };
 
-const showCopied = ( btn ) => {
+/**
+ * @param {HTMLElement}      btn The button to mark as copied.
+ * @param {HTMLElement|null} nav Optional nav for live-region announcement.
+ */
+const showCopied = ( btn, nav ) => {
 	btn.classList.add( 'is-copied' );
+	if ( nav ) {
+		announce( nav, 'Citation copied.' );
+	}
 	setTimeout( () => btn.classList.remove( 'is-copied' ), 2200 );
 };
 
-const copyText = ( text, btn ) => {
+/**
+ * @param {string}           text Text to copy.
+ * @param {HTMLElement}      btn  Button triggering the copy.
+ * @param {HTMLElement|null} nav  Optional nav for live-region announcement.
+ */
+const copyText = ( text, btn, nav = null ) => {
 	if ( navigator.clipboard && navigator.clipboard.writeText ) {
-		navigator.clipboard.writeText( text ).then( () => showCopied( btn ) );
+		navigator.clipboard
+			.writeText( text )
+			.then( () => showCopied( btn, nav ) );
 		return;
 	}
 	// execCommand fallback for older browsers.
@@ -309,7 +342,7 @@ const copyText = ( text, btn ) => {
 	ta.select();
 	try {
 		document.execCommand( 'copy' );
-		showCopied( btn );
+		showCopied( btn, nav );
 	} finally {
 		document.body.removeChild( ta );
 	}
@@ -339,7 +372,11 @@ const initCitations = ( nav ) => {
 		}
 
 		btn.addEventListener( 'click', () => {
-			copyText( formatCitation( meta, headingText, slug, style ), btn );
+			copyText(
+				formatCitation( meta, headingText, slug, style ),
+				btn,
+				nav
+			);
 		} );
 	} );
 };
@@ -438,6 +475,237 @@ const initHoverPreviews = ( nav ) => {
 	} );
 };
 
+// ── Export / print bar ────────────────────────────────────────────────────────
+
+/**
+ * Collect the TOC as a flat [{depth, text, slug}] array from the rendered DOM.
+ *
+ * @param {HTMLElement} nav The TOC nav element.
+ * @return {Array<{depth: number, text: string, slug: string}>} Flat ordered list.
+ */
+const collectItems = ( nav ) => {
+	const items = [];
+	nav.querySelectorAll( '.tocflow__item' ).forEach( ( li ) => {
+		const link = li.querySelector( '.tocflow__link' );
+		if ( ! link ) {
+			return;
+		}
+		const text = link.textContent.trim();
+		const slug = ( link.getAttribute( 'href' ) || '' ).replace( /^#/, '' );
+		// Depth = nesting level (tocflow__list = 1, tocflow__sub = 2, …).
+		let depth = 1;
+		let parent = li.parentElement;
+		while ( parent && ! parent.classList.contains( 'tocflow__body' ) ) {
+			if (
+				parent.classList.contains( 'tocflow__sub' ) ||
+				parent.tagName === 'OL' ||
+				parent.tagName === 'UL'
+			) {
+				depth++;
+			}
+			parent = parent.parentElement;
+		}
+		depth = Math.max( 1, depth );
+		items.push( { depth, text, slug } );
+	} );
+	return items;
+};
+
+/**
+ * Convert collected TOC items to a Markdown string.
+ *
+ * @param {string}                                             title Post title.
+ * @param {Array<{depth: number, text: string, slug: string}>} items TOC items.
+ * @param {string}                                             url   Current page URL.
+ * @return {string} Markdown-formatted outline.
+ */
+const toMarkdown = ( title, items, url ) => {
+	const lines = [ `# ${ title }`, '' ];
+	const minDepth = items.reduce(
+		( m, i ) => Math.min( m, i.depth ),
+		Infinity
+	);
+	items.forEach( ( item ) => {
+		const indent = '  '.repeat( item.depth - minDepth );
+		lines.push( `${ indent }- [${ item.text }](${ url }#${ item.slug })` );
+	} );
+	lines.push( '' );
+	return lines.join( '\n' );
+};
+
+/**
+ * Build a minimal Word-compatible HTML string for the outline.
+ *
+ * @param {string}                                             title Post title.
+ * @param {Array<{depth: number, text: string, slug: string}>} items TOC items.
+ * @param {string}                                             url   Current page URL.
+ * @return {string} HTML document string.
+ */
+const toWordHtml = ( title, items, url ) => {
+	const esc = ( s ) =>
+		s
+			.replace( /&/g, '&amp;' )
+			.replace( /</g, '&lt;' )
+			.replace( />/g, '&gt;' );
+	let inner = `<h1>${ esc( title ) }</h1><ul>`;
+	const minDepth = items.reduce(
+		( m, i ) => Math.min( m, i.depth ),
+		Infinity
+	);
+	let prevDepth = minDepth;
+	items.forEach( ( item ) => {
+		if ( item.depth > prevDepth ) {
+			inner += '<ul>'.repeat( item.depth - prevDepth );
+		} else if ( item.depth < prevDepth ) {
+			inner += '</ul></li>'.repeat( prevDepth - item.depth );
+		}
+		inner += `<li><a href="${ esc( url ) }#${ esc( item.slug ) }">${ esc(
+			item.text
+		) }</a>`;
+		prevDepth = item.depth;
+	} );
+	inner += '</li></ul>'.repeat( prevDepth - minDepth + 1 );
+	return (
+		`<!DOCTYPE html>\n<html><head><meta charset="utf-8">` +
+		`<title>${ esc( title ) }</title></head><body>${ inner }</body></html>`
+	);
+};
+
+/**
+ * Trigger a browser file download.
+ *
+ * @param {string} content  File content.
+ * @param {string} filename Suggested file name.
+ * @param {string} mime     MIME type.
+ */
+const downloadFile = ( content, filename, mime ) => {
+	const blob = new Blob( [ content ], { type: mime } );
+	const href = URL.createObjectURL( blob );
+	const a = document.createElement( 'a' );
+	a.href = href;
+	a.download = filename;
+	document.body.appendChild( a );
+	a.click();
+	document.body.removeChild( a );
+	setTimeout( () => URL.revokeObjectURL( href ), 10000 );
+};
+
+/**
+ * Open a minimal print window containing only the TOC outline.
+ *
+ * @param {string} title Post title.
+ * @param {string} html  Word-compatible HTML outline (reused for print).
+ */
+const printOutline = ( title, html ) => {
+	const win = window.open( '', '_blank', 'width=800,height=600' );
+	if ( ! win ) {
+		return;
+	}
+	win.document.write(
+		html.replace(
+			'</head>',
+			`<style>body{font-family:sans-serif;max-width:640px;margin:2rem auto}` +
+				`a{color:inherit}h1{font-size:1.4rem;margin-bottom:1rem}` +
+				`ul,ol{padding-left:1.5rem}li{margin:.3rem 0}</style></head>`
+		)
+	);
+	win.document.close();
+	win.focus();
+	win.print();
+};
+
+/**
+ * Wire up export / print buttons in the toolbar.
+ *
+ * @param {HTMLElement} nav The TOC nav element.
+ */
+const initExport = ( nav ) => {
+	const bar = nav.querySelector( '.tocflow__export-bar' );
+	if ( ! bar ) {
+		return;
+	}
+
+	const pageTitle =
+		bar.getAttribute( 'data-tocflow-export-title' ) ||
+		document.title ||
+		'Table of Contents';
+	const pageUrl = window.location.href.split( '#' )[ 0 ];
+	const slug = pageTitle
+		.toLowerCase()
+		.replace( /[^a-z0-9]+/g, '-' )
+		.replace( /(^-|-$)/g, '' );
+
+	bar.querySelectorAll( '.tocflow__export-btn' ).forEach( ( btn ) => {
+		const action = btn.getAttribute( 'data-tocflow-action' );
+
+		btn.addEventListener( 'click', () => {
+			const items = collectItems( nav );
+			const md = toMarkdown( pageTitle, items, pageUrl );
+			const docHtml = toWordHtml( pageTitle, items, pageUrl );
+
+			switch ( action ) {
+				case 'copy-md': {
+					const onCopy = () => {
+						announce( nav, 'Outline copied as Markdown.' );
+						btn.classList.add( 'is-copied' );
+						const confirm = btn.querySelector(
+							'.tocflow__export-confirm'
+						);
+						if ( confirm ) {
+							confirm.textContent = '✓';
+						}
+						setTimeout( () => {
+							btn.classList.remove( 'is-copied' );
+							if ( confirm ) {
+								confirm.textContent = '';
+							}
+						}, 2200 );
+					};
+
+					if (
+						navigator.clipboard &&
+						navigator.clipboard.writeText
+					) {
+						navigator.clipboard.writeText( md ).then( onCopy );
+					} else {
+						const ta = document.createElement( 'textarea' );
+						ta.value = md;
+						ta.style.cssText =
+							'position:fixed;opacity:0;top:0;left:0';
+						document.body.appendChild( ta );
+						ta.focus();
+						ta.select();
+						try {
+							document.execCommand( 'copy' );
+							onCopy();
+						} finally {
+							document.body.removeChild( ta );
+						}
+					}
+					break;
+				}
+				case 'download-md':
+					downloadFile( md, `${ slug }.md`, 'text/markdown' );
+					announce( nav, 'Markdown file downloaded.' );
+					break;
+				case 'download-doc':
+					downloadFile(
+						docHtml,
+						`${ slug }.doc`,
+						'application/msword'
+					);
+					announce( nav, 'Word document downloaded.' );
+					break;
+				case 'print':
+					printOutline( pageTitle, docHtml );
+					break;
+				default:
+					break;
+			}
+		} );
+	} );
+};
+
 // ── Bootstrap ─────────────────────────────────────────────────────────────────
 
 const initNav = ( nav ) => {
@@ -458,6 +726,10 @@ const initNav = ( nav ) => {
 		initReactions( nav );
 		initNotes( nav );
 		initCitations( nav );
+	}
+
+	if ( nav.classList.contains( 'has-export' ) ) {
+		initExport( nav );
 	}
 };
 

@@ -566,3 +566,128 @@
 		transition: none;
 	}
 }
+
+// ── Export / print toolbar ───────────────────────────────────────────────────
+
+.wp-block-tocflow-table-of-contents .tocflow__export-bar,
+.tocflow .tocflow__export-bar {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 0.35rem;
+	margin-top: 0.85rem;
+	padding-top: 0.65rem;
+	border-top: 1px solid var(--tocflow-line, #e2e8f0);
+}
+
+.wp-block-tocflow-table-of-contents .tocflow__export-btn,
+.tocflow .tocflow__export-btn {
+	appearance: none;
+	display: inline-flex;
+	align-items: center;
+	gap: 0.3em;
+	background: transparent;
+	border: 1px solid var(--tocflow-line, #e2e8f0);
+	border-radius: 4px;
+	padding: 0.2em 0.6em;
+	font-size: 0.75em;
+	cursor: pointer;
+	color: inherit;
+	opacity: 0.55;
+	line-height: 1.4;
+	transition: opacity 0.15s, background 0.15s;
+	font-family: inherit;
+}
+
+.wp-block-tocflow-table-of-contents .tocflow__export-btn:hover,
+.wp-block-tocflow-table-of-contents .tocflow__export-btn:focus-visible,
+.tocflow .tocflow__export-btn:hover,
+.tocflow .tocflow__export-btn:focus-visible {
+	opacity: 1;
+	background: var(--tocflow-line, #e2e8f0);
+	outline: 2px solid currentcolor;
+	outline-offset: 2px;
+}
+
+.wp-block-tocflow-table-of-contents .tocflow__export-btn.is-copied,
+.tocflow .tocflow__export-btn.is-copied {
+	opacity: 1;
+	background: color-mix(in srgb, var(--tocflow-accent) 10%, transparent);
+	border-color: color-mix(in srgb, var(--tocflow-accent) 35%, transparent);
+	color: var(--tocflow-accent);
+}
+
+// ── Focus-visible polish ─────────────────────────────────────────────────────
+
+.wp-block-tocflow-table-of-contents a:focus-visible,
+.tocflow a:focus-visible {
+	outline: 2px solid currentcolor;
+	outline-offset: 2px;
+	border-radius: 2px;
+}
+
+.wp-block-tocflow-table-of-contents button:focus-visible,
+.tocflow button:focus-visible {
+	outline: 2px solid currentcolor;
+	outline-offset: 2px;
+}
+
+// ── Print media ──────────────────────────────────────────────────────────────
+
+@media print {
+
+	// Keep the TOC visible and static.
+	.wp-block-tocflow-table-of-contents,
+	.tocflow {
+		border: 1px solid #ccc;
+		background: none;
+		page-break-inside: avoid;
+		box-shadow: none;
+	}
+
+	// Expand a collapsed TOC for print.
+	.wp-block-tocflow-table-of-contents.is-collapsed .tocflow__body,
+	.tocflow.is-collapsed .tocflow__body {
+		display: block;
+	}
+
+	// Hide all interactive controls.
+	.wp-block-tocflow-table-of-contents .tocflow__toggle,
+	.wp-block-tocflow-table-of-contents .tocflow__reaction,
+	.wp-block-tocflow-table-of-contents .tocflow__cite-btn,
+	.wp-block-tocflow-table-of-contents .tocflow__note-toggle,
+	.wp-block-tocflow-table-of-contents .tocflow__export-bar,
+	.wp-block-tocflow-table-of-contents .tocflow__tip-bubble,
+	.tocflow .tocflow__toggle,
+	.tocflow .tocflow__reaction,
+	.tocflow .tocflow__cite-btn,
+	.tocflow .tocflow__note-toggle,
+	.tocflow .tocflow__export-bar,
+	.tocflow .tocflow__tip-bubble {
+		display: none !important;
+	}
+
+	// Show author notes expanded.
+	.wp-block-tocflow-table-of-contents .tocflow__note,
+	.tocflow .tocflow__note {
+		display: block !important;
+	}
+
+	// Remove animated effects.
+	.wp-block-tocflow-table-of-contents .tocflow__item.is-read > .tocflow__item-row > .tocflow__link,
+	.tocflow .tocflow__item.is-read > .tocflow__item-row > .tocflow__link {
+		opacity: 1;
+	}
+
+	.wp-block-tocflow-table-of-contents .tocflow__density-bar,
+	.tocflow .tocflow__density-bar {
+		display: none;
+	}
+}
+
+@media (prefers-reduced-motion: reduce) {
+
+	.wp-block-tocflow-table-of-contents .tocflow__export-btn,
+	.tocflow .tocflow__export-btn {
+		transition: none;
+	}
+}

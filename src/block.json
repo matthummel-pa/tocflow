@@ -122,7 +122,8 @@
 		"showReactions": { "type": "boolean", "default": false },
 		"showCitations": { "type": "boolean", "default": false },
 		"citationStyle": { "type": "string", "default": "apa" },
-		"sectionNotes": { "type": "object", "default": {} }
+		"sectionNotes": { "type": "object", "default": {} },
+		"showExport": { "type": "boolean", "default": false }
 	},
 	"example": {
 		"attributes": {
