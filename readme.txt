@@ -5,7 +5,7 @@ Tags: table of contents, toc, reading guide, block, elementor
 Requires at least: 6.4
 Tested up to: 6.7
 Requires PHP: 7.4
-Stable tag: 1.1.0
+Stable tag: 1.2.0
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -185,6 +185,15 @@ GNU GPLv2 or later, covering the whole plugin (PHP, JavaScript, CSS, and images)
 5. Settings → TOCflow (smooth scroll, auto-generate block, uninstall).
 
 == Changelog ==
+
+= 1.2.0 =
+* New: **Reader note pads** — a 📝 button per section lets readers jot personal notes stored privately in localStorage. No account, no server. Enable with `rnotes="1"` in the shortcode or the new "Reader note pads" toggle in the block sidebar.
+* New: **Reading progress bar** — a thin animated bar shows 0–100 % of the document read (based on headings scrolled past via IntersectionObserver). Enable with `rprogress="1"`.
+* New: **Resume reading bookmark** — automatically bookmarks the last-read heading in localStorage; shows a "↩ Resume" button on return visits. Enable with `bookmark="1"`.
+* New: **Section Planner** — the "Section Notes" sidebar panel is now "Section Planner" with per-heading writing status (✏️ Draft / 🔄 In progress / ✅ Done) tracked in the editor canvas and a reader-facing teaser note.
+* New: **Total read-time badge** — when Reading Guide + read-time are active, the TOC header shows the aggregated total read time for the entire post.
+* New shortcode attributes: `rprogress`, `bookmark`, `rnotes`.
+* New block attributes: `showReaderNotes`, `showReadingProgress`, `showBookmark`, `sectionStatus`.
 
 = 1.1.0 =
 * New: **Reading Guide mode** — enable per-block to show section content previews (server-extracted, no JS fetch), visual content-density bars, per-section read-time estimates, and scroll-based reading progress.

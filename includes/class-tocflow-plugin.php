@@ -151,6 +151,10 @@ class TOCflow_Plugin {
 				'citations'   => '0',   // one-click academic citations.
 				'citation'    => 'apa', // citation format (apa|mla|chicago|harvard|plain).
 				'export'      => '0',   // show copy/download/print toolbar.
+			// Study tool shortcode attributes.
+			'rprogress'   => '0',   // reading progress bar.
+			'bookmark'    => '0',   // resume reading bookmark.
+			'rnotes'      => '0',   // reader note pads per section.
 			),
 			$atts,
 			'tocflow'
@@ -230,8 +234,12 @@ class TOCflow_Plugin {
 			'showReactions'    => $guide_mode && $this->is_truthy( $atts['reactions'] ),
 			'showCitations'    => $guide_mode && $this->is_truthy( $atts['citations'] ),
 			'citationStyle'    => $citation_style,
-			'sectionNotes'     => array(),
-			'showExport'       => $this->is_truthy( $atts['export'] ),
+			'sectionNotes'        => array(),
+			'sectionStatus'       => array(),
+			'showExport'          => $this->is_truthy( $atts['export'] ),
+			'showReadingProgress' => $this->is_truthy( $atts['rprogress'] ),
+			'showBookmark'        => $this->is_truthy( $atts['bookmark'] ),
+			'showReaderNotes'     => $this->is_truthy( $atts['rnotes'] ),
 		);
 
 		return TOCflow_Headings::render_nav( $attributes, $post_id, false );

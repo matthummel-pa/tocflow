@@ -471,8 +471,9 @@ class TOCflow_Headings {
 		$show_reactions   = ! empty( $guide['show_reactions'] );
 		$show_citations   = ! empty( $guide['show_citations'] );
 		$preview_on_hover = ! empty( $guide['preview_on_hover'] );
+		$show_reader_notes = ! empty( $guide['show_reader_notes'] );
 		$notes            = isset( $guide['section_notes'] ) && is_array( $guide['section_notes'] ) ? $guide['section_notes'] : array();
-		$any_guide        = $show_time || $show_density || $show_preview || $show_reactions || $show_citations || ! empty( $notes ) || $preview_on_hover;
+		$any_guide        = $show_time || $show_density || $show_preview || $show_reactions || $show_citations || ! empty( $notes ) || $preview_on_hover || $show_reader_notes;
 
 		// Denominator for density bar proportions.
 		$max_words = 1;
@@ -591,6 +592,25 @@ class TOCflow_Headings {
 					. '</div>';
 			}
 
+			// ── Reader note pad ───────────────────────────────────────────────
+			if ( $show_reader_notes ) {
+				$rnote_id = 'tocflow-rnote-' . sanitize_html_class( $slug );
+				$html    .= '<div class="tocflow__rnote-wrap">'
+					. '<button type="button" class="tocflow__rnote-toggle"'
+					. ' aria-expanded="false"'
+					. ' aria-controls="' . esc_attr( $rnote_id ) . '"'
+					. ' aria-label="' . esc_attr( sprintf( /* translators: %s = heading text */ __( 'My note for: %s', 'tocflow' ), $text ) ) . '">'
+					. '<span class="tocflow__rnote-icon" aria-hidden="true">&#x1F4DD;</span>'
+					. '</button>'
+					. '<div class="tocflow__rnote-pad" id="' . esc_attr( $rnote_id ) . '" hidden>'
+					. '<textarea class="tocflow__rnote-ta" rows="3"'
+					. ' placeholder="' . esc_attr__( 'Your notes for this section\xe2\x80\xa6', 'tocflow' ) . '"'
+					. ' aria-label="' . esc_attr( sprintf( /* translators: %s = heading text */ __( 'Notes for: %s', 'tocflow' ), $text ) ) . '">'
+					. '</textarea>'
+					. '</div>'
+					. '</div>';
+			}
+
 			// ── Reactions + citation row ───────────────────────────────────────
 			if ( $show_reactions || $show_citations ) {
 				$html .= '<div class="tocflow__actions">';
@@ -686,13 +706,14 @@ class TOCflow_Headings {
 			}
 
 			$guide = array(
-				'show_previews'   => ! empty( $attributes['showPreviews'] ),
-				'show_density'    => ! empty( $attributes['showDensity'] ),
-				'show_read_time'  => ! empty( $attributes['showReadTime'] ),
-				'show_reactions'  => ! empty( $attributes['showReactions'] ),
-				'show_citations'  => ! empty( $attributes['showCitations'] ),
-				'section_notes'   => $notes,
-				'preview_on_hover'=> ! empty( $attributes['previewOnHover'] ),
+				'show_previews'    => ! empty( $attributes['showPreviews'] ),
+				'show_density'     => ! empty( $attributes['showDensity'] ),
+				'show_read_time'   => ! empty( $attributes['showReadTime'] ),
+				'show_reactions'   => ! empty( $attributes['showReactions'] ),
+				'show_citations'   => ! empty( $attributes['showCitations'] ),
+				'section_notes'    => $notes,
+				'preview_on_hover' => ! empty( $attributes['previewOnHover'] ),
+				'show_reader_notes'=> ! empty( $attributes['showReaderNotes'] ),
 			);
 		} elseif ( ! empty( $attributes['previewOnHover'] ) ) {
 			// Hover previews only — merge just the preview text into items.
@@ -708,6 +729,11 @@ class TOCflow_Headings {
 		// Always propagate the hover flag so render_list() can use it.
 		if ( ! empty( $attributes['previewOnHover'] ) ) {
 			$guide['preview_on_hover'] = true;
+		}
+
+		// Reader notes work independently of guide mode.
+		if ( ! empty( $attributes['showReaderNotes'] ) ) {
+			$guide['show_reader_notes'] = true;
 		}
 
 		$min = (int) TOCflow_Settings::get_value( 'min_headings', 2 );
@@ -782,6 +808,15 @@ class TOCflow_Headings {
 		if ( ! empty( $attributes['showExport'] ) ) {
 			$classes[] = 'has-export';
 		}
+		if ( ! empty( $attributes['showReaderNotes'] ) ) {
+			$classes[] = 'has-reader-notes';
+		}
+		if ( ! empty( $attributes['showReadingProgress'] ) ) {
+			$classes[] = 'has-reading-progress';
+		}
+		if ( ! empty( $attributes['showBookmark'] ) ) {
+			$classes[] = 'has-bookmark';
+		}
 
 		$max_height = isset( $attributes['maxHeight'] ) ? (int) $attributes['maxHeight'] : 0;
 		if ( $max_height > 0 ) {
@@ -812,10 +847,18 @@ class TOCflow_Headings {
 		}
 		$style_attr = implode( ';', $style_parts );
 
-		// Build extra data attributes for guide mode features.
+		// Build extra data attributes for guide mode and study tools.
 		$guide_attrs = array();
-		if ( ! empty( $attributes['guideMode'] ) ) {
+
+		// data-tocflow-post is needed by any feature that uses localStorage.
+		$needs_post_id = ! empty( $attributes['guideMode'] )
+			|| ! empty( $attributes['showBookmark'] )
+			|| ! empty( $attributes['showReaderNotes'] );
+		if ( $needs_post_id ) {
 			$guide_attrs['data-tocflow-post'] = (string) $post_id;
+		}
+
+		if ( ! empty( $attributes['guideMode'] ) ) {
 			if ( ! empty( $attributes['trackProgress'] ) ) {
 				$guide_attrs['data-tocflow-progress'] = '1';
 			}
@@ -826,6 +869,16 @@ class TOCflow_Headings {
 					$guide_attrs['data-tocflow-meta'] = (string) wp_json_encode( $cite_meta );
 				}
 			}
+		}
+
+		if ( ! empty( $attributes['showReadingProgress'] ) ) {
+			$guide_attrs['data-tocflow-reader-progress'] = '1';
+		}
+		if ( ! empty( $attributes['showBookmark'] ) ) {
+			$guide_attrs['data-tocflow-bookmark'] = '1';
+		}
+		if ( ! empty( $attributes['showReaderNotes'] ) ) {
+			$guide_attrs['data-tocflow-reader-notes'] = '1';
 		}
 
 		if ( $wrap ) {
@@ -875,6 +928,47 @@ class TOCflow_Headings {
 				$html    .= '</button>';
 			}
 			$html .= '</div>';
+		}
+
+		// ── Study tools bar (total time + resume button) ─────────────────────
+		$has_total_time = ! empty( $attributes['guideMode'] )
+			&& ! empty( $attributes['showReadTime'] )
+			&& ! empty( $items );
+		$has_resume     = ! empty( $attributes['showBookmark'] );
+
+		if ( $has_total_time || $has_resume ) {
+			$html .= '<div class="tocflow__study-bar">';
+			if ( $has_total_time ) {
+				$total_words = 0;
+				foreach ( $items as $item ) {
+					if ( isset( $item['word_count'] ) ) {
+						$total_words += (int) $item['word_count'];
+					}
+				}
+				$total_mins  = max( 1, (int) ceil( $total_words / 200 ) );
+				/* translators: %d = estimated total reading time in minutes */
+				$html       .= '<span class="tocflow__total-time" aria-hidden="true">'
+					/* translators: %d = estimated total reading time in minutes */
+					. sprintf( esc_html__( '~%d min total', 'tocflow' ), $total_mins )
+					. '</span>';
+			}
+			if ( $has_resume ) {
+				$html .= '<button type="button" class="tocflow__resume-btn" hidden>'
+					. '<span aria-hidden="true">&#x21A9;</span>&thinsp;'
+					. esc_html__( 'Resume', 'tocflow' )
+					. '</button>';
+			}
+			$html .= '</div>';
+		}
+
+		// ── Reading progress bar ──────────────────────────────────────────────
+		if ( ! empty( $attributes['showReadingProgress'] ) ) {
+			$html .= '<div class="tocflow__reading-wrap"'
+				. ' role="progressbar"'
+				. ' aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"'
+				. ' aria-label="' . esc_attr__( 'Reading progress', 'tocflow' ) . '">'
+				. '<div class="tocflow__reading-bar"></div>'
+				. '</div>';
 		}
 
 		$html .= '<div class="tocflow__body">';

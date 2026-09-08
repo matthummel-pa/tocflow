@@ -381,6 +381,241 @@ const initCitations = ( nav ) => {
 	} );
 };
 
+// ── Reader annotation notes (localStorage) ────────────────────────────────────
+
+/**
+ * @param {string} postId Post ID string.
+ * @param {string} slug   Section slug.
+ * @return {string} localStorage key.
+ */
+const noteKey = ( postId, slug ) => `tocflow-rn-${ postId }-${ slug }`;
+
+/**
+ * @param {HTMLElement} nav The TOC nav element.
+ */
+const initReaderNotes = ( nav ) => {
+	const postId = nav.getAttribute( 'data-tocflow-post' );
+	if ( ! postId ) {
+		return;
+	}
+
+	nav.querySelectorAll( '.tocflow__rnote-toggle' ).forEach( ( btn ) => {
+		const item = btn.closest( '.tocflow__item' );
+		const slug = item ? item.getAttribute( 'data-tocflow-slug' ) : null;
+		if ( ! slug ) {
+			return;
+		}
+
+		const padId = btn.getAttribute( 'aria-controls' );
+		const pad = padId ? document.getElementById( padId ) : null;
+		const ta = pad ? pad.querySelector( '.tocflow__rnote-ta' ) : null;
+		if ( ! pad || ! ta ) {
+			return;
+		}
+
+		// Restore saved note and show indicator.
+		try {
+			const saved = localStorage.getItem( noteKey( postId, slug ) );
+			if ( saved ) {
+				ta.value = saved;
+				btn.classList.add( 'has-content' );
+			}
+		} catch {
+			// localStorage may be blocked.
+		}
+
+		// Toggle open/close.
+		btn.addEventListener( 'click', () => {
+			const expanded = btn.getAttribute( 'aria-expanded' ) === 'true';
+			btn.setAttribute( 'aria-expanded', expanded ? 'false' : 'true' );
+			if ( expanded ) {
+				pad.setAttribute( 'hidden', '' );
+			} else {
+				pad.removeAttribute( 'hidden' );
+				ta.focus();
+			}
+		} );
+
+		// Debounced auto-save.
+		let saveTimer;
+		ta.addEventListener( 'input', () => {
+			clearTimeout( saveTimer );
+			saveTimer = setTimeout( () => {
+				try {
+					const val = ta.value.trim();
+					if ( val ) {
+						localStorage.setItem( noteKey( postId, slug ), val );
+						btn.classList.add( 'has-content' );
+					} else {
+						localStorage.removeItem( noteKey( postId, slug ) );
+						btn.classList.remove( 'has-content' );
+					}
+				} catch {
+					// localStorage may be blocked.
+				}
+			}, 400 );
+		} );
+	} );
+};
+
+// ── Reading progress bar (% of headings scrolled past) ────────────────────────
+
+/**
+ * @param {HTMLElement} nav The TOC nav element.
+ */
+const initReadingProgress = ( nav ) => {
+	if ( nav.getAttribute( 'data-tocflow-reader-progress' ) !== '1' ) {
+		return;
+	}
+	if ( typeof window.IntersectionObserver === 'undefined' ) {
+		return;
+	}
+
+	const bar = nav.querySelector( '.tocflow__reading-bar' );
+	if ( ! bar ) {
+		return;
+	}
+
+	const links = Array.from(
+		nav.querySelectorAll( '.tocflow__link[href^="#"]' )
+	);
+	if ( ! links.length ) {
+		return;
+	}
+
+	const headings = links
+		.map( ( link ) => {
+			const id = decodeURIComponent(
+				( link.getAttribute( 'href' ) || '' ).slice( 1 )
+			);
+			return id ? document.getElementById( id ) : null;
+		} )
+		.filter( Boolean );
+
+	if ( ! headings.length ) {
+		return;
+	}
+
+	const wrap = nav.querySelector( '.tocflow__reading-wrap' );
+	let passed = 0;
+
+	const update = () => {
+		const pct = headings.length
+			? Math.round( ( passed / headings.length ) * 100 )
+			: 0;
+		bar.style.width = pct + '%';
+		if ( wrap ) {
+			wrap.setAttribute( 'aria-valuenow', String( pct ) );
+		}
+	};
+
+	// eslint-disable-next-line no-undef
+	const observer = new IntersectionObserver(
+		( changes ) => {
+			changes.forEach( ( change ) => {
+				// Count a heading as "read" once it has scrolled above the fold.
+				if (
+					! change.isIntersecting &&
+					change.boundingClientRect.top < 0
+				) {
+					const idx = headings.indexOf( change.target );
+					if ( idx !== -1 ) {
+						passed = Math.max( passed, idx + 1 );
+					}
+				}
+			} );
+			update();
+		},
+		{ threshold: 0 }
+	);
+
+	headings.forEach( ( h ) => observer.observe( h ) );
+};
+
+// ── Resume reading bookmark (localStorage) ────────────────────────────────────
+
+/**
+ * @param {string} postId Post ID string.
+ * @return {string} localStorage key.
+ */
+const bookmarkKey = ( postId ) => `tocflow-bm-${ postId }`;
+
+/**
+ * @param {HTMLElement} nav The TOC nav element.
+ */
+const initBookmark = ( nav ) => {
+	const postId = nav.getAttribute( 'data-tocflow-post' );
+	if ( ! postId ) {
+		return;
+	}
+	if ( nav.getAttribute( 'data-tocflow-bookmark' ) !== '1' ) {
+		return;
+	}
+	if ( typeof window.IntersectionObserver === 'undefined' ) {
+		return;
+	}
+
+	const resumeBtn = nav.querySelector( '.tocflow__resume-btn' );
+	const key = bookmarkKey( postId );
+
+	// Track the last visible heading as the reader scrolls.
+	const links = Array.from(
+		nav.querySelectorAll( '.tocflow__link[href^="#"]' )
+	);
+
+	// eslint-disable-next-line no-undef
+	const tracker = new IntersectionObserver(
+		( changes ) => {
+			changes.forEach( ( change ) => {
+				if ( change.isIntersecting ) {
+					try {
+						localStorage.setItem( key, change.target.id );
+					} catch {
+						// localStorage may be blocked.
+					}
+				}
+			} );
+		},
+		{ rootMargin: '-30% 0px -60% 0px', threshold: 0 }
+	);
+
+	links.forEach( ( link ) => {
+		const id = decodeURIComponent(
+			( link.getAttribute( 'href' ) || '' ).slice( 1 )
+		);
+		const heading = id ? document.getElementById( id ) : null;
+		if ( heading ) {
+			tracker.observe( heading );
+		}
+	} );
+
+	// Show the Resume button if a bookmark exists.
+	try {
+		const saved = localStorage.getItem( key );
+		if ( saved && resumeBtn ) {
+			const target = document.getElementById( saved );
+			// Escape the slug for a CSS attribute-value selector.
+			const escapedSlug = saved.replace(
+				/([!"#$%&'()*+,./:;<=>?@[\\\]^`{|}~])/g,
+				'\\$1'
+			);
+			const targetLink = target
+				? nav.querySelector( `a[href="#${ escapedSlug }"]` )
+				: null;
+			if ( targetLink ) {
+				resumeBtn.removeAttribute( 'hidden' );
+				resumeBtn.addEventListener( 'click', () => {
+					targetLink.click();
+					// Remove the Resume button after use so it's not confusing.
+					resumeBtn.setAttribute( 'hidden', '' );
+				} );
+			}
+		}
+	} catch {
+		// localStorage may be blocked.
+	}
+};
+
 // ── Section hover-preview tooltip ────────────────────────────────────────────
 
 /**
@@ -726,6 +961,17 @@ const initNav = ( nav ) => {
 		initReactions( nav );
 		initNotes( nav );
 		initCitations( nav );
+	}
+
+	// Study tools (work independently of guide mode).
+	if ( nav.classList.contains( 'has-reader-notes' ) ) {
+		initReaderNotes( nav );
+	}
+	if ( nav.classList.contains( 'has-reading-progress' ) ) {
+		initReadingProgress( nav );
+	}
+	if ( nav.classList.contains( 'has-bookmark' ) ) {
+		initBookmark( nav );
 	}
 
 	if ( nav.classList.contains( 'has-export' ) ) {

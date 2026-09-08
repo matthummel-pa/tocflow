@@ -29,14 +29,18 @@ import {
 import { formatListBullets, formatListNumbered } from '@wordpress/icons';
 import { collectHeadings, filterAndNormalize } from './headings';
 
+/** @type {Object} Status emoji map */
+const STATUS_ICON = { draft: '✏️', progress: '🔄', done: '✅' };
+
 /**
  * Nested outline preview (read-only; front end is server-rendered).
  *
  * @param {Object}  props
  * @param {Array}   props.items
  * @param {boolean} props.ordered
+ * @param {Object}  props.sectionStatus Writing status map slug→status.
  */
-function PreviewList( { items, ordered } ) {
+function PreviewList( { items, ordered, sectionStatus = {} } ) {
 	const Tag = ordered ? 'ol' : 'ul';
 	const tree = [];
 	const stack = [ tree ];
@@ -69,6 +73,17 @@ function PreviewList( { items, ordered } ) {
 					{ node.text ? (
 						<a className="tocflow__link" href={ `#${ node.slug }` }>
 							{ node.text }
+							{ sectionStatus[ node.slug ] && (
+								<span
+									className="tocflow__status-dot"
+									title={ sectionStatus[ node.slug ] }
+									aria-hidden="true"
+								>
+									{ STATUS_ICON[
+										sectionStatus[ node.slug ]
+									] || '' }
+								</span>
+							) }
 						</a>
 					) : null }
 					{ node.children?.length
@@ -117,7 +132,11 @@ export default function Edit( { attributes, setAttributes } ) {
 		showCitations,
 		citationStyle,
 		sectionNotes,
+		sectionStatus,
 		showExport,
+		showReaderNotes,
+		showReadingProgress,
+		showBookmark,
 	} = attributes;
 
 	const blocks = useSelect(
@@ -492,6 +511,55 @@ export default function Edit( { attributes, setAttributes } ) {
 					/>
 				</PanelBody>
 
+				{ /* ── Study Tools ──────────────────────────────────────── */ }
+				<PanelBody
+					title={ __( 'Study Tools', 'tocflow' ) }
+					initialOpen={ false }
+				>
+					<p className="components-base-control__help">
+						{ __(
+							"Reader-facing tools — stored locally in each visitor's browser. No account or server calls required.",
+							'tocflow'
+						) }
+					</p>
+					<ToggleControl
+						__nextHasNoMarginBottom
+						label={ __( 'Reading progress bar', 'tocflow' ) }
+						checked={ showReadingProgress }
+						onChange={ ( value ) =>
+							setAttributes( { showReadingProgress: value } )
+						}
+						help={ __(
+							'A thin bar shows readers how far through the article they are (0–100 %).',
+							'tocflow'
+						) }
+					/>
+					<ToggleControl
+						__nextHasNoMarginBottom
+						label={ __( 'Resume reading bookmark', 'tocflow' ) }
+						checked={ showBookmark }
+						onChange={ ( value ) =>
+							setAttributes( { showBookmark: value } )
+						}
+						help={ __(
+							'Remembers the reader\'s last position. A "Resume" button appears on their next visit to jump back.',
+							'tocflow'
+						) }
+					/>
+					<ToggleControl
+						__nextHasNoMarginBottom
+						label={ __( 'Reader note pads', 'tocflow' ) }
+						checked={ showReaderNotes }
+						onChange={ ( value ) =>
+							setAttributes( { showReaderNotes: value } )
+						}
+						help={ __(
+							'Readers can jot personal notes per section (📝). Notes are saved privately in their browser — great for research and study.',
+							'tocflow'
+						) }
+					/>
+				</PanelBody>
+
 				{ /* ── Reading Guide ───────────────────────────────────── */ }
 				<PanelBody
 					title={ __( 'Reading Guide', 'tocflow' ) }
@@ -634,14 +702,14 @@ export default function Edit( { attributes, setAttributes } ) {
 					) }
 				</PanelBody>
 
-				{ /* ── Section Notes (author → reader) ────────────────── */ }
+				{ /* ── Section Planner (author tools) ────────────────── */ }
 				<PanelBody
-					title={ __( 'Section Notes', 'tocflow' ) }
+					title={ __( 'Section Planner', 'tocflow' ) }
 					initialOpen={ false }
 				>
 					<p className="components-base-control__help">
 						{ __(
-							'Write a short teaser or hook for each section. Readers reveal it with a tap when Reading Guide is active.',
+							'Track writing status per section and add reader-facing teasers (shown in Reading Guide mode).',
 							'tocflow'
 						) }
 					</p>
@@ -654,26 +722,71 @@ export default function Edit( { attributes, setAttributes } ) {
 						</p>
 					) }
 					{ allHeadings.map( ( heading ) => (
-						<TextareaControl
+						<div
 							key={ heading.slug }
-							label={ heading.text }
-							value={ sectionNotes[ heading.slug ] || '' }
-							onChange={ ( value ) => {
-								const updated = { ...sectionNotes };
-								if ( value ) {
-									updated[ heading.slug ] = value;
-								} else {
-									delete updated[ heading.slug ];
-								}
-								setAttributes( { sectionNotes: updated } );
-							} }
-							rows={ 2 }
-							__nextHasNoMarginBottom
-							placeholder={ __(
-								'Teaser or hook for this section…',
-								'tocflow'
-							) }
-						/>
+							style={ { marginBottom: '1rem' } }
+						>
+							<SelectControl
+								__nextHasNoMarginBottom
+								__next40pxDefaultSize
+								label={ heading.text }
+								value={ sectionStatus[ heading.slug ] || '' }
+								options={ [
+									{
+										label: __( '— No status —', 'tocflow' ),
+										value: '',
+									},
+									{
+										label: __( '✏️ Draft', 'tocflow' ),
+										value: 'draft',
+									},
+									{
+										label: __(
+											'🔄 In progress',
+											'tocflow'
+										),
+										value: 'progress',
+									},
+									{
+										label: __( '✅ Done', 'tocflow' ),
+										value: 'done',
+									},
+								] }
+								onChange={ ( value ) => {
+									const updated = { ...sectionStatus };
+									if ( value ) {
+										updated[ heading.slug ] = value;
+									} else {
+										delete updated[ heading.slug ];
+									}
+									setAttributes( {
+										sectionStatus: updated,
+									} );
+								} }
+							/>
+							<TextareaControl
+								label={ __(
+									'Reader teaser (optional)',
+									'tocflow'
+								) }
+								value={ sectionNotes[ heading.slug ] || '' }
+								onChange={ ( value ) => {
+									const updated = { ...sectionNotes };
+									if ( value ) {
+										updated[ heading.slug ] = value;
+									} else {
+										delete updated[ heading.slug ];
+									}
+									setAttributes( { sectionNotes: updated } );
+								} }
+								rows={ 2 }
+								__nextHasNoMarginBottom
+								placeholder={ __(
+									'Teaser or hook for this section…',
+									'tocflow'
+								) }
+							/>
+						</div>
 					) ) }
 				</PanelBody>
 			</InspectorControls>
@@ -693,7 +806,11 @@ export default function Edit( { attributes, setAttributes } ) {
 				<Disabled>
 					<div className="tocflow__body">
 						{ items.length ? (
-							<PreviewList items={ items } ordered={ ordered } />
+							<PreviewList
+								items={ items }
+								ordered={ ordered }
+								sectionStatus={ sectionStatus }
+							/>
 						) : (
 							<p className="tocflow__placeholder">
 								{ __(
