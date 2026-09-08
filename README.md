@@ -28,13 +28,66 @@
 
 ---
 
+## What's new — v1.2.0 (Sep 2026)
+
+> For WordPress.org reviewers: the sections below describe every change since v1.0.2.
+
+### v1.2.0 — Study assistant & writer tools
+
+| Feature | How to enable | Where state lives |
+|---|---|---|
+| **Reading progress bar** (0–100 % of headings read) | "Study Tools" panel → "Reading progress bar", or `rprogress="1"` shortcode | Client only — `IntersectionObserver`, no server |
+| **Resume reading bookmark** (↩ Resume button on return) | "Study Tools" → "Resume reading bookmark", or `bookmark="1"` | `localStorage` key `tocflow-bm-{post_id}` |
+| **Reader note pads** (📝 per-section personal notes) | "Study Tools" → "Reader note pads", or `rnotes="1"` | `localStorage` key `tocflow-rn-{post_id}-{slug}` |
+| **Section Planner** (writing status per heading for authors) | Block sidebar → "Section Planner" panel | `sectionStatus` block attribute — never sent to front end |
+| **Total read-time badge** | Automatic when Reading Guide + read-time are both active | Computed server-side from word counts, no extra query |
+
+All three reader tools are **off by default**. They only activate when the author explicitly enables them. No feature writes to the database; no feature makes a network call.
+
+### v1.1.0 — Reading Guide, hover previews, citations, page-builder compatibility
+
+| Feature | Default | Notes |
+|---|---|---|
+| **Reading Guide mode** (previews, density bars, read time, progress fading) | Off | `guideMode` attribute; server-side word-count extraction |
+| **Hover section preview** (floating tooltip on TOC link) | Off | `previewOnHover`; `aria-describedby`; viewport-aware |
+| **Emoji reactions** per section (💡 ⭐ 🤔 ✅) | Off | `localStorage` only |
+| **Academic citations** (APA, MLA, Chicago, Harvard, plain) | Off | Built from WP post meta; no external API |
+| **Export / print toolbar** (Copy .md, Download .md, Download .doc, Print) | Off | Blob API + `navigator.clipboard`; no server |
+| **Elementor** heading extraction | Automatic fallback | Parses `_elementor_data` widget JSON |
+| **Bricks Builder** heading extraction | Automatic fallback | Parses `_bricks_page_content_2` JSON |
+| **Divi, WPBakery, Oxygen, Beaver, Breakdance** heading extraction | Automatic fallback | HTML regex scan of `post_content` |
+| **Accessibility** (`aria-live`, `focus-visible`, `aria-expanded`) | Always on | WCAG 2.1 AA compatible |
+
+Full entry-by-entry detail in [`CHANGELOG.md`](CHANGELOG.md).
+
+---
+
+## Performance
+
+TOCflow is built to add **zero measurable overhead** on pages that don't use it, and minimal overhead on pages that do.
+
+| Concern | How TOCflow handles it |
+|---|---|
+| **Assets on unrelated pages** | JS + CSS only load on singular posts/pages that contain the block, shortcode, or auto-insert target. The `enqueue_front_assets()` check gates all enqueues. |
+| **Front-end JavaScript** | `view.js` — 13 KB minified, ~4 KB gzipped. Loaded via `block.json viewScript` (WordPress handles the dependency). No jQuery. No framework. |
+| **Front-end CSS** | `style-index.css` — 19 KB minified, ~4 KB gzipped. One file; no render-blocking imports. |
+| **Scroll event handlers** | None. All scroll-position features (`initScrollSpy`, `initProgressTracking`, `initReadingProgress`, `initBookmark`) use `IntersectionObserver` — passive, runs off the main thread. The only `scroll` listener (`window.addEventListener('scroll', pick, { passive: true })`) is in the scroll-spy fallback and is marked passive. |
+| **localStorage writes** | Reader notes are debounced (400 ms). Bookmark writes are debounced (500 ms). localStorage is never read or written until the author explicitly enables a study tool. |
+| **PHP database queries** | `TOCflow_Headings::get_all()` and `get_sections()` cache their results in a static array — at most one `get_post()` call per post per request. No extra `WP_Query` or custom table reads. |
+| **Remote calls** | None, ever. No phone-home, no CDN assets, no tracking pixels, no external fonts loaded by the plugin. |
+| **`the_content` filters** | Two filters run at priority 12 and 999, both guarded by `is_singular() && in_the_loop() && is_main_query()`. The builder ID-injection filter (999) short-circuits immediately on pure Gutenberg posts. |
+| **`prefers-reduced-motion`** | Smooth scroll and CSS transitions respect the OS preference. |
+
+---
+
 ## Why TOCflow
 
 - **Zero config** — insert the block; the outline builds itself.
 - **Server-rendered** — the list is in the first HTML response (SEO + screen readers).
 - **Accurate anchors** — matching `id`s are injected into headings; custom HTML anchors win.
 - **Accessible** — a `<nav>` landmark, keyboard-friendly collapse, `aria-current` while you read.
-- **Focused** — one block done well, not a block library.
+- **Study-ready** — reading progress, personal notes, bookmarks, citations, and export — all without any account or server dependency.
+- **Compatible** — Gutenberg, Elementor, Divi, Bricks, Beaver Builder, WPBakery, Oxygen, Breakdance, and every major theme.
 
 ### Features
 
@@ -43,9 +96,9 @@
 - Smooth scroll + offset for sticky headers (`prefers-reduced-motion` respected)
 - Collapse/expand, sticky outline, scroll-spy highlight
 - Auto-insert (top of content or after the first heading)
-- `[tocflow]` shortcode for classic content
+- `[tocflow]` shortcode for classic content and page builders
 - Skip a heading with the class `no-toc`
-- Optional ItemList JSON-LD
+- Optional ItemList JSON-LD schema
 - Settings + Docs & Support screens in wp-admin
 
 The plugin slug, folder, and text domain are **`tocflow`**. Display name: **TOCflow**. See [`docs/NAMING.md`](docs/NAMING.md).

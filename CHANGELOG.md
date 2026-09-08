@@ -21,17 +21,30 @@ This project adheres to [Semantic Versioning](https://semver.org/).
   - **Section content previews** — opening ~20 words of each section, extracted server-side from parsed block content via `TOCflow_Headings::get_sections()` (no JS fetch, no external API).
   - **Content density bars** — thin bar showing each section's word count relative to the longest section, computed at render time.
   - **Per-section read-time estimates** — `~N min` badge based on word count ÷ 200 wpm.
-  - **Reading progress** — IntersectionObserver fades each TOC item as the reader scrolls past its heading.
-- **Author section notes** — block attribute `sectionNotes` (object keyed by heading slug). Writers type a per-section teaser or hook in the new "Section Notes" sidebar panel; readers reveal it with a ✍ toggle button.
-- **Emoji reactions** — readers react per section (💡 ⭐ 🤔 ✅); state stored in `localStorage`, zero server calls.
-- **Per-section academic citations** — § button copies a formatted citation (APA / MLA / Chicago / Harvard / plain link) built entirely from WordPress post meta (author, title, site name, date, permalink + section anchor). No external API.
-- New block attributes: `guideMode`, `showPreviews`, `showDensity`, `showReadTime`, `trackProgress`, `showReactions`, `showCitations`, `citationStyle`, `sectionNotes`.
-- New PHP methods: `TOCflow_Headings::flatten_content()`, `get_sections()`, `citation_meta()`.
-- New editor panels: "Reading Guide" and "Section Notes" in the block sidebar.
+  - **Reading progress** — `IntersectionObserver` fades each TOC item as the reader scrolls past its heading (no scroll event handlers; passive main thread).
+- **Author section notes** — block attribute `sectionNotes` (object keyed by heading slug). Writers type a per-section teaser or hook in the "Section Notes" sidebar panel; readers reveal it with a ✍ toggle button.
+- **Emoji reactions** — readers react per section (💡 ⭐ 🤔 ✅); state stored in `localStorage`, zero server calls, zero accounts.
+- **Per-section academic citations** — § button copies a formatted citation (APA / MLA / Chicago / Harvard / plain link) built entirely from WordPress post meta. No external API.
+- **Hover section preview** — floating tooltip on TOC link hover/focus shows the section's opening sentence. Viewport-aware positioning (left or right). `aria-describedby` links the tooltip to the anchor for screen readers. `previewOnHover` attribute; works without full Reading Guide mode.
+- **Export / print toolbar** — `showExport` attribute adds Copy (.md), Download (.md), Download (.doc), and Print buttons below the outline using only the Blob API and `navigator.clipboard`; zero server round-trips. Screen reader live region announces success.
+- **Accessibility** — `aria-live="polite"` region for clipboard and export announcements; `focus-visible` outlines on all interactive elements; all buttons labeled; note and export toggles use `aria-expanded` / `aria-controls` / `hidden`.
+- **Page-builder compatibility** — `TOCflow_Headings::get_all()` now falls back to builder-specific parsers when `parse_blocks()` finds no headings:
+  - **Elementor** — walks `_elementor_data` widget JSON to find heading widgets and Text Editor blocks.
+  - **Bricks Builder** — reads `_bricks_page_content_2` element JSON.
+  - **Divi, WPBakery, Oxygen, Beaver Builder, Breakdance, Classic Editor** — generic `<h*>` regex scan of `post_content`.
+  - `inject_builder_heading_ids()` runs as `the_content` filter at priority 999 so headings inside builder output receive matching `id` attributes.
+  - `should_inject_ids()` now scans builder meta for `[tocflow]` shortcodes so assets load correctly even when the shortcode lives inside a builder widget.
+  - `get_sections()` extended with `builder_raw_html()` and `flatten_html_to_sequence()` fallbacks so Reading Guide previews and read-time estimates work on builder-built pages.
+- New block attributes: `guideMode`, `showPreviews`, `showDensity`, `showReadTime`, `trackProgress`, `showReactions`, `showCitations`, `citationStyle`, `sectionNotes`, `previewOnHover`, `showExport`.
+- New PHP methods: `TOCflow_Headings::flatten_content()`, `get_sections()`, `citation_meta()`, `get_all_from_html()`, `get_all_from_elementor()`, `collect_elementor_headings()`, `get_all_from_bricks()`, `inject_ids_in_html()`, `builder_raw_html()`, `flatten_html_to_sequence()`, `builder_has_tocflow()`.
+- New editor panels: "Reading Guide", "Section Notes", and "Behavior" enhancements in the block sidebar.
+- Print CSS: expanded collapsed TOC, hidden all interactive controls, author notes shown expanded.
 
 ### Changed
-- `render_list()` accepts an optional `$guide` array; backward-compatible.
+- `render_list()` accepts an optional `$guide` array; fully backward-compatible.
 - `render_nav()` merges section data and embeds citation meta on the `<nav>` when guide mode is active.
+- `TOCflow_Plugin::inject_builder_heading_ids()` added as `the_content` hook (priority 999).
+- `enqueue_front_assets()` broadened to cover page-builder pages via `should_inject_ids()`.
 
 ## [1.0.2] - 2026-09-01
 
