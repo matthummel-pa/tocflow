@@ -107,7 +107,7 @@ The plugin slug, folder, and text domain are **`tocflow`**. Display name: **TOCf
 
 ## Install
 
-Current version: **1.2.1**.
+Current version: **1.2.2**.
 
 1. Download `tocflow.zip` from [Releases](https://github.com/matthummel-pa/tocflow/releases).
 2. In WordPress: **Plugins → Add New → Upload Plugin**.

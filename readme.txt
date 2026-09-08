@@ -5,7 +5,7 @@ Tags: table of contents, toc, reading guide, block, study tools
 Requires at least: 6.4
 Tested up to: 7.1
 Requires PHP: 7.4
-Stable tag: 1.2.1
+Stable tag: 1.2.2
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -188,6 +188,12 @@ GNU GPLv2 or later, covering the whole plugin (PHP, JavaScript, CSS, and images)
 
 == Changelog ==
 
+= 1.2.2 =
+* Fix: `TOCFLOW_VERSION` constant was stuck at `1.2.0`; now reads `1.2.2` correctly (admin version badge and `Version %s` string now match the plugin header).
+* Fix: `Tested up to` updated from 6.7 to 7.1 (WordPress 7.1 "Mary Lou", released 2026-08-19).
+* Fix: removed third-party trademark `elementor` from tags; replaced with `study tools`.
+* Fix: PHP coding-standards indentation in shortcode attribute registration and admin settings view.
+
 = 1.2.1 =
 * Fix: debounced resume-bookmark localStorage writes from every IntersectionObserver callback to every 500 ms, preventing redundant writes during fast scrolling.
 * Docs: completed v1.1.0 CHANGELOG entry (hover preview, export/print toolbar, full accessibility and page-builder details).
@@ -231,6 +237,9 @@ GNU GPLv2 or later, covering the whole plugin (PHP, JavaScript, CSS, and images)
 * Heading IDs via WP_HTML_Tag_Processor; custom anchors respected.
 
 == Upgrade Notice ==
+
+= 1.2.2 =
+WordPress.org compliance fixes: corrects the in-admin version badge, updates "Tested up to" to 7.1, and removes a disallowed trademark tag. No functional changes.
 
 = 1.2.1 =
 Performance fix for the resume bookmark feature (debounced localStorage writes). Documentation updates only — no functional changes to the block, shortcode, or settings.

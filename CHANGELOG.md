@@ -3,6 +3,15 @@
 All notable changes to TOCflow are documented here.
 This project adheres to [Semantic Versioning](https://semver.org/).
 
+## [1.2.2] - 2026-09-08
+
+### Fixed
+- `TOCFLOW_VERSION` constant was `'1.2.0'` while the plugin header read `1.2.1` / `1.2.2`; in-admin version badge now matches.
+- `Tested up to` updated from `6.7` to `7.1` (WordPress 7.1 "Mary Lou" released 2026-08-19).
+- Removed third-party trademark tag `elementor`; replaced with descriptive `study tools`.
+- PHP WPCS: fixed 3-tab indentation on Study-tool shortcode attributes (should be 4-tab like surrounding code).
+- Admin view: fixed indentation on shortcode-docs `<p>` tags in `admin/views/settings.php`.
+
 ## [1.2.1] - 2026-09-08
 
 ### Changed
