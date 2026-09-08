@@ -100,6 +100,53 @@
 	border-radius: 4px;
 }
 
+.tocflow-compat-card .description {
+	margin: 4px 0 14px;
+}
+
+.tocflow-compat-grid {
+	display: grid;
+	grid-template-columns: repeat(2, 1fr);
+	gap: 12px 24px;
+	margin: 10px 0 16px;
+}
+
+.tocflow-compat-group {
+	font-size: 13px;
+}
+
+.tocflow-compat-group strong {
+	display: block;
+	font-size: 13px;
+	margin-bottom: 4px;
+	color: #1c3d2e;
+}
+
+.tocflow-compat-group ul {
+	margin: 0;
+	padding-left: 16px;
+	color: #3c5a4a;
+}
+
+.tocflow-compat-group li {
+	margin: 2px 0;
+}
+
+.tocflow-badge-new {
+	display: inline-block;
+	background: #275c3e;
+	color: #fff;
+	font-size: 10px;
+	font-weight: 700;
+	letter-spacing: 0.06em;
+	text-transform: uppercase;
+	padding: 2px 7px;
+	border-radius: 4px;
+	margin-left: 6px;
+	vertical-align: middle;
+	line-height: 1.5;
+}
+
 @media (max-width: 782px) {
 
 	.tocflow-admin__grid {
@@ -109,5 +156,9 @@
 	.tocflow-admin__hero {
 		flex-direction: column;
 		align-items: flex-start;
+	}
+
+	.tocflow-compat-grid {
+		grid-template-columns: 1fr;
 	}
 }
