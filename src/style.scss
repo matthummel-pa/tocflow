@@ -276,7 +276,7 @@
 	}
 }
 
-// ── Reading Guide mode ────────────────────────────────────────────────────────
+// ── Reading Guide mode ───────────────────────────────────────────────────────
 
 .wp-block-tocflow-table-of-contents.has-guide-mode .tocflow__item,
 .tocflow.has-guide-mode .tocflow__item {
@@ -337,7 +337,7 @@
 	line-height: 1.5;
 	opacity: 0.52;
 	margin-top: 0.25rem;
-	font-weight: normal;
+	font-weight: 400;
 	font-style: normal;
 }
 
@@ -496,7 +496,7 @@
 	}
 }
 
-// ── Hover preview tooltip bubble (floating, JS-positioned) ────────────────────
+// ── Hover preview tooltip bubble (floating, JS-positioned) ──────────────────
 // Appended to <body> by initHoverPreviews(); rendered once per TOC.
 
 .tocflow__tip-bubble {

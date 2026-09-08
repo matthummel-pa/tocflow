@@ -77,7 +77,15 @@ Unminified JavaScript and SCSS ship in `src/`. Compiled assets are in `build/`. 
 
 `[tocflow]`
 
-Optional attributes: `title`, `showtitle`, `titletag`, `h1`–`h6`, `ordered`, `numbering`, `markers`, `collapsible`, `collapsed`, `sticky`, `compact`, `columns`, `underline`, `highlight`, `maxheight`, `min`, `smooth`, `style`.
+Layout & behavior: `title`, `showtitle`, `titletag`, `h1`–`h6`, `ordered`, `numbering`, `markers`, `collapsible`, `collapsed`, `sticky`, `compact`, `columns`, `underline`, `highlight`, `maxheight`, `min`, `smooth`, `style`.
+
+Reading Guide: `preview="1"` (hover tooltip on links), `guide="1"` (full Reading Guide mode), `previews="1"`, `density="1"`, `readtime="1"`, `progress="1"`, `reactions="1"`, `citations="1"`, `citation="apa|mla|chicago|harvard|plain"`.
+
+Examples:
+
+`[tocflow title="On this page" style="boxed" preview="1"]`
+
+`[tocflow guide="1" previews="1" readtime="1" reactions="1" citations="1"]`
 
 = Skip a heading =
 

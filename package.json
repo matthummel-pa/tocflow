@@ -1,6 +1,6 @@
 {
 	"name": "tocflow",
-	"version": "1.0.2",
+	"version": "1.1.0",
 	"description": "A server-rendered Table of Contents block for the WordPress editor.",
 	"author": {
 		"name": "Matt Hummel",

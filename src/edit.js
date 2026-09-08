@@ -589,10 +589,7 @@ export default function Edit( { attributes, setAttributes } ) {
 								<SelectControl
 									__nextHasNoMarginBottom
 									__next40pxDefaultSize
-									label={ __(
-										'Citation format',
-										'tocflow'
-									) }
+									label={ __( 'Citation format', 'tocflow' ) }
 									value={ citationStyle }
 									options={ [
 										{ label: 'APA', value: 'apa' },

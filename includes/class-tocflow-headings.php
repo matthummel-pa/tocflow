@@ -263,6 +263,96 @@ class TOCflow_Headings {
 	}
 
 	/**
+	 * Collect raw HTML from page-builder meta for text extraction.
+	 *
+	 * Returns a string of heading and paragraph HTML assembled from builder-specific
+	 * meta fields, or an empty string when no builder is detected. Never calls
+	 * apply_filters('the_content') to avoid triggering our own hooks.
+	 *
+	 * @param int $post_id Post ID.
+	 * @return string
+	 */
+	private static function builder_raw_html( $post_id ) {
+		$parts = array();
+
+		// Elementor: walk the element tree, collecting heading + rich-text content.
+		$el_raw = get_post_meta( (int) $post_id, '_elementor_data', true );
+		if ( ! empty( $el_raw ) && is_string( $el_raw ) ) {
+			$elements = json_decode( $el_raw, true );
+			if ( is_array( $elements ) ) {
+				self::collect_elementor_headings( $elements, $parts );
+			}
+		}
+
+		if ( ! empty( $parts ) ) {
+			return implode( "\n", $parts );
+		}
+
+		// Bricks Builder.
+		$bricks = get_post_meta( (int) $post_id, '_bricks_page_content_2', true );
+		if ( ! empty( $bricks ) ) {
+			$elements = is_string( $bricks ) ? maybe_unserialize( $bricks ) : $bricks;
+			if ( is_array( $elements ) ) {
+				foreach ( $elements as $el ) {
+					$name     = isset( $el['name'] ) ? $el['name'] : '';
+					$settings = isset( $el['settings'] ) && is_array( $el['settings'] ) ? $el['settings'] : array();
+					if ( 'heading' === $name && ! empty( $settings['text'] ) ) {
+						$tag     = ! empty( $settings['tag'] ) && preg_match( '/^h[1-6]$/i', $settings['tag'] ) ? sanitize_html_class( $settings['tag'] ) : 'h2';
+						$parts[] = '<' . $tag . '>' . wp_strip_all_tags( $settings['text'] ) . '</' . $tag . '>';
+					} elseif ( 'rich-text' === $name && ! empty( $settings['content'] ) ) {
+						$parts[] = wp_kses_post( $settings['content'] );
+					}
+				}
+				if ( ! empty( $parts ) ) {
+					return implode( "\n", $parts );
+				}
+			}
+		}
+
+		// Divi, WPBakery, Beaver Builder, Oxygen, Breakdance, Classic Editor:
+		// post_content contains raw HTML (mixed with shortcodes). Strip the
+		// shortcode tags but keep the HTML so headings and <p> tags are visible.
+		$content = (string) get_post_field( 'post_content', $post_id );
+		if ( '' !== $content ) {
+			// Strip shortcode wrappers only — leave their innerHTML/HTML intact.
+			$stripped = preg_replace( '/\[\/?\w[^\]]*\]/', '', $content );
+			return is_string( $stripped ) ? $stripped : $content;
+		}
+
+		return '';
+	}
+
+	/**
+	 * Build a flat heading/content sequence from an HTML string.
+	 *
+	 * Parses heading tags and paragraph tags into the same type-keyed array that
+	 * flatten_content() produces from block data, so get_sections() can process
+	 * both Gutenberg and builder content with the same downstream logic.
+	 *
+	 * @param string $html Raw HTML.
+	 * @param array  $flat Growing flat sequence, passed by reference.
+	 */
+	private static function flatten_html_to_sequence( $html, &$flat ) {
+		preg_match_all(
+			'/<(h[1-6]|p)(?:\s[^>]*)?>(.+?)<\/\1>/is',
+			$html,
+			$matches,
+			PREG_SET_ORDER
+		);
+		foreach ( $matches as $m ) {
+			$tag  = strtolower( $m[1] );
+			$text = trim( wp_strip_all_tags( $m[2] ) );
+			if ( '' === $text ) {
+				continue;
+			}
+			$flat[] = array(
+				'type' => ( 'p' === $tag ) ? 'content' : 'heading',
+				'text' => $text,
+			);
+		}
+	}
+
+	/**
 	 * Get headings enriched with section-level content data for Reading Guide mode.
 	 *
 	 * Extracts word count, estimated reading time, and a brief content preview
@@ -288,6 +378,22 @@ class TOCflow_Headings {
 		// Flatten block tree into a linear heading / content sequence.
 		$flat = array();
 		self::flatten_content( parse_blocks( $post->post_content ), $flat );
+
+		/*
+		 * Fallback for page-builder content: when parse_blocks() finds no items
+		 * (because the post uses Elementor, Divi, Bricks, WPBakery, etc.),
+		 * extract text directly from builder-specific meta or from post_content
+		 * so hover previews, read-time estimates, and density bars still work.
+		 *
+		 * We do NOT call apply_filters('the_content') here — that would risk
+		 * recursion through our own auto_insert hook.
+		 */
+		if ( empty( $flat ) ) {
+			$builder_html = self::builder_raw_html( $post_id );
+			if ( '' !== $builder_html ) {
+				self::flatten_html_to_sequence( $builder_html, $flat );
+			}
+		}
 
 		// Accumulate body text per section (split at every heading boundary).
 		$section_texts = array();

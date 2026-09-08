@@ -140,6 +140,16 @@ class TOCflow_Plugin {
 				'min'         => '-1',
 				'smooth'      => 'inherit',
 				'style'       => 'default',
+				// Reading Guide shortcode attributes.
+				'preview'     => '0',   // hover-preview tooltip on TOC links.
+				'guide'       => '0',   // full Reading Guide mode.
+				'previews'    => '0',   // inline section content previews.
+				'density'     => '0',   // section density bars.
+				'readtime'    => '0',   // per-section read-time estimates.
+				'progress'    => '0',   // reading progress fade.
+				'reactions'   => '0',   // emoji reactions per section.
+				'citations'   => '0',   // one-click academic citations.
+				'citation'    => 'apa', // citation format (apa|mla|chicago|harvard|plain).
 			),
 			$atts,
 			'tocflow'
@@ -174,6 +184,15 @@ class TOCflow_Plugin {
 			? (bool) TOCflow_Settings::get_value( 'highlight_active' )
 			: $this->is_truthy( $atts['highlight'] );
 
+		$guide_mode   = $this->is_truthy( $atts['guide'] );
+		$preview_hover = $this->is_truthy( $atts['preview'] );
+
+		$allowed_citation = array( 'apa', 'mla', 'chicago', 'harvard', 'plain' );
+		$citation_style   = sanitize_key( $atts['citation'] );
+		if ( ! in_array( $citation_style, $allowed_citation, true ) ) {
+			$citation_style = 'apa';
+		}
+
 		$attributes = array(
 			'title'            => sanitize_text_field( $atts['title'] ),
 			'showTitle'        => $this->is_truthy( $atts['showtitle'] ),
@@ -200,6 +219,17 @@ class TOCflow_Plugin {
 			'maxHeight'        => max( 0, (int) $atts['maxheight'] ),
 			'minHeadings'      => (int) $atts['min'],
 			'smoothScroll'     => $smooth,
+			// Reading Guide attributes.
+			'previewOnHover'   => $preview_hover,
+			'guideMode'        => $guide_mode,
+			'showPreviews'     => $guide_mode && $this->is_truthy( $atts['previews'] ),
+			'showDensity'      => $guide_mode && $this->is_truthy( $atts['density'] ),
+			'showReadTime'     => $guide_mode && $this->is_truthy( $atts['readtime'] ),
+			'trackProgress'    => $guide_mode && $this->is_truthy( $atts['progress'] ),
+			'showReactions'    => $guide_mode && $this->is_truthy( $atts['reactions'] ),
+			'showCitations'    => $guide_mode && $this->is_truthy( $atts['citations'] ),
+			'citationStyle'    => $citation_style,
+			'sectionNotes'     => array(),
 		);
 
 		return TOCflow_Headings::render_nav( $attributes, $post_id, false );

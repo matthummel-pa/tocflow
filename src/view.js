@@ -128,7 +128,7 @@ const initProgressTracking = ( nav ) => {
 	if ( nav.getAttribute( 'data-tocflow-progress' ) !== '1' ) {
 		return;
 	}
-	if ( ! ( 'IntersectionObserver' in window ) ) {
+	if ( typeof window.IntersectionObserver === 'undefined' ) {
 		return;
 	}
 
@@ -149,6 +149,7 @@ const initProgressTracking = ( nav ) => {
 		return;
 	}
 
+	// eslint-disable-next-line no-undef
 	const observer = new IntersectionObserver(
 		( changes ) => {
 			changes.forEach( ( change ) => {
@@ -195,11 +196,15 @@ const initReactions = ( nav ) => {
 
 		// Restore persisted state.
 		try {
-			const saved = localStorage.getItem( reactionKey( postId, slug, emoji ) );
+			const saved = localStorage.getItem(
+				reactionKey( postId, slug, emoji )
+			);
 			if ( saved === '1' ) {
 				btn.setAttribute( 'aria-pressed', 'true' );
 			}
-		} catch ( _e ) {}
+		} catch {
+			// localStorage may be blocked (private mode, security policy).
+		}
 
 		btn.addEventListener( 'click', () => {
 			const pressed = btn.getAttribute( 'aria-pressed' ) === 'true';
@@ -213,7 +218,9 @@ const initReactions = ( nav ) => {
 				} else {
 					localStorage.removeItem( key );
 				}
-			} catch ( _e ) {}
+			} catch {
+				// localStorage may be blocked.
+			}
 
 			if ( ! prefersReduced() ) {
 				btn.classList.add( 'is-popped' );
@@ -246,8 +253,18 @@ const initNotes = ( nav ) => {
 // ── Per-section academic citations ────────────────────────────────────────────
 
 const MONTHS = [
-	'January', 'February', 'March', 'April', 'May', 'June',
-	'July', 'August', 'September', 'October', 'November', 'December',
+	'January',
+	'February',
+	'March',
+	'April',
+	'May',
+	'June',
+	'July',
+	'August',
+	'September',
+	'October',
+	'November',
+	'December',
 ];
 
 const formatCitation = ( meta, headingText, slug, style ) => {
@@ -306,7 +323,7 @@ const initCitations = ( nav ) => {
 	let meta;
 	try {
 		meta = JSON.parse( rawMeta );
-	} catch ( _e ) {
+	} catch {
 		return;
 	}
 	const style = meta.citationStyle || 'apa';
@@ -335,6 +352,8 @@ const initCitations = ( nav ) => {
  *
  * Uses one shared `position: fixed` bubble per nav so the tooltip escapes
  * any overflow:hidden or max-height constraints on the nav container.
+ *
+ * @param {HTMLElement} nav The TOC nav element.
  */
 const initHoverPreviews = ( nav ) => {
 	const items = Array.from(
@@ -393,8 +412,7 @@ const initHoverPreviews = ( nav ) => {
 		if ( ! text ) {
 			return;
 		}
-		const anchor =
-			item.querySelector( '.tocflow__link' ) || item;
+		const anchor = item.querySelector( '.tocflow__link' ) || item;
 		bubble.textContent = text;
 		bubble.classList.add( 'is-visible' );
 		positionBubble( anchor );
