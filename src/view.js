@@ -559,20 +559,27 @@ const initBookmark = ( nav ) => {
 	const key = bookmarkKey( postId );
 
 	// Track the last visible heading as the reader scrolls.
+	// Writes are debounced to avoid hammering localStorage on every
+	// IntersectionObserver callback during fast scrolling.
 	const links = Array.from(
 		nav.querySelectorAll( '.tocflow__link[href^="#"]' )
 	);
 
+	let saveTimer;
 	// eslint-disable-next-line no-undef
 	const tracker = new IntersectionObserver(
 		( changes ) => {
 			changes.forEach( ( change ) => {
 				if ( change.isIntersecting ) {
-					try {
-						localStorage.setItem( key, change.target.id );
-					} catch {
-						// localStorage may be blocked.
-					}
+					const id = change.target.id;
+					clearTimeout( saveTimer );
+					saveTimer = setTimeout( () => {
+						try {
+							localStorage.setItem( key, id );
+						} catch {
+							// localStorage may be blocked.
+						}
+					}, 500 );
 				}
 			} );
 		},
