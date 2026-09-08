@@ -3,6 +3,15 @@
 All notable changes to TOCflow are documented here.
 This project adheres to [Semantic Versioning](https://semver.org/).
 
+## [1.2.1] - 2026-09-08
+
+### Changed
+- Debounced bookmark `localStorage` writes to 500 ms (previously wrote on every `IntersectionObserver` callback during scroll — could fire once per heading during fast scrolling).
+
+### Documentation
+- `CHANGELOG.md`: completed v1.1.0 entry with hover preview, export/print toolbar, accessibility, and full page-builder compatibility details.
+- `README.md`: added "What's new" feature tables for v1.1.0 and v1.2.0 for WordPress.org reviewers; added "Performance" section documenting asset-loading gates, `IntersectionObserver` use, no remote calls, debounced storage writes, and PHP static caches.
+
 ## [1.2.0] - 2026-09-08
 
 ### Added
