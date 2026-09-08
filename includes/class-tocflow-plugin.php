@@ -150,12 +150,12 @@ class TOCflow_Plugin {
 				'reactions'   => '0',   // emoji reactions per section.
 				'citations'   => '0',   // one-click academic citations.
 				'citation'    => 'apa', // citation format (apa|mla|chicago|harvard|plain).
-				'export'      => '0',   // show copy/download/print toolbar.
+			'export'      => '0',   // show copy/download/print toolbar.
 			// Study tool shortcode attributes.
 			'rprogress'   => '0',   // reading progress bar.
 			'bookmark'    => '0',   // resume reading bookmark.
 			'rnotes'      => '0',   // reader note pads per section.
-			),
+		),
 			$atts,
 			'tocflow'
 		);

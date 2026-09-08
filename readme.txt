@@ -1,9 +1,9 @@
 === TOCflow ===
 Contributors: matthummel
 Donate link: https://matthummel.com
-Tags: table of contents, toc, reading guide, block, elementor
+Tags: table of contents, toc, reading guide, block, study tools
 Requires at least: 6.4
-Tested up to: 6.7
+Tested up to: 7.1
 Requires PHP: 7.4
 Stable tag: 1.2.1
 License: GPLv2 or later
@@ -60,7 +60,7 @@ TOCflow is designed to work with every major WordPress stack:
 * **Themes:** Works with any theme — inherits theme fonts and colors; no injected brand styles; tested on Twenty Twenty-Four, Twenty Twenty-Five, Astra, Kadence, GeneratePress, Blocksy.
 * **Multilingual:** WPML, Polylang, TranslatePress — fully translation-ready with the standard `tocflow` text domain.
 * **PHP:** 7.4, 8.0, 8.1, 8.2, 8.3.
-* **WordPress:** 6.4 through 7.1.
+* **WordPress:** 6.4 – 7.1 (tested on all major releases in this range).
 
 = Source =
 
@@ -188,6 +188,11 @@ GNU GPLv2 or later, covering the whole plugin (PHP, JavaScript, CSS, and images)
 
 == Changelog ==
 
+= 1.2.1 =
+* Fix: debounced resume-bookmark localStorage writes from every IntersectionObserver callback to every 500 ms, preventing redundant writes during fast scrolling.
+* Docs: completed v1.1.0 CHANGELOG entry (hover preview, export/print toolbar, full accessibility and page-builder details).
+* Docs: added "What's new" tables and "Performance" section to README for reviewers.
+
 = 1.2.0 =
 * New: **Reader note pads** — a 📝 button per section lets readers jot personal notes stored privately in localStorage. No account, no server. Enable with `rnotes="1"` in the shortcode or the new "Reader note pads" toggle in the block sidebar.
 * New: **Reading progress bar** — a thin animated bar shows 0–100 % of the document read (based on headings scrolled past via IntersectionObserver). Enable with `rprogress="1"`.
@@ -226,6 +231,9 @@ GNU GPLv2 or later, covering the whole plugin (PHP, JavaScript, CSS, and images)
 * Heading IDs via WP_HTML_Tag_Processor; custom anchors respected.
 
 == Upgrade Notice ==
+
+= 1.2.1 =
+Performance fix for the resume bookmark feature (debounced localStorage writes). Documentation updates only — no functional changes to the block, shortcode, or settings.
 
 = 1.2.0 =
 Adds study-assistant features: reader note pads, a reading progress bar, resume bookmark, Section Planner writing status, and a total read-time badge. No breaking changes — all new features are opt-in via the block sidebar or shortcode.

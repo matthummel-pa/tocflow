@@ -22,7 +22,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-define( 'TOCFLOW_VERSION', '1.2.0' );
+define( 'TOCFLOW_VERSION', '1.2.1' );
 define( 'TOCFLOW_FILE', __FILE__ );
 define( 'TOCFLOW_DIR', plugin_dir_path( __FILE__ ) );
 define( 'TOCFLOW_URL', plugin_dir_url( __FILE__ ) );
