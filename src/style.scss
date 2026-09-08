@@ -4,11 +4,17 @@
 	--tocflow-line: color-mix(in srgb, currentcolor 14%, transparent);
 	--tocflow-accent: #2f6f4e;
 	--tocflow-offset: 96px;
-	border: 1px solid var(--tocflow-line, #e2e8f0);
-	border-radius: 8px;
-	padding: 1.25rem 1.5rem;
-	background: color-mix(in srgb, currentcolor 4%, transparent);
-	font-size: 0.95em;
+
+	/* Design overrides — set by Settings → TOCflow or block supports. */
+	border-width: var(--tocflow-border-width, 1px);
+	border-style: var(--tocflow-border-style, solid);
+	border-color: var(--tocflow-border-color, var(--tocflow-line, #e2e8f0));
+	border-radius: var(--tocflow-radius, 8px);
+	padding: var(--tocflow-padding, 1.25rem 1.5rem);
+	background: var(--tocflow-bg, color-mix(in srgb, currentcolor 4%, transparent));
+	color: var(--tocflow-color, inherit);
+	font-size: var(--tocflow-font-size, 0.95em);
+	line-height: var(--tocflow-line-height, inherit);
 	max-width: 100%;
 }
 
@@ -96,7 +102,8 @@
 .tocflow .tocflow__link,
 .tocflow a {
 	text-decoration: none;
-	color: inherit;
+	color: var(--tocflow-link-color, inherit);
+	font-weight: var(--tocflow-font-weight, inherit);
 }
 
 .wp-block-tocflow-table-of-contents .tocflow__link:hover,
@@ -109,6 +116,7 @@
 .tocflow a:focus-visible {
 	text-decoration: underline;
 }
+
 
 .wp-block-tocflow-table-of-contents .tocflow__link.is-active,
 .tocflow .tocflow__link.is-active {
@@ -131,6 +139,12 @@
 .wp-block-tocflow-table-of-contents.is-style-minimal,
 .tocflow.is-style-minimal,
 .tocflow.tocflow--minimal {
+
+	/* Override design custom props so preset always wins. */
+	--tocflow-border-width: 0px; /* stylelint-disable-line length-zero-no-unit */
+	--tocflow-bg: transparent;
+	--tocflow-padding: 0px; /* stylelint-disable-line length-zero-no-unit */
+	--tocflow-radius: 0px; /* stylelint-disable-line length-zero-no-unit */
 	border: 0;
 	background: transparent;
 	padding: 0;
@@ -242,6 +256,28 @@
 .wp-block-tocflow-table-of-contents.has-underlined-links .tocflow__link,
 .tocflow.has-underlined-links .tocflow__link {
 	text-decoration: underline;
+}
+
+/* ── Focus ring accessibility settings ───────────────────────────────────── */
+
+/* Bold focus ring. */
+.wp-block-tocflow-table-of-contents[data-tocflow-focus="bold"] .tocflow__link:focus-visible,
+.tocflow[data-tocflow-focus="bold"] .tocflow__link:focus-visible {
+	outline: 3px solid currentcolor;
+	outline-offset: 2px;
+	border-radius: 2px;
+	text-decoration: none;
+}
+
+/* High-contrast focus ring. */
+.wp-block-tocflow-table-of-contents[data-tocflow-focus="high-contrast"] .tocflow__link:focus-visible,
+.tocflow[data-tocflow-focus="high-contrast"] .tocflow__link:focus-visible {
+	outline: 3px solid #000;
+	outline-offset: 2px;
+	background: #ff0;
+	color: #000;
+	border-radius: 2px;
+	text-decoration: none;
 }
 
 .wp-block-tocflow-table-of-contents.has-max-height .tocflow__body,

@@ -3,6 +3,21 @@
 All notable changes to TOCflow are documented here.
 This project adheres to [Semantic Versioning](https://semver.org/).
 
+## [1.3.0] - 2026-09-08
+
+### Added
+- **Settings → Design & Appearance**: global background colour, text colour, link colour, font size, font weight, line height, border (width / style / colour / radius), and padding. Applied as CSS custom properties (`--tocflow-bg`, `--tocflow-color`, `--tocflow-link-color`, `--tocflow-font-size`, etc.) so per-block editor overrides still cascade correctly.
+- **Settings → Reading Guide & Study Tools**: global defaults for hover preview, guide mode, section previews, density bars, per-section read time, progress fade, emoji reactions, academic citations, and citation format.
+- **Settings → Study Tools & Export**: global defaults for reading progress bar, resume bookmark, reader note pads, and export toolbar.
+- **Settings → Accessibility**: focus ring style picker — Default (underline), Bold (3 px outline, WCAG 2.1 AA), or High-contrast (yellow background + black outline, WCAG 2.1 AAA). Rendered as `data-tocflow-focus` attribute on the `<nav>`.
+- `admin/js/admin.js`: vanilla JS that syncs hex text inputs with companion `<input type=color>` swatches and toggles guide-mode sub-options when the guide-mode checkbox is toggled.
+- `admin/css/admin.css`: styles for color-picker widget, section badge chips, and indented guide sub-options panel.
+
+### Changed
+- CSS custom properties now drive the root border, padding, background, font-size, and link colour so global design settings layer cleanly beneath block-level inline styles from Gutenberg's block supports.
+- `is-style-minimal` preset explicitly resets design custom props to ensure the preset always wins over any global colour/padding setting.
+- `block_attributes()` now passes Reading Guide, Study Tools, and Export defaults to auto-inserted blocks.
+
 ## [1.2.2] - 2026-09-08
 
 ### Fixed

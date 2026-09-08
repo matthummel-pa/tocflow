@@ -2,14 +2,14 @@
 # This file is distributed under the GPL-2.0-or-later.
 msgid ""
 msgstr ""
-"Project-Id-Version: TOCflow 1.2.0\n"
+"Project-Id-Version: TOCflow 1.3.0\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/workspace\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2026-09-08T07:32:22+00:00\n"
+"POT-Creation-Date: 2026-09-08T18:03:08+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.12.0\n"
 "X-Domain: tocflow\n"
@@ -212,7 +212,7 @@ msgid "Reading Guide documentation"
 msgstr ""
 
 #: admin/views/settings.php:113
-#: includes/class-tocflow-admin.php:112
+#: includes/class-tocflow-admin.php:119
 msgid "Shortcode"
 msgstr ""
 
@@ -268,272 +268,538 @@ msgstr ""
 msgid "Add the CSS class no-toc or tocflow-skip to a Heading block (Advanced > Additional CSS class(es)) to keep it out of the outline."
 msgstr ""
 
-#: admin/views/settings.php:136
+#: admin/views/settings.php:153
+msgid "Clear colour"
+msgstr ""
+
+#: admin/views/settings.php:154
+msgid "Clear"
+msgstr ""
+
+#: admin/views/settings.php:162
 msgid "Reading experience"
 msgstr ""
 
-#: admin/views/settings.php:139
+#: admin/views/settings.php:165
 #: src/edit.js:450
 msgid "Smooth scroll"
 msgstr ""
 
-#: admin/views/settings.php:143
+#: admin/views/settings.php:169
 msgid "Animate jumps to headings (respects reduced-motion preferences)."
 msgstr ""
 
-#: admin/views/settings.php:148
+#: admin/views/settings.php:174
 msgid "Scroll offset (px)"
 msgstr ""
 
-#: admin/views/settings.php:151
+#: admin/views/settings.php:177
 msgid "Space to leave under a sticky admin bar or site header so headings are not covered."
 msgstr ""
 
-#: admin/views/settings.php:155
+#: admin/views/settings.php:181
 msgid "Highlight active heading"
 msgstr ""
 
-#: admin/views/settings.php:159
+#: admin/views/settings.php:185
 msgid "Mark the section currently in view in the table of contents."
 msgstr ""
 
-#: admin/views/settings.php:164
+#: admin/views/settings.php:190
 msgid "Minimum headings"
 msgstr ""
 
-#: admin/views/settings.php:167
+#: admin/views/settings.php:193
 msgid "Hide the TOC when a post has fewer matching headings than this."
 msgstr ""
 
-#: admin/views/settings.php:174
+#: admin/views/settings.php:200
 msgid "Auto-generate the block"
 msgstr ""
 
-#: admin/views/settings.php:175
+#: admin/views/settings.php:201
 msgid "Prints the Table of Contents Gutenberg block on the front end. Posts that already have the block (or the [tocflow] shortcode) are left alone. You can still insert the block by hand in the editor."
 msgstr ""
 
-#: admin/views/settings.php:178
+#: admin/views/settings.php:204
 msgid "Position"
 msgstr ""
 
-#: admin/views/settings.php:181
+#: admin/views/settings.php:207
 msgid "Off - only show when the block or shortcode is added"
 msgstr ""
 
-#: admin/views/settings.php:182
+#: admin/views/settings.php:208
 msgid "Top of content"
 msgstr ""
 
-#: admin/views/settings.php:183
+#: admin/views/settings.php:209
 msgid "After the first heading"
 msgstr ""
 
-#: admin/views/settings.php:188
+#: admin/views/settings.php:214
 msgid "Post types"
 msgstr ""
 
-#: admin/views/settings.php:201
+#: admin/views/settings.php:227
 #: src/edit.js:272
 msgid "Title"
 msgstr ""
 
-#: admin/views/settings.php:207
+#: admin/views/settings.php:233
 msgid "Show the title above the list"
 msgstr ""
 
-#: admin/views/settings.php:213
+#: admin/views/settings.php:239
 #: src/edit.js:290
 msgid "Title element"
 msgstr ""
 
-#: admin/views/settings.php:216
+#: admin/views/settings.php:242
 #: src/edit.js:294
 msgid "Paragraph"
 msgstr ""
 
-#: admin/views/settings.php:224
+#: admin/views/settings.php:250
 #: src/edit.js:217
 msgid "Heading levels"
 msgstr ""
 
-#: admin/views/settings.php:244
+#: admin/views/settings.php:270
 msgid "H1 is usually the post title. Leave it off unless headings inside the content use H1."
 msgstr ""
 
-#: admin/views/settings.php:248
+#: admin/views/settings.php:274
 msgid "List"
 msgstr ""
 
-#: admin/views/settings.php:253
+#: admin/views/settings.php:279
 #: src/edit.js:209
 msgid "Numbered list"
 msgstr ""
 
-#: admin/views/settings.php:255
+#: admin/views/settings.php:281
 #: src/edit.js:318
 msgid "Numbering"
 msgstr ""
 
-#: admin/views/settings.php:257
+#: admin/views/settings.php:283
 #: src/edit.js:322
 msgid "Sequential (1, 2, 3)"
 msgstr ""
 
-#: admin/views/settings.php:258
+#: admin/views/settings.php:284
 #: src/edit.js:329
 msgid "Nested (1, 1.1, 1.1.1)"
 msgstr ""
 
-#: admin/views/settings.php:260
+#: admin/views/settings.php:286
 msgid "Nested numbering applies when the list is numbered."
 msgstr ""
 
-#: admin/views/settings.php:263
+#: admin/views/settings.php:289
 msgid "Hide bullets and browser numbers"
 msgstr ""
 
-#: admin/views/settings.php:269
+#: admin/views/settings.php:295
 msgid "Style"
 msgstr ""
 
-#: admin/views/settings.php:274
+#: admin/views/settings.php:300
 msgid "Default"
 msgstr ""
 
-#: admin/views/settings.php:275
+#: admin/views/settings.php:301
 msgid "Minimal"
 msgstr ""
 
-#: admin/views/settings.php:276
+#: admin/views/settings.php:302
 msgid "Boxed"
 msgstr ""
 
-#: admin/views/settings.php:277
+#: admin/views/settings.php:303
 msgid "Underline"
 msgstr ""
 
-#: admin/views/settings.php:278
+#: admin/views/settings.php:304
 msgid "Card"
 msgstr ""
 
-#: admin/views/settings.php:285
+#: admin/views/settings.php:311
 msgid "Same Block Styles as in the editor Styles panel."
 msgstr ""
 
-#: admin/views/settings.php:289
+#: admin/views/settings.php:315
 msgid "Layout"
 msgstr ""
 
-#: admin/views/settings.php:294
+#: admin/views/settings.php:320
 #: src/edit.js:371
 msgid "Compact spacing"
 msgstr ""
 
-#: admin/views/settings.php:298
+#: admin/views/settings.php:324
 msgid "Two columns (stacks on small screens)"
 msgstr ""
 
-#: admin/views/settings.php:302
+#: admin/views/settings.php:328
 #: src/edit.js:379
 msgid "Always underline links"
 msgstr ""
 
-#: admin/views/settings.php:304
+#: admin/views/settings.php:330
 #: src/edit.js:388
 msgid "Max height (px)"
 msgstr ""
 
-#: admin/views/settings.php:306
+#: admin/views/settings.php:332
 msgid "0 is unlimited. A max height makes long outlines scroll."
 msgstr ""
 
-#: admin/views/settings.php:311
+#: admin/views/settings.php:337
 #: src/edit.js:403
 msgid "Behavior"
 msgstr ""
 
-#: admin/views/settings.php:316
+#: admin/views/settings.php:342
 #: src/edit.js:408
 msgid "Sticky while scrolling"
 msgstr ""
 
-#: admin/views/settings.php:320
+#: admin/views/settings.php:346
 #: src/edit.js:420
 msgid "Collapsible"
 msgstr ""
 
-#: admin/views/settings.php:324
+#: admin/views/settings.php:350
 #: src/edit.js:429
 msgid "Start collapsed"
 msgstr ""
 
-#: admin/views/settings.php:333
+#: admin/views/settings.php:359
 msgid "SEO &amp; data"
 msgstr ""
 
-#: admin/views/settings.php:336
+#: admin/views/settings.php:362
 msgid "Schema markup"
 msgstr ""
 
-#: admin/views/settings.php:340
+#: admin/views/settings.php:366
 msgid "Output ItemList JSON-LD for the outline. Leave off if your SEO plugin already outputs a TOC schema."
 msgstr ""
 
-#: admin/views/settings.php:345
+#: admin/views/settings.php:371
 msgid "Uninstall"
 msgstr ""
 
-#: admin/views/settings.php:349
+#: admin/views/settings.php:375
 msgid "Delete TOCflow settings when the plugin is deleted. Deactivating never deletes data."
 msgstr ""
 
-#: admin/views/settings.php:356
+#: admin/views/settings.php:384
+msgid "Design &amp; Appearance"
+msgstr ""
+
+#: admin/views/settings.php:386
+msgid "Global visual defaults. Leave any field empty to use the built-in preset style. Per-block overrides in the editor always win."
+msgstr ""
+
+#: admin/views/settings.php:390
+msgid "Background colour"
+msgstr ""
+
+#: admin/views/settings.php:392
+msgid "Background colour (hex)"
+msgstr ""
+
+#: admin/views/settings.php:393
+msgid "e.g. #f8fafc — overrides the preset background."
+msgstr ""
+
+#: admin/views/settings.php:397
+msgid "Text colour"
+msgstr ""
+
+#: admin/views/settings.php:399
+msgid "Text colour (hex)"
+msgstr ""
+
+#: admin/views/settings.php:403
+msgid "Link colour"
+msgstr ""
+
+#: admin/views/settings.php:405
+msgid "Link colour (hex)"
+msgstr ""
+
+#: admin/views/settings.php:409
+msgid "Font size"
+msgstr ""
+
+#: admin/views/settings.php:411
+msgid "e.g. 15px or 0.9rem"
+msgstr ""
+
+#: admin/views/settings.php:415
+msgid "Link font weight"
+msgstr ""
+
+#: admin/views/settings.php:418
+msgid "— inherit from theme —"
+msgstr ""
+
+#: admin/views/settings.php:428
+msgid "Line height"
+msgstr ""
+
+#: admin/views/settings.php:430
+msgid "e.g. 1.6"
+msgstr ""
+
+#: admin/views/settings.php:431
+msgid "Unitless number, e.g. 1.6."
+msgstr ""
+
+#: admin/views/settings.php:435
+msgid "Border"
+msgstr ""
+
+#: admin/views/settings.php:439
+msgid "width e.g. 1px"
+msgstr ""
+
+#: admin/views/settings.php:439
+msgid "Border width"
+msgstr ""
+
+#: admin/views/settings.php:440
+msgid "Border style"
+msgstr ""
+
+#: admin/views/settings.php:441
+msgid "— style —"
+msgstr ""
+
+#: admin/views/settings.php:446
+msgid "Border colour (hex)"
+msgstr ""
+
+#: admin/views/settings.php:449
+msgid "Border radius:"
+msgstr ""
+
+#: admin/views/settings.php:450
+msgid "e.g. 8px"
+msgstr ""
+
+#: admin/views/settings.php:456
+msgid "Padding"
+msgstr ""
+
+#: admin/views/settings.php:458
+msgid "e.g. 1.25rem"
+msgstr ""
+
+#: admin/views/settings.php:459
+msgid "All sides. Use px or rem. Leave blank for the preset default."
+msgstr ""
+
+#: admin/views/settings.php:468
+msgid "Reading Guide &amp; Study Tools"
+msgstr ""
+
+#: admin/views/settings.php:472
+msgid "Global defaults for auto-inserted blocks and shortcodes. Manual blocks keep their own per-block settings from the editor sidebar."
+msgstr ""
+
+#: admin/views/settings.php:476
+#: src/edit.js:570
+msgid "Hover section preview"
+msgstr ""
+
+#: admin/views/settings.php:480
+msgid "Show the opening sentence of each section in a tooltip when hovering a TOC link."
+msgstr ""
+
+#: admin/views/settings.php:485
+msgid "Reading Guide mode"
+msgstr ""
+
+#: admin/views/settings.php:489
+msgid "Enable the full Reading Guide (inline previews, density bars, read time, progress fade)."
+msgstr ""
+
+#: admin/views/settings.php:494
+msgid "Section content previews"
+msgstr ""
+
+#: admin/views/settings.php:498
+msgid "Show the first ~20 words of each section under its TOC link."
+msgstr ""
+
+#: admin/views/settings.php:503
+msgid "Content density bars"
+msgstr ""
+
+#: admin/views/settings.php:507
+msgid "Show a proportional bar indicating each section's word count."
+msgstr ""
+
+#: admin/views/settings.php:512
+msgid "Per-section read time"
+msgstr ""
+
+#: admin/views/settings.php:516
+msgid "Show an estimated read time next to each TOC link."
+msgstr ""
+
+#: admin/views/settings.php:521
+msgid "Reading progress fade"
+msgstr ""
+
+#: admin/views/settings.php:525
+msgid "Fade out TOC items as the reader scrolls past each section."
+msgstr ""
+
+#: admin/views/settings.php:530
+#: src/edit.js:644
+msgid "Emoji reactions"
+msgstr ""
+
+#: admin/views/settings.php:534
+msgid "Let readers react per section (💡 ⭐ 🤔 ✅) — stored in browser localStorage, never on your server."
+msgstr ""
+
+#: admin/views/settings.php:539
+msgid "Academic citations"
+msgstr ""
+
+#: admin/views/settings.php:543
+msgid "Show a § button that copies a formatted citation for each section — built from post meta, no external API."
+msgstr ""
+
+#: admin/views/settings.php:546
+msgid "Citation format:"
+msgstr ""
+
+#: admin/views/settings.php:554
+#: src/edit.js:687
+msgid "Plain link"
+msgstr ""
+
+#: admin/views/settings.php:574
+msgid "Study Tools &amp; Export"
+msgstr ""
+
+#: admin/views/settings.php:578
+msgid "All features are off by default and store data only in the reader's browser — nothing is sent to your server."
+msgstr ""
+
+#: admin/views/settings.php:582
+#: src/edit.js:527
+msgid "Reading progress bar"
+msgstr ""
+
+#: admin/views/settings.php:586
+msgid "Show a thin progress bar (0–100 % of headings read) above the TOC list."
+msgstr ""
+
+#: admin/views/settings.php:591
+#: src/edit.js:539
+msgid "Resume reading bookmark"
+msgstr ""
+
+#: admin/views/settings.php:595
+msgid "Bookmark the reader's last-read heading in localStorage and show a ↩ Resume button on return visits."
+msgstr ""
+
+#: admin/views/settings.php:600
+#: src/edit.js:551
+msgid "Reader note pads"
+msgstr ""
+
+#: admin/views/settings.php:604
+msgid "Add a 📝 button per section so readers can jot private notes (localStorage only — no account needed)."
+msgstr ""
+
+#: admin/views/settings.php:609
+msgid "Export &amp; print toolbar"
+msgstr ""
+
+#: admin/views/settings.php:613
+msgid "Add Copy / Download .md / Download .doc / Print buttons under the TOC."
+msgstr ""
+
+#: admin/views/settings.php:622
+msgid "Accessibility"
+msgstr ""
+
+#: admin/views/settings.php:625
+msgid "Focus ring style"
+msgstr ""
+
+#: admin/views/settings.php:628
+msgid "Default — underline only (follows theme)"
+msgstr ""
+
+#: admin/views/settings.php:629
+msgid "Bold — 3 px outline, offset 2 px (WCAG 2.1 AA)"
+msgstr ""
+
+#: admin/views/settings.php:630
+msgid "High contrast — black outline on yellow background (WCAG 2.1 AAA)"
+msgstr ""
+
+#: admin/views/settings.php:632
+msgid "Applies to keyboard focus on TOC links. Does not affect the block editor."
+msgstr ""
+
+#: admin/views/settings.php:638
 msgid "Save settings"
 msgstr ""
 
-#: includes/class-tocflow-admin.php:98
+#: includes/class-tocflow-admin.php:105
 msgid "Using the block"
 msgstr ""
 
-#: includes/class-tocflow-admin.php:99
+#: includes/class-tocflow-admin.php:106
 msgid "Edit a post, click the inserter, and search for “Table of Contents”. The outline is built from Heading blocks in that post."
 msgstr ""
 
-#: includes/class-tocflow-admin.php:105
+#: includes/class-tocflow-admin.php:112
 msgid "Auto-generate"
 msgstr ""
 
-#: includes/class-tocflow-admin.php:106
+#: includes/class-tocflow-admin.php:113
 msgid "Settings → TOCflow can print the Table of Contents block at the top of content or after the first heading. Customize title, heading levels, style, and layout there. Manual blocks and the [tocflow] shortcode still skip auto-generate so you never get two outlines."
 msgstr ""
 
-#: includes/class-tocflow-admin.php:113
+#: includes/class-tocflow-admin.php:120
 msgid "prints the same outline in classic content, widgets, or a theme template. The Gutenberg block is the primary placement method."
 msgstr ""
 
-#: includes/class-tocflow-admin.php:117
+#: includes/class-tocflow-admin.php:124
 #: includes/class-tocflow-plugin.php:390
 msgid "Support"
 msgstr ""
 
-#: includes/class-tocflow-admin.php:118
+#: includes/class-tocflow-admin.php:125
 msgid "GitHub issues"
 msgstr ""
 
-#: includes/class-tocflow-admin.php:119
+#: includes/class-tocflow-admin.php:126
 msgid "Online docs"
 msgstr ""
 
-#: includes/class-tocflow-admin.php:163
+#: includes/class-tocflow-admin.php:170
 msgid "TOCflow is ready."
 msgstr ""
 
-#: includes/class-tocflow-admin.php:164
+#: includes/class-tocflow-admin.php:171
 msgid "Add the Table of Contents block to a post, or auto-generate it under Settings → TOCflow. The [tocflow] shortcode still works in classic content."
 msgstr ""
 
-#: includes/class-tocflow-admin.php:165
+#: includes/class-tocflow-admin.php:172
 msgid "Open settings"
 msgstr ""
 
@@ -591,66 +857,66 @@ msgid "Cite"
 msgstr ""
 
 #: includes/class-tocflow-headings.php:751
-#: includes/class-tocflow-headings.php:1046
+#: includes/class-tocflow-headings.php:1074
 #: includes/class-tocflow-plugin.php:120
-#: includes/class-tocflow-settings.php:112
+#: includes/class-tocflow-settings.php:148
 #: src/edit.js:187
 #: src/edit.js:801
 msgid "Table of Contents"
 msgstr ""
 
-#: includes/class-tocflow-headings.php:926
+#: includes/class-tocflow-headings.php:954
 msgid "Toggle table of contents"
 msgstr ""
 
 #. translators: %d = estimated total reading time in minutes
-#: includes/class-tocflow-headings.php:952
+#: includes/class-tocflow-headings.php:980
 #, php-format
 msgid "~%d min total"
 msgstr ""
 
-#: includes/class-tocflow-headings.php:958
+#: includes/class-tocflow-headings.php:986
 msgid "Resume"
 msgstr ""
 
-#: includes/class-tocflow-headings.php:969
+#: includes/class-tocflow-headings.php:997
 #: src/edit.js:632
 msgid "Reading progress"
 msgstr ""
 
-#: includes/class-tocflow-headings.php:982
+#: includes/class-tocflow-headings.php:1010
 msgid "Export table of contents"
 msgstr ""
 
-#: includes/class-tocflow-headings.php:986
+#: includes/class-tocflow-headings.php:1014
 msgid "Copy outline as Markdown"
 msgstr ""
 
-#: includes/class-tocflow-headings.php:988
+#: includes/class-tocflow-headings.php:1016
 msgid "Copy"
 msgstr ""
 
-#: includes/class-tocflow-headings.php:993
+#: includes/class-tocflow-headings.php:1021
 msgid "Download outline as Markdown file"
 msgstr ""
 
-#: includes/class-tocflow-headings.php:995
+#: includes/class-tocflow-headings.php:1023
 msgid ".md"
 msgstr ""
 
-#: includes/class-tocflow-headings.php:999
+#: includes/class-tocflow-headings.php:1027
 msgid "Download outline as Word document"
 msgstr ""
 
-#: includes/class-tocflow-headings.php:1001
+#: includes/class-tocflow-headings.php:1029
 msgid ".doc"
 msgstr ""
 
-#: includes/class-tocflow-headings.php:1005
+#: includes/class-tocflow-headings.php:1033
 msgid "Print table of contents"
 msgstr ""
 
-#: includes/class-tocflow-headings.php:1007
+#: includes/class-tocflow-headings.php:1035
 msgid "Print"
 msgstr ""
 
@@ -782,32 +1048,16 @@ msgstr ""
 msgid "Reader-facing tools — stored locally in each visitor's browser. No account or server calls required."
 msgstr ""
 
-#: src/edit.js:527
-msgid "Reading progress bar"
-msgstr ""
-
 #: src/edit.js:532
 msgid "A thin bar shows readers how far through the article they are (0–100 %)."
-msgstr ""
-
-#: src/edit.js:539
-msgid "Resume reading bookmark"
 msgstr ""
 
 #: src/edit.js:544
 msgid "Remembers the reader's last position. A \"Resume\" button appears on their next visit to jump back."
 msgstr ""
 
-#: src/edit.js:551
-msgid "Reader note pads"
-msgstr ""
-
 #: src/edit.js:556
 msgid "Readers can jot personal notes per section (📝). Notes are saved privately in their browser — great for research and study."
-msgstr ""
-
-#: src/edit.js:570
-msgid "Hover section preview"
 msgstr ""
 
 #: src/edit.js:575
@@ -850,10 +1100,6 @@ msgstr ""
 msgid "Fade sections as the reader scrolls past them."
 msgstr ""
 
-#: src/edit.js:644
-msgid "Emoji reactions"
-msgstr ""
-
 #: src/edit.js:649
 msgid "Readers react per section (💡 ⭐ 🤔 ✅). Stored in their browser — no account needed."
 msgstr ""
@@ -868,10 +1114,6 @@ msgstr ""
 
 #: src/edit.js:673
 msgid "Citation format"
-msgstr ""
-
-#: src/edit.js:687
-msgid "Plain link"
 msgstr ""
 
 #: src/edit.js:707

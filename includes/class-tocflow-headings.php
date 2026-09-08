@@ -840,12 +840,40 @@ class TOCflow_Headings {
 			$smooth_flag = ! empty( $settings['smooth_scroll'] ) ? '1' : '0';
 		}
 
-		$class_attr = implode( ' ', array_map( 'sanitize_html_class', $classes ) );
+		$class_attr  = implode( ' ', array_map( 'sanitize_html_class', $classes ) );
 		$style_parts = array( '--tocflow-offset:' . (int) $offset . 'px' );
 		if ( $max_height > 0 ) {
 			$style_parts[] = '--tocflow-max-height:' . $max_height . 'px';
 		}
+
+		// Global design overrides — set CSS custom properties from settings.
+		$design_map = array(
+			'design_bg_color'      => '--tocflow-bg',
+			'design_text_color'    => '--tocflow-color',
+			'design_link_color'    => '--tocflow-link-color',
+			'design_font_size'     => '--tocflow-font-size',
+			'design_font_weight'   => '--tocflow-font-weight',
+			'design_line_height'   => '--tocflow-line-height',
+			'design_border_width'  => '--tocflow-border-width',
+			'design_border_color'  => '--tocflow-border-color',
+			'design_border_style'  => '--tocflow-border-style',
+			'design_border_radius' => '--tocflow-radius',
+			'design_padding'       => '--tocflow-padding',
+		);
+		foreach ( $design_map as $setting_key => $css_prop ) {
+			$val = isset( $settings[ $setting_key ] ) ? trim( (string) $settings[ $setting_key ] ) : '';
+			if ( '' !== $val ) {
+				$style_parts[] = $css_prop . ':' . $val;
+			}
+		}
+
 		$style_attr = implode( ';', $style_parts );
+
+		// Focus ring style attribute (accessibility setting).
+		$focus_style = isset( $settings['focus_style'] ) ? sanitize_key( $settings['focus_style'] ) : 'default';
+		if ( 'default' !== $focus_style ) {
+			$guide_attrs['data-tocflow-focus'] = $focus_style;
+		}
 
 		// Build extra data attributes for guide mode and study tools.
 		$guide_attrs = array();

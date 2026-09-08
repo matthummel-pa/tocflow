@@ -5,7 +5,7 @@ Tags: table of contents, toc, reading guide, block, study tools
 Requires at least: 6.4
 Tested up to: 7.1
 Requires PHP: 7.4
-Stable tag: 1.2.2
+Stable tag: 1.3.0
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -188,6 +188,14 @@ GNU GPLv2 or later, covering the whole plugin (PHP, JavaScript, CSS, and images)
 
 == Changelog ==
 
+= 1.3.0 =
+* New: **Design & Appearance** section in Settings → TOCflow — set global background, text, link, and border colours; font size, weight, and line height; border width / style / radius; and padding. All values are applied as CSS custom properties so block-editor per-instance overrides still win.
+* New: **Reading Guide & Study Tools** section in settings — configure global defaults for hover section preview, guide mode, density bars, read time, progress fade, emoji reactions, and academic citations.
+* New: **Study Tools & Export** section in settings — global defaults for reading progress bar, resume bookmark, reader note pads, and export toolbar.
+* New: **Accessibility** section in settings — choose focus ring style: Default, Bold (3 px, WCAG AA), or High-contrast (yellow background, WCAG AAA).
+* New: Admin JS syncs hex colour text inputs with companion colour swatches and toggles guide-mode sub-options conditionally.
+* Fix: CSS preset styles (minimal, boxed, underline, card) correctly override global design custom properties.
+
 = 1.2.2 =
 * Fix: `TOCFLOW_VERSION` constant was stuck at `1.2.0`; now reads `1.2.2` correctly (admin version badge and `Version %s` string now match the plugin header).
 * Fix: `Tested up to` updated from 6.7 to 7.1 (WordPress 7.1 "Mary Lou", released 2026-08-19).
@@ -237,6 +245,9 @@ GNU GPLv2 or later, covering the whole plugin (PHP, JavaScript, CSS, and images)
 * Heading IDs via WP_HTML_Tag_Processor; custom anchors respected.
 
 == Upgrade Notice ==
+
+= 1.3.0 =
+Major settings expansion: global design customization (colours, typography, borders), Reading Guide & Study Tools defaults, and a new Accessibility section for focus ring styles. No changes to existing block output.
 
 = 1.2.2 =
 WordPress.org compliance fixes: corrects the in-admin version badge, updates "Tested up to" to 7.1, and removes a disallowed trademark tag. No functional changes.

@@ -128,7 +128,33 @@ $tocflow_support_url = 'https://github.com/matthummel-pa/tocflow/issues';
 			</section>
 		</div>
 	<?php else : ?>
-		<?php $tocflow_opt = TOCflow_Settings::OPTION; ?>
+		<?php
+		$tocflow_opt = TOCflow_Settings::OPTION;
+		/**
+		 * Helper: render a colour-picker field (text + swatch + clear link).
+		 *
+		 * @param string $name    Form field name (without option prefix).
+		 * @param string $value   Current saved value.
+		 * @param string $label   Accessible label for the text input.
+		 */
+		$tocflow_color_field = function ( $name, $value, $label ) use ( $tocflow_opt ) {
+			$swatch_val = '' !== $value ? esc_attr( $value ) : '#ffffff';
+			printf(
+				'<span class="tocflow-color-field">'
+				. '<input type="text" name="%1$s[%2$s]" value="%3$s" placeholder="#rrggbb" maxlength="7" aria-label="%4$s">'
+				. '<input type="color" value="%5$s" aria-hidden="true" tabindex="-1">'
+				. '<a href="#" class="tocflow-color-clear" aria-label="%6$s">%7$s</a>'
+				. '</span>',
+				esc_attr( $tocflow_opt ),
+				esc_attr( $name ),
+				esc_attr( $value ),
+				esc_attr( $label ),
+				$swatch_val,
+				esc_attr__( 'Clear colour', 'tocflow' ),
+				esc_html__( 'Clear', 'tocflow' )
+			);
+		};
+		?>
 		<form action="options.php" method="post" class="tocflow-admin__form">
 			<?php settings_fields( 'tocflow_settings_group' ); ?>
 
@@ -348,6 +374,262 @@ $tocflow_support_url = 'https://github.com/matthummel-pa/tocflow/issues';
 								<input type="checkbox" name="<?php echo esc_attr( TOCflow_Settings::OPTION ); ?>[delete_data]" value="1" <?php checked( $settings['delete_data'], 1 ); ?>>
 								<?php esc_html_e( 'Delete TOCflow settings when the plugin is deleted. Deactivating never deletes data.', 'tocflow' ); ?>
 							</label>
+						</td>
+					</tr>
+				</table>
+			</section>
+
+			<!-- ── Design & Appearance ───────────────────────────────────────── -->
+			<section class="tocflow-card">
+				<h2><?php esc_html_e( 'Design &amp; Appearance', 'tocflow' ); ?></h2>
+				<p class="description">
+					<?php esc_html_e( 'Global visual defaults. Leave any field empty to use the built-in preset style. Per-block overrides in the editor always win.', 'tocflow' ); ?>
+				</p>
+				<table class="form-table" role="presentation">
+					<tr>
+						<th scope="row"><?php esc_html_e( 'Background colour', 'tocflow' ); ?></th>
+						<td>
+							<?php $tocflow_color_field( 'design_bg_color', $settings['design_bg_color'], __( 'Background colour (hex)', 'tocflow' ) ); ?>
+							<p class="description"><?php esc_html_e( 'e.g. #f8fafc — overrides the preset background.', 'tocflow' ); ?></p>
+						</td>
+					</tr>
+					<tr>
+						<th scope="row"><?php esc_html_e( 'Text colour', 'tocflow' ); ?></th>
+						<td>
+							<?php $tocflow_color_field( 'design_text_color', $settings['design_text_color'], __( 'Text colour (hex)', 'tocflow' ) ); ?>
+						</td>
+					</tr>
+					<tr>
+						<th scope="row"><?php esc_html_e( 'Link colour', 'tocflow' ); ?></th>
+						<td>
+							<?php $tocflow_color_field( 'design_link_color', $settings['design_link_color'], __( 'Link colour (hex)', 'tocflow' ) ); ?>
+						</td>
+					</tr>
+					<tr>
+						<th scope="row"><?php esc_html_e( 'Font size', 'tocflow' ); ?></th>
+						<td>
+							<input type="text" name="<?php echo esc_attr( $tocflow_opt ); ?>[design_font_size]" value="<?php echo esc_attr( $settings['design_font_size'] ); ?>" placeholder="<?php esc_attr_e( 'e.g. 15px or 0.9rem', 'tocflow' ); ?>" class="regular-text">
+						</td>
+					</tr>
+					<tr>
+						<th scope="row"><?php esc_html_e( 'Link font weight', 'tocflow' ); ?></th>
+						<td>
+							<select name="<?php echo esc_attr( $tocflow_opt ); ?>[design_font_weight]">
+								<option value="" <?php selected( $settings['design_font_weight'], '' ); ?>><?php esc_html_e( '— inherit from theme —', 'tocflow' ); ?></option>
+								<?php
+								foreach ( array( '300', '400', '500', '600', '700', '800' ) as $tocflow_fw ) :
+									?>
+									<option value="<?php echo esc_attr( $tocflow_fw ); ?>" <?php selected( $settings['design_font_weight'], $tocflow_fw ); ?>><?php echo esc_html( $tocflow_fw ); ?></option>
+								<?php endforeach; ?>
+							</select>
+						</td>
+					</tr>
+					<tr>
+						<th scope="row"><?php esc_html_e( 'Line height', 'tocflow' ); ?></th>
+						<td>
+							<input type="text" name="<?php echo esc_attr( $tocflow_opt ); ?>[design_line_height]" value="<?php echo esc_attr( $settings['design_line_height'] ); ?>" placeholder="<?php esc_attr_e( 'e.g. 1.6', 'tocflow' ); ?>" class="small-text">
+							<p class="description"><?php esc_html_e( 'Unitless number, e.g. 1.6.', 'tocflow' ); ?></p>
+						</td>
+					</tr>
+					<tr>
+						<th scope="row"><?php esc_html_e( 'Border', 'tocflow' ); ?></th>
+						<td>
+							<fieldset>
+								<div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-bottom:6px;">
+									<input type="text" name="<?php echo esc_attr( $tocflow_opt ); ?>[design_border_width]" value="<?php echo esc_attr( $settings['design_border_width'] ); ?>" placeholder="<?php esc_attr_e( 'width e.g. 1px', 'tocflow' ); ?>" class="small-text" style="width:90px;" aria-label="<?php esc_attr_e( 'Border width', 'tocflow' ); ?>">
+									<select name="<?php echo esc_attr( $tocflow_opt ); ?>[design_border_style]" aria-label="<?php esc_attr_e( 'Border style', 'tocflow' ); ?>">
+										<option value="" <?php selected( $settings['design_border_style'], '' ); ?>><?php esc_html_e( '— style —', 'tocflow' ); ?></option>
+										<?php foreach ( array( 'solid', 'dashed', 'dotted', 'double', 'none' ) as $tocflow_bs ) : ?>
+											<option value="<?php echo esc_attr( $tocflow_bs ); ?>" <?php selected( $settings['design_border_style'], $tocflow_bs ); ?>><?php echo esc_html( $tocflow_bs ); ?></option>
+										<?php endforeach; ?>
+									</select>
+									<?php $tocflow_color_field( 'design_border_color', $settings['design_border_color'], __( 'Border colour (hex)', 'tocflow' ) ); ?>
+								</div>
+								<div style="display:flex;gap:8px;align-items:center;">
+									<label for="tocflow-design-radius"><?php esc_html_e( 'Border radius:', 'tocflow' ); ?></label>
+									<input id="tocflow-design-radius" type="text" name="<?php echo esc_attr( $tocflow_opt ); ?>[design_border_radius]" value="<?php echo esc_attr( $settings['design_border_radius'] ); ?>" placeholder="<?php esc_attr_e( 'e.g. 8px', 'tocflow' ); ?>" class="small-text" style="width:80px;">
+								</div>
+							</fieldset>
+						</td>
+					</tr>
+					<tr>
+						<th scope="row"><label for="tocflow-design-padding"><?php esc_html_e( 'Padding', 'tocflow' ); ?></label></th>
+						<td>
+							<input id="tocflow-design-padding" type="text" name="<?php echo esc_attr( $tocflow_opt ); ?>[design_padding]" value="<?php echo esc_attr( $settings['design_padding'] ); ?>" placeholder="<?php esc_attr_e( 'e.g. 1.25rem', 'tocflow' ); ?>" class="small-text">
+							<p class="description"><?php esc_html_e( 'All sides. Use px or rem. Leave blank for the preset default.', 'tocflow' ); ?></p>
+						</td>
+					</tr>
+				</table>
+			</section>
+
+			<!-- ── Reading Guide & Study Tools global defaults ────────────────── -->
+			<section class="tocflow-card">
+				<h2>
+					<?php esc_html_e( 'Reading Guide &amp; Study Tools', 'tocflow' ); ?>
+					<span class="tocflow-section-badge tocflow-section-badge--guide">v1.1</span>
+				</h2>
+				<p class="description">
+					<?php esc_html_e( 'Global defaults for auto-inserted blocks and shortcodes. Manual blocks keep their own per-block settings from the editor sidebar.', 'tocflow' ); ?>
+				</p>
+				<table class="form-table" role="presentation">
+					<tr>
+						<th scope="row"><?php esc_html_e( 'Hover section preview', 'tocflow' ); ?></th>
+						<td>
+							<label>
+								<input type="checkbox" name="<?php echo esc_attr( $tocflow_opt ); ?>[auto_preview_hover]" value="1" <?php checked( $settings['auto_preview_hover'], 1 ); ?>>
+								<?php esc_html_e( 'Show the opening sentence of each section in a tooltip when hovering a TOC link.', 'tocflow' ); ?>
+							</label>
+						</td>
+					</tr>
+					<tr>
+						<th scope="row"><?php esc_html_e( 'Reading Guide mode', 'tocflow' ); ?></th>
+						<td>
+							<label>
+								<input id="tocflow-auto-guide-mode" type="checkbox" name="<?php echo esc_attr( $tocflow_opt ); ?>[auto_guide_mode]" value="1" <?php checked( $settings['auto_guide_mode'], 1 ); ?>>
+								<?php esc_html_e( 'Enable the full Reading Guide (inline previews, density bars, read time, progress fade).', 'tocflow' ); ?>
+							</label>
+							<div id="tocflow-guide-subopts">
+								<table class="form-table" role="presentation">
+									<tr>
+										<th scope="row"><?php esc_html_e( 'Section content previews', 'tocflow' ); ?></th>
+										<td>
+											<label>
+												<input type="checkbox" name="<?php echo esc_attr( $tocflow_opt ); ?>[auto_show_previews]" value="1" <?php checked( $settings['auto_show_previews'], 1 ); ?>>
+												<?php esc_html_e( 'Show the first ~20 words of each section under its TOC link.', 'tocflow' ); ?>
+											</label>
+										</td>
+									</tr>
+									<tr>
+										<th scope="row"><?php esc_html_e( 'Content density bars', 'tocflow' ); ?></th>
+										<td>
+											<label>
+												<input type="checkbox" name="<?php echo esc_attr( $tocflow_opt ); ?>[auto_show_density]" value="1" <?php checked( $settings['auto_show_density'], 1 ); ?>>
+												<?php esc_html_e( 'Show a proportional bar indicating each section\'s word count.', 'tocflow' ); ?>
+											</label>
+										</td>
+									</tr>
+									<tr>
+										<th scope="row"><?php esc_html_e( 'Per-section read time', 'tocflow' ); ?></th>
+										<td>
+											<label>
+												<input type="checkbox" name="<?php echo esc_attr( $tocflow_opt ); ?>[auto_show_read_time]" value="1" <?php checked( $settings['auto_show_read_time'], 1 ); ?>>
+												<?php esc_html_e( 'Show an estimated read time next to each TOC link.', 'tocflow' ); ?>
+											</label>
+										</td>
+									</tr>
+									<tr>
+										<th scope="row"><?php esc_html_e( 'Reading progress fade', 'tocflow' ); ?></th>
+										<td>
+											<label>
+												<input type="checkbox" name="<?php echo esc_attr( $tocflow_opt ); ?>[auto_track_progress]" value="1" <?php checked( $settings['auto_track_progress'], 1 ); ?>>
+												<?php esc_html_e( 'Fade out TOC items as the reader scrolls past each section.', 'tocflow' ); ?>
+											</label>
+										</td>
+									</tr>
+									<tr>
+										<th scope="row"><?php esc_html_e( 'Emoji reactions', 'tocflow' ); ?></th>
+										<td>
+											<label>
+												<input type="checkbox" name="<?php echo esc_attr( $tocflow_opt ); ?>[auto_show_reactions]" value="1" <?php checked( $settings['auto_show_reactions'], 1 ); ?>>
+												<?php esc_html_e( 'Let readers react per section (💡 ⭐ 🤔 ✅) — stored in browser localStorage, never on your server.', 'tocflow' ); ?>
+											</label>
+										</td>
+									</tr>
+									<tr>
+										<th scope="row"><?php esc_html_e( 'Academic citations', 'tocflow' ); ?></th>
+										<td>
+											<label>
+												<input id="tocflow-auto-show-citations" type="checkbox" name="<?php echo esc_attr( $tocflow_opt ); ?>[auto_show_citations]" value="1" <?php checked( $settings['auto_show_citations'], 1 ); ?>>
+												<?php esc_html_e( 'Show a § button that copies a formatted citation for each section — built from post meta, no external API.', 'tocflow' ); ?>
+											</label>
+											<div id="tocflow-citation-style-row" style="margin-top:6px;">
+												<label for="tocflow-auto-citation-style"><?php esc_html_e( 'Citation format:', 'tocflow' ); ?></label>
+												<select id="tocflow-auto-citation-style" name="<?php echo esc_attr( $tocflow_opt ); ?>[auto_citation_style]">
+													<?php
+													$tocflow_cite_formats = array(
+														'apa'     => 'APA',
+														'mla'     => 'MLA',
+														'chicago' => 'Chicago',
+														'harvard' => 'Harvard',
+														'plain'   => __( 'Plain link', 'tocflow' ),
+													);
+													foreach ( $tocflow_cite_formats as $tocflow_cf_key => $tocflow_cf_label ) :
+														?>
+														<option value="<?php echo esc_attr( $tocflow_cf_key ); ?>" <?php selected( $settings['auto_citation_style'], $tocflow_cf_key ); ?>><?php echo esc_html( $tocflow_cf_label ); ?></option>
+													<?php endforeach; ?>
+												</select>
+											</div>
+										</td>
+									</tr>
+								</table>
+							</div>
+						</td>
+					</tr>
+				</table>
+			</section>
+
+			<!-- ── Study Tools & Export global defaults ───────────────────────── -->
+			<section class="tocflow-card">
+				<h2>
+					<?php esc_html_e( 'Study Tools &amp; Export', 'tocflow' ); ?>
+					<span class="tocflow-section-badge tocflow-section-badge--study">v1.2</span>
+				</h2>
+				<p class="description">
+					<?php esc_html_e( 'All features are off by default and store data only in the reader\'s browser — nothing is sent to your server.', 'tocflow' ); ?>
+				</p>
+				<table class="form-table" role="presentation">
+					<tr>
+						<th scope="row"><?php esc_html_e( 'Reading progress bar', 'tocflow' ); ?></th>
+						<td>
+							<label>
+								<input type="checkbox" name="<?php echo esc_attr( $tocflow_opt ); ?>[auto_reading_progress]" value="1" <?php checked( $settings['auto_reading_progress'], 1 ); ?>>
+								<?php esc_html_e( 'Show a thin progress bar (0–100 % of headings read) above the TOC list.', 'tocflow' ); ?>
+							</label>
+						</td>
+					</tr>
+					<tr>
+						<th scope="row"><?php esc_html_e( 'Resume reading bookmark', 'tocflow' ); ?></th>
+						<td>
+							<label>
+								<input type="checkbox" name="<?php echo esc_attr( $tocflow_opt ); ?>[auto_bookmark]" value="1" <?php checked( $settings['auto_bookmark'], 1 ); ?>>
+								<?php esc_html_e( 'Bookmark the reader\'s last-read heading in localStorage and show a ↩ Resume button on return visits.', 'tocflow' ); ?>
+							</label>
+						</td>
+					</tr>
+					<tr>
+						<th scope="row"><?php esc_html_e( 'Reader note pads', 'tocflow' ); ?></th>
+						<td>
+							<label>
+								<input type="checkbox" name="<?php echo esc_attr( $tocflow_opt ); ?>[auto_reader_notes]" value="1" <?php checked( $settings['auto_reader_notes'], 1 ); ?>>
+								<?php esc_html_e( 'Add a 📝 button per section so readers can jot private notes (localStorage only — no account needed).', 'tocflow' ); ?>
+							</label>
+						</td>
+					</tr>
+					<tr>
+						<th scope="row"><?php esc_html_e( 'Export &amp; print toolbar', 'tocflow' ); ?></th>
+						<td>
+							<label>
+								<input type="checkbox" name="<?php echo esc_attr( $tocflow_opt ); ?>[auto_export]" value="1" <?php checked( $settings['auto_export'], 1 ); ?>>
+								<?php esc_html_e( 'Add Copy / Download .md / Download .doc / Print buttons under the TOC.', 'tocflow' ); ?>
+							</label>
+						</td>
+					</tr>
+				</table>
+			</section>
+
+			<!-- ── Accessibility ─────────────────────────────────────────────── -->
+			<section class="tocflow-card">
+				<h2><?php esc_html_e( 'Accessibility', 'tocflow' ); ?></h2>
+				<table class="form-table" role="presentation">
+					<tr>
+						<th scope="row"><label for="tocflow-focus-style"><?php esc_html_e( 'Focus ring style', 'tocflow' ); ?></label></th>
+						<td>
+							<select id="tocflow-focus-style" name="<?php echo esc_attr( $tocflow_opt ); ?>[focus_style]">
+								<option value="default" <?php selected( $settings['focus_style'], 'default' ); ?>><?php esc_html_e( 'Default — underline only (follows theme)', 'tocflow' ); ?></option>
+								<option value="bold" <?php selected( $settings['focus_style'], 'bold' ); ?>><?php esc_html_e( 'Bold — 3 px outline, offset 2 px (WCAG 2.1 AA)', 'tocflow' ); ?></option>
+								<option value="high-contrast" <?php selected( $settings['focus_style'], 'high-contrast' ); ?>><?php esc_html_e( 'High contrast — black outline on yellow background (WCAG 2.1 AAA)', 'tocflow' ); ?></option>
+							</select>
+							<p class="description"><?php esc_html_e( 'Applies to keyboard focus on TOC links. Does not affect the block editor.', 'tocflow' ); ?></p>
 						</td>
 					</tr>
 				</table>
