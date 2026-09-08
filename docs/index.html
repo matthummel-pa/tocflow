@@ -379,12 +379,24 @@
       <div class="compat-item"><strong>Any theme</strong><span>TOCflow inherits theme fonts &amp; colors — no injected brand styles</span><br><span class="compat-badge">By design</span></div>
     </div>
 
-    <h3 style="margin-top:28px">Multilingual &amp; page builders</h3>
+    <h3 style="margin-top:28px">Page builders</h3>
+    <p style="color:var(--muted);font-size:15px;margin-bottom:8px">Use <code>[tocflow]</code> in any Shortcode, HTML, or Code element. TOCflow automatically reads headings from each builder's stored data and injects matching anchor IDs into the rendered page — no manual slug mapping needed.</p>
+    <div class="compat-grid">
+      <div class="compat-item"><strong>Elementor</strong><span>Heading widget JSON parsed directly; IDs injected into rendered HTML</span><br><span class="compat-badge">Full support</span></div>
+      <div class="compat-item"><strong>Divi</strong><span>HTML scan of rendered output; use <code>[tocflow]</code> in Code module</span><br><span class="compat-badge">Full support</span></div>
+      <div class="compat-item"><strong>Bricks Builder</strong><span>Heading &amp; rich-text elements parsed from Bricks meta</span><br><span class="compat-badge">Full support</span></div>
+      <div class="compat-item"><strong>Beaver Builder</strong><span>HTML module or Shortcode module with <code>[tocflow]</code></span><br><span class="compat-badge">Full support</span></div>
+      <div class="compat-item"><strong>WPBakery</strong><span>Raw HTML element or Shortcode element; heading scan via rendered HTML</span><br><span class="compat-badge">Full support</span></div>
+      <div class="compat-item"><strong>Oxygen / Breakdance</strong><span>Code block or Shortcode element; meta-detected for ID injection</span><br><span class="compat-badge">Full support</span></div>
+      <div class="compat-item"><strong>WooCommerce</strong><span>Works in product descriptions with Heading blocks</span><br><span class="compat-badge">Compatible</span></div>
+      <div class="compat-item"><strong>Any builder</strong><span>Generic HTML heading scan as final fallback — <code>[tocflow]</code> works everywhere</span><br><span class="compat-badge">By design</span></div>
+    </div>
+
+    <h3 style="margin-top:28px">Multilingual</h3>
     <div class="compat-grid">
       <div class="compat-item"><strong>WPML</strong><span>Translatable strings, text domain <code>tocflow</code></span><br><span class="compat-badge">Compatible</span></div>
       <div class="compat-item"><strong>Polylang</strong><span>No locale-specific slug issues</span><br><span class="compat-badge">Compatible</span></div>
-      <div class="compat-item"><strong>Elementor</strong><span>Use <code>[tocflow]</code> shortcode widget in Elementor sections</span><br><span class="compat-badge">Via shortcode</span></div>
-      <div class="compat-item"><strong>WooCommerce</strong><span>Works in product descriptions with Heading blocks</span><br><span class="compat-badge">Compatible</span></div>
+      <div class="compat-item"><strong>TranslatePress</strong><span>Front-end translated strings render correctly</span><br><span class="compat-badge">Compatible</span></div>
     </div>
 
     <p class="compat-note">Found a conflict? <a href="https://github.com/matthummel-pa/tocflow/issues">Open a GitHub issue</a> — confirmed compatibility is added to this page.</p>

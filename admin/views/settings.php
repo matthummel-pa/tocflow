@@ -92,11 +92,11 @@ $tocflow_support_url = 'https://github.com/matthummel-pa/tocflow/issues';
 						</ul>
 					</div>
 					<div class="tocflow-compat-group">
-						<strong><?php esc_html_e( 'Multilingual &amp; builders', 'tocflow' ); ?></strong>
+						<strong><?php esc_html_e( 'Page builders', 'tocflow' ); ?></strong>
 						<ul>
-							<li><?php esc_html_e( 'WPML, Polylang, TranslatePress', 'tocflow' ); ?></li>
-							<li><?php esc_html_e( 'WooCommerce (product descriptions)', 'tocflow' ); ?></li>
-							<li><?php esc_html_e( 'Elementor / Beaver Builder (via shortcode)', 'tocflow' ); ?></li>
+							<li><?php esc_html_e( 'Elementor - heading JSON parsed automatically', 'tocflow' ); ?></li>
+							<li><?php esc_html_e( 'Bricks, Divi, Beaver, WPBakery, Oxygen', 'tocflow' ); ?></li>
+							<li><?php esc_html_e( 'Any builder - HTML scan fallback', 'tocflow' ); ?></li>
 						</ul>
 					</div>
 				</div>

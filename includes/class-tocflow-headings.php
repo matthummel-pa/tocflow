@@ -106,6 +106,11 @@ class TOCflow_Headings {
 	/**
 	 * Get the full, slug-stamped heading map for a post.
 	 *
+	 * Tries Gutenberg blocks first (canonical path).  When no headings are found
+	 * that way — e.g. on pages built with Elementor, Bricks, Divi, WPBakery,
+	 * Oxygen, or Beaver Builder — falls back to builder-specific parsers and
+	 * then to a generic HTML scan of the raw post content.
+	 *
 	 * @param int $post_id Post ID.
 	 * @return array
 	 */
@@ -122,11 +127,35 @@ class TOCflow_Headings {
 		$collected = array();
 
 		if ( $post ) {
+			// Primary: Gutenberg block parsing.
 			self::collect( parse_blocks( $post->post_content ), $used, $collected );
+
+			// Fallback for page-builder content (no core/heading blocks present).
+			if ( empty( $collected ) ) {
+
+				// 1. Elementor — parse widget JSON from post meta.
+				if ( 'builder' === get_post_meta( $post_id, '_elementor_edit_mode', true ) ) {
+					$collected = self::get_all_from_elementor( $post_id );
+				}
+
+				// 2. Bricks Builder — parse element JSON from post meta.
+				if ( empty( $collected ) && get_post_meta( $post_id, '_bricks_page_content_2', true ) ) {
+					$collected = self::get_all_from_bricks( $post_id );
+				}
+
+				// 3. Generic HTML scan of raw post_content.
+				// Works for Divi, WPBakery, Oxygen, and any builder that embeds
+				// <h*> tags directly in the stored content string.
+				// strip_shortcodes() is intentionally NOT called so that inline
+				// HTML headings inside shortcode blocks survive the scan.
+				if ( empty( $collected ) ) {
+					$collected = self::get_all_from_html( $post->post_content );
+				}
+			}
 		}
 
-		$cache[ $post_id ] = $collected;
-		return $collected;
+		$cache[ $post_id ] = apply_filters( 'tocflow_headings', $collected, $post_id );
+		return $cache[ $post_id ];
 	}
 
 	/**
@@ -842,6 +871,213 @@ class TOCflow_Headings {
 		return preg_replace( '/(<h[1-6])(\s|>)/i', '$1 id="' . esc_attr( $slug ) . '"$2', $block_content, 1 );
 	}
 
+	// -------------------------------------------------------------------------
+	// Page-builder compatibility
+	// -------------------------------------------------------------------------
+
+	/**
+	 * Extract headings from an arbitrary HTML string.
+	 *
+	 * Used as a fallback for page-builder content that does not store headings
+	 * as core/heading blocks.  Intentionally simple: does not execute shortcodes
+	 * so there is no risk of recursion.
+	 *
+	 * @param string $html Raw HTML or mixed HTML/text to scan.
+	 * @return array Heading entries identical in shape to collect() output.
+	 */
+	public static function get_all_from_html( $html ) {
+		$used      = array();
+		$collected = array();
+
+		preg_match_all(
+			'/<h([1-6])(\s[^>]*)?>(.+?)<\/h\1>/is',
+			$html,
+			$matches,
+			PREG_SET_ORDER
+		);
+
+		foreach ( $matches as $match ) {
+			$level   = (int) $match[1];
+			$attrs   = $match[2];
+			$content = $match[3];
+			$text    = trim( wp_strip_all_tags( $content ) );
+
+			if ( '' === $text ) {
+				continue;
+			}
+
+			// Honour skip classes.
+			if ( preg_match( '/class=["\'][^"\']*(?:no-toc|tocflow-skip)[^"\']*["\']/i', $attrs ) ) {
+				continue;
+			}
+
+			// Preserve any existing id.
+			$slug = '';
+			if ( preg_match( '/\bid=["\']([^"\']+)["\']/i', $attrs, $id_m ) ) {
+				$slug        = $id_m[1];
+				$used[$slug] = true;
+			} else {
+				$slug = self::make_slug( $text, $used );
+			}
+
+			$collected[] = array(
+				'level' => $level,
+				'text'  => $text,
+				'slug'  => $slug,
+			);
+		}
+
+		return $collected;
+	}
+
+	/**
+	 * Extract headings from Elementor JSON post meta.
+	 *
+	 * Recursively walks _elementor_data to find heading widgets and text widgets
+	 * that contain inline heading tags.  No shortcodes are executed.
+	 *
+	 * @param int $post_id Post ID.
+	 * @return array
+	 */
+	public static function get_all_from_elementor( $post_id ) {
+		$raw = get_post_meta( (int) $post_id, '_elementor_data', true );
+		if ( empty( $raw ) || ! is_string( $raw ) ) {
+			return array();
+		}
+
+		$elements = json_decode( $raw, true );
+		if ( ! is_array( $elements ) ) {
+			return array();
+		}
+
+		$html_fragments = array();
+		self::collect_elementor_headings( $elements, $html_fragments );
+
+		if ( empty( $html_fragments ) ) {
+			return array();
+		}
+
+		return self::get_all_from_html( implode( "\n", $html_fragments ) );
+	}
+
+	/**
+	 * Recursively collect heading HTML from Elementor element tree.
+	 *
+	 * @param array $elements Elementor element array.
+	 * @param array $parts    Accumulator (by reference).
+	 */
+	private static function collect_elementor_headings( $elements, &$parts ) {
+		foreach ( $elements as $el ) {
+			$el_type     = isset( $el['elType'] ) ? $el['elType'] : '';
+			$widget_type = isset( $el['widgetType'] ) ? $el['widgetType'] : '';
+			$settings    = isset( $el['settings'] ) && is_array( $el['settings'] ) ? $el['settings'] : array();
+
+			if ( 'widget' === $el_type ) {
+				if ( 'heading' === $widget_type ) {
+					// Standard Elementor Heading widget.
+					$tag  = ! empty( $settings['header_size'] ) ? sanitize_html_class( $settings['header_size'] ) : 'h2';
+					$text = ! empty( $settings['title'] ) ? wp_strip_all_tags( $settings['title'] ) : '';
+					if ( '' !== $text && preg_match( '/^h[1-6]$/i', $tag ) ) {
+						$parts[] = "<{$tag}>" . esc_html( $text ) . "</{$tag}>";
+					}
+				} elseif ( in_array( $widget_type, array( 'text-editor', 'theme-post-content' ), true ) ) {
+					// Text Editor widget — may contain inline <h*> tags.
+					if ( ! empty( $settings['editor'] ) ) {
+						$parts[] = wp_kses_post( $settings['editor'] );
+					}
+				}
+			}
+
+			if ( ! empty( $el['elements'] ) && is_array( $el['elements'] ) ) {
+				self::collect_elementor_headings( $el['elements'], $parts );
+			}
+		}
+	}
+
+	/**
+	 * Extract headings from Bricks Builder post meta.
+	 *
+	 * @param int $post_id Post ID.
+	 * @return array
+	 */
+	public static function get_all_from_bricks( $post_id ) {
+		$data = get_post_meta( (int) $post_id, '_bricks_page_content_2', true );
+		if ( empty( $data ) ) {
+			return array();
+		}
+
+		$elements = is_string( $data ) ? maybe_unserialize( $data ) : $data;
+		if ( ! is_array( $elements ) ) {
+			return array();
+		}
+
+		$parts = array();
+		foreach ( $elements as $el ) {
+			$name     = isset( $el['name'] ) ? $el['name'] : '';
+			$settings = isset( $el['settings'] ) && is_array( $el['settings'] ) ? $el['settings'] : array();
+
+			if ( 'heading' === $name && ! empty( $settings['text'] ) ) {
+				$tag = ! empty( $settings['tag'] ) ? sanitize_html_class( $settings['tag'] ) : 'h2';
+				if ( ! preg_match( '/^h[1-6]$/i', $tag ) ) {
+					$tag = 'h2';
+				}
+				$parts[] = "<{$tag}>" . wp_strip_all_tags( $settings['text'] ) . "</{$tag}>";
+			} elseif ( 'rich-text' === $name && ! empty( $settings['content'] ) ) {
+				// Bricks rich text may contain <h*> tags.
+				$parts[] = wp_kses_post( $settings['content'] );
+			}
+		}
+
+		return self::get_all_from_html( implode( "\n", $parts ) );
+	}
+
+	/**
+	 * Inject IDs into heading tags in an HTML string.
+	 *
+	 * Used for page-builder content where render_block is not fired.
+	 * Skips headings that already have an id attribute or carry a skip class.
+	 *
+	 * @param string $html     Rendered HTML content.
+	 * @param array  $headings Slug-stamped heading map from get_all().
+	 * @return string Modified HTML.
+	 */
+	public static function inject_ids_in_html( $html, $headings ) {
+		if ( empty( $headings ) || '' === $html ) {
+			return $html;
+		}
+
+		$index = 0;
+		$total = count( $headings );
+
+		return preg_replace_callback(
+			'/<h([1-6])(\s[^>]*)?>/',
+			function ( $match ) use ( $headings, &$index, $total ) {
+				$attrs = isset( $match[2] ) ? $match[2] : '';
+
+				// Skip headings excluded from the TOC.
+				if ( preg_match( '/class=["\'][^"\']*(?:no-toc|tocflow-skip)[^"\']*["\']/i', $attrs ) ) {
+					return $match[0];
+				}
+
+				if ( $index >= $total ) {
+					return $match[0];
+				}
+
+				// Already has an id — advance the pointer without changing markup.
+				if ( preg_match( '/\bid=["\']/i', $attrs ) ) {
+					$index++;
+					return $match[0];
+				}
+
+				$slug  = $headings[ $index ]['slug'];
+				$index++;
+
+				return '<h' . $match[1] . ' id="' . esc_attr( $slug ) . '"' . $attrs . '>';
+			},
+			$html
+		);
+	}
+
 	/**
 	 * Inject IDs only when a TOC will actually be shown.
 	 *
@@ -853,12 +1089,73 @@ class TOCflow_Headings {
 			return true;
 		}
 		$post = get_post();
-		if ( $post && has_block( 'tocflow/table-of-contents', $post ) ) {
+		if ( ! $post ) {
+			return false;
+		}
+		if ( has_block( 'tocflow/table-of-contents', $post ) ) {
 			return true;
 		}
-		if ( $post && has_shortcode( $post->post_content, 'tocflow' ) ) {
+		if ( has_shortcode( $post->post_content, 'tocflow' ) ) {
 			return true;
 		}
+
+		// Page-builder shortcode: the [tocflow] shortcode may live inside a builder
+		// widget rather than in post_content directly.  Scan builder meta for it.
+		if ( self::builder_has_tocflow( $post->ID ) ) {
+			return true;
+		}
+
+		return false;
+	}
+
+	/**
+	 * Check whether any supported page builder stores a [tocflow] shortcode
+	 * reference for this post (without executing any code).
+	 *
+	 * @param int $post_id Post ID.
+	 * @return bool
+	 */
+	private static function builder_has_tocflow( $post_id ) {
+		// Elementor.
+		if ( 'builder' === get_post_meta( $post_id, '_elementor_edit_mode', true ) ) {
+			$data = get_post_meta( $post_id, '_elementor_data', true );
+			if ( is_string( $data ) && false !== strpos( $data, 'tocflow' ) ) {
+				return true;
+			}
+		}
+
+		// Beaver Builder.
+		if ( get_post_meta( $post_id, '_fl_builder_enabled', true ) ) {
+			$data = get_post_meta( $post_id, '_fl_builder_data', true );
+			if ( is_string( $data ) && false !== strpos( $data, 'tocflow' ) ) {
+				return true;
+			}
+			if ( is_array( $data ) ) {
+				// Beaver Builder stores modules as objects; json-encode and search.
+				$json = wp_json_encode( $data );
+				if ( is_string( $json ) && false !== strpos( $json, 'tocflow' ) ) {
+					return true;
+				}
+			}
+		}
+
+		// Bricks.
+		$bricks = get_post_meta( $post_id, '_bricks_page_content_2', true );
+		if ( ! empty( $bricks ) ) {
+			$json = is_string( $bricks ) ? $bricks : wp_json_encode( $bricks );
+			if ( is_string( $json ) && false !== strpos( $json, 'tocflow' ) ) {
+				return true;
+			}
+		}
+
+		// Oxygen / Breakdance (raw shortcode content stored in meta).
+		foreach ( array( 'ct_builder_shortcodes', 'breakdance_data' ) as $meta_key ) {
+			$val = get_post_meta( $post_id, $meta_key, true );
+			if ( $val && false !== strpos( (string) $val, 'tocflow' ) ) {
+				return true;
+			}
+		}
+
 		return false;
 	}
 

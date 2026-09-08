@@ -120,7 +120,8 @@
     <a href="#compatibility">Overview</a>
     <a href="#seo-plugins">SEO plugins</a>
     <a href="#themes">Themes</a>
-    <a href="#multilingual">Multilingual</a>
+    <a href="#page-builders">Page builders</a>
+    <a href="#multilingual">Multilingual &amp; more</a>
 
     <div class="section-label">Developers</div>
     <a href="#dev-build">Build</a>
@@ -344,15 +345,30 @@ npm run build</code></pre>
     <span class="compat-pill">Any block theme</span>
   </div>
 
-  <h3 id="multilingual">Multilingual &amp; page builders</h3>
+  <h3 id="page-builders">Page builders</h3>
+  <p>Place <code>[tocflow]</code> in any Shortcode, HTML, or Code element in your page builder. TOCflow automatically reads heading data from each builder's stored meta and injects matching anchor IDs into the rendered page via a late <code>the_content</code> filter (priority 999, runs after all builder output).</p>
+  <table>
+    <thead><tr><th>Builder</th><th>Heading detection</th><th>Notes</th></tr></thead>
+    <tbody>
+      <tr><td><strong>Elementor</strong></td><td>Heading widget JSON parsed from <code>_elementor_data</code> meta</td><td>Add a Shortcode widget with <code>[tocflow]</code>. Heading and Text Editor widgets are both supported. Works with Elementor Pro.</td></tr>
+      <tr><td><strong>Bricks Builder</strong></td><td>Heading and rich-text elements parsed from <code>_bricks_page_content_2</code> meta</td><td>Use a Code or Shortcode element. Bricks heading and rich-text elements both detected.</td></tr>
+      <tr><td><strong>Divi</strong></td><td>HTML scan of rendered output</td><td>Use a Code module or Shortcode module for <code>[tocflow]</code>. Heading tags inside Divi text/heading modules are captured in the rendered HTML.</td></tr>
+      <tr><td><strong>Beaver Builder</strong></td><td>HTML scan; shortcode detection in builder meta</td><td>Use an HTML module or Shortcode module. Beaver Builder module data is scanned for <code>tocflow</code> references to trigger ID injection.</td></tr>
+      <tr><td><strong>WPBakery / Visual Composer</strong></td><td>HTML scan of rendered output</td><td>Use a Raw HTML element or the Shortcode element. Works with both the Classic and block-based WPBakery.</td></tr>
+      <tr><td><strong>Oxygen Builder</strong></td><td>HTML scan; <code>ct_builder_shortcodes</code> meta detected</td><td>Use a Shortcode element or Code Block with <code>[tocflow]</code>.</td></tr>
+      <tr><td><strong>Breakdance</strong></td><td>HTML scan; <code>breakdance_data</code> meta detected</td><td>Use a Shortcode element. Compatible with Breakdance's heading components.</td></tr>
+      <tr><td><strong>Gutenberg (native)</strong></td><td>Block parse via <code>parse_blocks()</code></td><td>The canonical integration path. Heading IDs are injected via the <code>render_block</code> filter — no <code>the_content</code> overhead on block sites.</td></tr>
+    </tbody>
+  </table>
+  <div class="callout"><p><strong>How builder ID injection works:</strong> A <code>the_content</code> filter at priority 999 runs after every page builder has finished generating its HTML. TOCflow uses <code>WP_HTML_Tag_Processor</code> (or a regex fallback for older WordPress) to find heading tags without an <code>id</code> attribute and stamps each one with the same slug used in the TOC link. Headings with existing IDs are left untouched.</p></div>
+
+  <h3 id="multilingual">Multilingual</h3>
   <table>
     <thead><tr><th>Plugin / tool</th><th>Status</th><th>Notes</th></tr></thead>
     <tbody>
-      <tr><td>WPML</td><td>✓ Compatible</td><td>All user-facing strings use the <code>tocflow</code> text domain and are translateable via WPML's string translation module.</td></tr>
+      <tr><td>WPML</td><td>✓ Compatible</td><td>All user-facing strings use the <code>tocflow</code> text domain and are translatable via WPML's string translation module.</td></tr>
       <tr><td>Polylang</td><td>✓ Compatible</td><td>No locale-specific slug or permalink issues.</td></tr>
       <tr><td>TranslatePress</td><td>✓ Compatible</td><td>Front-end translated strings render correctly in the TOC.</td></tr>
-      <tr><td>Elementor</td><td>✓ Via shortcode</td><td>Use the Shortcode widget with <code>[tocflow]</code> inside Elementor sections. The native block is not available inside Elementor's editor canvas.</td></tr>
-      <tr><td>Beaver Builder</td><td>✓ Via shortcode</td><td>Same as Elementor — use the shortcode module.</td></tr>
       <tr><td>WooCommerce</td><td>✓ Compatible</td><td>Works in product descriptions that use Heading blocks (requires WooCommerce block editor for products).</td></tr>
       <tr><td>BuddyPress / BuddyBoss</td><td>✓ Compatible</td><td>Works in any post type registered as public.</td></tr>
     </tbody>

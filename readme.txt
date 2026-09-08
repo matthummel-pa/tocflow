@@ -1,7 +1,7 @@
 === TOCflow ===
 Contributors: matthummel
 Donate link: https://matthummel.com
-Tags: table of contents, toc, reading guide, citations, block
+Tags: table of contents, toc, reading guide, block, elementor
 Requires at least: 6.4
 Tested up to: 6.7
 Requires PHP: 7.4
@@ -51,6 +51,17 @@ Enable **Reading Guide** in the block sidebar to transform the TOC into a live r
 
 **Per-section academic citations** — A § button on each TOC item copies a fully formatted academic citation for that specific section. Five formats supported: APA, MLA, Chicago, Harvard, and plain link. Citation data comes entirely from WordPress post meta (author, title, site name, published date, permalink). Ideal for research blogs, documentation sites, and long-form journalism.
 
+= Compatibility =
+
+TOCflow is designed to work with every major WordPress stack:
+
+* **Theme builders:** Gutenberg (native block), Elementor, Divi, Beaver Builder, Bricks Builder, WPBakery, Oxygen, Breakdance — use `[tocflow]` in any shortcode/HTML element.
+* **SEO plugins:** Yoast SEO, Rank Math, All in One SEO, SEOPress — schema markup is opt-in and off by default; no conflicts with any SEO plugin's TOC schema output.
+* **Themes:** Works with any theme — inherits theme fonts and colors; no injected brand styles; tested on Twenty Twenty-Four, Twenty Twenty-Five, Astra, Kadence, GeneratePress, Blocksy.
+* **Multilingual:** WPML, Polylang, TranslatePress — fully translation-ready with the standard `tocflow` text domain.
+* **PHP:** 7.4, 8.0, 8.1, 8.2, 8.3.
+* **WordPress:** 6.4 through 7.1.
+
 = Source =
 
 Unminified JavaScript and SCSS ship in `src/`. Compiled assets are in `build/`. Development: https://github.com/matthummel-pa/tocflow (`npm run build`).
@@ -92,6 +103,34 @@ Issues: https://github.com/matthummel-pa/tocflow/issues
 = Does it work with the classic editor? =
 
 The block is for the block editor. For classic content or a theme template, use the `[tocflow]` shortcode.
+
+= Does it work with Elementor? =
+
+Yes. Add a Shortcode widget to your Elementor layout and enter `[tocflow]`. TOCflow automatically reads headings from your Elementor Heading widgets (via the stored widget JSON) and injects matching ID anchors into the rendered page so all TOC links scroll correctly. No extra plugin or configuration needed.
+
+= Does it work with Divi? =
+
+Yes. Add a Code module or Shortcode module to your Divi section and enter `[tocflow]`. TOCflow scans the rendered page HTML for headings and injects the correct anchor IDs.
+
+= Does it work with Bricks Builder? =
+
+Yes. Paste `[tocflow]` into a Bricks Code element or Shortcode element. TOCflow reads headings directly from Bricks' element meta (heading and rich-text elements) and injects the correct IDs.
+
+= Does it work with Beaver Builder? =
+
+Yes. Add an HTML module or Shortcode module containing `[tocflow]`. TOCflow uses `[tocflow]` detected in Beaver Builder data to ensure headings receive the correct anchor IDs.
+
+= Does it work with WPBakery / Visual Composer? =
+
+Yes. Add a Raw HTML element or Shortcode element with `[tocflow]`. TOCflow scans the rendered HTML for headings and injects IDs automatically.
+
+= Does it work with Oxygen Builder or Breakdance? =
+
+Yes. Insert `[tocflow]` via a Shortcode element or Code Block. TOCflow detects the shortcode in Oxygen/Breakdance meta and handles heading ID injection through the rendered HTML.
+
+= Can it co-exist with my SEO plugin (Yoast, Rank Math)? =
+
+Yes. The optional JSON-LD schema is off by default. If you enable it, turn off TOC schema in your SEO plugin (or vice versa) to avoid duplicate structured data. The `<nav>` landmark itself does not conflict with any SEO plugin.
 
 = Will the links scroll to my headings? =
 
@@ -144,8 +183,12 @@ GNU GPLv2 or later, covering the whole plugin (PHP, JavaScript, CSS, and images)
 * New: **Author section notes** — type a teaser or hook per heading in the block sidebar (Section Notes panel); readers reveal it with a ✍ button.
 * New: **Emoji reactions** — readers react per section (💡 ⭐ 🤔 ✅) with state stored in localStorage; no accounts, no server calls.
 * New: **Per-section academic citations** — § button copies APA, MLA, Chicago, Harvard, or plain-link citation built from WordPress post meta; no external API.
-* New block attributes: `guideMode`, `showPreviews`, `showDensity`, `showReadTime`, `trackProgress`, `showReactions`, `showCitations`, `citationStyle`, `sectionNotes`.
-* Block internals: `TOCflow_Headings::get_sections()` (word count + preview extraction), `citation_meta()`, updated `render_list()` and `render_nav()`.
+* New: **Hover section preview** — floating tooltip on TOC link hover/focus; viewport-aware positioning; `aria-describedby` for screen readers.
+* Compatibility: **Elementor** — heading data extracted from `_elementor_data` widget JSON; IDs injected into rendered output via `the_content` at priority 999.
+* Compatibility: **Bricks Builder** — heading and rich-text elements parsed from `_bricks_page_content_2` meta.
+* Compatibility: **Divi, WPBakery, Oxygen, Beaver Builder, Breakdance** — HTML-based heading scan as a generic fallback; IDs injected into rendered HTML so all builder-generated headings are reachable from TOC links.
+* New block attributes: `guideMode`, `showPreviews`, `showDensity`, `showReadTime`, `trackProgress`, `showReactions`, `showCitations`, `citationStyle`, `sectionNotes`, `previewOnHover`.
+* Block internals: `TOCflow_Headings::get_sections()` (word count + preview extraction), `citation_meta()`, `get_all_from_html()`, `get_all_from_elementor()`, `get_all_from_bricks()`, `inject_ids_in_html()`; updated `render_list()` and `render_nav()`.
 
 = 1.0.2 =
 * Removed `load_plugin_textdomain()` — WordPress.org directory auto-loads the `tocflow` text domain since WP 4.6.
