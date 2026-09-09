@@ -875,14 +875,14 @@ class TOCflow_Headings {
 
 		$style_attr = implode( ';', $style_parts );
 
-		// Focus ring style attribute (accessibility setting).
+		// Build extra data attributes for guide mode, study tools, and accessibility.
+		$guide_attrs = array();
+
+		// Focus ring style (accessibility setting).
 		$focus_style = isset( $settings['focus_style'] ) ? sanitize_key( $settings['focus_style'] ) : 'default';
 		if ( 'default' !== $focus_style ) {
 			$guide_attrs['data-tocflow-focus'] = $focus_style;
 		}
-
-		// Build extra data attributes for guide mode and study tools.
-		$guide_attrs = array();
 
 		// data-tocflow-post is needed by any feature that uses localStorage.
 		$needs_post_id = ! empty( $attributes['guideMode'] )

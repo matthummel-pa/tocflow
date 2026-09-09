@@ -28,9 +28,16 @@
 
 ---
 
-## What's new — v1.3.1 (Sep 2026)
+## What's new — v1.3.3 (Sep 2026)
 
 > For WordPress.org reviewers: the sections below describe every change since v1.0.2.
+
+### v1.3.3 — Custom colour & font display fix
+
+| Fix | Detail |
+|---|---|
+| **`$guide_attrs` ordering bug** | Array was reset to empty _after_ `data-tocflow-focus` was written into it — accessibility focus-ring attr was always discarded |
+| **Global design colours / fonts** | `--tocflow-bg`, `--tocflow-color`, `--tocflow-link-color`, `--tocflow-font-*`, `--tocflow-border-*` etc. now correctly reach the rendered `<nav>` and are picked up by `var()` in the stylesheet |
 
 ### v1.3.1 — Security & code-quality fix
 

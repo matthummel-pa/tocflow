@@ -5,7 +5,7 @@ Tags: table of contents, toc, reading guide, block, study tools
 Requires at least: 6.4
 Tested up to: 7.1
 Requires PHP: 7.4
-Stable tag: 1.3.2
+Stable tag: 1.3.3
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -180,6 +180,10 @@ GNU GPLv2 or later, covering the whole plugin (PHP, JavaScript, CSS, and images)
 
 == Changelog ==
 
+= 1.3.3 =
+* Fix: `$guide_attrs` array was re-initialized to empty on the line after `data-tocflow-focus` was written to it — the accessibility focus-ring attribute was always discarded. Moved array init before the focus-style assignment.
+* Fix: global background and font custom properties (`--tocflow-bg`, `--tocflow-color`, `--tocflow-link-color`, etc.) now correctly propagate to the `<nav>` style attribute for both the block and shortcode/auto-insert rendering paths.
+
 = 1.3.2 =
 * Fix: short description in `readme.txt` trimmed from 175 to 145 characters — WordPress.org parser silently truncates anything over 150 characters.
 
@@ -246,6 +250,9 @@ GNU GPLv2 or later, covering the whole plugin (PHP, JavaScript, CSS, and images)
 * Heading IDs via WP_HTML_Tag_Processor; custom anchors respected.
 
 == Upgrade Notice ==
+
+= 1.3.3 =
+Bug fix: custom background and font colours set in Settings → TOCflow now display correctly. The accessibility focus-ring setting also now applies as intended.
 
 = 1.3.2 =
 Readme-only fix: short description trimmed to satisfy the WordPress.org 150-character parser limit.

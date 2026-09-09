@@ -3,6 +3,12 @@
 All notable changes to TOCflow are documented here.
 This project adheres to [Semantic Versioning](https://semver.org/).
 
+## [1.3.3] - 2026-09-09
+
+### Fixed
+- `$guide_attrs` was reset to `array()` immediately after `data-tocflow-focus` was written into it — the accessibility focus-ring `data-` attribute was always discarded. Moved the array initialisation to _before_ the focus-style assignment so the attribute is correctly merged into the `<nav>` wrapper for both the block and shortcode/auto-insert paths.
+- As a consequence, the global design CSS custom properties (`--tocflow-bg`, `--tocflow-color`, `--tocflow-link-color`, `--tocflow-font-size`, `--tocflow-font-weight`, `--tocflow-line-height`, `--tocflow-border-*`, `--tocflow-radius`, `--tocflow-padding`) set in Settings → Design & Appearance now reliably propagate through `$style_attr` to the rendered `<nav>` element and are picked up by `var()` references in `style.scss`.
+
 ## [1.3.1] - 2026-09-09
 
 ### Fixed
