@@ -5,7 +5,7 @@ Tags: table of contents, toc, reading guide, block, study tools
 Requires at least: 6.4
 Tested up to: 7.1
 Requires PHP: 7.4
-Stable tag: 1.3.1
+Stable tag: 1.3.2
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -188,6 +188,9 @@ GNU GPLv2 or later, covering the whole plugin (PHP, JavaScript, CSS, and images)
 
 == Changelog ==
 
+= 1.3.2 =
+* Fix: short description in `readme.txt` trimmed from 175 to 145 characters — WordPress.org parser silently truncates anything over 150 characters.
+
 = 1.3.1 =
 * Fix: escape `$swatch_val` at the point of `printf()` output in the admin colour-picker widget — resolves `WordPress.Security.EscapeOutput` PHPCS error flagged by WordPress.org reviewers.
 * Fix: added missing PHPDoc block for `TOCflow_Settings::sanitize()`.
@@ -251,6 +254,9 @@ GNU GPLv2 or later, covering the whole plugin (PHP, JavaScript, CSS, and images)
 * Heading IDs via WP_HTML_Tag_Processor; custom anchors respected.
 
 == Upgrade Notice ==
+
+= 1.3.2 =
+Readme-only fix: short description trimmed to satisfy the WordPress.org 150-character parser limit.
 
 = 1.3.1 =
 Security/code-quality fix: escaping error in the settings colour-picker widget resolved. No functional changes.
