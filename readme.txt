@@ -9,7 +9,7 @@ Stable tag: 1.3.1
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
-The first Table of Contents block with a built-in Reading Guide: section previews, read-time estimates, emoji reactions, and one-click academic citations — all server-rendered, no external APIs.
+Table of Contents block with a built-in Reading Guide — section previews, read time, reactions, and citations. Server-rendered, no external APIs.
 
 == Description ==
 
