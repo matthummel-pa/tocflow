@@ -138,7 +138,7 @@ $tocflow_support_url = 'https://github.com/matthummel-pa/tocflow/issues';
 		 * @param string $label   Accessible label for the text input.
 		 */
 		$tocflow_color_field = function ( $name, $value, $label ) use ( $tocflow_opt ) {
-			$swatch_val = '' !== $value ? esc_attr( $value ) : '#ffffff';
+			$swatch_val = '' !== $value ? $value : '#ffffff';
 			printf(
 				'<span class="tocflow-color-field">'
 				. '<input type="text" name="%1$s[%2$s]" value="%3$s" placeholder="#rrggbb" maxlength="7" aria-label="%4$s">'
@@ -149,12 +149,12 @@ $tocflow_support_url = 'https://github.com/matthummel-pa/tocflow/issues';
 				esc_attr( $name ),
 				esc_attr( $value ),
 				esc_attr( $label ),
-				$swatch_val,
+				esc_attr( $swatch_val ),
 				esc_attr__( 'Clear colour', 'tocflow' ),
 				esc_html__( 'Clear', 'tocflow' )
 			);
 		};
-		?>
+	?>
 		<form action="options.php" method="post" class="tocflow-admin__form">
 			<?php settings_fields( 'tocflow_settings_group' ); ?>
 

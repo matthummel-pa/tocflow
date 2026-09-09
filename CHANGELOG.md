@@ -3,6 +3,14 @@
 All notable changes to TOCflow are documented here.
 This project adheres to [Semantic Versioning](https://semver.org/).
 
+## [1.3.1] - 2026-09-09
+
+### Fixed
+- **`WordPress.Security.EscapeOutput`**: `$swatch_val` in the admin colour-picker `printf()` was pre-escaped at construction time but not at the call site — PHPCS (and WordPress.org reviewers) require escaping _at the point of output_. Moved `esc_attr()` to the `printf` argument and removed the premature escape.
+- Added missing PHPDoc block for `TOCflow_Settings::sanitize()`.
+- Inline comment in `class-tocflow-plugin.php` now ends with a full stop (WPCS `Squiz.Commenting.InlineComment`).
+- PHPCBF auto-corrected 181 array-alignment and indentation warnings across three PHP files.
+
 ## [1.3.0] - 2026-09-08
 
 ### Added
