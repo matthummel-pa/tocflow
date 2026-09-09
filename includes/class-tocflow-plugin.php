@@ -150,12 +150,12 @@ class TOCflow_Plugin {
 				'reactions'   => '0',   // emoji reactions per section.
 				'citations'   => '0',   // one-click academic citations.
 				'citation'    => 'apa', // citation format (apa|mla|chicago|harvard|plain).
-			'export'      => '0',   // show copy/download/print toolbar.
+				'export'      => '0',   // show copy/download/print toolbar.
 			// Study tool shortcode attributes.
-			'rprogress'   => '0',   // reading progress bar.
-			'bookmark'    => '0',   // resume reading bookmark.
-			'rnotes'      => '0',   // reader note pads per section.
-		),
+				'rprogress'   => '0',   // reading progress bar.
+				'bookmark'    => '0',   // resume reading bookmark.
+				'rnotes'      => '0',   // reader note pads per section.
+			),
 			$atts,
 			'tocflow'
 		);
@@ -189,7 +189,7 @@ class TOCflow_Plugin {
 			? (bool) TOCflow_Settings::get_value( 'highlight_active' )
 			: $this->is_truthy( $atts['highlight'] );
 
-		$guide_mode   = $this->is_truthy( $atts['guide'] );
+		$guide_mode    = $this->is_truthy( $atts['guide'] );
 		$preview_hover = $this->is_truthy( $atts['preview'] );
 
 		$allowed_citation = array( 'apa', 'mla', 'chicago', 'harvard', 'plain' );
@@ -199,41 +199,41 @@ class TOCflow_Plugin {
 		}
 
 		$attributes = array(
-			'title'            => sanitize_text_field( $atts['title'] ),
-			'showTitle'        => $this->is_truthy( $atts['showtitle'] ),
-			'titleTag'         => $title_tag,
-			'showH1'           => $this->is_truthy( $atts['h1'] ),
-			'showH2'           => $this->is_truthy( $atts['h2'] ),
-			'showH3'           => $this->is_truthy( $atts['h3'] ),
-			'showH4'           => $this->is_truthy( $atts['h4'] ),
-			'showH5'           => $this->is_truthy( $atts['h5'] ),
-			'showH6'           => $this->is_truthy( $atts['h6'] ),
-			'ordered'          => $this->is_truthy( $atts['ordered'] ) || 'nested' === $numbering,
-			'numbering'        => $numbering,
-			'hideMarkers'      => ! $this->is_truthy( $atts['markers'] ),
-			'collapsible'      => $this->is_truthy( $atts['collapsible'] ),
-			'collapsedDefault' => $this->is_truthy( $atts['collapsed'] ),
-			'sticky'           => $this->is_truthy( $atts['sticky'] ),
-			'compact'          => $this->is_truthy( $atts['compact'] ),
-			'twoColumns'       => (int) $atts['columns'] >= 2,
-			'underlineLinks'   => $this->is_truthy( $atts['underline'] ),
-			'stylePreset'      => $style,
-			'className'        => 'is-style-' . $style,
-			'highlightActive'  => $highlight,
-			'scrollOffset'     => -1,
-			'maxHeight'        => max( 0, (int) $atts['maxheight'] ),
-			'minHeadings'      => (int) $atts['min'],
-			'smoothScroll'     => $smooth,
+			'title'               => sanitize_text_field( $atts['title'] ),
+			'showTitle'           => $this->is_truthy( $atts['showtitle'] ),
+			'titleTag'            => $title_tag,
+			'showH1'              => $this->is_truthy( $atts['h1'] ),
+			'showH2'              => $this->is_truthy( $atts['h2'] ),
+			'showH3'              => $this->is_truthy( $atts['h3'] ),
+			'showH4'              => $this->is_truthy( $atts['h4'] ),
+			'showH5'              => $this->is_truthy( $atts['h5'] ),
+			'showH6'              => $this->is_truthy( $atts['h6'] ),
+			'ordered'             => $this->is_truthy( $atts['ordered'] ) || 'nested' === $numbering,
+			'numbering'           => $numbering,
+			'hideMarkers'         => ! $this->is_truthy( $atts['markers'] ),
+			'collapsible'         => $this->is_truthy( $atts['collapsible'] ),
+			'collapsedDefault'    => $this->is_truthy( $atts['collapsed'] ),
+			'sticky'              => $this->is_truthy( $atts['sticky'] ),
+			'compact'             => $this->is_truthy( $atts['compact'] ),
+			'twoColumns'          => (int) $atts['columns'] >= 2,
+			'underlineLinks'      => $this->is_truthy( $atts['underline'] ),
+			'stylePreset'         => $style,
+			'className'           => 'is-style-' . $style,
+			'highlightActive'     => $highlight,
+			'scrollOffset'        => -1,
+			'maxHeight'           => max( 0, (int) $atts['maxheight'] ),
+			'minHeadings'         => (int) $atts['min'],
+			'smoothScroll'        => $smooth,
 			// Reading Guide attributes.
-			'previewOnHover'   => $preview_hover,
-			'guideMode'        => $guide_mode,
-			'showPreviews'     => $guide_mode && $this->is_truthy( $atts['previews'] ),
-			'showDensity'      => $guide_mode && $this->is_truthy( $atts['density'] ),
-			'showReadTime'     => $guide_mode && $this->is_truthy( $atts['readtime'] ),
-			'trackProgress'    => $guide_mode && $this->is_truthy( $atts['progress'] ),
-			'showReactions'    => $guide_mode && $this->is_truthy( $atts['reactions'] ),
-			'showCitations'    => $guide_mode && $this->is_truthy( $atts['citations'] ),
-			'citationStyle'    => $citation_style,
+			'previewOnHover'      => $preview_hover,
+			'guideMode'           => $guide_mode,
+			'showPreviews'        => $guide_mode && $this->is_truthy( $atts['previews'] ),
+			'showDensity'         => $guide_mode && $this->is_truthy( $atts['density'] ),
+			'showReadTime'        => $guide_mode && $this->is_truthy( $atts['readtime'] ),
+			'trackProgress'       => $guide_mode && $this->is_truthy( $atts['progress'] ),
+			'showReactions'       => $guide_mode && $this->is_truthy( $atts['reactions'] ),
+			'showCitations'       => $guide_mode && $this->is_truthy( $atts['citations'] ),
+			'citationStyle'       => $citation_style,
 			'sectionNotes'        => array(),
 			'sectionStatus'       => array(),
 			'showExport'          => $this->is_truthy( $atts['export'] ),
@@ -268,7 +268,7 @@ class TOCflow_Plugin {
 		$needed   = has_block( 'tocflow/table-of-contents', $post )
 			|| has_shortcode( $post->post_content, 'tocflow' )
 			|| ( 'none' !== $settings['auto_insert'] && in_array( $post->post_type, $settings['auto_insert_types'], true ) )
-			|| TOCflow_Headings::should_inject_ids(); // covers page-builder shortcode placements
+			|| TOCflow_Headings::should_inject_ids(); // Covers page-builder shortcode placements.
 		if ( ! $needed ) {
 			return;
 		}
@@ -353,7 +353,7 @@ class TOCflow_Plugin {
 					'postType' => get_post_type( $post_id ),
 				)
 			);
-			$html = $block->render( array( 'dynamic' => true ) );
+			$html  = $block->render( array( 'dynamic' => true ) );
 			if ( is_string( $html ) && '' !== $html ) {
 				return $html;
 			}

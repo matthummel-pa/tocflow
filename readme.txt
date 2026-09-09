@@ -5,7 +5,7 @@ Tags: table of contents, toc, reading guide, block, study tools
 Requires at least: 6.4
 Tested up to: 7.1
 Requires PHP: 7.4
-Stable tag: 1.3.0
+Stable tag: 1.3.1
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -188,6 +188,12 @@ GNU GPLv2 or later, covering the whole plugin (PHP, JavaScript, CSS, and images)
 
 == Changelog ==
 
+= 1.3.1 =
+* Fix: escape `$swatch_val` at the point of `printf()` output in the admin colour-picker widget — resolves `WordPress.Security.EscapeOutput` PHPCS error flagged by WordPress.org reviewers.
+* Fix: added missing PHPDoc block for `TOCflow_Settings::sanitize()`.
+* Fix: inline comment casing and full-stop in `class-tocflow-plugin.php` to satisfy PHPCS `Squiz.Commenting.InlineComment`.
+* Chore: PHPCBF auto-fixed 181 array-alignment warnings across `class-tocflow-settings.php`, `class-tocflow-plugin.php`, and `class-tocflow-headings.php`.
+
 = 1.3.0 =
 * New: **Design & Appearance** section in Settings → TOCflow — set global background, text, link, and border colours; font size, weight, and line height; border width / style / radius; and padding. All values are applied as CSS custom properties so block-editor per-instance overrides still win.
 * New: **Reading Guide & Study Tools** section in settings — configure global defaults for hover section preview, guide mode, density bars, read time, progress fade, emoji reactions, and academic citations.
@@ -245,6 +251,9 @@ GNU GPLv2 or later, covering the whole plugin (PHP, JavaScript, CSS, and images)
 * Heading IDs via WP_HTML_Tag_Processor; custom anchors respected.
 
 == Upgrade Notice ==
+
+= 1.3.1 =
+Security/code-quality fix: escaping error in the settings colour-picker widget resolved. No functional changes.
 
 = 1.3.0 =
 Major settings expansion: global design customization (colours, typography, borders), Reading Guide & Study Tools defaults, and a new Accessibility section for focus ring styles. No changes to existing block output.

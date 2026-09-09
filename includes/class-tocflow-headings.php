@@ -30,7 +30,7 @@ class TOCflow_Headings {
 		$index = 2;
 		while ( isset( $used[ $slug ] ) ) {
 			$slug = $base . '-' . $index;
-			$index++;
+			++$index;
 		}
 		$used[ $slug ] = true;
 		return $slug;
@@ -241,7 +241,10 @@ class TOCflow_Headings {
 				 */
 				$text = trim( wp_strip_all_tags( $html ) );
 				if ( '' !== $text && ! self::should_skip( $block, $html ) ) {
-					$flat[] = array( 'type' => 'heading', 'text' => $text );
+					$flat[] = array(
+						'type' => 'heading',
+						'text' => $text,
+					);
 				}
 			} elseif ( ! $has_inner ) {
 				/*
@@ -252,7 +255,10 @@ class TOCflow_Headings {
 				 */
 				$text = trim( wp_strip_all_tags( $html ) );
 				if ( '' !== $text ) {
-					$flat[] = array( 'type' => 'content', 'text' => $text );
+					$flat[] = array(
+						'type' => 'content',
+						'text' => $text,
+					);
 				}
 			}
 
@@ -400,7 +406,7 @@ class TOCflow_Headings {
 		$heading_idx   = -1;
 		foreach ( $flat as $item ) {
 			if ( 'heading' === $item['type'] ) {
-				$heading_idx++;
+				++$heading_idx;
 				$section_texts[ $heading_idx ] = '';
 			} elseif ( $heading_idx >= 0 ) {
 				$section_texts[ $heading_idx ] .= ' ' . $item['text'];
@@ -410,8 +416,8 @@ class TOCflow_Headings {
 		// Merge section data into the base headings list.
 		$headings = self::get_all( $post_id );
 		foreach ( $headings as $i => &$heading ) {
-			$text                   = isset( $section_texts[ $i ] ) ? trim( $section_texts[ $i ] ) : '';
-			$words                  = '' !== $text ? str_word_count( $text ) : 0;
+			$text                    = isset( $section_texts[ $i ] ) ? trim( $section_texts[ $i ] ) : '';
+			$words                   = '' !== $text ? str_word_count( $text ) : 0;
 			$heading['word_count']   = $words;
 			$heading['read_minutes'] = max( 1, (int) ceil( max( 1, $words ) / 200 ) );
 			$heading['preview']      = '' !== $text ? wp_trim_words( $text, 20, '' ) : '';
@@ -465,15 +471,15 @@ class TOCflow_Headings {
 
 		$list_tag = ( 'ol' === $list_tag ) ? 'ol' : 'ul';
 
-		$show_time        = ! empty( $guide['show_read_time'] );
-		$show_density     = ! empty( $guide['show_density'] );
-		$show_preview     = ! empty( $guide['show_previews'] );
-		$show_reactions   = ! empty( $guide['show_reactions'] );
-		$show_citations   = ! empty( $guide['show_citations'] );
-		$preview_on_hover = ! empty( $guide['preview_on_hover'] );
+		$show_time         = ! empty( $guide['show_read_time'] );
+		$show_density      = ! empty( $guide['show_density'] );
+		$show_preview      = ! empty( $guide['show_previews'] );
+		$show_reactions    = ! empty( $guide['show_reactions'] );
+		$show_citations    = ! empty( $guide['show_citations'] );
+		$preview_on_hover  = ! empty( $guide['preview_on_hover'] );
 		$show_reader_notes = ! empty( $guide['show_reader_notes'] );
-		$notes            = isset( $guide['section_notes'] ) && is_array( $guide['section_notes'] ) ? $guide['section_notes'] : array();
-		$any_guide        = $show_time || $show_density || $show_preview || $show_reactions || $show_citations || ! empty( $notes ) || $preview_on_hover || $show_reader_notes;
+		$notes             = isset( $guide['section_notes'] ) && is_array( $guide['section_notes'] ) ? $guide['section_notes'] : array();
+		$any_guide         = $show_time || $show_density || $show_preview || $show_reactions || $show_citations || ! empty( $notes ) || $preview_on_hover || $show_reader_notes;
 
 		// Denominator for density bar proportions.
 		$max_words = 1;
@@ -498,14 +504,14 @@ class TOCflow_Headings {
 				for ( $i = 0; $i < ( $level - $prev ); $i++ ) {
 					$class = 0 === $open ? ' class="tocflow__list"' : ' class="tocflow__sub"';
 					$html .= '<' . $list_tag . $class . '>';
-					$open++;
+					++$open;
 				}
 			} else {
 				$html .= '</li>';
 				if ( $level < $prev ) {
 					for ( $i = 0; $i < ( $prev - $level ); $i++ ) {
 						$html .= '</' . $list_tag . '></li>';
-						$open--;
+						--$open;
 					}
 				}
 			}
@@ -546,7 +552,7 @@ class TOCflow_Headings {
 				$html .= '<a class="tocflow__link" href="#' . esc_attr( $slug ) . '">' . esc_html( $text ) . '</a>';
 			}
 			if ( $show_time && isset( $heading['read_minutes'] ) ) {
-				$mins = (int) $heading['read_minutes'];
+				$mins  = (int) $heading['read_minutes'];
 				$html .= '<span class="tocflow__time" aria-hidden="true">~'
 					. $mins . '&thinsp;'
 					/* translators: abbreviation for "minute" in read-time estimates, e.g. "~3 min" */
@@ -622,7 +628,7 @@ class TOCflow_Headings {
 						'🤔' => __( 'Unclear', 'tocflow' ),
 						'✅' => __( 'Got it', 'tocflow' ),
 					);
-					$html .= '<div class="tocflow__reactions" role="group" aria-label="'
+					$html        .= '<div class="tocflow__reactions" role="group" aria-label="'
 						. esc_attr__( 'React to this section', 'tocflow' ) . '">';
 					foreach ( $reaction_map as $emoji => $label ) {
 						$html .= '<button type="button" class="tocflow__reaction"'
@@ -674,8 +680,8 @@ class TOCflow_Headings {
 		$items  = self::filter_and_normalize( $all, $levels );
 
 		// ── Section data (shared by guide mode and hover previews) ───────────
-		$sections    = array();
-		$section_map = array();
+		$sections      = array();
+		$section_map   = array();
 		$need_sections = ! empty( $attributes['guideMode'] ) || ! empty( $attributes['previewOnHover'] );
 		if ( $need_sections ) {
 			$sections = self::get_sections( $post_id );
@@ -706,14 +712,14 @@ class TOCflow_Headings {
 			}
 
 			$guide = array(
-				'show_previews'    => ! empty( $attributes['showPreviews'] ),
-				'show_density'     => ! empty( $attributes['showDensity'] ),
-				'show_read_time'   => ! empty( $attributes['showReadTime'] ),
-				'show_reactions'   => ! empty( $attributes['showReactions'] ),
-				'show_citations'   => ! empty( $attributes['showCitations'] ),
-				'section_notes'    => $notes,
-				'preview_on_hover' => ! empty( $attributes['previewOnHover'] ),
-				'show_reader_notes'=> ! empty( $attributes['showReaderNotes'] ),
+				'show_previews'     => ! empty( $attributes['showPreviews'] ),
+				'show_density'      => ! empty( $attributes['showDensity'] ),
+				'show_read_time'    => ! empty( $attributes['showReadTime'] ),
+				'show_reactions'    => ! empty( $attributes['showReactions'] ),
+				'show_citations'    => ! empty( $attributes['showCitations'] ),
+				'section_notes'     => $notes,
+				'preview_on_hover'  => ! empty( $attributes['previewOnHover'] ),
+				'show_reader_notes' => ! empty( $attributes['showReaderNotes'] ),
 			);
 		} elseif ( ! empty( $attributes['previewOnHover'] ) ) {
 			// Hover previews only — merge just the preview text into items.
@@ -920,8 +926,8 @@ class TOCflow_Headings {
 				),
 				$guide_attrs
 			);
-			$wrapper = get_block_wrapper_attributes( $wrapper_args );
-			$html    = '<nav ' . $wrapper . '>';
+			$wrapper      = get_block_wrapper_attributes( $wrapper_args );
+			$html         = '<nav ' . $wrapper . '>';
 		} else {
 			$extra = '';
 			foreach ( $guide_attrs as $attr_name => $attr_val ) {
@@ -973,9 +979,9 @@ class TOCflow_Headings {
 						$total_words += (int) $item['word_count'];
 					}
 				}
-				$total_mins  = max( 1, (int) ceil( $total_words / 200 ) );
+				$total_mins = max( 1, (int) ceil( $total_words / 200 ) );
 				/* translators: %d = estimated total reading time in minutes */
-				$html       .= '<span class="tocflow__total-time" aria-hidden="true">'
+				$html .= '<span class="tocflow__total-time" aria-hidden="true">'
 					/* translators: %d = estimated total reading time in minutes */
 					. sprintf( esc_html__( '~%d min total', 'tocflow' ), $total_mins )
 					. '</span>';
@@ -1006,7 +1012,7 @@ class TOCflow_Headings {
 		// ── Export / print bar ────────────────────────────────────────────────
 		if ( ! empty( $attributes['showExport'] ) ) {
 			$post_title = html_entity_decode( get_the_title( $post_id ), ENT_QUOTES, 'UTF-8' );
-			$html .= '<div class="tocflow__export-bar" role="group"'
+			$html      .= '<div class="tocflow__export-bar" role="group"'
 				. ' aria-label="' . esc_attr__( 'Export table of contents', 'tocflow' ) . '"'
 				. ' data-tocflow-export-title="' . esc_attr( $post_title ) . '">';
 
@@ -1065,7 +1071,7 @@ class TOCflow_Headings {
 				'name'     => $item['text'],
 				'url'      => $permalink . '#' . $item['slug'],
 			);
-			$position++;
+			++$position;
 		}
 
 		$payload = array(
@@ -1184,8 +1190,8 @@ class TOCflow_Headings {
 			// Preserve any existing id.
 			$slug = '';
 			if ( preg_match( '/\bid=["\']([^"\']+)["\']/i', $attrs, $id_m ) ) {
-				$slug        = $id_m[1];
-				$used[$slug] = true;
+				$slug          = $id_m[1];
+				$used[ $slug ] = true;
 			} else {
 				$slug = self::make_slug( $text, $used );
 			}
@@ -1339,7 +1345,7 @@ class TOCflow_Headings {
 					return $match[0];
 				}
 
-				$slug  = $headings[ $index ]['slug'];
+				$slug = $headings[ $index ]['slug'];
 				$index++;
 
 				return '<h' . $match[1] . ' id="' . esc_attr( $slug ) . '"' . $attrs . '>';

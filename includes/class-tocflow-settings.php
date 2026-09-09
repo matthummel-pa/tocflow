@@ -24,34 +24,34 @@ class TOCflow_Settings {
 	public static function defaults() {
 		return array(
 			// Reading experience.
-			'smooth_scroll'     => 1,
-			'scroll_offset'     => 96,
-			'highlight_active'  => 1,
-			'min_headings'      => 2,
+			'smooth_scroll'         => 1,
+			'scroll_offset'         => 96,
+			'highlight_active'      => 1,
+			'min_headings'          => 2,
 
 			// Auto-generate.
-			'auto_insert'       => 'none',
-			'auto_insert_types' => array( 'post' ),
-			'auto_title'        => 'Table of Contents',
-			'auto_show_title'   => 1,
-			'auto_title_tag'    => 'p',
-			'auto_show_h1'      => 0,
-			'auto_show_h2'      => 1,
-			'auto_show_h3'      => 1,
-			'auto_show_h4'      => 0,
-			'auto_show_h5'      => 0,
-			'auto_show_h6'      => 0,
-			'auto_ordered'      => 0,
-			'auto_numbering'    => 'default',
-			'auto_hide_markers' => 0,
-			'auto_collapsible'  => 0,
-			'auto_collapsed'    => 0,
-			'auto_sticky'       => 0,
-			'auto_compact'      => 0,
-			'auto_two_columns'  => 0,
-			'auto_underline'    => 0,
-			'auto_style'        => 'default',
-			'auto_max_height'   => 0,
+			'auto_insert'           => 'none',
+			'auto_insert_types'     => array( 'post' ),
+			'auto_title'            => 'Table of Contents',
+			'auto_show_title'       => 1,
+			'auto_title_tag'        => 'p',
+			'auto_show_h1'          => 0,
+			'auto_show_h2'          => 1,
+			'auto_show_h3'          => 1,
+			'auto_show_h4'          => 0,
+			'auto_show_h5'          => 0,
+			'auto_show_h6'          => 0,
+			'auto_ordered'          => 0,
+			'auto_numbering'        => 'default',
+			'auto_hide_markers'     => 0,
+			'auto_collapsible'      => 0,
+			'auto_collapsed'        => 0,
+			'auto_sticky'           => 0,
+			'auto_compact'          => 0,
+			'auto_two_columns'      => 0,
+			'auto_underline'        => 0,
+			'auto_style'            => 'default',
+			'auto_max_height'       => 0,
 
 			// Reading Guide & Study Tools global defaults.
 			'auto_preview_hover'    => 0,
@@ -69,24 +69,24 @@ class TOCflow_Settings {
 			'auto_export'           => 0,
 
 			// Design & Appearance (empty = use built-in styles).
-			'design_bg_color'      => '',
-			'design_text_color'    => '',
-			'design_link_color'    => '',
-			'design_font_size'     => '',
-			'design_font_weight'   => '',
-			'design_line_height'   => '',
-			'design_border_width'  => '',
-			'design_border_color'  => '',
-			'design_border_style'  => '',
-			'design_border_radius' => '',
-			'design_padding'       => '',
+			'design_bg_color'       => '',
+			'design_text_color'     => '',
+			'design_link_color'     => '',
+			'design_font_size'      => '',
+			'design_font_weight'    => '',
+			'design_line_height'    => '',
+			'design_border_width'   => '',
+			'design_border_color'   => '',
+			'design_border_style'   => '',
+			'design_border_radius'  => '',
+			'design_padding'        => '',
 
 			// Accessibility.
-			'focus_style'          => 'default',
+			'focus_style'           => 'default',
 
 			// SEO & data.
-			'schema_markup'     => 0,
-			'delete_data'       => 0,
+			'schema_markup'         => 0,
+			'delete_data'           => 0,
 		);
 	}
 
@@ -126,9 +126,9 @@ class TOCflow_Settings {
 	 * @return array
 	 */
 	public static function block_attributes() {
-		$settings  = self::get();
-		$style     = isset( $settings['auto_style'] ) ? sanitize_key( $settings['auto_style'] ) : 'default';
-		$allowed   = class_exists( 'TOCflow_Headings' ) ? TOCflow_Headings::allowed_style_slugs() : array( 'default' );
+		$settings = self::get();
+		$style    = isset( $settings['auto_style'] ) ? sanitize_key( $settings['auto_style'] ) : 'default';
+		$allowed  = class_exists( 'TOCflow_Headings' ) ? TOCflow_Headings::allowed_style_slugs() : array( 'default' );
 		if ( ! in_array( $style, $allowed, true ) ) {
 			$style = 'default';
 		}
@@ -155,43 +155,43 @@ class TOCflow_Settings {
 			? $settings['auto_citation_style'] : 'apa';
 
 		return array(
-			'title'            => $title,
-			'showTitle'        => ! empty( $settings['auto_show_title'] ),
-			'titleTag'         => $title_tag,
-			'showH1'           => ! empty( $settings['auto_show_h1'] ),
-			'showH2'           => ! empty( $settings['auto_show_h2'] ),
-			'showH3'           => ! empty( $settings['auto_show_h3'] ),
-			'showH4'           => ! empty( $settings['auto_show_h4'] ),
-			'showH5'           => ! empty( $settings['auto_show_h5'] ),
-			'showH6'           => ! empty( $settings['auto_show_h6'] ),
-			'ordered'          => $ordered,
-			'numbering'        => $numbering,
-			'hideMarkers'      => ! empty( $settings['auto_hide_markers'] ),
-			'collapsible'      => ! empty( $settings['auto_collapsible'] ),
-			'collapsedDefault' => ! empty( $settings['auto_collapsed'] ),
-			'sticky'           => ! empty( $settings['auto_sticky'] ),
-			'compact'          => ! empty( $settings['auto_compact'] ),
-			'twoColumns'       => ! empty( $settings['auto_two_columns'] ),
-			'underlineLinks'   => ! empty( $settings['auto_underline'] ),
-			'highlightActive'  => ! empty( $settings['highlight_active'] ),
-			'stylePreset'      => $style,
-			'className'        => 'is-style-' . $style,
-			'scrollOffset'     => -1,
-			'maxHeight'        => isset( $settings['auto_max_height'] ) ? max( 0, (int) $settings['auto_max_height'] ) : 0,
-			'minHeadings'      => -1,
-			'smoothScroll'     => 'inherit',
+			'title'               => $title,
+			'showTitle'           => ! empty( $settings['auto_show_title'] ),
+			'titleTag'            => $title_tag,
+			'showH1'              => ! empty( $settings['auto_show_h1'] ),
+			'showH2'              => ! empty( $settings['auto_show_h2'] ),
+			'showH3'              => ! empty( $settings['auto_show_h3'] ),
+			'showH4'              => ! empty( $settings['auto_show_h4'] ),
+			'showH5'              => ! empty( $settings['auto_show_h5'] ),
+			'showH6'              => ! empty( $settings['auto_show_h6'] ),
+			'ordered'             => $ordered,
+			'numbering'           => $numbering,
+			'hideMarkers'         => ! empty( $settings['auto_hide_markers'] ),
+			'collapsible'         => ! empty( $settings['auto_collapsible'] ),
+			'collapsedDefault'    => ! empty( $settings['auto_collapsed'] ),
+			'sticky'              => ! empty( $settings['auto_sticky'] ),
+			'compact'             => ! empty( $settings['auto_compact'] ),
+			'twoColumns'          => ! empty( $settings['auto_two_columns'] ),
+			'underlineLinks'      => ! empty( $settings['auto_underline'] ),
+			'highlightActive'     => ! empty( $settings['highlight_active'] ),
+			'stylePreset'         => $style,
+			'className'           => 'is-style-' . $style,
+			'scrollOffset'        => -1,
+			'maxHeight'           => isset( $settings['auto_max_height'] ) ? max( 0, (int) $settings['auto_max_height'] ) : 0,
+			'minHeadings'         => -1,
+			'smoothScroll'        => 'inherit',
 			// Reading Guide global defaults.
-			'previewOnHover'   => ! empty( $settings['auto_preview_hover'] ),
-			'guideMode'        => $guide_mode,
-			'showPreviews'     => $guide_mode && ! empty( $settings['auto_show_previews'] ),
-			'showDensity'      => $guide_mode && ! empty( $settings['auto_show_density'] ),
-			'showReadTime'     => $guide_mode && ! empty( $settings['auto_show_read_time'] ),
-			'trackProgress'    => $guide_mode && ! empty( $settings['auto_track_progress'] ),
-			'showReactions'    => $guide_mode && ! empty( $settings['auto_show_reactions'] ),
-			'showCitations'    => $guide_mode && ! empty( $settings['auto_show_citations'] ),
-			'citationStyle'    => $citation_style,
-			'sectionNotes'     => array(),
-			'sectionStatus'    => array(),
+			'previewOnHover'      => ! empty( $settings['auto_preview_hover'] ),
+			'guideMode'           => $guide_mode,
+			'showPreviews'        => $guide_mode && ! empty( $settings['auto_show_previews'] ),
+			'showDensity'         => $guide_mode && ! empty( $settings['auto_show_density'] ),
+			'showReadTime'        => $guide_mode && ! empty( $settings['auto_show_read_time'] ),
+			'trackProgress'       => $guide_mode && ! empty( $settings['auto_track_progress'] ),
+			'showReactions'       => $guide_mode && ! empty( $settings['auto_show_reactions'] ),
+			'showCitations'       => $guide_mode && ! empty( $settings['auto_show_citations'] ),
+			'citationStyle'       => $citation_style,
+			'sectionNotes'        => array(),
+			'sectionStatus'       => array(),
 			// Study Tools & Export global defaults.
 			'showReadingProgress' => ! empty( $settings['auto_reading_progress'] ),
 			'showBookmark'        => ! empty( $settings['auto_bookmark'] ),
@@ -257,6 +257,12 @@ class TOCflow_Settings {
 		return '';
 	}
 
+	/**
+	 * Sanitize settings before saving to the database.
+	 *
+	 * @param mixed $input Raw form data.
+	 * @return array Sanitized settings merged with defaults.
+	 */
 	public static function sanitize( $input ) {
 		$defaults = self::defaults();
 		if ( ! is_array( $input ) ) {
@@ -303,17 +309,17 @@ class TOCflow_Settings {
 			$clean[ $key ] = empty( $input[ $key ] ) ? 0 : 1;
 		}
 
-		$offset = isset( $input['scroll_offset'] ) ? (int) $input['scroll_offset'] : $defaults['scroll_offset'];
+		$offset                 = isset( $input['scroll_offset'] ) ? (int) $input['scroll_offset'] : $defaults['scroll_offset'];
 		$clean['scroll_offset'] = min( 400, max( 0, $offset ) );
 
-		$min = isset( $input['min_headings'] ) ? (int) $input['min_headings'] : $defaults['min_headings'];
+		$min                   = isset( $input['min_headings'] ) ? (int) $input['min_headings'] : $defaults['min_headings'];
 		$clean['min_headings'] = min( 10, max( 1, $min ) );
 
-		$max_height = isset( $input['auto_max_height'] ) ? (int) $input['auto_max_height'] : 0;
+		$max_height               = isset( $input['auto_max_height'] ) ? (int) $input['auto_max_height'] : 0;
 		$clean['auto_max_height'] = min( 800, max( 0, $max_height ) );
 
-		$allowed_insert = array( 'none', 'before', 'after_first_heading' );
-		$insert         = isset( $input['auto_insert'] ) ? sanitize_key( $input['auto_insert'] ) : 'none';
+		$allowed_insert       = array( 'none', 'before', 'after_first_heading' );
+		$insert               = isset( $input['auto_insert'] ) ? sanitize_key( $input['auto_insert'] ) : 'none';
 		$clean['auto_insert'] = in_array( $insert, $allowed_insert, true ) ? $insert : 'none';
 
 		$types = array();
@@ -328,22 +334,22 @@ class TOCflow_Settings {
 		}
 		$clean['auto_insert_types'] = array_values( array_unique( $types ) );
 
-		$title = isset( $input['auto_title'] ) ? sanitize_text_field( $input['auto_title'] ) : $defaults['auto_title'];
+		$title               = isset( $input['auto_title'] ) ? sanitize_text_field( $input['auto_title'] ) : $defaults['auto_title'];
 		$clean['auto_title'] = '' !== $title ? $title : $defaults['auto_title'];
 
-		$title_tag = isset( $input['auto_title_tag'] ) ? strtolower( sanitize_html_class( $input['auto_title_tag'] ) ) : 'p';
+		$title_tag               = isset( $input['auto_title_tag'] ) ? strtolower( sanitize_html_class( $input['auto_title_tag'] ) ) : 'p';
 		$clean['auto_title_tag'] = in_array( $title_tag, array( 'p', 'h2', 'h3', 'h4' ), true ) ? $title_tag : 'p';
 
-		$numbering = isset( $input['auto_numbering'] ) ? sanitize_key( $input['auto_numbering'] ) : 'default';
+		$numbering               = isset( $input['auto_numbering'] ) ? sanitize_key( $input['auto_numbering'] ) : 'default';
 		$clean['auto_numbering'] = in_array( $numbering, array( 'default', 'nested' ), true ) ? $numbering : 'default';
 
-		$style = isset( $input['auto_style'] ) ? sanitize_key( $input['auto_style'] ) : 'default';
-		$allowed_styles = array( 'default', 'minimal', 'boxed', 'underline', 'card' );
+		$style               = isset( $input['auto_style'] ) ? sanitize_key( $input['auto_style'] ) : 'default';
+		$allowed_styles      = array( 'default', 'minimal', 'boxed', 'underline', 'card' );
 		$clean['auto_style'] = in_array( $style, $allowed_styles, true ) ? $style : 'default';
 
 		// Citation style.
-		$allowed_citation = array( 'apa', 'mla', 'chicago', 'harvard', 'plain' );
-		$cite             = isset( $input['auto_citation_style'] ) ? sanitize_key( $input['auto_citation_style'] ) : 'apa';
+		$allowed_citation             = array( 'apa', 'mla', 'chicago', 'harvard', 'plain' );
+		$cite                         = isset( $input['auto_citation_style'] ) ? sanitize_key( $input['auto_citation_style'] ) : 'apa';
 		$clean['auto_citation_style'] = in_array( $cite, $allowed_citation, true ) ? $cite : 'apa';
 
 		// Design & Appearance.
@@ -353,8 +359,8 @@ class TOCflow_Settings {
 		$clean['design_font_size']   = self::sanitize_css_length( isset( $input['design_font_size'] ) ? $input['design_font_size'] : '' );
 		$clean['design_line_height'] = self::sanitize_css_number( isset( $input['design_line_height'] ) ? $input['design_line_height'] : '' );
 
-		$allowed_fw = array( '100', '200', '300', '400', '500', '600', '700', '800', '900', 'normal', 'bold' );
-		$fw         = isset( $input['design_font_weight'] ) ? trim( (string) $input['design_font_weight'] ) : '';
+		$allowed_fw                  = array( '100', '200', '300', '400', '500', '600', '700', '800', '900', 'normal', 'bold' );
+		$fw                          = isset( $input['design_font_weight'] ) ? trim( (string) $input['design_font_weight'] ) : '';
 		$clean['design_font_weight'] = in_array( $fw, $allowed_fw, true ) ? $fw : '';
 
 		$clean['design_border_width']  = self::sanitize_css_length( isset( $input['design_border_width'] ) ? $input['design_border_width'] : '' );
@@ -362,13 +368,13 @@ class TOCflow_Settings {
 		$clean['design_border_radius'] = self::sanitize_css_length( isset( $input['design_border_radius'] ) ? $input['design_border_radius'] : '' );
 		$clean['design_padding']       = self::sanitize_css_length( isset( $input['design_padding'] ) ? $input['design_padding'] : '' );
 
-		$allowed_bs = array( '', 'solid', 'dashed', 'dotted', 'double', 'none' );
-		$bs         = isset( $input['design_border_style'] ) ? sanitize_key( $input['design_border_style'] ) : '';
+		$allowed_bs                   = array( '', 'solid', 'dashed', 'dotted', 'double', 'none' );
+		$bs                           = isset( $input['design_border_style'] ) ? sanitize_key( $input['design_border_style'] ) : '';
 		$clean['design_border_style'] = in_array( $bs, $allowed_bs, true ) ? $bs : '';
 
 		// Accessibility.
-		$allowed_focus = array( 'default', 'bold', 'high-contrast' );
-		$focus         = isset( $input['focus_style'] ) ? sanitize_key( $input['focus_style'] ) : 'default';
+		$allowed_focus        = array( 'default', 'bold', 'high-contrast' );
+		$focus                = isset( $input['focus_style'] ) ? sanitize_key( $input['focus_style'] ) : 'default';
 		$clean['focus_style'] = in_array( $focus, $allowed_focus, true ) ? $focus : 'default';
 
 		return $clean;
