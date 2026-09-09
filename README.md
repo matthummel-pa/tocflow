@@ -40,6 +40,7 @@
 | **Missing PHPDoc** | Added doc block for `TOCflow_Settings::sanitize()` |
 | **Inline comment style** | Fixed casing and trailing full-stop in `class-tocflow-plugin.php` (WPCS `Squiz.Commenting.InlineComment`) |
 | **Array alignment** | PHPCBF auto-corrected 181 `=>` alignment and indentation warnings across PHP files |
+| **Short description length** | Trimmed `readme.txt` short description from 175 → 145 characters (WordPress.org parser enforces a 150-character max; longer values are silently truncated) |
 
 ### v1.3.0 — Global design & accessibility settings
 
