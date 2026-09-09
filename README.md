@@ -28,19 +28,40 @@
 
 ---
 
-## What's new — v1.2.2 (Sep 2026)
+## What's new — v1.3.1 (Sep 2026)
 
 > For WordPress.org reviewers: the sections below describe every change since v1.0.2.
+
+### v1.3.1 — Security & code-quality fix
+
+| Fix | Detail |
+|---|---|
+| **`WordPress.Security.EscapeOutput`** | `$swatch_val` in the admin colour-picker `printf()` was pre-escaped at construction; moved `esc_attr()` to the call site — the only form WordPress.org reviewers accept |
+| **Missing PHPDoc** | Added doc block for `TOCflow_Settings::sanitize()` |
+| **Inline comment style** | Fixed casing and trailing full-stop in `class-tocflow-plugin.php` (WPCS `Squiz.Commenting.InlineComment`) |
+| **Array alignment** | PHPCBF auto-corrected 181 `=>` alignment and indentation warnings across PHP files |
+
+### v1.3.0 — Global design & accessibility settings
+
+| Feature | Where | Detail |
+|---|---|---|
+| **Design & Appearance** | Settings → TOCflow | Background, text, link colours; font size, weight, line height; border width/style/colour/radius; padding — all applied as CSS custom properties (`--tocflow-bg`, `--tocflow-color`, etc.) |
+| **Reading Guide defaults** | Settings → TOCflow | Global on/off for hover preview, guide mode, section previews, density bars, read time, progress fade, reactions, citations, and citation format |
+| **Study Tools & Export defaults** | Settings → TOCflow | Global on/off for reading progress bar, resume bookmark, reader note pads, export toolbar |
+| **Accessibility — focus ring style** | Settings → TOCflow | Default (underline), Bold (3 px outline, WCAG 2.1 AA), High-contrast (yellow background, WCAG 2.1 AAA) via `data-tocflow-focus` |
+| **Admin colour picker** | Settings page JS | Hex text input syncs with `<input type=color>` swatch; guide sub-options show/hide when guide mode is toggled |
+
+All global defaults apply to auto-inserted blocks and shortcodes. Per-block editor settings always override them.
 
 ### v1.2.2 — WordPress.org compliance fixes
 
 | Fix | Detail |
 |---|---|
-| **`TOCFLOW_VERSION` constant** | Was stuck at `1.2.0`; corrected to `1.2.2` — admin version badge now matches the plugin header |
+| **`TOCFLOW_VERSION` constant** | Was stuck at `1.2.0`; corrected to `1.2.2` |
 | **`Tested up to`** | Updated from `6.7` → `7.1` (WP 7.1 "Mary Lou" released 2026-08-19) |
 | **Tags** | Removed third-party trademark `elementor`; replaced with `study tools` |
 | **PHP indentation** | Fixed WPCS 3-tab → 4-tab on shortcode Study-tool attrs and admin settings view |
-| **readme.txt entries** | Added `= 1.2.1 =` and `= 1.2.2 =` Changelog + Upgrade Notice entries (stable tag must have matching entries) |
+| **readme.txt entries** | Added `= 1.2.1 =` and `= 1.2.2 =` Changelog + Upgrade Notice entries |
 | **GitHub Actions** | Bumped `softprops/action-gh-release` from v2 → v3 (Node 20 → Node 24 runtime) |
 
 ### v1.2.1 — Performance patch
@@ -48,8 +69,6 @@
 | Fix | Detail |
 |---|---|
 | **Bookmark localStorage debounce** | Debounced resume-bookmark writes from every `IntersectionObserver` callback to every 500 ms — prevents redundant writes during fast scrolling |
-
-### v1.2.0 — Study assistant & writer tools
 
 ### v1.2.0 — Study assistant & writer tools
 
@@ -126,7 +145,7 @@ The plugin slug, folder, and text domain are **`tocflow`**. Display name: **TOCf
 
 ## Install
 
-Current version: **1.2.2**.
+Current version: **1.3.1**.
 
 1. Download `tocflow.zip` from [Releases](https://github.com/matthummel-pa/tocflow/releases).
 2. In WordPress: **Plugins → Add New → Upload Plugin**.
