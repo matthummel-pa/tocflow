@@ -27,9 +27,8 @@ Upload from `.wordpress-org/` to `assets/` in SVN (not inside the plugin folder)
 
 - `banner-1544x500.png` / `banner-772x250.png` (generated from `banner.svg`)
 - `icon-256x256.png` / `icon-128x128.png` / `icon.svg`
-- `screenshot-1.png` … matching the `== Screenshots ==` section in `readme.txt`
 
-Banners and the icon are in `.wordpress-org/` already. Capture **real** editor and front-end screenshots before submit — the illustrated SVGs in `docs/assets/` are marketing only. To regenerate PNGs: `npm install --no-save @resvg/resvg-js && node scripts/rasterize-wporg-assets.js`.
+Banners and the icon are in `.wordpress-org/` already. To regenerate PNGs: `npm install --no-save @resvg/resvg-js && node scripts/rasterize-wporg-assets.js`.
 
 ## Review hot spots this plugin already avoids
 

@@ -178,14 +178,6 @@ No. Zero external network requests from TOCflow in any mode.
 
 GNU GPLv2 or later, covering the whole plugin (PHP, JavaScript, CSS, and images). Copyright Matt Hummel. Full text: `license.txt`.
 
-== Screenshots ==
-
-1. Table of Contents block in the editor with Reading Guide and Section Notes panels open in the sidebar.
-2. Front-end Reading Guide mode: section previews, density bars, read-time badges, author note, and emoji reactions.
-3. One-click academic citation copy — APA, MLA, Chicago, Harvard, or plain link.
-4. Reading progress: sections fade as the reader scrolls past them.
-5. Settings → TOCflow (smooth scroll, auto-generate block, uninstall).
-
 == Changelog ==
 
 = 1.3.2 =

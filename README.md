@@ -169,15 +169,6 @@ Or clone this repo into `wp-content/plugins/tocflow`, run `npm install && npm ru
 
 ---
 
-## Screenshots
-
-<p align="center">
-  <img src="docs/assets/tocflow-settings-panel.svg" alt="Block settings" width="420">
-  <img src="docs/assets/tocflow-output.svg" alt="Front-end outline" width="420">
-</p>
-
----
-
 ## Documentation
 
 | Doc | Who it is for |
