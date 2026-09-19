@@ -1327,28 +1327,28 @@ class TOCflow_Headings {
 
 		return preg_replace_callback(
 			'/<h([1-6])(\s[^>]*)?>/',
-			function ( $match ) use ( $headings, &$index, $total ) {
-				$attrs = isset( $match[2] ) ? $match[2] : '';
+			function ( $heading_tag ) use ( $headings, &$index, $total ) {
+				$attrs = isset( $heading_tag[2] ) ? $heading_tag[2] : '';
 
 				// Skip headings excluded from the TOC.
 				if ( preg_match( '/class=["\'][^"\']*(?:no-toc|tocflow-skip)[^"\']*["\']/i', $attrs ) ) {
-					return $match[0];
+					return $heading_tag[0];
 				}
 
 				if ( $index >= $total ) {
-					return $match[0];
+					return $heading_tag[0];
 				}
 
 				// Already has an id — advance the pointer without changing markup.
 				if ( preg_match( '/\bid=["\']/i', $attrs ) ) {
 					$index++;
-					return $match[0];
+					return $heading_tag[0];
 				}
 
 				$slug = $headings[ $index ]['slug'];
 				$index++;
 
-				return '<h' . $match[1] . ' id="' . esc_attr( $slug ) . '"' . $attrs . '>';
+				return '<h' . $heading_tag[1] . ' id="' . esc_attr( $slug ) . '"' . $attrs . '>';
 			},
 			$html
 		);
