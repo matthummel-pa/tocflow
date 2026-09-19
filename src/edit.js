@@ -485,7 +485,10 @@ export default function Edit( { attributes, setAttributes } ) {
 					<RangeControl
 						__nextHasNoMarginBottom
 						__next40pxDefaultSize
-						label={ __( 'Scroll offset override (px)', 'tocguide' ) }
+						label={ __(
+							'Scroll offset override (px)',
+							'tocguide'
+						) }
 						value={ scrollOffset }
 						min={ -1 }
 						max={ 400 }
@@ -605,7 +608,10 @@ export default function Edit( { attributes, setAttributes } ) {
 							/>
 							<ToggleControl
 								__nextHasNoMarginBottom
-								label={ __( 'Section length bars', 'tocguide' ) }
+								label={ __(
+									'Section length bars',
+									'tocguide'
+								) }
 								checked={ showDensity }
 								onChange={ ( value ) =>
 									setAttributes( { showDensity: value } )
@@ -617,7 +623,10 @@ export default function Edit( { attributes, setAttributes } ) {
 							/>
 							<ToggleControl
 								__nextHasNoMarginBottom
-								label={ __( 'Read-time estimates', 'tocguide' ) }
+								label={ __(
+									'Read-time estimates',
+									'tocguide'
+								) }
 								checked={ showReadTime }
 								onChange={ ( value ) =>
 									setAttributes( { showReadTime: value } )
@@ -670,7 +679,10 @@ export default function Edit( { attributes, setAttributes } ) {
 								<SelectControl
 									__nextHasNoMarginBottom
 									__next40pxDefaultSize
-									label={ __( 'Citation format', 'tocguide' ) }
+									label={ __(
+										'Citation format',
+										'tocguide'
+									) }
 									value={ citationStyle }
 									options={ [
 										{ label: 'APA', value: 'apa' },
@@ -733,7 +745,10 @@ export default function Edit( { attributes, setAttributes } ) {
 								value={ sectionStatus[ heading.slug ] || '' }
 								options={ [
 									{
-										label: __( '— No status —', 'tocguide' ),
+										label: __(
+											'— No status —',
+											'tocguide'
+										),
 										value: '',
 									},
 									{
