@@ -1,8 +1,8 @@
 # Marketplace kit
 
-TOCflow is one **100% GPLv2 or later** plugin. You can list it in more than one place; the **slug never changes** (`tocflow`). See [NAMING.md](../NAMING.md) and [licensing.md](licensing.md).
+TOCguide is one **100% GPLv2 or later** plugin. You can list it in more than one place; the **slug never changes** (`tocflow`). See [NAMING.md](../NAMING.md) and [licensing.md](licensing.md).
 
-| Marketplace | What TOCflow is there | Doc |
+| Marketplace | What TOCguide is there | Doc |
 | --- | --- | --- |
 | [WordPress.org Plugin Directory](https://wordpress.org/plugins/) | Free listing, `readme.txt` driven | [wordpress-org.md](wordpress-org.md) · [FAQ/guidelines](../wordpress-org/PLUGIN_DIRECTORY.md) |
 | [CodeCanyon](https://codecanyon.net/) (Envato) | Paid WordPress **plugin**, 100% GPL | [codecanyon.md](codecanyon.md) |

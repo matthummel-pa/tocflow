@@ -2,13 +2,13 @@
 
 WordPress plugins are sold on **CodeCanyon**, category **WordPress**, not on ThemeForest.
 
-Envato WordPress items can use a **split license** (PHP GPL, other assets under the Regular License) or **100% GPL**. TOCflow uses **100% GPLv2 or later** so the same zip stays eligible for WordPress.org. On the item form, choose 100% GPL — not split. Details: [licensing.md](licensing.md).
+Envato WordPress items can use a **split license** (PHP GPL, other assets under the Regular License) or **100% GPL**. TOCguide uses **100% GPLv2 or later** so the same zip stays eligible for WordPress.org. On the item form, choose 100% GPL — not split. Details: [licensing.md](licensing.md).
 
 You are selling a convenient package, documentation, and item support — not a proprietary PHP lock-in.
 
 ## Item title (recommended)
 
-**TOCflow — Table of Contents Block for WordPress (Gutenberg)**
+**TOCguide — Table of Contents Block for WordPress (Gutenberg)**
 
 ## Tags
 
@@ -36,7 +36,7 @@ See [Envato WordPress Plugin Requirements](https://help.author.envato.com/hc/en-
 - Assets via `wp_enqueue_*` / `block.json` (no direct `<script>` in PHP)
 - No jQuery migrate hacks; no deregister of core jQuery
 - `uninstall.php` does not run on deactivate; deletion is opt-in
-- Translations: literal text domain `tocflow`, `languages/tocflow.pot`
+- Translations: literal text domain `tocguide`, `languages/tocguide.pot`
 - No third-party tracking
 - No nagging review banners except a dismissible welcome notice
 - Gutenberg block via `block.json` + dynamic `render.php`

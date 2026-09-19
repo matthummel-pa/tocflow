@@ -11,7 +11,7 @@ A clear, concise description of what's wrong.
 
 **To reproduce**
 1. Go to '...'
-2. Add the Table of Contents block / enable auto-insert / use `[tocflow]`
+2. Add the Table of Contents block / enable auto-insert / use `[tocguide]`
 3. See error
 
 **Expected behavior**
@@ -23,7 +23,7 @@ If applicable, add a screenshot of the editor and of the front end.
 **Environment**
 - WordPress version:
 - PHP version:
-- TOCflow version:
+- TOCguide version:
 - Active theme:
 - Editor: block / classic / site editor
 - Browser:

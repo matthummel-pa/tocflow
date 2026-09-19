@@ -14,7 +14,7 @@ Please **do not** open a public GitHub issue for a security report.
 Email **matt@matthummel.com** with:
 
 - WordPress and PHP versions
-- TOCflow version
+- TOCguide version
 - A clear description and, if possible, steps to reproduce
 - Whether you plan to disclose after a fix (we will credit you if you want)
 

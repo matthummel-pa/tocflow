@@ -3,23 +3,37 @@
 ## Before you submit
 
 1. Create a wordpress.org account. Put that username in `readme.txt` → `Contributors:` (replace `matthummel` if needed).
-2. Confirm the slug **`tocflow`** is still free: https://wordpress.org/plugins/tocflow/
+2. Confirm the slug **`tocguide`** is still free: https://wordpress.org/plugins/tocguide/
 3. `npm run build` then `npm run plugin-zip`.
 4. Validate `readme.txt`: https://wordpress.org/plugins/developers/readme-validator/
 
-## Submit
+## Submit / slug change during review
 
 https://wordpress.org/plugins/developers/add/
 
-- **Name:** TOCflow – Table of Contents Block
-- **ZIP:** the built plugin (folder name inside the zip must be `tocflow/`)
-- After approval you get SVN. Trunk holds code; `.wordpress-org/` in this repo is **not** committed to trunk.
+The plugins team asked for a display name and slug that do **not** imply affiliation with another entity. Use:
+
+- **Name:** TOCguide
+- **ZIP:** `tocguide.zip` (folder inside the zip must be `tocguide/`)
+- **In the existing review email/thread:** ask them to change the slug from `tocflow` to `tocguide`. Do not open a second submission unless they say the 3-month timeout applies.
+
+After approval you get SVN. Trunk holds code; `.wordpress-org/` in this repo is **not** committed to trunk.
 
 Follow the Plugin Developer FAQ and the 18 guidelines as product requirements:
 
 - https://developer.wordpress.org/plugins/wordpress-org/plugin-developer-faq/
 - Repo copy: [`docs/wordpress-org/PLUGIN_DIRECTORY.md`](../wordpress-org/PLUGIN_DIRECTORY.md)
 - Agent rule: `.cursor/rules/wordpress-org-plugin-directory.mdc`
+
+## Reply to paste into the review thread
+
+> Hi — thanks for the note on the display name and slug.
+>
+> I have uploaded an updated zip. The plugin is now **TOCguide** (Plugin Name header and readme). Please change the slug to **`tocguide`**.
+>
+> TOCguide is an independent plugin by Matt Hummel. It is not affiliated with Webflow or any other company or plugin.
+>
+> Thank you.
 
 ## SVN assets (after approval)
 
@@ -39,8 +53,8 @@ Banners and the icon are in `.wordpress-org/` already. To regenerate PNGs: `npm 
 - Deactivation does not delete settings
 - Admin code loads only in `is_admin()`
 - All output escaped; settings sanitized
-- Text domain is the literal `tocflow`
+- Text domain is the literal `tocguide`
 
 ## After listing
 
-Point Plugin URI at the WordPress.org page (or keep GitHub). Add the plugin to your wordpress.org profile. Enable forum support and watch https://wordpress.org/support/plugin/tocflow/
+Point Plugin URI at the WordPress.org page (or keep GitHub). Add the plugin to your wordpress.org profile. Enable forum support and watch https://wordpress.org/support/plugin/tocguide/

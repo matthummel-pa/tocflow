@@ -1,5 +1,5 @@
 ---
-description: Standard Gutenberg block coding (create-block / handbook). Apply when editing the TOCflow block, block.json, editor UI, render.php, or view.js.
+description: Standard Gutenberg block coding (create-block / handbook). Apply when editing the TOCguide block, block.json, editor UI, render.php, or view.js.
 alwaysApply: true
 ---
 
@@ -15,7 +15,7 @@ Source of truth (do not invent APIs):
 
 Scaffold mental model: `@wordpress/create-block` `--variant=dynamic`.
 
-TOCflow is a **Plugin Directory** plugin (admin UI + shortcode + auto-insert), not a Block Directory “block-only” plugin. Keep using Gutenberg APIs for the block itself; do not strip wp-admin to chase the Block Directory.
+TOCguide is a **Plugin Directory** plugin (admin UI + shortcode + auto-insert), not a Block Directory “block-only” plugin. Keep using Gutenberg APIs for the block itself; do not strip wp-admin to chase the Block Directory.
 
 ## Required shape
 

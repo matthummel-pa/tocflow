@@ -1,7 +1,7 @@
-# TOCflow
+# TOCguide
 
 <p align="center">
-  <img src="docs/assets/tocflow-logo.svg" alt="TOCflow — WordPress Table of Contents block" width="440">
+  <img src="docs/assets/tocflow-logo.svg" alt="TOCguide — WordPress Table of Contents block" width="440">
 </p>
 
 <p align="center">
@@ -53,10 +53,10 @@
 
 | Feature | Where | Detail |
 |---|---|---|
-| **Design & Appearance** | Settings → TOCflow | Background, text, link colours; font size, weight, line height; border width/style/colour/radius; padding — all applied as CSS custom properties (`--tocflow-bg`, `--tocflow-color`, etc.) |
-| **Reading Guide defaults** | Settings → TOCflow | Global on/off for hover preview, guide mode, section previews, density bars, read time, progress fade, reactions, citations, and citation format |
-| **Study Tools & Export defaults** | Settings → TOCflow | Global on/off for reading progress bar, resume bookmark, reader note pads, export toolbar |
-| **Accessibility — focus ring style** | Settings → TOCflow | Default (underline), Bold (3 px outline, WCAG 2.1 AA), High-contrast (yellow background, WCAG 2.1 AAA) via `data-tocflow-focus` |
+| **Design & Appearance** | Settings → TOCguide | Background, text, link colours; font size, weight, line height; border width/style/colour/radius; padding — all applied as CSS custom properties (`--tocflow-bg`, `--tocflow-color`, etc.) |
+| **Reading Guide defaults** | Settings → TOCguide | Global on/off for hover preview, guide mode, section previews, density bars, read time, progress fade, reactions, citations, and citation format |
+| **Study Tools & Export defaults** | Settings → TOCguide | Global on/off for reading progress bar, resume bookmark, reader note pads, export toolbar |
+| **Accessibility — focus ring style** | Settings → TOCguide | Default (underline), Bold (3 px outline, WCAG 2.1 AA), High-contrast (yellow background, WCAG 2.1 AAA) via `data-tocflow-focus` |
 | **Admin colour picker** | Settings page JS | Hex text input syncs with `<input type=color>` swatch; guide sub-options show/hide when guide mode is toggled |
 
 All global defaults apply to auto-inserted blocks and shortcodes. Per-block editor settings always override them.
@@ -110,9 +110,9 @@ Full entry-by-entry detail in [`CHANGELOG.md`](CHANGELOG.md).
 
 ## Performance
 
-TOCflow is built to add **zero measurable overhead** on pages that don't use it, and minimal overhead on pages that do.
+TOCguide is built to add **zero measurable overhead** on pages that don't use it, and minimal overhead on pages that do.
 
-| Concern | How TOCflow handles it |
+| Concern | How TOCguide handles it |
 |---|---|
 | **Assets on unrelated pages** | JS + CSS only load on singular posts/pages that contain the block, shortcode, or auto-insert target. The `enqueue_front_assets()` check gates all enqueues. |
 | **Front-end JavaScript** | `view.js` — 13 KB minified, ~4 KB gzipped. Loaded via `block.json viewScript` (WordPress handles the dependency). No jQuery. No framework. |
@@ -126,7 +126,7 @@ TOCflow is built to add **zero measurable overhead** on pages that don't use it,
 
 ---
 
-## Why TOCflow
+## Why TOCguide
 
 - **Zero config** — insert the block; the outline builds itself.
 - **Server-rendered** — the list is in the first HTML response (SEO + screen readers).
@@ -147,7 +147,7 @@ TOCflow is built to add **zero measurable overhead** on pages that don't use it,
 - Optional ItemList JSON-LD schema
 - Settings + Docs & Support screens in wp-admin
 
-The plugin slug, folder, and text domain are **`tocflow`**. Display name: **TOCflow**. See [`docs/NAMING.md`](docs/NAMING.md).
+The plugin slug, folder, and text domain are **`tocguide`**. Display name: **TOCguide**. GitHub repo: `tocflow`. See [`docs/NAMING.md`](docs/NAMING.md).
 
 ---
 
@@ -157,7 +157,7 @@ Current version: **1.3.1**.
 
 1. Download `tocflow.zip` from [Releases](https://github.com/matthummel-pa/tocflow/releases).
 2. In WordPress: **Plugins → Add New → Upload Plugin**.
-3. Activate. Optional: **Settings → TOCflow**.
+3. Activate. Optional: **Settings → TOCguide**.
 
 Or clone this repo into `wp-content/plugins/tocflow`, run `npm install && npm run build`, and activate.
 

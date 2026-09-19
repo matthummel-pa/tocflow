@@ -1,11 +1,11 @@
-=== TOCflow ===
+=== TOCguide ===
 Contributors: matthummel
 Donate link: https://matthummel.com
 Tags: table of contents, toc, reading guide, block, study tools
 Requires at least: 6.4
 Tested up to: 7.1
 Requires PHP: 7.4
-Stable tag: 1.3.3
+Stable tag: 1.4.0
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -13,7 +13,7 @@ Table of Contents block with a built-in Reading Guide — section previews, read
 
 == Description ==
 
-TOCflow adds a Table of Contents block to the WordPress block editor. Unlike other TOC plugins, it ships a **Reading Guide mode** that turns a plain navigation list into an intelligent reading companion. Every feature is rendered server-side or handled client-side with no external API calls, no accounts, and no tracking.
+TOCguide adds a Table of Contents block to the WordPress block editor. It is an independent plugin by Matt Hummel and is not affiliated with any other company or plugin. Unlike other TOC plugins, it ships a **Reading Guide mode** that turns a plain navigation list into an intelligent reading companion. Every feature is rendered server-side or handled client-side with no external API calls, no accounts, and no tracking.
 
 = Standard TOC features =
 
@@ -27,7 +27,7 @@ TOCflow adds a Table of Contents block to the WordPress block editor. Unlike oth
 * Scroll-spy highlights the section currently in view
 * Hide bullets, two-column layout, compact spacing, max height with scroll
 * Auto-generate the block sitewide (top of content or after first heading)
-* `[tocflow]` shortcode for classic content and theme templates
+* `[tocguide]` shortcode (`[tocflow]` still works) for classic content and theme templates
 * Skip a heading with the CSS class `no-toc`
 * Accessible `<nav>` landmark with ARIA labels
 * Optional ItemList JSON-LD schema markup
@@ -53,12 +53,12 @@ Enable **Reading Guide** in the block sidebar to transform the TOC into a live r
 
 = Compatibility =
 
-TOCflow is designed to work with every major WordPress stack:
+TOCguide is designed to work with every major WordPress stack:
 
-* **Theme builders:** Gutenberg (native block), Elementor, Divi, Beaver Builder, Bricks Builder, WPBakery, Oxygen, Breakdance — use `[tocflow]` in any shortcode/HTML element.
+* **Theme builders:** Gutenberg (native block), Elementor, Divi, Beaver Builder, Bricks Builder, WPBakery, Oxygen, Breakdance — use `[tocguide]` or `[tocflow]` in any shortcode/HTML element.
 * **SEO plugins:** Yoast SEO, Rank Math, All in One SEO, SEOPress — schema markup is opt-in and off by default; no conflicts with any SEO plugin's TOC schema output.
 * **Themes:** Works with any theme — inherits theme fonts and colors; no injected brand styles; tested on Twenty Twenty-Four, Twenty Twenty-Five, Astra, Kadence, GeneratePress, Blocksy.
-* **Multilingual:** WPML, Polylang, TranslatePress — fully translation-ready with the standard `tocflow` text domain.
+* **Multilingual:** WPML, Polylang, TranslatePress — fully translation-ready with the standard `tocguide` text domain.
 * **PHP:** 7.4, 8.0, 8.1, 8.2, 8.3.
 * **WordPress:** 6.4 – 7.1 (tested on all major releases in this range).
 
@@ -71,11 +71,11 @@ Unminified JavaScript and SCSS ship in `src/`. Compiled assets are in `build/`. 
 1. Edit a post that contains Heading blocks.
 2. Insert the **Table of Contents** block (typically after the introduction).
 3. Optionally open the **Reading Guide** panel in the block sidebar to enable any of the reading companion features.
-4. Open **Settings → TOCflow** to auto-generate the block sitewide or set a scroll offset.
+4. Open **Settings → TOCguide** to auto-generate the block sitewide or set a scroll offset.
 
 = Shortcode =
 
-`[tocflow]`
+`[tocguide]` or `[tocflow]` (same output)
 
 Layout & behavior: `title`, `showtitle`, `titletag`, `h1`–`h6`, `ordered`, `numbering`, `markers`, `collapsible`, `collapsed`, `sticky`, `compact`, `columns`, `underline`, `highlight`, `maxheight`, `min`, `smooth`, `style`.
 
@@ -95,7 +95,7 @@ Add the CSS class `no-toc` or `tocflow-skip` to a Heading block (Advanced → Ad
 
 = Privacy =
 
-TOCflow does not collect personal data, set cookies, or call remote services. Emoji reactions use the browser's own localStorage — no data leaves the reader's device. Optional JSON-LD is printed in the page HTML only if you enable it in settings. Details: https://github.com/matthummel-pa/tocflow/blob/main/PRIVACY.md
+TOCguide does not collect personal data, set cookies, or call remote services. Emoji reactions use the browser's own localStorage — no data leaves the reader's device. Optional JSON-LD is printed in the page HTML only if you enable it in settings. Details: https://github.com/matthummel-pa/tocflow/blob/main/PRIVACY.md
 
 = Support =
 
@@ -104,39 +104,39 @@ Issues: https://github.com/matthummel-pa/tocflow/issues
 
 == Installation ==
 
-1. Upload the `tocflow` folder to `/wp-content/plugins/`, or install the ZIP through **Plugins → Add New → Upload Plugin**.
-2. Activate **TOCflow**.
-3. Add the Table of Contents block to a post that contains headings, or enable auto-insert under **Settings → TOCflow**.
+1. Upload the `tocguide` folder to `/wp-content/plugins/`, or install the ZIP through **Plugins → Add New → Upload Plugin**.
+2. Activate **TOCguide**.
+3. Add the Table of Contents block to a post that contains headings, or enable auto-insert under **Settings → TOCguide**.
 
 == Frequently Asked Questions ==
 
 = Does it work with the classic editor? =
 
-The block is for the block editor. For classic content or a theme template, use the `[tocflow]` shortcode.
+The block is for the block editor. For classic content or a theme template, use the `[tocguide]` or `[tocflow]` shortcode.
 
 = Does it work with Elementor? =
 
-Yes. Add a Shortcode widget to your Elementor layout and enter `[tocflow]`. TOCflow automatically reads headings from your Elementor Heading widgets (via the stored widget JSON) and injects matching ID anchors into the rendered page so all TOC links scroll correctly. No extra plugin or configuration needed.
+Yes. Add a Shortcode widget to your Elementor layout and enter `[tocflow]`. TOCguide automatically reads headings from your Elementor Heading widgets (via the stored widget JSON) and injects matching ID anchors into the rendered page so all TOC links scroll correctly. No extra plugin or configuration needed.
 
 = Does it work with Divi? =
 
-Yes. Add a Code module or Shortcode module to your Divi section and enter `[tocflow]`. TOCflow scans the rendered page HTML for headings and injects the correct anchor IDs.
+Yes. Add a Code module or Shortcode module to your Divi section and enter `[tocflow]`. TOCguide scans the rendered page HTML for headings and injects the correct anchor IDs.
 
 = Does it work with Bricks Builder? =
 
-Yes. Paste `[tocflow]` into a Bricks Code element or Shortcode element. TOCflow reads headings directly from Bricks' element meta (heading and rich-text elements) and injects the correct IDs.
+Yes. Paste `[tocflow]` into a Bricks Code element or Shortcode element. TOCguide reads headings directly from Bricks' element meta (heading and rich-text elements) and injects the correct IDs.
 
 = Does it work with Beaver Builder? =
 
-Yes. Add an HTML module or Shortcode module containing `[tocflow]`. TOCflow uses `[tocflow]` detected in Beaver Builder data to ensure headings receive the correct anchor IDs.
+Yes. Add an HTML module or Shortcode module containing `[tocflow]`. TOCguide uses `[tocflow]` detected in Beaver Builder data to ensure headings receive the correct anchor IDs.
 
 = Does it work with WPBakery / Visual Composer? =
 
-Yes. Add a Raw HTML element or Shortcode element with `[tocflow]`. TOCflow scans the rendered HTML for headings and injects IDs automatically.
+Yes. Add a Raw HTML element or Shortcode element with `[tocflow]`. TOCguide scans the rendered HTML for headings and injects IDs automatically.
 
 = Does it work with Oxygen Builder or Breakdance? =
 
-Yes. Insert `[tocflow]` via a Shortcode element or Code Block. TOCflow detects the shortcode in Oxygen/Breakdance meta and handles heading ID injection through the rendered HTML.
+Yes. Insert `[tocflow]` via a Shortcode element or Code Block. TOCguide detects the shortcode in Oxygen/Breakdance meta and handles heading ID injection through the rendered HTML.
 
 = Can it co-exist with my SEO plugin (Yoast, Rank Math)? =
 
@@ -144,7 +144,7 @@ Yes. The optional JSON-LD schema is off by default. If you enable it, turn off T
 
 = Will the links scroll to my headings? =
 
-Yes. Matching anchor IDs are added automatically. Custom HTML anchors on a heading are respected. Smooth scrolling and a pixel offset are configurable under Settings → TOCflow.
+Yes. Matching anchor IDs are added automatically. Custom HTML anchors on a heading are respected. Smooth scrolling and a pixel offset are configurable under Settings → TOCguide.
 
 = How are section previews generated? =
 
@@ -160,7 +160,7 @@ Citations are built from data already in WordPress: the post author's display na
 
 = Can I hide the TOC on short posts? =
 
-Yes. Set **Minimum headings** in Settings → TOCflow.
+Yes. Set **Minimum headings** in Settings → TOCguide.
 
 = Does it work in columns or groups? =
 
@@ -172,13 +172,18 @@ Each instance lists the same headings from that post. Prefer one outline per pag
 
 = Is any data sent off-site? =
 
-No. Zero external network requests from TOCflow in any mode.
+No. Zero external network requests from TOCguide in any mode.
 
-= What license is TOCflow under? =
+= What license is TOCguide under? =
 
 GNU GPLv2 or later, covering the whole plugin (PHP, JavaScript, CSS, and images). Copyright Matt Hummel. Full text: `license.txt`.
 
 == Changelog ==
+
+= 1.4.0 =
+* Rebrand for WordPress.org guideline 17: display name is now TOCguide and the plugin slug / text domain / main file are `tocguide`. Not affiliated with any other product.
+* Shortcode `[tocguide]` added; `[tocflow]` remains as an alias.
+* Existing blocks (`tocflow/table-of-contents`), CSS classes, and settings keys are unchanged so current content keeps working.
 
 = 1.3.3 =
 * Fix: `$guide_attrs` array was re-initialized to empty on the line after `data-tocflow-focus` was written to it — the accessibility focus-ring attribute was always discarded. Moved array init before the focus-style assignment.
@@ -194,7 +199,7 @@ GNU GPLv2 or later, covering the whole plugin (PHP, JavaScript, CSS, and images)
 * Chore: PHPCBF auto-fixed 181 array-alignment warnings across `class-tocflow-settings.php`, `class-tocflow-plugin.php`, and `class-tocflow-headings.php`.
 
 = 1.3.0 =
-* New: **Design & Appearance** section in Settings → TOCflow — set global background, text, link, and border colours; font size, weight, and line height; border width / style / radius; and padding. All values are applied as CSS custom properties so block-editor per-instance overrides still win.
+* New: **Design & Appearance** section in Settings → TOCguide — set global background, text, link, and border colours; font size, weight, and line height; border width / style / radius; and padding. All values are applied as CSS custom properties so block-editor per-instance overrides still win.
 * New: **Reading Guide & Study Tools** section in settings — configure global defaults for hover section preview, guide mode, density bars, read time, progress fade, emoji reactions, and academic citations.
 * New: **Study Tools & Export** section in settings — global defaults for reading progress bar, resume bookmark, reader note pads, and export toolbar.
 * New: **Accessibility** section in settings — choose focus ring style: Default, Bold (3 px, WCAG AA), or High-contrast (yellow background, WCAG AAA).
@@ -251,8 +256,11 @@ GNU GPLv2 or later, covering the whole plugin (PHP, JavaScript, CSS, and images)
 
 == Upgrade Notice ==
 
+= 1.4.0 =
+Display name and WordPress.org slug are now TOCguide / tocguide so the listing is clearly independent. Existing blocks, CSS, and `[tocflow]` keep working.
+
 = 1.3.3 =
-Bug fix: custom background and font colours set in Settings → TOCflow now display correctly. The accessibility focus-ring setting also now applies as intended.
+Bug fix: custom background and font colours set in Settings → TOCguide now display correctly. The accessibility focus-ring setting also now applies as intended.
 
 = 1.3.2 =
 Readme-only fix: short description trimmed to satisfy the WordPress.org 150-character parser limit.
@@ -280,4 +288,4 @@ Plugin Check and readme cleanup for the WordPress.org review. Same block, settin
 
 == License ==
 
-TOCflow is copyright 2026 Matt Hummel and licensed under the GNU General Public License, version 2 or later. That license covers the whole plugin (PHP, JavaScript, CSS, and images). The full text is in `license.txt`.
+TOCguide is copyright 2026 Matt Hummel and licensed under the GNU General Public License, version 2 or later. That license covers the whole plugin (PHP, JavaScript, CSS, and images). The full text is in `license.txt`.

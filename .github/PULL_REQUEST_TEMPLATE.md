@@ -24,4 +24,4 @@ WordPress version, PHP version, and what you clicked (block, shortcode, auto-ins
 - [ ] No PHP notices with `WP_DEBUG` on
 - [ ] I did not commit `node_modules/` or `build/`
 - [ ] Docs / `readme.txt` / `CHANGELOG.md` updated if behavior changed
-- [ ] Text domain is the literal string `tocflow` (not a variable)
+- [ ] Text domain is the literal string `tocguide` (not a variable)

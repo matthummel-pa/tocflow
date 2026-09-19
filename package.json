@@ -1,6 +1,6 @@
 {
-	"name": "tocflow",
-	"version": "1.3.3",
+	"name": "tocguide",
+	"version": "1.4.0",
 	"description": "A server-rendered Table of Contents block for the WordPress editor.",
 	"author": {
 		"name": "Matt Hummel",
@@ -28,7 +28,7 @@
 		"node": ">=20"
 	},
 	"files": [
-		"tocflow.php",
+		"tocguide.php",
 		"uninstall.php",
 		"readme.txt",
 		"license.txt",

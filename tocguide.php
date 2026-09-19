@@ -1,16 +1,16 @@
 <?php
 /**
- * Plugin Name:       TOCflow
+ * Plugin Name:       TOCguide
  * Plugin URI:        https://github.com/matthummel-pa/tocflow
- * Description:       A lightweight Table of Contents block that auto-generates a linked outline from your post headings.
- * Version:           1.3.3
+ * Description:       A lightweight Table of Contents block that auto-generates a linked outline from your post headings. Independent plugin by Matt Hummel — not affiliated with any other product.
+ * Version:           1.4.0
  * Requires at least: 6.4
  * Requires PHP:      7.4
  * Author:            Matt Hummel
  * Author URI:        https://matthummel.com
  * License:           GPL-2.0-or-later
  * License URI:       https://www.gnu.org/licenses/gpl-2.0.html
- * Text Domain:       tocflow
+ * Text Domain:       tocguide
  * Domain Path:       /languages
  *
  * @package   TOCflow
@@ -22,7 +22,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-define( 'TOCFLOW_VERSION', '1.3.3' );
+define( 'TOCFLOW_VERSION', '1.4.0' );
 define( 'TOCFLOW_FILE', __FILE__ );
 define( 'TOCFLOW_DIR', plugin_dir_path( __FILE__ ) );
 define( 'TOCFLOW_URL', plugin_dir_url( __FILE__ ) );
@@ -39,6 +39,15 @@ require_once TOCFLOW_DIR . 'includes/class-tocflow-plugin.php';
  */
 function tocflow() {
 	return TOCflow_Plugin::instance();
+}
+
+/**
+ * Alias matching the WordPress.org slug.
+ *
+ * @return TOCflow_Plugin
+ */
+function tocguide() {
+	return tocflow();
 }
 
 tocflow()->boot();

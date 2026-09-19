@@ -1,6 +1,6 @@
-# Developer SOP — TOCflow
+# Developer SOP — TOCguide
 
-Standard operating procedure for contributing to **TOCflow**. Architecture: [`CLAUDE.md`](../CLAUDE.md). Naming: [`NAMING.md`](NAMING.md). WordPress.org FAQ + guidelines: [`wordpress-org/PLUGIN_DIRECTORY.md`](wordpress-org/PLUGIN_DIRECTORY.md) (must stay compliant).
+Standard operating procedure for contributing to **TOCguide**. Architecture: [`CLAUDE.md`](../CLAUDE.md). Naming: [`NAMING.md`](NAMING.md). WordPress.org FAQ + guidelines: [`wordpress-org/PLUGIN_DIRECTORY.md`](wordpress-org/PLUGIN_DIRECTORY.md) (must stay compliant).
 
 ---
 
@@ -37,7 +37,7 @@ npm run build      # production
 npx --package=@wordpress/env wp-env start   # http://localhost:8888  admin / password
 ```
 
-`.wp-env.json` maps this repo as the plugin. Symlink this folder to `wp-content/plugins/tocflow` if you are not using wp-env.
+`.wp-env.json` maps this repo as the plugin. Symlink this folder to `wp-content/plugins/tocguide` if you are not using wp-env.
 
 ---
 
@@ -58,7 +58,7 @@ Prefixes: `feat/`, `fix/`, `docs/`, `chore/`. Imperative commit messages.
 - Tabs, Yoda where it helps, escape on output, sanitize on input.
 - Prefix functions `tocflow_`, classes `TOCflow_`, option `tocflow_settings`.
 - Never declare functions in `src/render.php`.
-- Text domain is the literal `'tocflow'` — never a variable or constant.
+- Text domain is the literal `'tocguide'` — never a variable or constant.
 - Admin classes load only when `is_admin()`.
 - Heading IDs: `WP_HTML_Tag_Processor`, not a second regex parser, when available.
 
@@ -97,7 +97,7 @@ PR against `matthummel-pa/tocflow:main`. Fill in the template.
 
 ## 8. Release (maintainers)
 
-Bump **all** of: `tocflow.php` (`Version` + `TOCFLOW_VERSION`), `package.json`, `src/block.json`, `readme.txt` (`Stable tag`).
+Bump **all** of: `tocguide.php` (`Version` + `TOCFLOW_VERSION`), `package.json`, `src/block.json`, `readme.txt` (`Stable tag`).
 
 1. Dated `CHANGELOG.md` + `readme.txt` changelog.
 2. `npm run build` && `npm run plugin-zip`

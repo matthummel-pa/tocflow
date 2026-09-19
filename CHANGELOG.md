@@ -1,7 +1,20 @@
 # Changelog
 
-All notable changes to TOCflow are documented here.
+All notable changes to TOCguide are documented here.
 This project adheres to [Semantic Versioning](https://semver.org/).
+
+## [1.4.0] - 2026-09-19
+
+### Changed
+- **WordPress.org identity:** display name is **TOCguide**; slug, folder, text domain, and main file are **`tocguide`**. This answers the plugins team request to make it clear the plugin is not affiliated with any other entity (guideline 17). The previous `tocflow` listing name was too close to other `*flow` brands.
+- New shortcode `[tocguide]`. `[tocflow]` remains registered as an alias.
+- User-facing admin labels, docs, and directory artwork use TOCguide.
+- Translation text domain is now the literal `tocguide`.
+
+### Unchanged (on purpose)
+- Gutenberg block name `tocflow/table-of-contents` (stored in post content).
+- CSS classes, CSS variables, option key `tocflow_settings`, PHP class/function prefixes.
+- GitHub repository name `tocflow` (Pages and issue URLs).
 
 ## [1.3.3] - 2026-09-09
 

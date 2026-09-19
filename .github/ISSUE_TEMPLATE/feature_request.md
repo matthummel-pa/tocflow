@@ -1,6 +1,6 @@
 ---
 name: Feature request
-about: Suggest an enhancement to TOCflow
+about: Suggest an enhancement to TOCguide
 title: "[Feature] "
 labels: enhancement
 assignees: ''
@@ -10,7 +10,7 @@ assignees: ''
 What is hard or missing today?
 
 **Proposal**
-How should it work in the block, shortcode, and/or Settings → TOCflow?
+How should it work in the block, shortcode, and/or Settings → TOCguide?
 
 **Who it helps**
 Site owners, theme authors, or developers?

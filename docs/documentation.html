@@ -3,10 +3,10 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>TOCflow documentation — Table of Contents block for WordPress</title>
-<meta name="description" content="Full documentation for TOCflow v1.2.0: install, block sidebar, Reading Guide mode, study assistant (reader notes, progress bar, resume bookmark, section planner), hover previews, section citations, auto-insert, shortcode, settings reference, compatibility, and developer filters.">
+<title>TOCguide documentation — Table of Contents block for WordPress</title>
+<meta name="description" content="Full documentation for TOCguide v1.2.0: install, block sidebar, Reading Guide mode, study assistant (reader notes, progress bar, resume bookmark, section planner), hover previews, section citations, auto-insert, shortcode, settings reference, compatibility, and developer filters.">
 <link rel="canonical" href="https://matthummel-pa.github.io/tocflow/documentation.html">
-<meta property="og:title" content="TOCflow documentation">
+<meta property="og:title" content="TOCguide documentation">
 <meta property="og:description" content="Install, block sidebar, Reading Guide, hover previews, citations, auto-insert, shortcode, settings, compatibility, and developer notes.">
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://matthummel-pa.github.io/tocflow/documentation.html">
@@ -133,16 +133,16 @@
 
 <!-- ── Main content ── -->
 <div class="content">
-  <p class="breadcrumb"><a href="index.html">← TOCflow home</a> · <a href="support.html">Support</a></p>
+  <p class="breadcrumb"><a href="index.html">← TOCguide home</a> · <a href="support.html">Support</a></p>
   <p class="kicker">Plugin documentation · v1.2.0</p>
-  <h1>TOCflow</h1>
+  <h1>TOCguide</h1>
   <p class="intro">A server-rendered Table of Contents for the WordPress block editor — and the only TOC plugin with a built-in Reading Guide. Slug: <code>tocflow</code>.</p>
 
   <!-- Install -->
   <h2 id="install">1. Install</h2>
   <p><strong>From WordPress.org</strong> — go to <em>Plugins → Add New</em>, search for <em>tocflow</em>, click Install Now.</p>
-  <p><strong>From a ZIP</strong> — download <code>tocflow.zip</code> from <a href="https://github.com/matthummel-pa/tocflow/releases/latest">GitHub Releases</a>, then <em>Plugins → Add New → Upload Plugin</em>.</p>
-  <p><strong>Developers</strong> — clone into <code>wp-content/plugins/tocflow</code> and run:</p>
+  <p><strong>From a ZIP</strong> — download <code>tocguide.zip</code> from <a href="https://github.com/matthummel-pa/tocflow/releases/latest">GitHub Releases</a>, then <em>Plugins → Add New → Upload Plugin</em>.</p>
+  <p><strong>Developers</strong> — clone the GitHub repo into <code>wp-content/plugins/</code> (folder may be <code>tocflow</code>; WordPress.org installs use <code>tocguide</code>) and run:</p>
   <pre><code>npm install
 npm run build</code></pre>
   <p>Source files are in <code>src/</code>. Compiled assets land in <code>build/</code>. Run <code>npm run start</code> for watch mode.</p>
@@ -153,7 +153,7 @@ npm run build</code></pre>
     <li>Edit a post that has Heading blocks (H2–H6 appear by default; H1 is off).</li>
     <li>Click <strong>+</strong> and search for <em>Table of Contents</em>. Insert it anywhere — typically after the intro paragraph.</li>
     <li>The editor shows a live outline. Rearrange your headings and watch it update.</li>
-    <li>To enable sitewide auto-insert, open <strong>Settings → TOCflow</strong> in wp-admin.</li>
+    <li>To enable sitewide auto-insert, open <strong>Settings → TOCguide</strong> in wp-admin.</li>
   </ol>
 
   <!-- Block sidebar -->
@@ -261,8 +261,8 @@ npm run build</code></pre>
   </ul>
 
   <!-- Settings -->
-  <h2 id="settings">7. Settings → TOCflow</h2>
-  <p>Find these under <strong>WordPress admin → Settings → TOCflow</strong>.</p>
+  <h2 id="settings">7. Settings → TOCguide</h2>
+  <p>Find these under <strong>WordPress admin → Settings → TOCguide</strong>.</p>
 
   <h3>Reading experience</h3>
   <table>
@@ -334,7 +334,7 @@ npm run build</code></pre>
 
   <!-- Compatibility -->
   <h2 id="compatibility">9. Compatibility</h2>
-  <p class="intro">Compatibility is a core design principle of TOCflow. The block inherits theme colors and fonts, never loads from third-party CDNs, and makes zero remote calls in any mode.</p>
+  <p class="intro">Compatibility is a core design principle of TOCguide. The block inherits theme colors and fonts, never loads from third-party CDNs, and makes zero remote calls in any mode.</p>
 
   <h3 id="seo-plugins">SEO plugins</h3>
   <div class="compat-row">
@@ -344,11 +344,11 @@ npm run build</code></pre>
     <span class="compat-pill">Schema Pro</span>
     <span class="compat-pill">SEOPress</span>
   </div>
-  <p>TOCflow's JSON-LD schema is <strong>off by default</strong> and outputs only when you enable it. If your SEO plugin already generates a TOC schema, leave TOCflow's off to avoid duplicate structured data. The block navigation landmark itself is invisible to SEO plugins.</p>
+  <p>TOCguide's JSON-LD schema is <strong>off by default</strong> and outputs only when you enable it. If your SEO plugin already generates a TOC schema, leave TOCguide's off to avoid duplicate structured data. The block navigation landmark itself is invisible to SEO plugins.</p>
   <div class="callout"><p><strong>Yoast &amp; Rank Math:</strong> Both plugins read heading structure directly from the post content — the TOC <code>&lt;nav&gt;</code> block does not affect their content analysis.</p></div>
 
   <h3 id="themes">Themes</h3>
-  <p>The front-end TOC block inherits the active theme's font family, font size, and link color via <code>currentColor</code> and CSS custom properties. TOCflow never injects a branded or third-party font on the front end.</p>
+  <p>The front-end TOC block inherits the active theme's font family, font size, and link color via <code>currentColor</code> and CSS custom properties. TOCguide never injects a branded or third-party font on the front end.</p>
   <div class="compat-row">
     <span class="compat-pill">Twenty Twenty-Four</span>
     <span class="compat-pill">Twenty Twenty-Five</span>
@@ -362,7 +362,7 @@ npm run build</code></pre>
   </div>
 
   <h3 id="page-builders">Page builders</h3>
-  <p>Place <code>[tocflow]</code> in any Shortcode, HTML, or Code element in your page builder. TOCflow automatically reads heading data from each builder's stored meta and injects matching anchor IDs into the rendered page via a late <code>the_content</code> filter (priority 999, runs after all builder output).</p>
+  <p>Place <code>[tocflow]</code> in any Shortcode, HTML, or Code element in your page builder. TOCguide automatically reads heading data from each builder's stored meta and injects matching anchor IDs into the rendered page via a late <code>the_content</code> filter (priority 999, runs after all builder output).</p>
   <table>
     <thead><tr><th>Builder</th><th>Heading detection</th><th>Notes</th></tr></thead>
     <tbody>
@@ -376,13 +376,13 @@ npm run build</code></pre>
       <tr><td><strong>Gutenberg (native)</strong></td><td>Block parse via <code>parse_blocks()</code></td><td>The canonical integration path. Heading IDs are injected via the <code>render_block</code> filter — no <code>the_content</code> overhead on block sites.</td></tr>
     </tbody>
   </table>
-  <div class="callout"><p><strong>How builder ID injection works:</strong> A <code>the_content</code> filter at priority 999 runs after every page builder has finished generating its HTML. TOCflow uses <code>WP_HTML_Tag_Processor</code> (or a regex fallback for older WordPress) to find heading tags without an <code>id</code> attribute and stamps each one with the same slug used in the TOC link. Headings with existing IDs are left untouched.</p></div>
+  <div class="callout"><p><strong>How builder ID injection works:</strong> A <code>the_content</code> filter at priority 999 runs after every page builder has finished generating its HTML. TOCguide uses <code>WP_HTML_Tag_Processor</code> (or a regex fallback for older WordPress) to find heading tags without an <code>id</code> attribute and stamps each one with the same slug used in the TOC link. Headings with existing IDs are left untouched.</p></div>
 
   <h3 id="multilingual">Multilingual</h3>
   <table>
     <thead><tr><th>Plugin / tool</th><th>Status</th><th>Notes</th></tr></thead>
     <tbody>
-      <tr><td>WPML</td><td>✓ Compatible</td><td>All user-facing strings use the <code>tocflow</code> text domain and are translatable via WPML's string translation module.</td></tr>
+      <tr><td>WPML</td><td>✓ Compatible</td><td>All user-facing strings use the <code>tocguide</code> text domain and are translatable via WPML's string translation module.</td></tr>
       <tr><td>Polylang</td><td>✓ Compatible</td><td>No locale-specific slug or permalink issues.</td></tr>
       <tr><td>TranslatePress</td><td>✓ Compatible</td><td>Front-end translated strings render correctly in the TOC.</td></tr>
       <tr><td>WooCommerce</td><td>✓ Compatible</td><td>Works in product descriptions that use Heading blocks (requires WooCommerce block editor for products).</td></tr>
@@ -400,7 +400,7 @@ npm run start   # development watch mode</code></pre>
   <p>Requires Node.js 18+ and npm 9+. The build uses <code>@wordpress/scripts</code>. Unminified source is in <code>src/</code>; compiled assets land in <code>build/</code> (gitignored, built on release via GitHub Actions).</p>
 
   <h2 id="dev-filters">11. Developer: PHP filters</h2>
-  <p>Hook into TOCflow's rendering to customize headings, skip post types, or alter the output:</p>
+  <p>Hook into TOCguide's rendering to customize headings, skip post types, or alter the output:</p>
   <table>
     <thead><tr><th>Filter</th><th>Args</th><th>Purpose</th></tr></thead>
     <tbody>
@@ -418,7 +418,7 @@ add_filter( 'tocflow_headings', function( $headings, $post_id ) {
 }, 10, 2 );</code></pre>
 
   <h2 id="privacy">12. Privacy</h2>
-  <p>TOCflow does not collect personal data, set cookies, or call remote services. Emoji reactions use the browser's own <code>localStorage</code> — no data leaves the reader's device. Citation data is built from post meta that is already public. JSON-LD is printed only if you opt in. <a href="https://github.com/matthummel-pa/tocflow/blob/main/PRIVACY.md">Full privacy policy →</a></p>
+  <p>TOCguide does not collect personal data, set cookies, or call remote services. Emoji reactions use the browser's own <code>localStorage</code> — no data leaves the reader's device. Citation data is built from post meta that is already public. JSON-LD is printed only if you opt in. <a href="https://github.com/matthummel-pa/tocflow/blob/main/PRIVACY.md">Full privacy policy →</a></p>
 
   <footer>
     <p>© 2026 <a href="https://matthummel.com">Matt Hummel</a> · <a href="index.html">Home</a> · <a href="support.html">Support</a> · <a href="https://github.com/matthummel-pa/tocflow">GitHub</a> · GPLv2 or later</p>

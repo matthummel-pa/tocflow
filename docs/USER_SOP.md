@@ -1,8 +1,8 @@
-# User SOP — TOCflow
+# User SOP — TOCguide
 
-A step-by-step guide for **using** the TOCflow plugin. No coding required.
+A step-by-step guide for **using** the TOCguide plugin. No coding required.
 
-TOCflow adds one block — **Table of Contents** — that builds a linked outline from the headings in your post. You can also auto-insert it on every post or place it with a shortcode.
+TOCguide adds one block — **Table of Contents** — that builds a linked outline from the headings in your post. You can also auto-insert it on every post or place it with a shortcode.
 
 Online version: https://matthummel-pa.github.io/tocflow/
 
@@ -18,9 +18,9 @@ Online version: https://matthummel-pa.github.io/tocflow/
 
 **Option B — Folder**
 
-Copy the `tocflow` folder into `wp-content/plugins/` and activate **TOCflow**.
+Copy the `tocflow` folder into `wp-content/plugins/` and activate **TOCguide**.
 
-Open **Settings → TOCflow** once. Set a scroll offset if your site has a sticky header (try 80–120px).
+Open **Settings → TOCguide** once. Set a scroll offset if your site has a sticky header (try 80–120px).
 
 ---
 
@@ -47,7 +47,7 @@ With the block selected, use the sidebar:
 | **Max height** | Scroll the list when it is taller than this (0 = unlimited). |
 | **Style** | Block Styles panel: Default, Minimal, Boxed, Underline, Card. |
 | **Sticky / collapsible / highlight** | Reading behavior. Smooth scroll can inherit the site setting or override it. |
-| **Minimum headings / scroll offset** | `-1` inherits **Settings → TOCflow**. |
+| **Minimum headings / scroll offset** | `-1` inherits **Settings → TOCguide**. |
 
 Color, spacing, typography, and border are the normal block controls.
 
@@ -55,7 +55,7 @@ Color, spacing, typography, and border are the normal block controls.
 
 ## 4. Auto-generate (optional)
 
-**Settings → TOCflow → Auto-generate the block**
+**Settings → TOCguide → Auto-generate the block**
 
 This prints the same **Table of Contents** Gutenberg block on the front end. It is not a shortcode.
 

@@ -145,7 +145,7 @@ class TOCflow_Settings {
 
 		$title = isset( $settings['auto_title'] ) ? $settings['auto_title'] : '';
 		if ( '' === $title ) {
-			$title = __( 'Table of Contents', 'tocflow' );
+			$title = __( 'Table of Contents', 'tocguide' );
 		}
 
 		$ordered        = ! empty( $settings['auto_ordered'] ) || 'nested' === $numbering;

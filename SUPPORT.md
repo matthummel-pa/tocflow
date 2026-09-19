@@ -1,6 +1,6 @@
 # Support policy
 
-TOCflow is a GPL-licensed WordPress plugin. Support is provided in English.
+TOCguide is a GPL-licensed WordPress plugin. Support is provided in English.
 
 ## Where to get help
 
@@ -8,7 +8,7 @@ TOCflow is a GPL-licensed WordPress plugin. Support is provided in English.
 | --- | --- |
 | [User guide](https://matthummel-pa.github.io/tocflow/) | How to install, settings, FAQ |
 | [GitHub Issues](https://github.com/matthummel-pa/tocflow/issues) | Bugs and feature requests |
-| [Docs & Support](https://github.com/matthummel-pa/tocflow/blob/main/docs/USER_SOP.md) in wp-admin (**Settings → TOCflow → Docs & Support**) | In-dashboard copy of the same guidance |
+| [Docs & Support](https://github.com/matthummel-pa/tocflow/blob/main/docs/USER_SOP.md) in wp-admin (**Settings → TOCguide → Docs & Support**) | In-dashboard copy of the same guidance |
 | [Email (security only)](mailto:matt@matthummel.com) | See [SECURITY.md](SECURITY.md) |
 | [Privacy](PRIVACY.md) | What the plugin stores (nothing off-site) |
 
@@ -16,7 +16,7 @@ WordPress.org forum support will be enabled if/when the plugin is listed in the 
 
 ## What a useful report includes
 
-- WordPress version, PHP version, TOCflow version
+- WordPress version, PHP version, TOCguide version
 - Active theme and any TOC-related plugins
 - Steps to reproduce, and a screenshot or block markup if you can
 

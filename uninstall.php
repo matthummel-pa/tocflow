@@ -3,7 +3,7 @@
  * Fired when the plugin is uninstalled.
  *
  * Deactivation must not delete data. Uninstall only deletes the option
- * when the site owner opted in via Settings → TOCflow.
+ * when the site owner opted in via Settings → TOCguide.
  *
  * @package TOCflow
  */

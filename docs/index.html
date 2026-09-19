@@ -3,10 +3,10 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>TOCflow — Reading Companion TOC block for WordPress</title>
-<meta name="description" content="TOCflow is the only WordPress Table of Contents plugin with a built-in Reading Guide: section previews, read-time estimates, hover tooltips, emoji reactions, and one-click academic citations — all server-rendered, no external APIs.">
+<title>TOCguide — Reading Companion TOC block for WordPress</title>
+<meta name="description" content="TOCguide is the only WordPress Table of Contents plugin with a built-in Reading Guide: section previews, read-time estimates, hover tooltips, emoji reactions, and one-click academic citations — all server-rendered, no external APIs.">
 <link rel="canonical" href="https://matthummel-pa.github.io/tocflow/">
-<meta property="og:title" content="TOCflow — WordPress Reading Companion TOC Block">
+<meta property="og:title" content="TOCguide — WordPress Reading Companion TOC Block">
 <meta property="og:description" content="Section previews, read-time estimates, hover tooltips, emoji reactions, and one-click academic citations. Server-rendered. Works with every theme, SEO plugin, and page builder.">
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://matthummel-pa.github.io/tocflow/">
@@ -138,17 +138,17 @@
     <span class="sep">·</span>
     <a href="https://github.com/matthummel-pa/tocflow" target="_blank" rel="noopener">GitHub</a>
     <span class="sep">·</span>
-    <a href="https://wordpress.org/plugins/tocflow/" target="_blank" rel="noopener">WordPress.org</a>
+    <a href="https://wordpress.org/plugins/tocguide/" target="_blank" rel="noopener">WordPress.org</a>
   </div>
 </div>
 
 <header class="hero">
   <div class="wrap">
-    <p class="kicker">WordPress plugin · slug <strong>tocflow</strong> · v1.2.0</p>
+    <p class="kicker">WordPress plugin · slug <strong>tocguide</strong> · v1.4.0</p>
     <h1>The TOC that reads<br><em>with your reader.</em></h1>
-    <p class="lede">TOCflow is the first Table of Contents block with a built-in Reading Guide — section previews, read-time estimates, hover tooltips, emoji reactions, and one-click academic citations. Server-rendered. Zero external APIs. Works with every theme and SEO plugin.</p>
+    <p class="lede">TOCguide is the first Table of Contents block with a built-in Reading Guide — section previews, read-time estimates, hover tooltips, emoji reactions, and one-click academic citations. Server-rendered. Zero external APIs. Works with every theme and SEO plugin.</p>
     <div class="btns">
-      <a class="btn primary" href="https://github.com/matthummel-pa/tocflow/releases/latest">Download free — tocflow.zip</a>
+      <a class="btn primary" href="https://github.com/matthummel-pa/tocflow/releases/latest">Download free — tocguide.zip</a>
       <a class="btn ghost" href="documentation.html">Full documentation</a>
       <a class="btn ghost" href="#study-assistant">What's new in 1.2</a>
     </div>
@@ -251,7 +251,7 @@
         <span class="g-icon">↩</span>
         <div>
           <h3>Resume bookmark</h3>
-          <p>TOCflow remembers the last heading the reader reached and offers a ↩ Resume button on the next visit. Enable with <code>bookmark="1"</code>.</p>
+          <p>TOCguide remembers the last heading the reader reached and offers a ↩ Resume button on the next visit. Enable with <code>bookmark="1"</code>.</p>
         </div>
       </div>
       <div class="guide-card">
@@ -338,7 +338,7 @@
     <div class="cta-banner">
       <div>
         <h3>Every feature is opt-in.</h3>
-        <p>Disable everything and TOCflow is a clean, fast, server-rendered TOC. Enable Reading Guide features one by one in the block sidebar.</p>
+        <p>Disable everything and TOCguide is a clean, fast, server-rendered TOC. Enable Reading Guide features one by one in the block sidebar.</p>
       </div>
       <a class="btn white" href="documentation.html#reading-guide">See Reading Guide docs →</a>
     </div>
@@ -347,8 +347,8 @@
   <!-- ── Settings ── -->
   <section id="settings">
     <p class="chap">Settings reference</p>
-    <h2>Two places to control TOCflow.</h2>
-    <p style="color:var(--muted)">The block sidebar controls individual block instances. <strong>Settings → TOCflow</strong> in wp-admin sets site-wide defaults.</p>
+    <h2>Two places to control TOCguide.</h2>
+    <p style="color:var(--muted)">The block sidebar controls individual block instances. <strong>Settings → TOCguide</strong> in wp-admin sets site-wide defaults.</p>
 
     <h3>Block sidebar (per block)</h3>
     <table>
@@ -375,7 +375,7 @@
       </tbody>
     </table>
 
-    <h3>Settings → TOCflow (site-wide)</h3>
+    <h3>Settings → TOCguide (site-wide)</h3>
     <table>
       <thead><tr><th>Control</th><th>What it does</th></tr></thead>
       <tbody>
@@ -397,7 +397,7 @@
   <section id="compatibility">
     <p class="chap">Works with your stack</p>
     <h2>Compatibility is a core design principle.</h2>
-    <p style="color:var(--muted);max-width:42rem">TOCflow inherits the active theme's fonts and colors, outputs a standard <code>&lt;nav&gt;</code> landmark, never loads from third-party CDNs, and makes zero remote calls. It co-exists cleanly with every major plugin and theme in the WordPress ecosystem.</p>
+    <p style="color:var(--muted);max-width:42rem">TOCguide inherits the active theme's fonts and colors, outputs a standard <code>&lt;nav&gt;</code> landmark, never loads from third-party CDNs, and makes zero remote calls. It co-exists cleanly with every major plugin and theme in the WordPress ecosystem.</p>
 
     <h3>WordPress &amp; PHP</h3>
     <div class="compat-grid">
@@ -412,7 +412,7 @@
       <div class="compat-item"><strong>Yoast SEO</strong><span>Schema is opt-in and additive — no conflicts</span><br><span class="compat-badge">Confirmed</span></div>
       <div class="compat-item"><strong>Rank Math</strong><span>TOC schema off by default — enable only if Rank Math is not outputting one</span><br><span class="compat-badge">Confirmed</span></div>
       <div class="compat-item"><strong>All in One SEO</strong><span>No schema conflicts in default config</span><br><span class="compat-badge">Compatible</span></div>
-      <div class="compat-item"><strong>Schema Pro</strong><span>Leave TOCflow's JSON-LD off when Schema Pro is active</span><br><span class="compat-badge">Compatible</span></div>
+      <div class="compat-item"><strong>Schema Pro</strong><span>Leave TOCguide's JSON-LD off when Schema Pro is active</span><br><span class="compat-badge">Compatible</span></div>
     </div>
 
     <h3 style="margin-top:28px">Themes</h3>
@@ -424,11 +424,11 @@
       <div class="compat-item"><strong>GeneratePress</strong><span>Classic + block</span><br><span class="compat-badge">Compatible</span></div>
       <div class="compat-item"><strong>OceanWP</strong><span>Classic</span><br><span class="compat-badge">Compatible</span></div>
       <div class="compat-item"><strong>Blocksy</strong><span>Block-based</span><br><span class="compat-badge">Compatible</span></div>
-      <div class="compat-item"><strong>Any theme</strong><span>TOCflow inherits theme fonts &amp; colors — no injected brand styles</span><br><span class="compat-badge">By design</span></div>
+      <div class="compat-item"><strong>Any theme</strong><span>TOCguide inherits theme fonts &amp; colors — no injected brand styles</span><br><span class="compat-badge">By design</span></div>
     </div>
 
     <h3 style="margin-top:28px">Page builders</h3>
-    <p style="color:var(--muted);font-size:15px;margin-bottom:8px">Use <code>[tocflow]</code> in any Shortcode, HTML, or Code element. TOCflow automatically reads headings from each builder's stored data and injects matching anchor IDs into the rendered page — no manual slug mapping needed.</p>
+    <p style="color:var(--muted);font-size:15px;margin-bottom:8px">Use <code>[tocflow]</code> in any Shortcode, HTML, or Code element. TOCguide automatically reads headings from each builder's stored data and injects matching anchor IDs into the rendered page — no manual slug mapping needed.</p>
     <div class="compat-grid">
       <div class="compat-item"><strong>Elementor</strong><span>Heading widget JSON parsed directly; IDs injected into rendered HTML</span><br><span class="compat-badge">Full support</span></div>
       <div class="compat-item"><strong>Divi</strong><span>HTML scan of rendered output; use <code>[tocflow]</code> in Code module</span><br><span class="compat-badge">Full support</span></div>
@@ -442,7 +442,7 @@
 
     <h3 style="margin-top:28px">Multilingual</h3>
     <div class="compat-grid">
-      <div class="compat-item"><strong>WPML</strong><span>Translatable strings, text domain <code>tocflow</code></span><br><span class="compat-badge">Compatible</span></div>
+      <div class="compat-item"><strong>WPML</strong><span>Translatable strings, text domain <code>tocguide</code></span><br><span class="compat-badge">Compatible</span></div>
       <div class="compat-item"><strong>Polylang</strong><span>No locale-specific slug issues</span><br><span class="compat-badge">Compatible</span></div>
       <div class="compat-item"><strong>TranslatePress</strong><span>Front-end translated strings render correctly</span><br><span class="compat-badge">Compatible</span></div>
     </div>
@@ -457,7 +457,7 @@
     <ol style="font-size:18px;line-height:1.8;padding-left:1.4rem">
       <li>Install and activate from <a href="https://github.com/matthummel-pa/tocflow/releases/latest">tocflow.zip</a> or <strong>Plugins → Add New</strong> (search <em>tocflow</em>).</li>
       <li>Edit a post with Heading blocks. Insert the <strong>Table of Contents</strong> block.</li>
-      <li>Optionally open <strong>Settings → TOCflow</strong> in wp-admin for site-wide auto-insert, scroll offset, and defaults.</li>
+      <li>Optionally open <strong>Settings → TOCguide</strong> in wp-admin for site-wide auto-insert, scroll offset, and defaults.</li>
     </ol>
     <p style="color:var(--muted)"><strong>Skip a heading:</strong> Add CSS class <code>no-toc</code> or <code>tocflow-skip</code> to any Heading block (Advanced → Additional CSS class(es)).</p>
     <p style="color:var(--muted)"><strong>Enable Reading Guide:</strong> Open the block sidebar → Reading Guide panel → toggle <em>Hover section preview</em> or <em>Full Reading Guide</em>.</p>
@@ -483,7 +483,7 @@
     </details>
     <details>
       <summary>Does it work with multilingual plugins (WPML, Polylang)?</summary>
-      <p>Yes. TOCflow is fully translation-ready with a standard <code>tocflow</code> text domain. All user-facing strings are translatable. There are no locale-specific slug issues.</p>
+      <p>Yes. TOCguide is fully translation-ready with a standard <code>tocguide</code> text domain. All user-facing strings are translatable. There are no locale-specific slug issues.</p>
     </details>
     <details>
       <summary>How do hover section previews work?</summary>
@@ -503,7 +503,7 @@
     </details>
     <details>
       <summary>Is the GitHub repo supposed to be called something else?</summary>
-      <p>No. Keep it <code>tocflow</code> — that is the WordPress plugin slug, folder name, and text domain. <a href="https://github.com/matthummel-pa/tocflow/blob/main/docs/NAMING.md">Naming notes.</a></p>
+      <p>The GitHub repository stays <code>tocflow</code> (Pages and issues). The WordPress.org slug, plugin folder, and text domain are <code>tocguide</code>. <a href="https://github.com/matthummel-pa/tocflow/blob/main/docs/NAMING.md">Naming notes.</a></p>
     </details>
   </section>
 
@@ -511,8 +511,8 @@
 
 <footer>
   <div class="wrap">
-    <p>© 2026 <a href="https://matthummel.com">Matt Hummel</a> · Plugin slug <span class="slug">tocflow</span> · GPLv2 or later</p>
-    <p><a href="documentation.html">Documentation</a> · <a href="support.html">Support</a> · <a href="https://github.com/matthummel-pa/tocflow">GitHub</a> · <a href="https://wordpress.org/plugins/tocflow/">WordPress.org</a></p>
+    <p>© 2026 <a href="https://matthummel.com">Matt Hummel</a> · Plugin slug <span class="slug">tocguide</span> · GPLv2 or later</p>
+    <p><a href="documentation.html">Documentation</a> · <a href="support.html">Support</a> · <a href="https://github.com/matthummel-pa/tocflow">GitHub</a> · <a href="https://wordpress.org/plugins/tocguide/">WordPress.org</a></p>
   </div>
 </footer>
 </body>

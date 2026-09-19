@@ -1,4 +1,4 @@
-# CLAUDE.md — TOCflow
+# CLAUDE.md — TOCguide
 
 Context file for Claude (Cowork / Claude Code) working on this project.
 
@@ -7,8 +7,10 @@ A single-purpose WordPress block plugin: a **Table of Contents** block that
 auto-generates a linked outline from a post's headings. Built as ONE focused
 block (not a block library).
 
-Display name **TOCflow**. GitHub / WordPress.org / folder / text domain slug:
-**`tocflow`**. Do not rename it (see `docs/NAMING.md`).
+Display name **TOCguide**. WordPress.org slug / folder / text domain / main file:
+**`tocguide`**. GitHub repo stays **`tocflow`**. Internal PHP, CSS, options, and the
+block name `tocflow/table-of-contents` stay on the original prefix so existing
+content does not break. See `docs/NAMING.md`.
 
 Matt's first WordPress product — portfolio for an agency and a freemium product.
 v1.0.0 is the marketplace-ready free core (WordPress.org + CodeCanyon packaging).
@@ -31,8 +33,8 @@ Block Directory (those cannot have wp-admin UI).
 - **Dynamic block**: `block.json` + `src/save.js` (`null`) + `src/render.php`.
 - Wrapper: `useBlockProps` in the editor, `get_block_wrapper_attributes()` on the front end.
 - Visual presets are Gutenberg **Block Styles** (`is-style-*`), not a custom SelectControl.
-- PHP: WordPress coding standards, tabs, text domain literal `tocflow`.
-- Helpers live under `includes/` (loaded once from `tocflow.php`).
+- PHP: WordPress coding standards, tabs, text domain literal `tocguide`.
+- Helpers live under `includes/` (loaded once from `tocguide.php`).
   `src/render.php` is output only — never declare functions there.
 - Admin UI loads only when `is_admin()`.
 - Front-end JS is `src/view.js` via `block.json` `viewScript`.
@@ -50,17 +52,17 @@ Block Directory (those cannot have wp-admin UI).
 4. Settings (`tocflow_settings`) control smooth-scroll offset, auto-generate
    of the Gutenberg block, schema, and uninstall cleanup.
 5. Auto-generate calls `WP_Block::render()` with settings as block attributes.
-   `[tocflow]` still maps to the same `render_nav()` output for classic content.
+   `[tocguide]` and `[tocflow]` still map to the same `render_nav()` output for classic content.
    View assets enqueue when the block, shortcode, or auto-generate is in use.
 
 ## File map
-- `tocflow.php` — headers, constants, boot.
+- `tocguide.php` — headers, constants, boot.
 - `includes/` — settings, headings, plugin, admin.
 - `admin/` — settings/support views + CSS.
 - `src/block.json` — metadata, attributes, supports.
 - `src/index.js` / `edit.js` / `save.js` / `view.js` / `headings.js` / `render.php`
 - `uninstall.php` — deletes data only if the owner opted in.
-- `languages/tocflow.pot` — translation template.
+- `languages/tocguide.pot` — translation template.
 - `docs/` — GitHub Pages support site + marketplace kit.
 - `.wordpress-org/` — directory banner/icon assets (PNG + SVG).
 

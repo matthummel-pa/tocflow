@@ -556,7 +556,7 @@ class TOCflow_Headings {
 				$html .= '<span class="tocflow__time" aria-hidden="true">~'
 					. $mins . '&thinsp;'
 					/* translators: abbreviation for "minute" in read-time estimates, e.g. "~3 min" */
-					. esc_html( __( 'min', 'tocflow' ) )
+					. esc_html( __( 'min', 'tocguide' ) )
 					. '</span>';
 			}
 			if ( $any_guide ) {
@@ -590,7 +590,7 @@ class TOCflow_Headings {
 					. ' aria-expanded="false"'
 					. ' aria-controls="' . esc_attr( $note_id ) . '">'
 					. '<span class="tocflow__note-icon" aria-hidden="true">&#x270D;</span>'
-					. '<span class="tocflow__visually-hidden">' . esc_html__( "Author's note", 'tocflow' ) . '</span>'
+					. '<span class="tocflow__visually-hidden">' . esc_html__( "Author's note", 'tocguide' ) . '</span>'
 					. '</button>'
 					. '<span class="tocflow__note" id="' . esc_attr( $note_id ) . '" hidden>'
 					. esc_html( (string) $notes[ $slug ] )
@@ -605,13 +605,13 @@ class TOCflow_Headings {
 					. '<button type="button" class="tocflow__rnote-toggle"'
 					. ' aria-expanded="false"'
 					. ' aria-controls="' . esc_attr( $rnote_id ) . '"'
-					. ' aria-label="' . esc_attr( sprintf( /* translators: %s = heading text */ __( 'My note for: %s', 'tocflow' ), $text ) ) . '">'
+					. ' aria-label="' . esc_attr( sprintf( /* translators: %s = heading text */ __( 'My note for: %s', 'tocguide' ), $text ) ) . '">'
 					. '<span class="tocflow__rnote-icon" aria-hidden="true">&#x1F4DD;</span>'
 					. '</button>'
 					. '<div class="tocflow__rnote-pad" id="' . esc_attr( $rnote_id ) . '" hidden>'
 					. '<textarea class="tocflow__rnote-ta" rows="3"'
-					. ' placeholder="' . esc_attr__( 'Your notes for this section\xe2\x80\xa6', 'tocflow' ) . '"'
-					. ' aria-label="' . esc_attr( sprintf( /* translators: %s = heading text */ __( 'Notes for: %s', 'tocflow' ), $text ) ) . '">'
+					. ' placeholder="' . esc_attr__( 'Your notes for this section\xe2\x80\xa6', 'tocguide' ) . '"'
+					. ' aria-label="' . esc_attr( sprintf( /* translators: %s = heading text */ __( 'Notes for: %s', 'tocguide' ), $text ) ) . '">'
 					. '</textarea>'
 					. '</div>'
 					. '</div>';
@@ -623,13 +623,13 @@ class TOCflow_Headings {
 
 				if ( $show_reactions ) {
 					$reaction_map = array(
-						'💡' => __( 'Insightful', 'tocflow' ),
-						'⭐' => __( 'Saved', 'tocflow' ),
-						'🤔' => __( 'Unclear', 'tocflow' ),
-						'✅' => __( 'Got it', 'tocflow' ),
+						'💡' => __( 'Insightful', 'tocguide' ),
+						'⭐' => __( 'Saved', 'tocguide' ),
+						'🤔' => __( 'Unclear', 'tocguide' ),
+						'✅' => __( 'Got it', 'tocguide' ),
 					);
 					$html        .= '<div class="tocflow__reactions" role="group" aria-label="'
-						. esc_attr__( 'React to this section', 'tocflow' ) . '">';
+						. esc_attr__( 'React to this section', 'tocguide' ) . '">';
 					foreach ( $reaction_map as $emoji => $label ) {
 						$html .= '<button type="button" class="tocflow__reaction"'
 							. ' aria-pressed="false"'
@@ -643,9 +643,9 @@ class TOCflow_Headings {
 
 				if ( $show_citations ) {
 					$html .= '<button type="button" class="tocflow__cite-btn"'
-						. ' aria-label="' . esc_attr__( 'Copy citation for this section', 'tocflow' ) . '">'
+						. ' aria-label="' . esc_attr__( 'Copy citation for this section', 'tocguide' ) . '">'
 						. '<span class="tocflow__cite-icon" aria-hidden="true">§</span>'
-						. '<span class="tocflow__visually-hidden">' . esc_html__( 'Cite', 'tocflow' ) . '</span>'
+						. '<span class="tocflow__visually-hidden">' . esc_html__( 'Cite', 'tocguide' ) . '</span>'
 						. '</button>';
 				}
 
@@ -754,7 +754,7 @@ class TOCflow_Headings {
 		$list_tag   = ! empty( $attributes['ordered'] ) ? 'ol' : 'ul';
 		$title_raw  = isset( $attributes['title'] ) ? (string) $attributes['title'] : '';
 		$title_text = trim( wp_strip_all_tags( $title_raw ) );
-		$label      = '' !== $title_text ? $title_text : __( 'Table of Contents', 'tocflow' );
+		$label      = '' !== $title_text ? $title_text : __( 'Table of Contents', 'tocguide' );
 		$show_title = ! isset( $attributes['showTitle'] ) || ! empty( $attributes['showTitle'] );
 		$show_title = $show_title && '' !== $title_text;
 		$title_tag  = self::title_tag_from_attributes( $attributes );
@@ -957,7 +957,7 @@ class TOCflow_Headings {
 			if ( ! empty( $attributes['collapsible'] ) ) {
 				$expanded = empty( $attributes['collapsedDefault'] ) ? 'true' : 'false';
 				$html    .= '<button type="button" class="tocflow__toggle" aria-expanded="' . esc_attr( $expanded ) . '">';
-				$html    .= '<span class="tocflow__visually-hidden">' . esc_html__( 'Toggle table of contents', 'tocflow' ) . '</span>';
+				$html    .= '<span class="tocflow__visually-hidden">' . esc_html__( 'Toggle table of contents', 'tocguide' ) . '</span>';
 				$html    .= '<span class="tocflow__toggle-icon" aria-hidden="true"></span>';
 				$html    .= '</button>';
 			}
@@ -983,13 +983,13 @@ class TOCflow_Headings {
 				/* translators: %d = estimated total reading time in minutes */
 				$html .= '<span class="tocflow__total-time" aria-hidden="true">'
 					/* translators: %d = estimated total reading time in minutes */
-					. sprintf( esc_html__( '~%d min total', 'tocflow' ), $total_mins )
+					. sprintf( esc_html__( '~%d min total', 'tocguide' ), $total_mins )
 					. '</span>';
 			}
 			if ( $has_resume ) {
 				$html .= '<button type="button" class="tocflow__resume-btn" hidden>'
 					. '<span aria-hidden="true">&#x21A9;</span>&thinsp;'
-					. esc_html__( 'Resume', 'tocflow' )
+					. esc_html__( 'Resume', 'tocguide' )
 					. '</button>';
 			}
 			$html .= '</div>';
@@ -1000,7 +1000,7 @@ class TOCflow_Headings {
 			$html .= '<div class="tocflow__reading-wrap"'
 				. ' role="progressbar"'
 				. ' aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"'
-				. ' aria-label="' . esc_attr__( 'Reading progress', 'tocflow' ) . '">'
+				. ' aria-label="' . esc_attr__( 'Reading progress', 'tocguide' ) . '">'
 				. '<div class="tocflow__reading-bar"></div>'
 				. '</div>';
 		}
@@ -1013,32 +1013,32 @@ class TOCflow_Headings {
 		if ( ! empty( $attributes['showExport'] ) ) {
 			$post_title = html_entity_decode( get_the_title( $post_id ), ENT_QUOTES, 'UTF-8' );
 			$html      .= '<div class="tocflow__export-bar" role="group"'
-				. ' aria-label="' . esc_attr__( 'Export table of contents', 'tocflow' ) . '"'
+				. ' aria-label="' . esc_attr__( 'Export table of contents', 'tocguide' ) . '"'
 				. ' data-tocflow-export-title="' . esc_attr( $post_title ) . '">';
 
 			$html .= '<button type="button" class="tocflow__export-btn" data-tocflow-action="copy-md"'
-				. ' aria-label="' . esc_attr__( 'Copy outline as Markdown', 'tocflow' ) . '">'
+				. ' aria-label="' . esc_attr__( 'Copy outline as Markdown', 'tocguide' ) . '">'
 				. '<span aria-hidden="true">📋</span> '
-				. '<span>' . esc_html__( 'Copy', 'tocflow' ) . '</span>'
+				. '<span>' . esc_html__( 'Copy', 'tocguide' ) . '</span>'
 				. '<span class="tocflow__export-confirm tocflow__visually-hidden" role="status" aria-live="polite"></span>'
 				. '</button>';
 
 			$html .= '<button type="button" class="tocflow__export-btn" data-tocflow-action="download-md"'
-				. ' aria-label="' . esc_attr__( 'Download outline as Markdown file', 'tocflow' ) . '">'
+				. ' aria-label="' . esc_attr__( 'Download outline as Markdown file', 'tocguide' ) . '">'
 				. '<span aria-hidden="true">⬇</span> '
-				. '<span>' . esc_html__( '.md', 'tocflow' ) . '</span>'
+				. '<span>' . esc_html__( '.md', 'tocguide' ) . '</span>'
 				. '</button>';
 
 			$html .= '<button type="button" class="tocflow__export-btn" data-tocflow-action="download-doc"'
-				. ' aria-label="' . esc_attr__( 'Download outline as Word document', 'tocflow' ) . '">'
+				. ' aria-label="' . esc_attr__( 'Download outline as Word document', 'tocguide' ) . '">'
 				. '<span aria-hidden="true">⬇</span> '
-				. '<span>' . esc_html__( '.doc', 'tocflow' ) . '</span>'
+				. '<span>' . esc_html__( '.doc', 'tocguide' ) . '</span>'
 				. '</button>';
 
 			$html .= '<button type="button" class="tocflow__export-btn" data-tocflow-action="print"'
-				. ' aria-label="' . esc_attr__( 'Print table of contents', 'tocflow' ) . '">'
+				. ' aria-label="' . esc_attr__( 'Print table of contents', 'tocguide' ) . '">'
 				. '<span aria-hidden="true">🖨</span> '
-				. '<span>' . esc_html__( 'Print', 'tocflow' ) . '</span>'
+				. '<span>' . esc_html__( 'Print', 'tocguide' ) . '</span>'
 				. '</button>';
 
 			$html .= '</div>';
@@ -1077,7 +1077,7 @@ class TOCflow_Headings {
 		$payload = array(
 			'@context'        => 'https://schema.org',
 			'@type'           => 'ItemList',
-			'name'            => __( 'Table of Contents', 'tocflow' ),
+			'name'            => __( 'Table of Contents', 'tocguide' ),
 			'itemListElement' => $list,
 		);
 
@@ -1355,6 +1355,26 @@ class TOCflow_Headings {
 	}
 
 	/**
+	 * Whether post content contains a plugin shortcode.
+	 *
+	 * `[tocflow]` is the original tag; `[tocguide]` matches the WordPress.org slug.
+	 *
+	 * @param string $content Post content.
+	 * @return bool
+	 */
+	public static function content_has_shortcode( $content ) {
+		if ( ! is_string( $content ) || '' === $content ) {
+			return false;
+		}
+		foreach ( array( 'tocflow', 'tocguide' ) as $tag ) {
+			if ( has_shortcode( $content, $tag ) ) {
+				return true;
+			}
+		}
+		return false;
+	}
+
+	/**
 	 * Inject IDs only when a TOC will actually be shown.
 	 *
 	 * @return bool
@@ -1371,7 +1391,7 @@ class TOCflow_Headings {
 		if ( has_block( 'tocflow/table-of-contents', $post ) ) {
 			return true;
 		}
-		if ( has_shortcode( $post->post_content, 'tocflow' ) ) {
+		if ( self::content_has_shortcode( $post->post_content ) ) {
 			return true;
 		}
 
@@ -1395,7 +1415,7 @@ class TOCflow_Headings {
 		// Elementor.
 		if ( 'builder' === get_post_meta( $post_id, '_elementor_edit_mode', true ) ) {
 			$data = get_post_meta( $post_id, '_elementor_data', true );
-			if ( is_string( $data ) && false !== strpos( $data, 'tocflow' ) ) {
+			if ( is_string( $data ) && false !== strpos( $data, 'tocguide' ) ) {
 				return true;
 			}
 		}
@@ -1403,13 +1423,13 @@ class TOCflow_Headings {
 		// Beaver Builder.
 		if ( get_post_meta( $post_id, '_fl_builder_enabled', true ) ) {
 			$data = get_post_meta( $post_id, '_fl_builder_data', true );
-			if ( is_string( $data ) && false !== strpos( $data, 'tocflow' ) ) {
+			if ( is_string( $data ) && false !== strpos( $data, 'tocguide' ) ) {
 				return true;
 			}
 			if ( is_array( $data ) ) {
 				// Beaver Builder stores modules as objects; json-encode and search.
 				$json = wp_json_encode( $data );
-				if ( is_string( $json ) && false !== strpos( $json, 'tocflow' ) ) {
+				if ( is_string( $json ) && false !== strpos( $json, 'tocguide' ) ) {
 					return true;
 				}
 			}
@@ -1419,7 +1439,7 @@ class TOCflow_Headings {
 		$bricks = get_post_meta( $post_id, '_bricks_page_content_2', true );
 		if ( ! empty( $bricks ) ) {
 			$json = is_string( $bricks ) ? $bricks : wp_json_encode( $bricks );
-			if ( is_string( $json ) && false !== strpos( $json, 'tocflow' ) ) {
+			if ( is_string( $json ) && false !== strpos( $json, 'tocguide' ) ) {
 				return true;
 			}
 		}
@@ -1427,7 +1447,7 @@ class TOCflow_Headings {
 		// Oxygen / Breakdance (raw shortcode content stored in meta).
 		foreach ( array( 'ct_builder_shortcodes', 'breakdance_data' ) as $meta_key ) {
 			$val = get_post_meta( $post_id, $meta_key, true );
-			if ( $val && false !== strpos( (string) $val, 'tocflow' ) ) {
+			if ( $val && false !== strpos( (string) $val, 'tocguide' ) ) {
 				return true;
 			}
 		}

@@ -1,6 +1,6 @@
 # License (WordPress.org + seller)
 
-TOCflow is **100% GPLv2 or later**. That is the combination that stays eligible for the WordPress.org Plugin Directory **and** can still be sold on CodeCanyon.
+TOCguide is **100% GPLv2 or later**. That is the combination that stays eligible for the WordPress.org Plugin Directory **and** can still be sold on CodeCanyon.
 
 Copyright © 2026 Matt Hummel (`matt@matthummel.com`). The author keeps copyright. The GPL is a grant of rights to users; it is not a transfer of ownership.
 

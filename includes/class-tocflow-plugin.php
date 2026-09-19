@@ -109,7 +109,7 @@ class TOCflow_Plugin {
 	}
 
 	/**
-	 * [tocflow] shortcode — same output as the block, for classic content and theme templates.
+	 * [tocguide] / [tocflow] shortcode — same output as the block, for classic content and theme templates.
 	 *
 	 * @param array|string $atts Shortcode attributes.
 	 * @return string
@@ -117,7 +117,7 @@ class TOCflow_Plugin {
 	public function shortcode( $atts ) {
 		$atts = shortcode_atts(
 			array(
-				'title'       => __( 'Table of Contents', 'tocflow' ),
+				'title'       => __( 'Table of Contents', 'tocguide' ),
 				'showtitle'   => '1',
 				'titletag'    => 'p',
 				'h1'          => '0',
@@ -157,7 +157,7 @@ class TOCflow_Plugin {
 				'rnotes'      => '0',   // reader note pads per section.
 			),
 			$atts,
-			'tocflow'
+			'tocguide'
 		);
 
 		$post_id = get_the_ID();
@@ -250,6 +250,7 @@ class TOCflow_Plugin {
 	 */
 	public function register_shortcode() {
 		add_shortcode( 'tocflow', array( $this, 'shortcode' ) );
+		add_shortcode( 'tocguide', array( $this, 'shortcode' ) );
 	}
 
 	/**
@@ -266,7 +267,7 @@ class TOCflow_Plugin {
 		}
 		$settings = TOCflow_Settings::get();
 		$needed   = has_block( 'tocflow/table-of-contents', $post )
-			|| has_shortcode( $post->post_content, 'tocflow' )
+			|| TOCflow_Headings::content_has_shortcode( $post->post_content )
 			|| ( 'none' !== $settings['auto_insert'] && in_array( $post->post_type, $settings['auto_insert_types'], true ) )
 			|| TOCflow_Headings::should_inject_ids(); // Covers page-builder shortcode placements.
 		if ( ! $needed ) {
@@ -312,7 +313,7 @@ class TOCflow_Plugin {
 		if ( has_block( 'tocflow/table-of-contents', $post ) ) {
 			return $content;
 		}
-		if ( has_shortcode( $post->post_content, 'tocflow' ) ) {
+		if ( TOCflow_Headings::content_has_shortcode( $post->post_content ) ) {
 			return $content;
 		}
 
@@ -369,8 +370,8 @@ class TOCflow_Plugin {
 	 * @return array
 	 */
 	public function action_links( $links ) {
-		$settings = '<a href="' . esc_url( admin_url( 'options-general.php?page=tocflow' ) ) . '">' . esc_html__( 'Settings', 'tocflow' ) . '</a>';
-		$docs     = '<a href="' . esc_url( admin_url( 'options-general.php?page=tocflow&tab=support' ) ) . '">' . esc_html__( 'Docs & Support', 'tocflow' ) . '</a>';
+		$settings = '<a href="' . esc_url( admin_url( 'options-general.php?page=tocflow' ) ) . '">' . esc_html__( 'Settings', 'tocguide' ) . '</a>';
+		$docs     = '<a href="' . esc_url( admin_url( 'options-general.php?page=tocflow&tab=support' ) ) . '">' . esc_html__( 'Docs & Support', 'tocguide' ) . '</a>';
 		array_unshift( $links, $settings, $docs );
 		return $links;
 	}
@@ -386,8 +387,8 @@ class TOCflow_Plugin {
 		if ( TOCFLOW_BASENAME !== $file ) {
 			return $links;
 		}
-		$links[] = '<a href="https://matthummel-pa.github.io/tocflow/" target="_blank" rel="noopener noreferrer">' . esc_html__( 'Documentation', 'tocflow' ) . '</a>';
-		$links[] = '<a href="https://github.com/matthummel-pa/tocflow/issues" target="_blank" rel="noopener noreferrer">' . esc_html__( 'Support', 'tocflow' ) . '</a>';
+		$links[] = '<a href="https://matthummel-pa.github.io/tocflow/" target="_blank" rel="noopener noreferrer">' . esc_html__( 'Documentation', 'tocguide' ) . '</a>';
+		$links[] = '<a href="https://github.com/matthummel-pa/tocflow/issues" target="_blank" rel="noopener noreferrer">' . esc_html__( 'Support', 'tocguide' ) . '</a>';
 		return $links;
 	}
 

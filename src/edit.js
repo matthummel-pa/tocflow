@@ -184,7 +184,7 @@ export default function Edit( { attributes, setAttributes } ) {
 			.filter( Boolean )
 			.join( ' ' ),
 		style: Object.keys( style ).length ? style : undefined,
-		'aria-label': title || __( 'Table of Contents', 'tocflow' ),
+		'aria-label': title || __( 'Table of Contents', 'tocguide' ),
 	} );
 
 	const TitleTag = [ 'h2', 'h3', 'h4' ].includes( titleTag ) ? titleTag : 'p';
@@ -195,7 +195,7 @@ export default function Edit( { attributes, setAttributes } ) {
 				<ToolbarGroup>
 					<ToolbarButton
 						icon={ formatListBullets }
-						label={ __( 'Bulleted list', 'tocflow' ) }
+						label={ __( 'Bulleted list', 'tocguide' ) }
 						isPressed={ ! ordered }
 						onClick={ () =>
 							setAttributes( {
@@ -206,7 +206,7 @@ export default function Edit( { attributes, setAttributes } ) {
 					/>
 					<ToolbarButton
 						icon={ formatListNumbered }
-						label={ __( 'Numbered list', 'tocflow' ) }
+						label={ __( 'Numbered list', 'tocguide' ) }
 						isPressed={ ordered }
 						onClick={ () => setAttributes( { ordered: true } ) }
 					/>
@@ -214,22 +214,22 @@ export default function Edit( { attributes, setAttributes } ) {
 			</BlockControls>
 
 			<InspectorControls>
-				<PanelBody title={ __( 'Heading levels', 'tocflow' ) }>
+				<PanelBody title={ __( 'Heading levels', 'tocguide' ) }>
 					<ToggleControl
 						__nextHasNoMarginBottom
-						label={ __( 'Include H1 headings', 'tocflow' ) }
+						label={ __( 'Include H1 headings', 'tocguide' ) }
 						checked={ showH1 }
 						onChange={ ( value ) =>
 							setAttributes( { showH1: value } )
 						}
 						help={ __(
 							'Most themes already print the post title as H1. Only enable this if headings inside the content use H1.',
-							'tocflow'
+							'tocguide'
 						) }
 					/>
 					<ToggleControl
 						__nextHasNoMarginBottom
-						label={ __( 'Include H2 headings', 'tocflow' ) }
+						label={ __( 'Include H2 headings', 'tocguide' ) }
 						checked={ showH2 }
 						onChange={ ( value ) =>
 							setAttributes( { showH2: value } )
@@ -237,7 +237,7 @@ export default function Edit( { attributes, setAttributes } ) {
 					/>
 					<ToggleControl
 						__nextHasNoMarginBottom
-						label={ __( 'Include H3 headings', 'tocflow' ) }
+						label={ __( 'Include H3 headings', 'tocguide' ) }
 						checked={ showH3 }
 						onChange={ ( value ) =>
 							setAttributes( { showH3: value } )
@@ -245,7 +245,7 @@ export default function Edit( { attributes, setAttributes } ) {
 					/>
 					<ToggleControl
 						__nextHasNoMarginBottom
-						label={ __( 'Include H4 headings', 'tocflow' ) }
+						label={ __( 'Include H4 headings', 'tocguide' ) }
 						checked={ showH4 }
 						onChange={ ( value ) =>
 							setAttributes( { showH4: value } )
@@ -253,7 +253,7 @@ export default function Edit( { attributes, setAttributes } ) {
 					/>
 					<ToggleControl
 						__nextHasNoMarginBottom
-						label={ __( 'Include H5 headings', 'tocflow' ) }
+						label={ __( 'Include H5 headings', 'tocguide' ) }
 						checked={ showH5 }
 						onChange={ ( value ) =>
 							setAttributes( { showH5: value } )
@@ -261,7 +261,7 @@ export default function Edit( { attributes, setAttributes } ) {
 					/>
 					<ToggleControl
 						__nextHasNoMarginBottom
-						label={ __( 'Include H6 headings', 'tocflow' ) }
+						label={ __( 'Include H6 headings', 'tocguide' ) }
 						checked={ showH6 }
 						onChange={ ( value ) =>
 							setAttributes( { showH6: value } )
@@ -269,29 +269,29 @@ export default function Edit( { attributes, setAttributes } ) {
 					/>
 				</PanelBody>
 				<PanelBody
-					title={ __( 'Title', 'tocflow' ) }
+					title={ __( 'Title', 'tocguide' ) }
 					initialOpen={ false }
 				>
 					<ToggleControl
 						__nextHasNoMarginBottom
-						label={ __( 'Show title', 'tocflow' ) }
+						label={ __( 'Show title', 'tocguide' ) }
 						checked={ showTitle }
 						onChange={ ( value ) =>
 							setAttributes( { showTitle: value } )
 						}
 						help={ __(
 							'The title still appears in the editor so you can edit the accessible name.',
-							'tocflow'
+							'tocguide'
 						) }
 					/>
 					<SelectControl
 						__nextHasNoMarginBottom
 						__next40pxDefaultSize
-						label={ __( 'Title element', 'tocflow' ) }
+						label={ __( 'Title element', 'tocguide' ) }
 						value={ titleTag }
 						options={ [
 							{
-								label: __( 'Paragraph', 'tocflow' ),
+								label: __( 'Paragraph', 'tocguide' ),
 								value: 'p',
 							},
 							{ label: 'H2', value: 'h2' },
@@ -303,32 +303,32 @@ export default function Edit( { attributes, setAttributes } ) {
 						}
 						help={ __(
 							'Use a heading if this outline should appear in the document outline. Prefer a paragraph when the post already has a nearby heading.',
-							'tocflow'
+							'tocguide'
 						) }
 					/>
 				</PanelBody>
 				<PanelBody
-					title={ __( 'List & layout', 'tocflow' ) }
+					title={ __( 'List & layout', 'tocguide' ) }
 					initialOpen={ false }
 				>
 					{ ordered && (
 						<SelectControl
 							__nextHasNoMarginBottom
 							__next40pxDefaultSize
-							label={ __( 'Numbering', 'tocflow' ) }
+							label={ __( 'Numbering', 'tocguide' ) }
 							value={ numbering }
 							options={ [
 								{
 									label: __(
 										'Sequential (1, 2, 3)',
-										'tocflow'
+										'tocguide'
 									),
 									value: 'default',
 								},
 								{
 									label: __(
 										'Nested (1, 1.1, 1.1.1)',
-										'tocflow'
+										'tocguide'
 									),
 									value: 'nested',
 								},
@@ -340,7 +340,7 @@ export default function Edit( { attributes, setAttributes } ) {
 					) }
 					<ToggleControl
 						__nextHasNoMarginBottom
-						label={ __( 'Hide bullets and numbers', 'tocflow' ) }
+						label={ __( 'Hide bullets and numbers', 'tocguide' ) }
 						checked={ hideMarkers }
 						onChange={ ( value ) =>
 							setAttributes( { hideMarkers: value } )
@@ -349,26 +349,26 @@ export default function Edit( { attributes, setAttributes } ) {
 							ordered && numbering === 'nested'
 								? __(
 										'Nested numbering still prints 1.1-style counters.',
-										'tocflow'
+										'tocguide'
 								  )
 								: undefined
 						}
 					/>
 					<ToggleControl
 						__nextHasNoMarginBottom
-						label={ __( 'Two columns', 'tocflow' ) }
+						label={ __( 'Two columns', 'tocguide' ) }
 						checked={ twoColumns }
 						onChange={ ( value ) =>
 							setAttributes( { twoColumns: value } )
 						}
 						help={ __(
 							'Top-level items sit side by side. Stacks on small screens.',
-							'tocflow'
+							'tocguide'
 						) }
 					/>
 					<ToggleControl
 						__nextHasNoMarginBottom
-						label={ __( 'Compact spacing', 'tocflow' ) }
+						label={ __( 'Compact spacing', 'tocguide' ) }
 						checked={ compact }
 						onChange={ ( value ) =>
 							setAttributes( { compact: value } )
@@ -376,7 +376,7 @@ export default function Edit( { attributes, setAttributes } ) {
 					/>
 					<ToggleControl
 						__nextHasNoMarginBottom
-						label={ __( 'Always underline links', 'tocflow' ) }
+						label={ __( 'Always underline links', 'tocguide' ) }
 						checked={ underlineLinks }
 						onChange={ ( value ) =>
 							setAttributes( { underlineLinks: value } )
@@ -385,7 +385,7 @@ export default function Edit( { attributes, setAttributes } ) {
 					<RangeControl
 						__nextHasNoMarginBottom
 						__next40pxDefaultSize
-						label={ __( 'Max height (px)', 'tocflow' ) }
+						label={ __( 'Max height (px)', 'tocguide' ) }
 						value={ maxHeight }
 						min={ 0 }
 						max={ 800 }
@@ -395,29 +395,29 @@ export default function Edit( { attributes, setAttributes } ) {
 						}
 						help={ __(
 							'0 is unlimited. A max height makes long outlines scroll — useful with sticky.',
-							'tocflow'
+							'tocguide'
 						) }
 					/>
 				</PanelBody>
 				<PanelBody
-					title={ __( 'Behavior', 'tocflow' ) }
+					title={ __( 'Behavior', 'tocguide' ) }
 					initialOpen={ false }
 				>
 					<ToggleControl
 						__nextHasNoMarginBottom
-						label={ __( 'Sticky while scrolling', 'tocflow' ) }
+						label={ __( 'Sticky while scrolling', 'tocguide' ) }
 						checked={ sticky }
 						onChange={ ( value ) =>
 							setAttributes( { sticky: value } )
 						}
 						help={ __(
 							'Keeps the outline in view in a sidebar or wide column.',
-							'tocflow'
+							'tocguide'
 						) }
 					/>
 					<ToggleControl
 						__nextHasNoMarginBottom
-						label={ __( 'Collapsible', 'tocflow' ) }
+						label={ __( 'Collapsible', 'tocguide' ) }
 						checked={ collapsible }
 						onChange={ ( value ) =>
 							setAttributes( { collapsible: value } )
@@ -426,7 +426,7 @@ export default function Edit( { attributes, setAttributes } ) {
 					{ collapsible && (
 						<ToggleControl
 							__nextHasNoMarginBottom
-							label={ __( 'Start collapsed', 'tocflow' ) }
+							label={ __( 'Start collapsed', 'tocguide' ) }
 							checked={ collapsedDefault }
 							onChange={ ( value ) =>
 								setAttributes( { collapsedDefault: value } )
@@ -437,7 +437,7 @@ export default function Edit( { attributes, setAttributes } ) {
 						__nextHasNoMarginBottom
 						label={ __(
 							'Highlight the section in view',
-							'tocflow'
+							'tocguide'
 						) }
 						checked={ highlightActive }
 						onChange={ ( value ) =>
@@ -447,19 +447,19 @@ export default function Edit( { attributes, setAttributes } ) {
 					<SelectControl
 						__nextHasNoMarginBottom
 						__next40pxDefaultSize
-						label={ __( 'Smooth scroll', 'tocflow' ) }
+						label={ __( 'Smooth scroll', 'tocguide' ) }
 						value={ smoothScroll }
 						options={ [
 							{
-								label: __( 'Use site setting', 'tocflow' ),
+								label: __( 'Use site setting', 'tocguide' ),
 								value: 'inherit',
 							},
 							{
-								label: __( 'On', 'tocflow' ),
+								label: __( 'On', 'tocguide' ),
 								value: 'on',
 							},
 							{
-								label: __( 'Off', 'tocflow' ),
+								label: __( 'Off', 'tocguide' ),
 								value: 'off',
 							},
 						] }
@@ -470,7 +470,7 @@ export default function Edit( { attributes, setAttributes } ) {
 					<RangeControl
 						__nextHasNoMarginBottom
 						__next40pxDefaultSize
-						label={ __( 'Minimum headings override', 'tocflow' ) }
+						label={ __( 'Minimum headings override', 'tocguide' ) }
 						value={ minHeadings }
 						min={ -1 }
 						max={ 10 }
@@ -478,14 +478,14 @@ export default function Edit( { attributes, setAttributes } ) {
 							setAttributes( { minHeadings: value } )
 						}
 						help={ __(
-							'Use −1 to inherit Settings → TOCflow. Hide this block when the post has fewer matching headings.',
-							'tocflow'
+							'Use −1 to inherit Settings → TOCguide. Hide this block when the post has fewer matching headings.',
+							'tocguide'
 						) }
 					/>
 					<RangeControl
 						__nextHasNoMarginBottom
 						__next40pxDefaultSize
-						label={ __( 'Scroll offset override (px)', 'tocflow' ) }
+						label={ __( 'Scroll offset override (px)', 'tocguide' ) }
 						value={ scrollOffset }
 						min={ -1 }
 						max={ 400 }
@@ -493,169 +493,169 @@ export default function Edit( { attributes, setAttributes } ) {
 							setAttributes( { scrollOffset: value } )
 						}
 						help={ __(
-							'Use −1 to inherit the site-wide offset from Settings → TOCflow.',
-							'tocflow'
+							'Use −1 to inherit the site-wide offset from Settings → TOCguide.',
+							'tocguide'
 						) }
 					/>
 					<ToggleControl
 						__nextHasNoMarginBottom
-						label={ __( 'Export / print bar', 'tocflow' ) }
+						label={ __( 'Export / print bar', 'tocguide' ) }
 						checked={ showExport }
 						onChange={ ( value ) =>
 							setAttributes( { showExport: value } )
 						}
 						help={ __(
 							'Adds Copy, Download (.md), Download (.doc), and Print buttons below the outline. Useful for writers and researchers.',
-							'tocflow'
+							'tocguide'
 						) }
 					/>
 				</PanelBody>
 
 				{ /* ── Study Tools ──────────────────────────────────────── */ }
 				<PanelBody
-					title={ __( 'Study Tools', 'tocflow' ) }
+					title={ __( 'Study Tools', 'tocguide' ) }
 					initialOpen={ false }
 				>
 					<p className="components-base-control__help">
 						{ __(
 							"Reader-facing tools — stored locally in each visitor's browser. No account or server calls required.",
-							'tocflow'
+							'tocguide'
 						) }
 					</p>
 					<ToggleControl
 						__nextHasNoMarginBottom
-						label={ __( 'Reading progress bar', 'tocflow' ) }
+						label={ __( 'Reading progress bar', 'tocguide' ) }
 						checked={ showReadingProgress }
 						onChange={ ( value ) =>
 							setAttributes( { showReadingProgress: value } )
 						}
 						help={ __(
 							'A thin bar shows readers how far through the article they are (0–100 %).',
-							'tocflow'
+							'tocguide'
 						) }
 					/>
 					<ToggleControl
 						__nextHasNoMarginBottom
-						label={ __( 'Resume reading bookmark', 'tocflow' ) }
+						label={ __( 'Resume reading bookmark', 'tocguide' ) }
 						checked={ showBookmark }
 						onChange={ ( value ) =>
 							setAttributes( { showBookmark: value } )
 						}
 						help={ __(
 							'Remembers the reader\'s last position. A "Resume" button appears on their next visit to jump back.',
-							'tocflow'
+							'tocguide'
 						) }
 					/>
 					<ToggleControl
 						__nextHasNoMarginBottom
-						label={ __( 'Reader note pads', 'tocflow' ) }
+						label={ __( 'Reader note pads', 'tocguide' ) }
 						checked={ showReaderNotes }
 						onChange={ ( value ) =>
 							setAttributes( { showReaderNotes: value } )
 						}
 						help={ __(
 							'Readers can jot personal notes per section (📝). Notes are saved privately in their browser — great for research and study.',
-							'tocflow'
+							'tocguide'
 						) }
 					/>
 				</PanelBody>
 
 				{ /* ── Reading Guide ───────────────────────────────────── */ }
 				<PanelBody
-					title={ __( 'Reading Guide', 'tocflow' ) }
+					title={ __( 'Reading Guide', 'tocguide' ) }
 					initialOpen={ false }
 				>
 					<ToggleControl
 						__nextHasNoMarginBottom
-						label={ __( 'Hover section preview', 'tocflow' ) }
+						label={ __( 'Hover section preview', 'tocguide' ) }
 						checked={ previewOnHover }
 						onChange={ ( value ) =>
 							setAttributes( { previewOnHover: value } )
 						}
 						help={ __(
 							'Show the opening sentence of each section in a floating tooltip when hovering over its TOC link. Works on its own — no need to enable the full Reading Guide.',
-							'tocflow'
+							'tocguide'
 						) }
 					/>
 					<ToggleControl
 						__nextHasNoMarginBottom
-						label={ __( 'Full Reading Guide', 'tocflow' ) }
+						label={ __( 'Full Reading Guide', 'tocguide' ) }
 						checked={ guideMode }
 						onChange={ ( value ) =>
 							setAttributes( { guideMode: value } )
 						}
 						help={ __(
 							'Adds inline section previews, read-time estimates, density bars, reading progress, reactions, and per-section citations.',
-							'tocflow'
+							'tocguide'
 						) }
 					/>
 					{ guideMode && (
 						<>
 							<ToggleControl
 								__nextHasNoMarginBottom
-								label={ __( 'Section previews', 'tocflow' ) }
+								label={ __( 'Section previews', 'tocguide' ) }
 								checked={ showPreviews }
 								onChange={ ( value ) =>
 									setAttributes( { showPreviews: value } )
 								}
 								help={ __(
 									'Show the opening sentence of each section beneath its TOC link.',
-									'tocflow'
+									'tocguide'
 								) }
 							/>
 							<ToggleControl
 								__nextHasNoMarginBottom
-								label={ __( 'Section length bars', 'tocflow' ) }
+								label={ __( 'Section length bars', 'tocguide' ) }
 								checked={ showDensity }
 								onChange={ ( value ) =>
 									setAttributes( { showDensity: value } )
 								}
 								help={ __(
 									'Thin bar showing relative word count — readers see which sections are short vs long at a glance.',
-									'tocflow'
+									'tocguide'
 								) }
 							/>
 							<ToggleControl
 								__nextHasNoMarginBottom
-								label={ __( 'Read-time estimates', 'tocflow' ) }
+								label={ __( 'Read-time estimates', 'tocguide' ) }
 								checked={ showReadTime }
 								onChange={ ( value ) =>
 									setAttributes( { showReadTime: value } )
 								}
 								help={ __(
 									'Show ~N min alongside each section link.',
-									'tocflow'
+									'tocguide'
 								) }
 							/>
 							<ToggleControl
 								__nextHasNoMarginBottom
-								label={ __( 'Reading progress', 'tocflow' ) }
+								label={ __( 'Reading progress', 'tocguide' ) }
 								checked={ trackProgress }
 								onChange={ ( value ) =>
 									setAttributes( { trackProgress: value } )
 								}
 								help={ __(
 									'Fade sections as the reader scrolls past them.',
-									'tocflow'
+									'tocguide'
 								) }
 							/>
 							<ToggleControl
 								__nextHasNoMarginBottom
-								label={ __( 'Emoji reactions', 'tocflow' ) }
+								label={ __( 'Emoji reactions', 'tocguide' ) }
 								checked={ showReactions }
 								onChange={ ( value ) =>
 									setAttributes( { showReactions: value } )
 								}
 								help={ __(
 									'Readers react per section (💡 ⭐ 🤔 ✅). Stored in their browser — no account needed.',
-									'tocflow'
+									'tocguide'
 								) }
 							/>
 							<ToggleControl
 								__nextHasNoMarginBottom
 								label={ __(
 									'Per-section citations',
-									'tocflow'
+									'tocguide'
 								) }
 								checked={ showCitations }
 								onChange={ ( value ) =>
@@ -663,14 +663,14 @@ export default function Edit( { attributes, setAttributes } ) {
 								}
 								help={ __(
 									'One-click copy of a formatted academic citation (APA, MLA, Chicago, etc.) for any section. Perfect for research content.',
-									'tocflow'
+									'tocguide'
 								) }
 							/>
 							{ showCitations && (
 								<SelectControl
 									__nextHasNoMarginBottom
 									__next40pxDefaultSize
-									label={ __( 'Citation format', 'tocflow' ) }
+									label={ __( 'Citation format', 'tocguide' ) }
 									value={ citationStyle }
 									options={ [
 										{ label: 'APA', value: 'apa' },
@@ -686,7 +686,7 @@ export default function Edit( { attributes, setAttributes } ) {
 										{
 											label: __(
 												'Plain link',
-												'tocflow'
+												'tocguide'
 											),
 											value: 'plain',
 										},
@@ -704,20 +704,20 @@ export default function Edit( { attributes, setAttributes } ) {
 
 				{ /* ── Section Planner (author tools) ────────────────── */ }
 				<PanelBody
-					title={ __( 'Section Planner', 'tocflow' ) }
+					title={ __( 'Section Planner', 'tocguide' ) }
 					initialOpen={ false }
 				>
 					<p className="components-base-control__help">
 						{ __(
 							'Track writing status per section and add reader-facing teasers (shown in Reading Guide mode).',
-							'tocflow'
+							'tocguide'
 						) }
 					</p>
 					{ allHeadings.length === 0 && (
 						<p>
 							{ __(
 								'Add Heading blocks to this post and they will appear here.',
-								'tocflow'
+								'tocguide'
 							) }
 						</p>
 					) }
@@ -733,22 +733,22 @@ export default function Edit( { attributes, setAttributes } ) {
 								value={ sectionStatus[ heading.slug ] || '' }
 								options={ [
 									{
-										label: __( '— No status —', 'tocflow' ),
+										label: __( '— No status —', 'tocguide' ),
 										value: '',
 									},
 									{
-										label: __( '✏️ Draft', 'tocflow' ),
+										label: __( '✏️ Draft', 'tocguide' ),
 										value: 'draft',
 									},
 									{
 										label: __(
 											'🔄 In progress',
-											'tocflow'
+											'tocguide'
 										),
 										value: 'progress',
 									},
 									{
-										label: __( '✅ Done', 'tocflow' ),
+										label: __( '✅ Done', 'tocguide' ),
 										value: 'done',
 									},
 								] }
@@ -767,7 +767,7 @@ export default function Edit( { attributes, setAttributes } ) {
 							<TextareaControl
 								label={ __(
 									'Reader teaser (optional)',
-									'tocflow'
+									'tocguide'
 								) }
 								value={ sectionNotes[ heading.slug ] || '' }
 								onChange={ ( value ) => {
@@ -783,7 +783,7 @@ export default function Edit( { attributes, setAttributes } ) {
 								__nextHasNoMarginBottom
 								placeholder={ __(
 									'Teaser or hook for this section…',
-									'tocflow'
+									'tocguide'
 								) }
 							/>
 						</div>
@@ -798,7 +798,7 @@ export default function Edit( { attributes, setAttributes } ) {
 					identifier="title"
 					value={ title }
 					onChange={ ( value ) => setAttributes( { title: value } ) }
-					placeholder={ __( 'Table of Contents', 'tocflow' ) }
+					placeholder={ __( 'Table of Contents', 'tocguide' ) }
 					allowedFormats={ [] }
 					withoutInteractiveFormatting
 					style={ showTitle ? undefined : { opacity: 0.45 } }
@@ -815,7 +815,7 @@ export default function Edit( { attributes, setAttributes } ) {
 							<p className="tocflow__placeholder">
 								{ __(
 									'Add Heading blocks to this post and they will appear here. Headings with the class no-toc are skipped.',
-									'tocflow'
+									'tocguide'
 								) }
 							</p>
 						) }

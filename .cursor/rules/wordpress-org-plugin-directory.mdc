@@ -12,19 +12,19 @@ Source of truth (do not invent policy):
 - Block Directory extras: https://developer.wordpress.org/plugins/wordpress-org/block-specific-plugin-guidelines/
 - Common issues: https://developer.wordpress.org/plugins/wordpress-org/common-issues/
 
-This repo’s slug, folder, text domain, and GitHub name are **`tocflow`**. Never rename after ship. See `docs/NAMING.md`.
+This repo’s WordPress.org slug, plugin folder, and text domain are **`tocguide`**. Display name: **TOCguide**. GitHub remains `tocflow`. After WordPress.org approval the slug cannot change. See `docs/NAMING.md`.
 
-TOCflow ships **admin settings, auto-insert, and a shortcode**, so it is a **Plugin Directory** plugin, not a Block Directory “block-only” plugin. Do not strip wp-admin to chase the Block Directory unless Matt explicitly wants a second, editor-only product.
+TOCguide ships **admin settings, auto-insert, and a shortcode**, so it is a **Plugin Directory** plugin, not a Block Directory “block-only” plugin. Do not strip wp-admin to chase the Block Directory unless Matt explicitly wants a second, editor-only product.
 
 ## Identity (locked at approval)
 
-- **Slug** is generated from `Plugin Name:` in the main PHP file (`TOCflow` → `tocflow`). After approval it **cannot** change.
+- **Slug** is generated from `Plugin Name:` in the main PHP file (`TOCguide` → `tocguide`). After approval it **cannot** change.
 - Slug = plugin folder = WordPress.org URL = SVN path = **text domain**.
 - Display name can change later; slug cannot. Prefer a unique coined brand over `wp-…`, `wordpress-…`, or `…-plugin`.
 - Slug: English letters + digits only; no vulgarities; no version numbers; do not start with someone else’s trademark; avoid `wordpress` / `plugin` in the slug.
 - Do not begin a display name with another brand (`WooCommerce Improved…`). Add-ons: “Improved Search for WooCommerce”, not “WooCommerce Improved Search”. Woo add-ons start permalinks with `wc-`, not `woo-`.
 - Company trademark permission does **not** allow a trademarked permalink. Only the trademark owner may start a slug with that term.
-- Text domain is the **literal** `'tocflow'` (never a constant or variable).
+- Text domain is the **literal** `'tocguide'` (never a constant or variable).
 
 ## What reviewers reject (avoid these)
 
@@ -80,7 +80,7 @@ TOCflow ships **admin settings, auto-insert, and a shortcode**, so it is a **Plu
 
 Block Directory plugins: one top-level block, `block.json` required, almost no PHP, **no wp-admin menus/options**, no ads, free to use with no account wall.
 
-TOCflow’s settings page, auto-insert, and shortcode make it **ineligible** for the Block Directory. Keep those features. Still follow Plugin Directory guidelines and use a proper `block.json`.
+TOCguide’s settings page, auto-insert, and shortcode make it **ineligible** for the Block Directory. Keep those features. Still follow Plugin Directory guidelines and use a proper `block.json`.
 
 ## Before calling a plugin “ready to submit”
 

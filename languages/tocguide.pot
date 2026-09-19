@@ -12,33 +12,33 @@ msgstr ""
 "POT-Creation-Date: 2026-09-09T05:17:04+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.12.0\n"
-"X-Domain: tocflow\n"
+"X-Domain: tocguide\n"
 
 #. Plugin Name of the plugin
-#: tocflow.php
+#: tocguide.php
 #: admin/views/settings.php:25
 #: includes/class-tocflow-admin.php:52
 #: includes/class-tocflow-admin.php:53
-msgid "TOCflow"
+msgid "TOCguide"
 msgstr ""
 
 #. Plugin URI of the plugin
-#: tocflow.php
+#: tocguide.php
 msgid "https://github.com/matthummel-pa/tocflow"
 msgstr ""
 
 #. Description of the plugin
-#: tocflow.php
+#: tocguide.php
 msgid "A lightweight Table of Contents block that auto-generates a linked outline from your post headings."
 msgstr ""
 
 #. Author of the plugin
-#: tocflow.php
+#: tocguide.php
 msgid "Matt Hummel"
 msgstr ""
 
 #. Author URI of the plugin
-#: tocflow.php
+#: tocguide.php
 msgid "https://matthummel.com"
 msgstr ""
 
@@ -53,7 +53,7 @@ msgid "Version %s"
 msgstr ""
 
 #: admin/views/settings.php:32
-msgid "TOCflow sections"
+msgid "TOCguide sections"
 msgstr ""
 
 #: admin/views/settings.php:33
@@ -127,7 +127,7 @@ msgid "Compatibility"
 msgstr ""
 
 #: admin/views/settings.php:68
-msgid "TOCflow works with every major theme, SEO plugin, and multilingual plugin. It inherits your theme's fonts and colors, makes zero remote calls, and loads no third-party assets."
+msgid "TOCguide works with every major theme, SEO plugin, and multilingual plugin. It inherits your theme's fonts and colors, makes zero remote calls, and loads no third-party assets."
 msgstr ""
 
 #: admin/views/settings.php:71
@@ -493,7 +493,7 @@ msgid "Uninstall"
 msgstr ""
 
 #: admin/views/settings.php:375
-msgid "Delete TOCflow settings when the plugin is deleted. Deactivating never deletes data."
+msgid "Delete TOCguide settings when the plugin is deleted. Deactivating never deletes data."
 msgstr ""
 
 #: admin/views/settings.php:384
@@ -771,7 +771,7 @@ msgid "Auto-generate"
 msgstr ""
 
 #: includes/class-tocflow-admin.php:113
-msgid "Settings → TOCflow can print the Table of Contents block at the top of content or after the first heading. Customize title, heading levels, style, and layout there. Manual blocks and the [tocflow] shortcode still skip auto-generate so you never get two outlines."
+msgid "Settings → TOCguide can print the Table of Contents block at the top of content or after the first heading. Customize title, heading levels, style, and layout there. Manual blocks and the [tocguide] or [tocflow] shortcode still skip auto-generate so you never get two outlines."
 msgstr ""
 
 #: includes/class-tocflow-admin.php:120
@@ -792,11 +792,11 @@ msgid "Online docs"
 msgstr ""
 
 #: includes/class-tocflow-admin.php:170
-msgid "TOCflow is ready."
+msgid "TOCguide is ready."
 msgstr ""
 
 #: includes/class-tocflow-admin.php:171
-msgid "Add the Table of Contents block to a post, or auto-generate it under Settings → TOCflow. The [tocflow] shortcode still works in classic content."
+msgid "Add the Table of Contents block to a post, or auto-generate it under Settings → TOCguide. The [tocguide] and [tocflow] shortcodes still work in classic content."
 msgstr ""
 
 #: includes/class-tocflow-admin.php:172
@@ -1021,7 +1021,7 @@ msgid "Minimum headings override"
 msgstr ""
 
 #: src/edit.js:480
-msgid "Use −1 to inherit Settings → TOCflow. Hide this block when the post has fewer matching headings."
+msgid "Use −1 to inherit Settings → TOCguide. Hide this block when the post has fewer matching headings."
 msgstr ""
 
 #: src/edit.js:488
@@ -1029,7 +1029,7 @@ msgid "Scroll offset override (px)"
 msgstr ""
 
 #: src/edit.js:495
-msgid "Use −1 to inherit the site-wide offset from Settings → TOCflow."
+msgid "Use −1 to inherit the site-wide offset from Settings → TOCguide."
 msgstr ""
 
 #: src/edit.js:502

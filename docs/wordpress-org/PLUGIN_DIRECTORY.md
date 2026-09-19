@@ -13,13 +13,13 @@ Agents load the same policy from `.cursor/rules/wordpress-org-plugin-directory.m
 
 Matt’s plugins are built to **pass Plugin Directory review** and stay listable. These are product requirements, not optional polish.
 
-TOCflow is listed/submitted as a **normal plugin** (block + settings + shortcode + auto-insert), **not** a Block Directory “block-only” plugin.
+TOCguide is listed/submitted as a **normal plugin** (block + settings + shortcode + auto-insert), **not** a Block Directory “block-only” plugin.
 
 ## FAQ points that change how we build
 
 | Topic | Rule |
 | --- | --- |
-| Slug | Comes from `Plugin Name:` (`TOCflow` → `tocflow`). Frozen after approval. Also the folder, URL, SVN path, and text domain. |
+| Slug | Comes from `Plugin Name:` (`TOCguide` → `tocguide`). Frozen after approval. Also the folder, URL, SVN path, and text domain. |
 | Display name | Can change in the header + readme. Don’t stuff “WordPress” / “Plugin” for SEO. |
 | Trademarks | Don’t start the name or slug with someone else’s brand. Don’t sneak around with hyphens (`Face-Range`). |
 | Submit | One plugin at a time; zip &lt; 10MB; production-ready; no placeholders. |
@@ -55,9 +55,9 @@ TOCflow is listed/submitted as a **normal plugin** (block + settings + shortcode
 17. Respect trademarks.  
 18. The team can close or hotfix for safety.
 
-## Block Directory (do not target for TOCflow)
+## Block Directory (do not target for TOCguide)
 
-Would require: one block, almost no PHP, **no Settings screens**, no ads, no account wall. Auto-insert + `[tocflow]` + **Settings → TOCflow** disqualify it. Keep those features; stay on the main Plugin Directory.
+Would require: one block, almost no PHP, **no Settings screens**, no ads, no account wall. Auto-insert + `[tocguide]` / `[tocflow]` + **Settings → TOCguide** disqualify it. Keep those features; stay on the main Plugin Directory.
 
 ## Contact
 

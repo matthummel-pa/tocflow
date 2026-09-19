@@ -45,14 +45,14 @@ class TOCflow_Admin {
 	}
 
 	/**
-	 * Settings → TOCflow.
+	 * Settings → TOCguide.
 	 */
 	public function menu() {
 		add_options_page(
-			__( 'TOCflow', 'tocflow' ),
-			__( 'TOCflow', 'tocflow' ),
+			__( 'TOCguide', 'tocguide' ),
+			__( 'TOCguide', 'tocguide' ),
 			'manage_options',
-			'tocflow',
+			'tocguide',
 			array( $this, 'render' )
 		);
 	}
@@ -102,28 +102,28 @@ class TOCflow_Admin {
 		$screen->add_help_tab(
 			array(
 				'id'      => 'tocflow-block',
-				'title'   => __( 'Using the block', 'tocflow' ),
-				'content' => '<p>' . esc_html__( 'Edit a post, click the inserter, and search for “Table of Contents”. The outline is built from Heading blocks in that post.', 'tocflow' ) . '</p>',
+				'title'   => __( 'Using the block', 'tocguide' ),
+				'content' => '<p>' . esc_html__( 'Edit a post, click the inserter, and search for “Table of Contents”. The outline is built from Heading blocks in that post.', 'tocguide' ) . '</p>',
 			)
 		);
 		$screen->add_help_tab(
 			array(
 				'id'      => 'tocflow-auto',
-				'title'   => __( 'Auto-generate', 'tocflow' ),
-				'content' => '<p>' . esc_html__( 'Settings → TOCflow can print the Table of Contents block at the top of content or after the first heading. Customize title, heading levels, style, and layout there. Manual blocks and the [tocflow] shortcode still skip auto-generate so you never get two outlines.', 'tocflow' ) . '</p>',
+				'title'   => __( 'Auto-generate', 'tocguide' ),
+				'content' => '<p>' . esc_html__( 'Settings → TOCguide can print the Table of Contents block at the top of content or after the first heading. Customize title, heading levels, style, and layout there. Manual blocks and the [tocguide] or [tocflow] shortcode still skip auto-generate so you never get two outlines.', 'tocguide' ) . '</p>',
 			)
 		);
 		$screen->add_help_tab(
 			array(
 				'id'      => 'tocflow-shortcode',
-				'title'   => __( 'Shortcode', 'tocflow' ),
-				'content' => '<p><code>[tocflow]</code> ' . esc_html__( 'prints the same outline in classic content, widgets, or a theme template. The Gutenberg block is the primary placement method.', 'tocflow' ) . '</p>',
+				'title'   => __( 'Shortcode', 'tocguide' ),
+				'content' => '<p><code>[tocguide]</code> ' . esc_html__( 'or', 'tocguide' ) . ' <code>[tocflow]</code> ' . esc_html__( 'prints the same outline in classic content, widgets, or a theme template. The Gutenberg block is the primary placement method.', 'tocguide' ) . '</p>',
 			)
 		);
 		$screen->set_help_sidebar(
-			'<p><strong>' . esc_html__( 'Support', 'tocflow' ) . '</strong></p>' .
-			'<p><a href="https://github.com/matthummel-pa/tocflow/issues" target="_blank" rel="noopener noreferrer">' . esc_html__( 'GitHub issues', 'tocflow' ) . '</a></p>' .
-			'<p><a href="https://matthummel-pa.github.io/tocflow/" target="_blank" rel="noopener noreferrer">' . esc_html__( 'Online docs', 'tocflow' ) . '</a></p>'
+			'<p><strong>' . esc_html__( 'Support', 'tocguide' ) . '</strong></p>' .
+			'<p><a href="https://github.com/matthummel-pa/tocflow/issues" target="_blank" rel="noopener noreferrer">' . esc_html__( 'GitHub issues', 'tocguide' ) . '</a></p>' .
+			'<p><a href="https://matthummel-pa.github.io/tocflow/" target="_blank" rel="noopener noreferrer">' . esc_html__( 'Online docs', 'tocguide' ) . '</a></p>'
 		);
 	}
 
@@ -167,9 +167,9 @@ class TOCflow_Admin {
 		?>
 		<div class="notice notice-success is-dismissible tocflow-welcome" data-nonce="<?php echo esc_attr( wp_create_nonce( 'tocflow_dismiss_welcome' ) ); ?>">
 			<p>
-				<strong><?php esc_html_e( 'TOCflow is ready.', 'tocflow' ); ?></strong>
-				<?php esc_html_e( 'Add the Table of Contents block to a post, or auto-generate it under Settings → TOCflow. The [tocflow] shortcode still works in classic content.', 'tocflow' ); ?>
-				<a href="<?php echo esc_url( admin_url( 'options-general.php?page=tocflow' ) ); ?>"><?php esc_html_e( 'Open settings', 'tocflow' ); ?></a>
+				<strong><?php esc_html_e( 'TOCguide is ready.', 'tocguide' ); ?></strong>
+				<?php esc_html_e( 'Add the Table of Contents block to a post, or auto-generate it under Settings → TOCguide. The [tocguide] and [tocflow] shortcodes still work in classic content.', 'tocguide' ); ?>
+				<a href="<?php echo esc_url( admin_url( 'options-general.php?page=tocflow' ) ); ?>"><?php esc_html_e( 'Open settings', 'tocguide' ); ?></a>
 			</p>
 		</div>
 		<?php

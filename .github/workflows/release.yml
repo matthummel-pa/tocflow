@@ -22,8 +22,8 @@ jobs:
       - run: npm run plugin-zip
       - uses: softprops/action-gh-release@v3
         with:
-          name: TOCflow ${{ github.ref_name }}
-          files: tocflow.zip
+          name: TOCguide ${{ github.ref_name }}
+          files: tocguide.zip
           generate_release_notes: true
           make_latest: true
           fail_on_unmatched_files: true

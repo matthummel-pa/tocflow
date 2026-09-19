@@ -1,5 +1,5 @@
 /**
- * TOCflow settings-page admin JS.
+ * TOCguide settings-page admin JS.
  *
  * Handles:
  *  – Colour text ↔ swatch sync for design settings.

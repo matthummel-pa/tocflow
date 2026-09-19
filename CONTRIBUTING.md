@@ -1,6 +1,6 @@
-# Contributing to TOCflow
+# Contributing to TOCguide
 
-Thanks for your interest in improving TOCflow! Contributions of all
+Thanks for your interest in improving TOCguide! Contributions of all
 kinds are welcome — code, docs, bug reports, and ideas.
 
 ## Quick start
