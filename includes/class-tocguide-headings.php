@@ -918,11 +918,11 @@ class TOCguide_Headings {
 		if ( $wrap ) {
 			$wrapper_args = array_merge(
 				array(
-					'class'               => $class_attr,
-					'aria-label'          => $label,
+					'class'                => $class_attr,
+					'aria-label'           => $label,
 					'data-tocguide-offset' => (string) $offset,
 					'data-tocguide-smooth' => $smooth_flag,
-					'style'               => $style_attr,
+					'style'                => $style_attr,
 				),
 				$guide_attrs
 			);
