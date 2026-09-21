@@ -19,13 +19,13 @@ TOCguide is a **Plugin Directory** plugin (admin UI + shortcode + auto-insert), 
 
 ## Required shape
 
-- `src/block.json` is the single source of truth (`apiVersion` 3). Register with `register_block_type( trailingslashit( TOCFLOW_DIR ) . 'build' )` after `wp-scripts` copies metadata into `build/`.
+- `src/block.json` is the single source of truth (`apiVersion` 3). Register with `register_block_type( trailingslashit( TOCGUIDE_DIR ) . 'build' )` after `wp-scripts` copies metadata into `build/`.
 - Dynamic block: `"render": "file:./render.php"` + `src/save.js` returns `null`. Never store a serialized outline in post content.
 - `src/render.php` is output only — never declare functions there (it is included on every render).
 - Editor: `useBlockProps()` on the wrapper. Front end: `get_block_wrapper_attributes()` so `supports` (color, spacing, typography, border, align, anchor, className) actually print.
 - Front-end JS: `viewScript` as an ES module. Import `@wordpress/dom-ready`. No jQuery, no hand-rolled IIFE.
 - `@wordpress/icons` is a **bundled** package (not a WordPress script handle). Keep it in `dependencies` if the editor imports it.
-- Styles: `src/style.scss` (front + editor) and `src/editor.scss` (editor only), imported from `src/index.js`. Scope selectors under `.wp-block-tocflow-table-of-contents`.
+- Styles: `src/style.scss` (front + editor) and `src/editor.scss` (editor only), imported from `src/index.js`. Scope selectors under `.wp-block-tocguide-table-of-contents`.
 
 ## Editor UI conventions
 
@@ -39,7 +39,7 @@ TOCguide is a **Plugin Directory** plugin (admin UI + shortcode + auto-insert), 
 
 ## PHP render conventions
 
-- Call `get_block_wrapper_attributes()` only while a block is rendering (the `render.php` path). Shortcode and auto-insert must print `wp-block-tocflow-table-of-contents` and `is-style-{slug}` themselves.
+- Call `get_block_wrapper_attributes()` only while a block is rendering (the `render.php` path). Shortcode and auto-insert must print `wp-block-tocguide-table-of-contents` and `is-style-{slug}` themselves.
 - Merge extra classes/attrs as an **array** (`array( 'class' => '...', 'style' => '...' )`), never a string.
 - Title text: `wp_strip_all_tags` then `esc_html`. `aria-label` is plain text, never markup.
 - Heading IDs: `WP_HTML_Tag_Processor` when available.

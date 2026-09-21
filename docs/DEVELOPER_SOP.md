@@ -19,9 +19,9 @@ Standard operating procedure for contributing to **TOCguide**. Architecture: [`C
 ## 2. Setup
 
 ```bash
-git clone https://github.com/<your-username>/tocflow.git
-cd tocflow
-git remote add upstream https://github.com/matthummel-pa/tocflow.git
+git clone https://github.com/<your-username>/tocguide.git
+cd tocguide
+git remote add upstream https://github.com/matthummel-pa/tocguide.git
 npm install
 ```
 
@@ -56,7 +56,7 @@ Prefixes: `feat/`, `fix/`, `docs/`, `chore/`. Imperative commit messages.
 **PHP** ([WordPress PHP CS](https://developer.wordpress.org/coding-standards/wordpress-coding-standards/php/)):
 
 - Tabs, Yoda where it helps, escape on output, sanitize on input.
-- Prefix functions `tocflow_`, classes `TOCflow_`, option `tocflow_settings`.
+- Prefix functions `tocguide_`, classes `TOCguide_`, option `tocguide_settings`.
 - Never declare functions in `src/render.php`.
 - Text domain is the literal `'tocguide'` — never a variable or constant.
 - Admin classes load only when `is_admin()`.
@@ -83,7 +83,7 @@ Match [Gutenberg block coding](https://developer.wordpress.org/block-editor/gett
 - [ ] Block inserts, live-previews headings, saves
 - [ ] Front-end links hit the right `id` (including custom anchors)
 - [ ] Level toggles, presets, collapse, sticky
-- [ ] `[tocflow]` and auto-insert (and *not* duplicating when the block is present)
+- [ ] `[tocguide]` and auto-insert (and *not* duplicating when the block is present)
 - [ ] Duplicate heading text → unique slugs
 - [ ] `WP_DEBUG` is quiet
 
@@ -91,17 +91,17 @@ Match [Gutenberg block coding](https://developer.wordpress.org/block-editor/gett
 
 ## 7. Pull requests
 
-PR against `matthummel-pa/tocflow:main`. Fill in the template.
+PR against `matthummel-pa/tocguide:main`. Fill in the template.
 
 ---
 
 ## 8. Release (maintainers)
 
-Bump **all** of: `tocguide.php` (`Version` + `TOCFLOW_VERSION`), `package.json`, `src/block.json`, `readme.txt` (`Stable tag`).
+Bump **all** of: `tocguide.php` (`Version` + `TOCGUIDE_VERSION`), `package.json`, `src/block.json`, `readme.txt` (`Stable tag`).
 
 1. Dated `CHANGELOG.md` + `readme.txt` changelog.
 2. `npm run build` && `npm run plugin-zip`
-3. Push a tag `vX.Y.Z`. GitHub Actions attaches `tocflow.zip` to the release.
+3. Push a tag `vX.Y.Z`. GitHub Actions attaches `tocguide.zip` to the release.
 4. WordPress.org: SVN tag matching `Stable tag`.
 5. CodeCanyon: upload the same ZIP + HTML docs.
 
@@ -109,4 +109,4 @@ Bump **all** of: `tocguide.php` (`Version` + `TOCFLOW_VERSION`), `package.json`,
 
 ## 9. Help
 
-[Issues](https://github.com/matthummel-pa/tocflow/issues) · [SECURITY.md](../SECURITY.md)
+[Issues](https://github.com/matthummel-pa/tocguide/issues) · [SECURITY.md](../SECURITY.md)

@@ -5,14 +5,14 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>TOCguide — Reading Companion TOC block for WordPress</title>
 <meta name="description" content="TOCguide is the only WordPress Table of Contents plugin with a built-in Reading Guide: section previews, read-time estimates, hover tooltips, emoji reactions, and one-click academic citations — all server-rendered, no external APIs.">
-<link rel="canonical" href="https://matthummel-pa.github.io/tocflow/">
+<link rel="canonical" href="https://matthummel-pa.github.io/tocguide/">
 <meta property="og:title" content="TOCguide — WordPress Reading Companion TOC Block">
 <meta property="og:description" content="Section previews, read-time estimates, hover tooltips, emoji reactions, and one-click academic citations. Server-rendered. Works with every theme, SEO plugin, and page builder.">
 <meta property="og:type" content="website">
-<meta property="og:url" content="https://matthummel-pa.github.io/tocflow/">
-<meta property="og:image" content="https://matthummel-pa.github.io/tocflow/assets/social-preview.png">
+<meta property="og:url" content="https://matthummel-pa.github.io/tocguide/">
+<meta property="og:image" content="https://matthummel-pa.github.io/tocguide/assets/social-preview.png">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:image" content="https://matthummel-pa.github.io/tocflow/assets/social-preview.png">
+<meta name="twitter:image" content="https://matthummel-pa.github.io/tocguide/assets/social-preview.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@500;600;700;800&display=swap" rel="stylesheet">
@@ -136,7 +136,7 @@
     <span class="sep">·</span>
     <a href="support.html">Support</a>
     <span class="sep">·</span>
-    <a href="https://github.com/matthummel-pa/tocflow" target="_blank" rel="noopener">GitHub</a>
+    <a href="https://github.com/matthummel-pa/tocguide" target="_blank" rel="noopener">GitHub</a>
     <span class="sep">·</span>
     <a href="https://wordpress.org/plugins/tocguide/" target="_blank" rel="noopener">WordPress.org</a>
   </div>
@@ -148,7 +148,7 @@
     <h1>The TOC that reads<br><em>with your reader.</em></h1>
     <p class="lede">TOCguide is the first Table of Contents block with a built-in Reading Guide — section previews, read-time estimates, hover tooltips, emoji reactions, and one-click academic citations. Server-rendered. Zero external APIs. Works with every theme and SEO plugin.</p>
     <div class="btns">
-      <a class="btn primary" href="https://github.com/matthummel-pa/tocflow/releases/latest">Download free — tocguide.zip</a>
+      <a class="btn primary" href="https://github.com/matthummel-pa/tocguide/releases/latest">Download free — tocguide.zip</a>
       <a class="btn ghost" href="documentation.html">Full documentation</a>
       <a class="btn ghost" href="#study-assistant">What's new in 1.2</a>
     </div>
@@ -212,7 +212,7 @@
       <article class="card">
         <span class="icon">📝</span>
         <h3>Shortcode</h3>
-        <p><code>[tocflow]</code> for Classic Editor content, widgets, and theme templates via <code>do_shortcode()</code>.</p>
+        <p><code>[tocguide]</code> for Classic Editor content, widgets, and theme templates via <code>do_shortcode()</code>.</p>
       </article>
       <article class="card">
         <span class="icon">♿</span>
@@ -404,7 +404,7 @@
       <div class="compat-item"><strong>WordPress</strong><span>6.4 through 7.1</span><br><span class="compat-badge">Tested</span></div>
       <div class="compat-item"><strong>PHP</strong><span>7.4, 8.0, 8.1, 8.2, 8.3</span><br><span class="compat-badge">Tested</span></div>
       <div class="compat-item"><strong>Block Editor</strong><span>Gutenberg / Core Editor</span><br><span class="compat-badge">Native</span></div>
-      <div class="compat-item"><strong>Classic Editor</strong><span>via <code>[tocflow]</code> shortcode</span><br><span class="compat-badge">Supported</span></div>
+      <div class="compat-item"><strong>Classic Editor</strong><span>via <code>[tocguide]</code> shortcode</span><br><span class="compat-badge">Supported</span></div>
     </div>
 
     <h3 style="margin-top:28px">SEO plugins</h3>
@@ -428,16 +428,16 @@
     </div>
 
     <h3 style="margin-top:28px">Page builders</h3>
-    <p style="color:var(--muted);font-size:15px;margin-bottom:8px">Use <code>[tocflow]</code> in any Shortcode, HTML, or Code element. TOCguide automatically reads headings from each builder's stored data and injects matching anchor IDs into the rendered page — no manual slug mapping needed.</p>
+    <p style="color:var(--muted);font-size:15px;margin-bottom:8px">Use <code>[tocguide]</code> in any Shortcode, HTML, or Code element. TOCguide automatically reads headings from each builder's stored data and injects matching anchor IDs into the rendered page — no manual slug mapping needed.</p>
     <div class="compat-grid">
       <div class="compat-item"><strong>Elementor</strong><span>Heading widget JSON parsed directly; IDs injected into rendered HTML</span><br><span class="compat-badge">Full support</span></div>
-      <div class="compat-item"><strong>Divi</strong><span>HTML scan of rendered output; use <code>[tocflow]</code> in Code module</span><br><span class="compat-badge">Full support</span></div>
+      <div class="compat-item"><strong>Divi</strong><span>HTML scan of rendered output; use <code>[tocguide]</code> in Code module</span><br><span class="compat-badge">Full support</span></div>
       <div class="compat-item"><strong>Bricks Builder</strong><span>Heading &amp; rich-text elements parsed from Bricks meta</span><br><span class="compat-badge">Full support</span></div>
-      <div class="compat-item"><strong>Beaver Builder</strong><span>HTML module or Shortcode module with <code>[tocflow]</code></span><br><span class="compat-badge">Full support</span></div>
+      <div class="compat-item"><strong>Beaver Builder</strong><span>HTML module or Shortcode module with <code>[tocguide]</code></span><br><span class="compat-badge">Full support</span></div>
       <div class="compat-item"><strong>WPBakery</strong><span>Raw HTML element or Shortcode element; heading scan via rendered HTML</span><br><span class="compat-badge">Full support</span></div>
       <div class="compat-item"><strong>Oxygen / Breakdance</strong><span>Code block or Shortcode element; meta-detected for ID injection</span><br><span class="compat-badge">Full support</span></div>
       <div class="compat-item"><strong>WooCommerce</strong><span>Works in product descriptions with Heading blocks</span><br><span class="compat-badge">Compatible</span></div>
-      <div class="compat-item"><strong>Any builder</strong><span>Generic HTML heading scan as final fallback — <code>[tocflow]</code> works everywhere</span><br><span class="compat-badge">By design</span></div>
+      <div class="compat-item"><strong>Any builder</strong><span>Generic HTML heading scan as final fallback — <code>[tocguide]</code> works everywhere</span><br><span class="compat-badge">By design</span></div>
     </div>
 
     <h3 style="margin-top:28px">Multilingual</h3>
@@ -447,7 +447,7 @@
       <div class="compat-item"><strong>TranslatePress</strong><span>Front-end translated strings render correctly</span><br><span class="compat-badge">Compatible</span></div>
     </div>
 
-    <p class="compat-note">Found a conflict? <a href="https://github.com/matthummel-pa/tocflow/issues">Open a GitHub issue</a> — confirmed compatibility is added to this page.</p>
+    <p class="compat-note">Found a conflict? <a href="https://github.com/matthummel-pa/tocguide/issues">Open a GitHub issue</a> — confirmed compatibility is added to this page.</p>
   </section>
 
   <!-- ── Quick start ── -->
@@ -455,13 +455,13 @@
     <p class="chap">Get going in 3 steps</p>
     <h2>Quick start.</h2>
     <ol style="font-size:18px;line-height:1.8;padding-left:1.4rem">
-      <li>Install and activate from <a href="https://github.com/matthummel-pa/tocflow/releases/latest">tocflow.zip</a> or <strong>Plugins → Add New</strong> (search <em>tocflow</em>).</li>
+      <li>Install and activate from <a href="https://github.com/matthummel-pa/tocguide/releases/latest">tocguide.zip</a> or <strong>Plugins → Add New</strong> (search <em>TOCguide</em>).</li>
       <li>Edit a post with Heading blocks. Insert the <strong>Table of Contents</strong> block.</li>
       <li>Optionally open <strong>Settings → TOCguide</strong> in wp-admin for site-wide auto-insert, scroll offset, and defaults.</li>
     </ol>
-    <p style="color:var(--muted)"><strong>Skip a heading:</strong> Add CSS class <code>no-toc</code> or <code>tocflow-skip</code> to any Heading block (Advanced → Additional CSS class(es)).</p>
+    <p style="color:var(--muted)"><strong>Skip a heading:</strong> Add CSS class <code>no-toc</code> or <code>tocguide-skip</code> to any Heading block (Advanced → Additional CSS class(es)).</p>
     <p style="color:var(--muted)"><strong>Enable Reading Guide:</strong> Open the block sidebar → Reading Guide panel → toggle <em>Hover section preview</em> or <em>Full Reading Guide</em>.</p>
-    <p style="color:var(--muted)"><strong>Developers:</strong> <code>git clone</code> into <code>wp-content/plugins/tocflow</code>, then <code>npm install &amp;&amp; npm run build</code>. Source in <code>src/</code>, output in <code>build/</code>.</p>
+    <p style="color:var(--muted)"><strong>Developers:</strong> <code>git clone</code> into <code>wp-content/plugins/tocguide</code>, then <code>npm install &amp;&amp; npm run build</code>. Source in <code>src/</code>, output in <code>build/</code>.</p>
   </section>
 
   <!-- ── FAQ ── -->
@@ -471,7 +471,7 @@
 
     <details>
       <summary>Does it work with the Classic Editor?</summary>
-      <p>Yes — use the <code>[tocflow]</code> shortcode in classic post content, text widgets, or theme templates via <code>do_shortcode('[tocflow]')</code>.</p>
+      <p>Yes — use the <code>[tocguide]</code> shortcode in classic post content, text widgets, or theme templates via <code>do_shortcode('[tocguide]')</code>.</p>
     </details>
     <details>
       <summary>Will it conflict with my Yoast / Rank Math schema?</summary>
@@ -503,7 +503,7 @@
     </details>
     <details>
       <summary>Is the GitHub repo supposed to be called something else?</summary>
-      <p>The GitHub repository stays <code>tocflow</code> (Pages and issues). The WordPress.org slug, plugin folder, and text domain are <code>tocguide</code>. <a href="https://github.com/matthummel-pa/tocflow/blob/main/docs/NAMING.md">Naming notes.</a></p>
+      <p>GitHub, GitHub Pages, the WordPress.org slug, plugin folder, text domain, PHP prefixes, CSS classes, and the block name are all <code>tocguide</code>. <a href="https://github.com/matthummel-pa/tocguide/blob/main/docs/NAMING.md">Naming notes.</a></p>
     </details>
   </section>
 
@@ -512,7 +512,7 @@
 <footer>
   <div class="wrap">
     <p>© 2026 <a href="https://matthummel.com">Matt Hummel</a> · Plugin slug <span class="slug">tocguide</span> · GPLv2 or later</p>
-    <p><a href="documentation.html">Documentation</a> · <a href="support.html">Support</a> · <a href="https://github.com/matthummel-pa/tocflow">GitHub</a> · <a href="https://wordpress.org/plugins/tocguide/">WordPress.org</a></p>
+    <p><a href="documentation.html">Documentation</a> · <a href="support.html">Support</a> · <a href="https://github.com/matthummel-pa/tocguide">GitHub</a> · <a href="https://wordpress.org/plugins/tocguide/">WordPress.org</a></p>
   </div>
 </footer>
 </body>

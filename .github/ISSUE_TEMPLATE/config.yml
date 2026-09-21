@@ -1,11 +1,11 @@
 blank_issues_enabled: false
 contact_links:
   - name: Documentation
-    url: https://matthummel-pa.github.io/tocflow/
+    url: https://matthummel-pa.github.io/tocguide/
     about: Install, settings, shortcode, and FAQ.
   - name: Support policy
-    url: https://matthummel-pa.github.io/tocflow/support.html
+    url: https://matthummel-pa.github.io/tocguide/support.html
     about: What we cover, and how to file a useful report.
   - name: Security report
-    url: https://github.com/matthummel-pa/tocflow/blob/main/SECURITY.md
+    url: https://github.com/matthummel-pa/tocguide/blob/main/SECURITY.md
     about: Email matt@matthummel.com — do not file a public issue.

@@ -3,40 +3,46 @@
 All notable changes to TOCguide are documented here.
 This project adheres to [Semantic Versioning](https://semver.org/).
 
+## [1.5.0] - 2026-09-21
+
+### Changed
+- Removed the old `*flow` prefix everywhere: PHP (`tocguide_*` / `TOCguide_*` / `TOCGUIDE_*`), CSS (`.tocguide`, `--tocguide-*`), option `tocguide_settings`, block `tocguide/table-of-contents`, shortcode `[tocguide]`, skip class `tocguide-skip`.
+- GitHub repository and Pages URLs are `matthummel-pa/tocguide`.
+- **Breaking:** existing blocks, custom CSS, and stored settings that used the previous prefix will not match until you re-insert the block / update CSS / re-save settings.
+
 ## [1.4.0] - 2026-09-19
 
 ### Changed
-- **WordPress.org identity:** display name is **TOCguide**; slug, folder, text domain, and main file are **`tocguide`**. This answers the plugins team request to make it clear the plugin is not affiliated with any other entity (guideline 17). The previous `tocflow` listing name was too close to other `*flow` brands.
-- New shortcode `[tocguide]`. `[tocflow]` remains registered as an alias.
+- **WordPress.org identity:** display name is **TOCguide**; slug, folder, text domain, and main file are **`tocguide`**. This answers the plugins team request to make it clear the plugin is not affiliated with any other entity (guideline 17). The previous listing name was too close to other `*flow` brands.
+- Public shortcode became `[tocguide]`.
 - User-facing admin labels, docs, and directory artwork use TOCguide.
 - Translation text domain is now the literal `tocguide`.
 
-### Unchanged (on purpose)
-- Gutenberg block name `tocflow/table-of-contents` (stored in post content).
-- CSS classes, CSS variables, option key `tocflow_settings`, PHP class/function prefixes.
-- GitHub repository name `tocflow` (Pages and issue URLs).
+### Unchanged (on purpose, until 1.5.0)
+- Gutenberg block name, CSS classes/variables, option keys, and PHP prefixes stayed on the previous identifier so existing content kept working.
+- GitHub repository name was still the old repo slug until it was renamed to `tocguide`.
 
 ## [1.3.3] - 2026-09-09
 
 ### Fixed
-- `$guide_attrs` was reset to `array()` immediately after `data-tocflow-focus` was written into it — the accessibility focus-ring `data-` attribute was always discarded. Moved the array initialisation to _before_ the focus-style assignment so the attribute is correctly merged into the `<nav>` wrapper for both the block and shortcode/auto-insert paths.
-- As a consequence, the global design CSS custom properties (`--tocflow-bg`, `--tocflow-color`, `--tocflow-link-color`, `--tocflow-font-size`, `--tocflow-font-weight`, `--tocflow-line-height`, `--tocflow-border-*`, `--tocflow-radius`, `--tocflow-padding`) set in Settings → Design & Appearance now reliably propagate through `$style_attr` to the rendered `<nav>` element and are picked up by `var()` references in `style.scss`.
+- `$guide_attrs` was reset to `array()` immediately after `data-tocguide-focus` was written into it — the accessibility focus-ring `data-` attribute was always discarded. Moved the array initialisation to _before_ the focus-style assignment so the attribute is correctly merged into the `<nav>` wrapper for both the block and shortcode/auto-insert paths.
+- As a consequence, the global design CSS custom properties (`--tocguide-bg`, `--tocguide-color`, `--tocguide-link-color`, `--tocguide-font-size`, `--tocguide-font-weight`, `--tocguide-line-height`, `--tocguide-border-*`, `--tocguide-radius`, `--tocguide-padding`) set in Settings → Design & Appearance now reliably propagate through `$style_attr` to the rendered `<nav>` element and are picked up by `var()` references in `style.scss`.
 
 ## [1.3.1] - 2026-09-09
 
 ### Fixed
 - **`WordPress.Security.EscapeOutput`**: `$swatch_val` in the admin colour-picker `printf()` was pre-escaped at construction time but not at the call site — PHPCS (and WordPress.org reviewers) require escaping _at the point of output_. Moved `esc_attr()` to the `printf` argument and removed the premature escape.
-- Added missing PHPDoc block for `TOCflow_Settings::sanitize()`.
-- Inline comment in `class-tocflow-plugin.php` now ends with a full stop (WPCS `Squiz.Commenting.InlineComment`).
+- Added missing PHPDoc block for `TOCguide_Settings::sanitize()`.
+- Inline comment in `class-tocguide-plugin.php` now ends with a full stop (WPCS `Squiz.Commenting.InlineComment`).
 - PHPCBF auto-corrected 181 array-alignment and indentation warnings across three PHP files.
 
 ## [1.3.0] - 2026-09-08
 
 ### Added
-- **Settings → Design & Appearance**: global background colour, text colour, link colour, font size, font weight, line height, border (width / style / colour / radius), and padding. Applied as CSS custom properties (`--tocflow-bg`, `--tocflow-color`, `--tocflow-link-color`, `--tocflow-font-size`, etc.) so per-block editor overrides still cascade correctly.
+- **Settings → Design & Appearance**: global background colour, text colour, link colour, font size, font weight, line height, border (width / style / colour / radius), and padding. Applied as CSS custom properties (`--tocguide-bg`, `--tocguide-color`, `--tocguide-link-color`, `--tocguide-font-size`, etc.) so per-block editor overrides still cascade correctly.
 - **Settings → Reading Guide & Study Tools**: global defaults for hover preview, guide mode, section previews, density bars, per-section read time, progress fade, emoji reactions, academic citations, and citation format.
 - **Settings → Study Tools & Export**: global defaults for reading progress bar, resume bookmark, reader note pads, and export toolbar.
-- **Settings → Accessibility**: focus ring style picker — Default (underline), Bold (3 px outline, WCAG 2.1 AA), or High-contrast (yellow background + black outline, WCAG 2.1 AAA). Rendered as `data-tocflow-focus` attribute on the `<nav>`.
+- **Settings → Accessibility**: focus ring style picker — Default (underline), Bold (3 px outline, WCAG 2.1 AA), or High-contrast (yellow background + black outline, WCAG 2.1 AAA). Rendered as `data-tocguide-focus` attribute on the `<nav>`.
 - `admin/js/admin.js`: vanilla JS that syncs hex text inputs with companion `<input type=color>` swatches and toggles guide-mode sub-options when the guide-mode checkbox is toggled.
 - `admin/css/admin.css`: styles for color-picker widget, section badge chips, and indented guide sub-options panel.
 
@@ -48,7 +54,7 @@ This project adheres to [Semantic Versioning](https://semver.org/).
 ## [1.2.2] - 2026-09-08
 
 ### Fixed
-- `TOCFLOW_VERSION` constant was `'1.2.0'` while the plugin header read `1.2.1` / `1.2.2`; in-admin version badge now matches.
+- `TOCGUIDE_VERSION` constant was `'1.2.0'` while the plugin header read `1.2.1` / `1.2.2`; in-admin version badge now matches.
 - `Tested up to` updated from `6.7` to `7.1` (WordPress 7.1 "Mary Lou" released 2026-08-19).
 - Removed third-party trademark tag `elementor`; replaced with descriptive `study tools`.
 - PHP WPCS: fixed 3-tab indentation on Study-tool shortcode attributes (should be 4-tab like surrounding code).
@@ -78,7 +84,7 @@ This project adheres to [Semantic Versioning](https://semver.org/).
 
 ### Added
 - **Reading Guide mode** — opt-in block feature that enriches the TOC into a full reading companion:
-  - **Section content previews** — opening ~20 words of each section, extracted server-side from parsed block content via `TOCflow_Headings::get_sections()` (no JS fetch, no external API).
+  - **Section content previews** — opening ~20 words of each section, extracted server-side from parsed block content via `TOCguide_Headings::get_sections()` (no JS fetch, no external API).
   - **Content density bars** — thin bar showing each section's word count relative to the longest section, computed at render time.
   - **Per-section read-time estimates** — `~N min` badge based on word count ÷ 200 wpm.
   - **Reading progress** — `IntersectionObserver` fades each TOC item as the reader scrolls past its heading (no scroll event handlers; passive main thread).
@@ -88,22 +94,22 @@ This project adheres to [Semantic Versioning](https://semver.org/).
 - **Hover section preview** — floating tooltip on TOC link hover/focus shows the section's opening sentence. Viewport-aware positioning (left or right). `aria-describedby` links the tooltip to the anchor for screen readers. `previewOnHover` attribute; works without full Reading Guide mode.
 - **Export / print toolbar** — `showExport` attribute adds Copy (.md), Download (.md), Download (.doc), and Print buttons below the outline using only the Blob API and `navigator.clipboard`; zero server round-trips. Screen reader live region announces success.
 - **Accessibility** — `aria-live="polite"` region for clipboard and export announcements; `focus-visible` outlines on all interactive elements; all buttons labeled; note and export toggles use `aria-expanded` / `aria-controls` / `hidden`.
-- **Page-builder compatibility** — `TOCflow_Headings::get_all()` now falls back to builder-specific parsers when `parse_blocks()` finds no headings:
+- **Page-builder compatibility** — `TOCguide_Headings::get_all()` now falls back to builder-specific parsers when `parse_blocks()` finds no headings:
   - **Elementor** — walks `_elementor_data` widget JSON to find heading widgets and Text Editor blocks.
   - **Bricks Builder** — reads `_bricks_page_content_2` element JSON.
   - **Divi, WPBakery, Oxygen, Beaver Builder, Breakdance, Classic Editor** — generic `<h*>` regex scan of `post_content`.
   - `inject_builder_heading_ids()` runs as `the_content` filter at priority 999 so headings inside builder output receive matching `id` attributes.
-  - `should_inject_ids()` now scans builder meta for `[tocflow]` shortcodes so assets load correctly even when the shortcode lives inside a builder widget.
+  - `should_inject_ids()` now scans builder meta for `[tocguide]` shortcodes so assets load correctly even when the shortcode lives inside a builder widget.
   - `get_sections()` extended with `builder_raw_html()` and `flatten_html_to_sequence()` fallbacks so Reading Guide previews and read-time estimates work on builder-built pages.
 - New block attributes: `guideMode`, `showPreviews`, `showDensity`, `showReadTime`, `trackProgress`, `showReactions`, `showCitations`, `citationStyle`, `sectionNotes`, `previewOnHover`, `showExport`.
-- New PHP methods: `TOCflow_Headings::flatten_content()`, `get_sections()`, `citation_meta()`, `get_all_from_html()`, `get_all_from_elementor()`, `collect_elementor_headings()`, `get_all_from_bricks()`, `inject_ids_in_html()`, `builder_raw_html()`, `flatten_html_to_sequence()`, `builder_has_tocflow()`.
+- New PHP methods: `TOCguide_Headings::flatten_content()`, `get_sections()`, `citation_meta()`, `get_all_from_html()`, `get_all_from_elementor()`, `collect_elementor_headings()`, `get_all_from_bricks()`, `inject_ids_in_html()`, `builder_raw_html()`, `flatten_html_to_sequence()`, `builder_has_tocguide()`.
 - New editor panels: "Reading Guide", "Section Notes", and "Behavior" enhancements in the block sidebar.
 - Print CSS: expanded collapsed TOC, hidden all interactive controls, author notes shown expanded.
 
 ### Changed
 - `render_list()` accepts an optional `$guide` array; fully backward-compatible.
 - `render_nav()` merges section data and embeds citation meta on the `<nav>` when guide mode is active.
-- `TOCflow_Plugin::inject_builder_heading_ids()` added as `the_content` hook (priority 999).
+- `TOCguide_Plugin::inject_builder_heading_ids()` added as `the_content` hook (priority 999).
 - `enqueue_front_assets()` broadened to cover page-builder pages via `should_inject_ids()`.
 
 ## [1.0.2] - 2026-09-01
@@ -111,17 +117,17 @@ This project adheres to [Semantic Versioning](https://semver.org/).
 WordPress.org Plugin Check cleanup for the directory review (v1.0.1 is Awaiting Review). Behavior is unchanged.
 
 ### Changed
-- Removed `load_plugin_textdomain()` so Plugin Check is clean. WordPress.org auto-loads translations from the `tocflow` text domain (WP 4.6+).
-- Prefixed uninstall and admin/render template variables with `tocflow_` (`PrefixAllGlobals`).
+- Removed `load_plugin_textdomain()` so Plugin Check is clean. WordPress.org auto-loads translations from the `tocguide` text domain (WP 4.6+).
+- Prefixed uninstall and admin/render template variables with `tocguide_` (`PrefixAllGlobals`).
 - `Tested up to` 7.1; zip-facing license copy is GPLv2 or later with no Envato split-license language; readme documents `src/` + `npm run build`.
 
 ## [1.0.1] - 2026-08-31
 
-First **installable** GitHub Release of the 1.0 plugin. The June `v1.0.0` tag had no working zip; `v0.1.0` was still marked Latest. Download `tocflow.zip` from this release.
+First **installable** GitHub Release of the 1.0 plugin. The June `v1.0.0` tag had no working zip; `v0.1.0` was still marked Latest. Download `tocguide.zip` from this release.
 
 ### Added
-- GitHub Actions release workflow: tagging `vX.Y.Z` builds and attaches `tocflow.zip`.
-- `languages/tocflow.pot`, PHPCS (`composer.json` / `phpcs.xml.dist`), Dependabot.
+- GitHub Actions release workflow: tagging `vX.Y.Z` builds and attaches `tocguide.zip`.
+- `languages/tocguide.pot`, PHPCS (`composer.json` / `phpcs.xml.dist`), Dependabot.
 - WordPress.org banner and icon assets in `.wordpress-org/`.
 - Privacy policy, code of conduct contact (`matt@matthummel.com`), 100% GPLv2-or-later grant with copyright.
 - Docs site: bold sans-serif (Outfit), consistent footers, social preview.
@@ -141,8 +147,8 @@ Marketplace-ready release: WordPress.org / CodeCanyon coding standards, a comple
 - Smooth-scroll with a configurable offset for sticky headers (honors `prefers-reduced-motion`).
 - H5 / H6 heading support.
 - Site-wide settings: auto-generate the Gutenberg block (with layout options), minimum heading count, schema JSON-LD, uninstall cleanup.
-- `[tocflow]` shortcode for classic content and theme templates.
-- Skip headings with the CSS class `no-toc` or `tocflow-skip`.
+- `[tocguide]` shortcode for classic content and theme templates.
+- Skip headings with the CSS class `no-toc` or `tocguide-skip`.
 - In-plugin **Settings** and **Docs & Support** screens.
 - WordPress.org / Envato-oriented documentation, support policy, and security policy.
 
@@ -152,7 +158,7 @@ Marketplace-ready release: WordPress.org / CodeCanyon coding standards, a comple
 - Heading IDs are injected with `WP_HTML_Tag_Processor` when available.
 
 ### Changed
-- Plugin version, text domain, GitHub slug, and WordPress.org slug remain **`tocflow`**.
+- Plugin version, text domain, GitHub slug, and WordPress.org slug remain **`tocguide`**.
 - Plugin header description is plain text (no HTML) for directory compliance.
 - Block follows Gutenberg handbook / `create-block` patterns: `save.js` returns `null`, presets are Block Styles (`is-style-*`), wrapper uses `useBlockProps` / `get_block_wrapper_attributes()`.
 

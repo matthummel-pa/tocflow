@@ -15,7 +15,7 @@ The plugins team asked for a display name and slug that do **not** imply affilia
 
 - **Name:** TOCguide
 - **ZIP:** `tocguide.zip` (folder inside the zip must be `tocguide/`)
-- **In the existing review email/thread:** ask them to change the slug from `tocflow` to `tocguide`. Do not open a second submission unless they say the 3-month timeout applies.
+- Upload via [Add your plugin](https://wordpress.org/plugins/developers/add/) and reply in the existing review thread if they still have the old slug on file.
 
 After approval you get SVN. Trunk holds code; `.wordpress-org/` in this repo is **not** committed to trunk.
 

@@ -1,6 +1,6 @@
 {
 	"name": "tocguide",
-	"version": "1.4.0",
+	"version": "1.5.0",
 	"description": "A server-rendered Table of Contents block for the WordPress editor.",
 	"author": {
 		"name": "Matt Hummel",
@@ -8,13 +8,13 @@
 		"url": "https://matthummel.com"
 	},
 	"license": "GPL-2.0-or-later",
-	"homepage": "https://matthummel-pa.github.io/tocflow/",
+	"homepage": "https://matthummel-pa.github.io/tocguide/",
 	"repository": {
 		"type": "git",
-		"url": "git+https://github.com/matthummel-pa/tocflow.git"
+		"url": "git+https://github.com/matthummel-pa/tocguide.git"
 	},
 	"bugs": {
-		"url": "https://github.com/matthummel-pa/tocflow/issues",
+		"url": "https://github.com/matthummel-pa/tocguide/issues",
 		"email": "matt@matthummel.com"
 	},
 	"keywords": [

@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 # ──────────────────────────────────────────────────────────────────────────────
-# TOCflow local WordPress preview environment
+# TOCguide local WordPress preview environment
 #
 # Usage: bash dev/start-local.sh
 #
@@ -10,7 +10,7 @@
 #   Admin:    http://localhost:8080/wp-admin/  (admin / password)
 #
 # WordPress is at /opt/wordpress
-# Plugin is symlinked: /opt/wordpress/wp-content/plugins/tocflow -> /workspace
+# Plugin is symlinked: /opt/wordpress/wp-content/plugins/tocguide -> /workspace
 # ──────────────────────────────────────────────────────────────────────────────
 set -e
 

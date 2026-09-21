@@ -6,7 +6,7 @@
 
 	document.addEventListener( 'click', function ( event ) {
 		const notice =
-			event.target.closest && event.target.closest( '.tocflow-welcome' );
+			event.target.closest && event.target.closest( '.tocguide-welcome' );
 		if (
 			! notice ||
 			! event.target.classList.contains( 'notice-dismiss' )
@@ -15,7 +15,7 @@
 		}
 		const nonce = notice.getAttribute( 'data-nonce' );
 		const fd = new FormData();
-		fd.append( 'action', 'tocflow_dismiss_welcome' );
+		fd.append( 'action', 'tocguide_dismiss_welcome' );
 		fd.append( 'nonce', nonce );
 		if ( typeof window.ajaxurl === 'undefined' ) {
 			return;

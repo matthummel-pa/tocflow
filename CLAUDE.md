@@ -7,10 +7,9 @@ A single-purpose WordPress block plugin: a **Table of Contents** block that
 auto-generates a linked outline from a post's headings. Built as ONE focused
 block (not a block library).
 
-Display name **TOCguide**. WordPress.org slug / folder / text domain / main file:
-**`tocguide`**. GitHub repo stays **`tocflow`**. Internal PHP, CSS, options, and the
-block name `tocflow/table-of-contents` stay on the original prefix so existing
-content does not break. See `docs/NAMING.md`.
+Display name **TOCguide**. WordPress.org slug / folder / text domain / main file,
+GitHub repo, PHP prefixes, CSS, options, block name, and shortcode are all
+**`tocguide`**. See `docs/NAMING.md`.
 
 Matt's first WordPress product — portfolio for an agency and a freemium product.
 v1.0.0 is the marketplace-ready free core (WordPress.org + CodeCanyon packaging).
@@ -43,16 +42,16 @@ Block Directory (those cannot have wp-admin UI).
   inherits the theme; do not inject a branded (or serif) font there.
 
 ## How it works
-1. `TOCflow_Headings::get_all()` parses the post with `parse_blocks()` and builds
+1. `TOCguide_Headings::get_all()` parses the post with `parse_blocks()` and builds
    ONE slug-stamped list (custom `anchor` / existing `id` wins).
-2. `render.php` → `TOCflow_Headings::render_nav()` filters levels, normalizes
+2. `render.php` → `TOCguide_Headings::render_nav()` filters levels, normalizes
    depths, prints a nested list inside `<nav>`.
 3. A `render_block` filter injects matching `id` attributes with
    `WP_HTML_Tag_Processor`. Both sides use the same map.
-4. Settings (`tocflow_settings`) control smooth-scroll offset, auto-generate
+4. Settings (`tocguide_settings`) control smooth-scroll offset, auto-generate
    of the Gutenberg block, schema, and uninstall cleanup.
 5. Auto-generate calls `WP_Block::render()` with settings as block attributes.
-   `[tocguide]` and `[tocflow]` still map to the same `render_nav()` output for classic content.
+   `[tocguide]` still maps to the same `render_nav()` output for classic content.
    View assets enqueue when the block, shortcode, or auto-generate is in use.
 
 ## File map

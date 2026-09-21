@@ -20,7 +20,7 @@ Server-rendered Table of Contents block for Gutenberg. Auto outline from heading
 
 ## What to upload
 
-1. `npm run build && npm run plugin-zip` → installable `tocflow.zip`
+1. `npm run build && npm run plugin-zip` → installable `tocguide.zip`
 2. A documentation ZIP or the HTML in `docs/documentation.html` (offline docs satisfy Envato)
 3. Preview graphics: logo, settings, front-end TOC, style presets
 4. Optional video: insert block → publish → click a link
@@ -29,7 +29,7 @@ Server-rendered Table of Contents block for Gutenberg. Auto outline from heading
 
 See [Envato WordPress Plugin Requirements](https://help.author.envato.com/hc/en-us/articles/360000510603-WordPress-Plugin-Requirements).
 
-- Unique prefix `tocflow_` / `TOCflow_`
+- Unique prefix `tocguide_` / `TOCguide_`
 - Admin separated with `is_admin()`
 - Settings API + `current_user_can( 'manage_options' )` + nonces
 - Escaping on output, sanitization on input

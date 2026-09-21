@@ -1,25 +1,25 @@
-.wp-block-tocflow-table-of-contents,
-.tocflow {
-	--tocflow-ink: currentcolor;
-	--tocflow-line: color-mix(in srgb, currentcolor 14%, transparent);
-	--tocflow-accent: #2f6f4e;
-	--tocflow-offset: 96px;
+.wp-block-tocguide-table-of-contents,
+.tocguide {
+	--tocguide-ink: currentcolor;
+	--tocguide-line: color-mix(in srgb, currentcolor 14%, transparent);
+	--tocguide-accent: #2f6f4e;
+	--tocguide-offset: 96px;
 
-	/* Design overrides — set by Settings → TOCflow or block supports. */
-	border-width: var(--tocflow-border-width, 1px);
-	border-style: var(--tocflow-border-style, solid);
-	border-color: var(--tocflow-border-color, var(--tocflow-line, #e2e8f0));
-	border-radius: var(--tocflow-radius, 8px);
-	padding: var(--tocflow-padding, 1.25rem 1.5rem);
-	background: var(--tocflow-bg, color-mix(in srgb, currentcolor 4%, transparent));
-	color: var(--tocflow-color, inherit);
-	font-size: var(--tocflow-font-size, 0.95em);
-	line-height: var(--tocflow-line-height, inherit);
+	/* Design overrides — set by Settings → TOCguide or block supports. */
+	border-width: var(--tocguide-border-width, 1px);
+	border-style: var(--tocguide-border-style, solid);
+	border-color: var(--tocguide-border-color, var(--tocguide-line, #e2e8f0));
+	border-radius: var(--tocguide-radius, 8px);
+	padding: var(--tocguide-padding, 1.25rem 1.5rem);
+	background: var(--tocguide-bg, color-mix(in srgb, currentcolor 4%, transparent));
+	color: var(--tocguide-color, inherit);
+	font-size: var(--tocguide-font-size, 0.95em);
+	line-height: var(--tocguide-line-height, inherit);
 	max-width: 100%;
 }
 
-.wp-block-tocflow-table-of-contents .tocflow__header,
-.tocflow .tocflow__header {
+.wp-block-tocguide-table-of-contents .tocguide__header,
+.tocguide .tocguide__header {
 	display: flex;
 	align-items: center;
 	justify-content: space-between;
@@ -27,22 +27,22 @@
 	margin: 0 0 0.65rem;
 }
 
-.wp-block-tocflow-table-of-contents .tocflow__title,
-.tocflow .tocflow__title {
+.wp-block-tocguide-table-of-contents .tocguide__title,
+.tocguide .tocguide__title {
 	margin: 0 0 0.65rem;
 	font-weight: 700;
 	letter-spacing: -0.02em;
 }
 
-.wp-block-tocflow-table-of-contents .tocflow__header .tocflow__title,
-.tocflow .tocflow__header .tocflow__title {
+.wp-block-tocguide-table-of-contents .tocguide__header .tocguide__title,
+.tocguide .tocguide__header .tocguide__title {
 	margin: 0;
 }
 
-.wp-block-tocflow-table-of-contents .tocflow__toggle,
-.tocflow .tocflow__toggle {
+.wp-block-tocguide-table-of-contents .tocguide__toggle,
+.tocguide .tocguide__toggle {
 	appearance: none;
-	border: 1px solid var(--tocflow-line, #d5ddd8);
+	border: 1px solid var(--tocguide-line, #d5ddd8);
 	background: transparent;
 	border-radius: 999px;
 	width: 2rem;
@@ -54,8 +54,8 @@
 	justify-content: center;
 }
 
-.wp-block-tocflow-table-of-contents .tocflow__toggle-icon,
-.tocflow .tocflow__toggle-icon {
+.wp-block-tocguide-table-of-contents .tocguide__toggle-icon,
+.tocguide .tocguide__toggle-icon {
 	display: block;
 	width: 0.55rem;
 	height: 0.55rem;
@@ -65,103 +65,103 @@
 	transition: transform 0.2s ease;
 }
 
-.wp-block-tocflow-table-of-contents.is-collapsed .tocflow__body,
-.tocflow.is-collapsed .tocflow__body {
+.wp-block-tocguide-table-of-contents.is-collapsed .tocguide__body,
+.tocguide.is-collapsed .tocguide__body {
 	display: none;
 }
 
-.wp-block-tocflow-table-of-contents.is-collapsed .tocflow__toggle-icon,
-.tocflow.is-collapsed .tocflow__toggle-icon {
+.wp-block-tocguide-table-of-contents.is-collapsed .tocguide__toggle-icon,
+.tocguide.is-collapsed .tocguide__toggle-icon {
 	transform: rotate(-45deg) translateY(2px);
 }
 
-.wp-block-tocflow-table-of-contents.is-collapsed .tocflow__header,
-.tocflow.is-collapsed .tocflow__header {
+.wp-block-tocguide-table-of-contents.is-collapsed .tocguide__header,
+.tocguide.is-collapsed .tocguide__header {
 	margin-bottom: 0;
 }
 
-.wp-block-tocflow-table-of-contents .tocflow__list,
-.wp-block-tocflow-table-of-contents ol,
-.wp-block-tocflow-table-of-contents ul,
-.tocflow .tocflow__list,
-.tocflow ol,
-.tocflow ul {
+.wp-block-tocguide-table-of-contents .tocguide__list,
+.wp-block-tocguide-table-of-contents ol,
+.wp-block-tocguide-table-of-contents ul,
+.tocguide .tocguide__list,
+.tocguide ol,
+.tocguide ul {
 	margin: 0;
 	padding-inline-start: 1.25rem;
 }
 
-.wp-block-tocflow-table-of-contents .tocflow__item,
-.wp-block-tocflow-table-of-contents li,
-.tocflow .tocflow__item,
-.tocflow li {
+.wp-block-tocguide-table-of-contents .tocguide__item,
+.wp-block-tocguide-table-of-contents li,
+.tocguide .tocguide__item,
+.tocguide li {
 	margin: 0.28rem 0;
 }
 
-.wp-block-tocflow-table-of-contents .tocflow__link,
-.wp-block-tocflow-table-of-contents a,
-.tocflow .tocflow__link,
-.tocflow a {
+.wp-block-tocguide-table-of-contents .tocguide__link,
+.wp-block-tocguide-table-of-contents a,
+.tocguide .tocguide__link,
+.tocguide a {
 	text-decoration: none;
-	color: var(--tocflow-link-color, inherit);
-	font-weight: var(--tocflow-font-weight, inherit);
+	color: var(--tocguide-link-color, inherit);
+	font-weight: var(--tocguide-font-weight, inherit);
 }
 
-.wp-block-tocflow-table-of-contents .tocflow__link:hover,
-.wp-block-tocflow-table-of-contents .tocflow__link:focus-visible,
-.wp-block-tocflow-table-of-contents a:hover,
-.wp-block-tocflow-table-of-contents a:focus-visible,
-.tocflow .tocflow__link:hover,
-.tocflow .tocflow__link:focus-visible,
-.tocflow a:hover,
-.tocflow a:focus-visible {
+.wp-block-tocguide-table-of-contents .tocguide__link:hover,
+.wp-block-tocguide-table-of-contents .tocguide__link:focus-visible,
+.wp-block-tocguide-table-of-contents a:hover,
+.wp-block-tocguide-table-of-contents a:focus-visible,
+.tocguide .tocguide__link:hover,
+.tocguide .tocguide__link:focus-visible,
+.tocguide a:hover,
+.tocguide a:focus-visible {
 	text-decoration: underline;
 }
 
 
-.wp-block-tocflow-table-of-contents .tocflow__link.is-active,
-.tocflow .tocflow__link.is-active {
+.wp-block-tocguide-table-of-contents .tocguide__link.is-active,
+.tocguide .tocguide__link.is-active {
 	font-weight: 700;
-	color: var(--tocflow-accent);
+	color: var(--tocguide-accent);
 }
 
-.wp-block-tocflow-table-of-contents .tocflow__sub,
-.tocflow .tocflow__sub {
+.wp-block-tocguide-table-of-contents .tocguide__sub,
+.tocguide .tocguide__sub {
 	margin-block-start: 0.25rem;
 }
 
-.wp-block-tocflow-table-of-contents.is-sticky,
-.tocflow.is-sticky {
+.wp-block-tocguide-table-of-contents.is-sticky,
+.tocguide.is-sticky {
 	position: sticky;
-	top: var(--tocflow-offset, 96px);
+	top: var(--tocguide-offset, 96px);
 	z-index: 5;
 }
 
-.wp-block-tocflow-table-of-contents.is-style-minimal,
-.tocflow.is-style-minimal,
-.tocflow.tocflow--minimal {
+.wp-block-tocguide-table-of-contents.is-style-minimal,
+.tocguide.is-style-minimal,
+.tocguide.tocguide--minimal {
 
 	/* Override design custom props so preset always wins. */
-	--tocflow-border-width: 0px; /* stylelint-disable-line length-zero-no-unit */
-	--tocflow-bg: transparent;
-	--tocflow-padding: 0px; /* stylelint-disable-line length-zero-no-unit */
-	--tocflow-radius: 0px; /* stylelint-disable-line length-zero-no-unit */
+	--tocguide-border-width: 0px; /* stylelint-disable-line length-zero-no-unit */
+	--tocguide-bg: transparent;
+	--tocguide-padding: 0px; /* stylelint-disable-line length-zero-no-unit */
+	--tocguide-radius: 0px; /* stylelint-disable-line length-zero-no-unit */
 	border: 0;
 	background: transparent;
 	padding: 0;
 	border-radius: 0;
 }
 
-.wp-block-tocflow-table-of-contents.is-style-boxed,
-.tocflow.is-style-boxed,
-.tocflow.tocflow--boxed {
+.wp-block-tocguide-table-of-contents.is-style-boxed,
+.tocguide.is-style-boxed,
+.tocguide.tocguide--boxed {
 	background: #f8fafc;
 	border: 1px solid #d7e0ea;
 	box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.7);
 }
 
-.wp-block-tocflow-table-of-contents.is-style-underline,
-.tocflow.is-style-underline,
-.tocflow.tocflow--underline {
+.wp-block-tocguide-table-of-contents.is-style-underline,
+.tocguide.is-style-underline,
+.tocguide.tocguide--underline {
 	border: 0;
 	background: transparent;
 	border-radius: 0;
@@ -169,23 +169,23 @@
 	border-block-start: 2px solid currentcolor;
 }
 
-.wp-block-tocflow-table-of-contents.is-style-underline .tocflow__title,
-.tocflow.is-style-underline .tocflow__title,
-.tocflow.tocflow--underline .tocflow__title {
+.wp-block-tocguide-table-of-contents.is-style-underline .tocguide__title,
+.tocguide.is-style-underline .tocguide__title,
+.tocguide.tocguide--underline .tocguide__title {
 	padding-block-start: 0.75rem;
 }
 
-.wp-block-tocflow-table-of-contents.is-style-card,
-.tocflow.is-style-card,
-.tocflow.tocflow--card {
+.wp-block-tocguide-table-of-contents.is-style-card,
+.tocguide.is-style-card,
+.tocguide.tocguide--card {
 	background: #fff;
 	border: 0;
 	box-shadow: 0 10px 30px rgba(28, 61, 46, 0.08);
 	padding: 1.35rem 1.6rem;
 }
 
-.wp-block-tocflow-table-of-contents .tocflow__visually-hidden,
-.tocflow .tocflow__visually-hidden {
+.wp-block-tocguide-table-of-contents .tocguide__visually-hidden,
+.tocguide .tocguide__visually-hidden {
 	border: 0;
 	clip: rect(1px, 1px, 1px, 1px);
 	clip-path: inset(50%);
@@ -198,71 +198,71 @@
 	word-wrap: normal !important;
 }
 
-.wp-block-tocflow-table-of-contents.is-compact,
-.tocflow.is-compact {
+.wp-block-tocguide-table-of-contents.is-compact,
+.tocguide.is-compact {
 	padding: 0.85rem 1rem;
 	font-size: 0.9em;
 }
 
-.wp-block-tocflow-table-of-contents.is-compact .tocflow__item,
-.tocflow.is-compact .tocflow__item {
+.wp-block-tocguide-table-of-contents.is-compact .tocguide__item,
+.tocguide.is-compact .tocguide__item {
 	margin: 0.1rem 0;
 }
 
-.wp-block-tocflow-table-of-contents.is-no-markers .tocflow__list,
-.wp-block-tocflow-table-of-contents.is-no-markers .tocflow__sub,
-.wp-block-tocflow-table-of-contents.is-no-markers ol,
-.wp-block-tocflow-table-of-contents.is-no-markers ul,
-.tocflow.is-no-markers .tocflow__list,
-.tocflow.is-no-markers .tocflow__sub,
-.tocflow.is-no-markers ol,
-.tocflow.is-no-markers ul {
+.wp-block-tocguide-table-of-contents.is-no-markers .tocguide__list,
+.wp-block-tocguide-table-of-contents.is-no-markers .tocguide__sub,
+.wp-block-tocguide-table-of-contents.is-no-markers ol,
+.wp-block-tocguide-table-of-contents.is-no-markers ul,
+.tocguide.is-no-markers .tocguide__list,
+.tocguide.is-no-markers .tocguide__sub,
+.tocguide.is-no-markers ol,
+.tocguide.is-no-markers ul {
 	list-style: none;
 	padding-inline-start: 0;
 }
 
-.wp-block-tocflow-table-of-contents.is-nested-counters ol,
-.tocflow.is-nested-counters ol {
+.wp-block-tocguide-table-of-contents.is-nested-counters ol,
+.tocguide.is-nested-counters ol {
 	list-style: none;
 	padding-inline-start: 0;
-	counter-reset: tocflow;
+	counter-reset: tocguide;
 }
 
-.wp-block-tocflow-table-of-contents.is-nested-counters .tocflow__sub,
-.tocflow.is-nested-counters .tocflow__sub {
+.wp-block-tocguide-table-of-contents.is-nested-counters .tocguide__sub,
+.tocguide.is-nested-counters .tocguide__sub {
 	padding-inline-start: 1.1rem;
 }
 
-.wp-block-tocflow-table-of-contents.is-nested-counters li,
-.tocflow.is-nested-counters li {
-	counter-increment: tocflow;
+.wp-block-tocguide-table-of-contents.is-nested-counters li,
+.tocguide.is-nested-counters li {
+	counter-increment: tocguide;
 }
 
-.wp-block-tocflow-table-of-contents.is-nested-counters .tocflow__link::before,
-.tocflow.is-nested-counters .tocflow__link::before {
-	content: counters(tocflow, ".") ". ";
+.wp-block-tocguide-table-of-contents.is-nested-counters .tocguide__link::before,
+.tocguide.is-nested-counters .tocguide__link::before {
+	content: counters(tocguide, ".") ". ";
 	font-variant-numeric: tabular-nums;
 	margin-inline-end: 0.2em;
-	color: var(--tocflow-accent);
+	color: var(--tocguide-accent);
 }
 
-.wp-block-tocflow-table-of-contents.has-columns-2 > .tocflow__body > .tocflow__list,
-.tocflow.has-columns-2 > .tocflow__body > .tocflow__list {
+.wp-block-tocguide-table-of-contents.has-columns-2 > .tocguide__body > .tocguide__list,
+.tocguide.has-columns-2 > .tocguide__body > .tocguide__list {
 	display: grid;
 	grid-template-columns: 1fr 1fr;
 	column-gap: 1.5rem;
 }
 
-.wp-block-tocflow-table-of-contents.has-underlined-links .tocflow__link,
-.tocflow.has-underlined-links .tocflow__link {
+.wp-block-tocguide-table-of-contents.has-underlined-links .tocguide__link,
+.tocguide.has-underlined-links .tocguide__link {
 	text-decoration: underline;
 }
 
 /* ── Focus ring accessibility settings ───────────────────────────────────── */
 
 /* Bold focus ring. */
-.wp-block-tocflow-table-of-contents[data-tocflow-focus="bold"] .tocflow__link:focus-visible,
-.tocflow[data-tocflow-focus="bold"] .tocflow__link:focus-visible {
+.wp-block-tocguide-table-of-contents[data-tocguide-focus="bold"] .tocguide__link:focus-visible,
+.tocguide[data-tocguide-focus="bold"] .tocguide__link:focus-visible {
 	outline: 3px solid currentcolor;
 	outline-offset: 2px;
 	border-radius: 2px;
@@ -270,8 +270,8 @@
 }
 
 /* High-contrast focus ring. */
-.wp-block-tocflow-table-of-contents[data-tocflow-focus="high-contrast"] .tocflow__link:focus-visible,
-.tocflow[data-tocflow-focus="high-contrast"] .tocflow__link:focus-visible {
+.wp-block-tocguide-table-of-contents[data-tocguide-focus="high-contrast"] .tocguide__link:focus-visible,
+.tocguide[data-tocguide-focus="high-contrast"] .tocguide__link:focus-visible {
 	outline: 3px solid #000;
 	outline-offset: 2px;
 	background: #ff0;
@@ -280,49 +280,49 @@
 	text-decoration: none;
 }
 
-.wp-block-tocflow-table-of-contents.has-max-height .tocflow__body,
-.tocflow.has-max-height .tocflow__body {
-	max-height: var(--tocflow-max-height, 320px);
+.wp-block-tocguide-table-of-contents.has-max-height .tocguide__body,
+.tocguide.has-max-height .tocguide__body {
+	max-height: var(--tocguide-max-height, 320px);
 	overflow: auto;
 	padding-inline-end: 0.35rem;
 }
 
-.wp-block-tocflow-table-of-contents h2.tocflow__title,
-.wp-block-tocflow-table-of-contents h3.tocflow__title,
-.wp-block-tocflow-table-of-contents h4.tocflow__title,
-.tocflow h2.tocflow__title,
-.tocflow h3.tocflow__title,
-.tocflow h4.tocflow__title {
+.wp-block-tocguide-table-of-contents h2.tocguide__title,
+.wp-block-tocguide-table-of-contents h3.tocguide__title,
+.wp-block-tocguide-table-of-contents h4.tocguide__title,
+.tocguide h2.tocguide__title,
+.tocguide h3.tocguide__title,
+.tocguide h4.tocguide__title {
 	font-size: 1.05em;
 }
 
 @media (max-width: 600px) {
 
-	.wp-block-tocflow-table-of-contents.has-columns-2 > .tocflow__body > .tocflow__list,
-	.tocflow.has-columns-2 > .tocflow__body > .tocflow__list {
+	.wp-block-tocguide-table-of-contents.has-columns-2 > .tocguide__body > .tocguide__list,
+	.tocguide.has-columns-2 > .tocguide__body > .tocguide__list {
 		grid-template-columns: 1fr;
 	}
 }
 
 @media (prefers-reduced-motion: reduce) {
 
-	.wp-block-tocflow-table-of-contents .tocflow__toggle-icon,
-	.tocflow .tocflow__toggle-icon {
+	.wp-block-tocguide-table-of-contents .tocguide__toggle-icon,
+	.tocguide .tocguide__toggle-icon {
 		transition: none;
 	}
 }
 
 // ── Reading Guide mode ───────────────────────────────────────────────────────
 
-.wp-block-tocflow-table-of-contents.has-guide-mode .tocflow__item,
-.tocflow.has-guide-mode .tocflow__item {
+.wp-block-tocguide-table-of-contents.has-guide-mode .tocguide__item,
+.tocguide.has-guide-mode .tocguide__item {
 	padding-bottom: 0.4rem;
 	margin-bottom: 0.55rem;
 }
 
 // Link row: link + read-time badge side by side
-.wp-block-tocflow-table-of-contents .tocflow__item-row,
-.tocflow .tocflow__item-row {
+.wp-block-tocguide-table-of-contents .tocguide__item-row,
+.tocguide .tocguide__item-row {
 	display: flex;
 	align-items: baseline;
 	gap: 0.4rem;
@@ -330,8 +330,8 @@
 }
 
 // ─ Read-time badge
-.wp-block-tocflow-table-of-contents .tocflow__time,
-.tocflow .tocflow__time {
+.wp-block-tocguide-table-of-contents .tocguide__time,
+.tocguide .tocguide__time {
 	font-size: 0.72em;
 	opacity: 0.42;
 	white-space: nowrap;
@@ -341,11 +341,11 @@
 }
 
 // ─ Section length density bar
-.wp-block-tocflow-table-of-contents .tocflow__density-bar,
-.tocflow .tocflow__density-bar {
+.wp-block-tocguide-table-of-contents .tocguide__density-bar,
+.tocguide .tocguide__density-bar {
 	display: block;
 	height: 2px;
-	width: calc(var(--tocflow-density, 0) * 100%);
+	width: calc(var(--tocguide-density, 0) * 100%);
 	min-width: 4px;
 	background: currentcolor;
 	opacity: 0.1;
@@ -354,20 +354,20 @@
 	transition: opacity 0.2s, width 0.4s ease;
 }
 
-.wp-block-tocflow-table-of-contents .tocflow__item:hover .tocflow__density-bar,
-.tocflow .tocflow__item:hover .tocflow__density-bar {
+.wp-block-tocguide-table-of-contents .tocguide__item:hover .tocguide__density-bar,
+.tocguide .tocguide__item:hover .tocguide__density-bar {
 	opacity: 0.22;
 }
 
-.wp-block-tocflow-table-of-contents .tocflow__item.is-read .tocflow__density-bar,
-.tocflow .tocflow__item.is-read .tocflow__density-bar {
-	background: var(--tocflow-accent);
+.wp-block-tocguide-table-of-contents .tocguide__item.is-read .tocguide__density-bar,
+.tocguide .tocguide__item.is-read .tocguide__density-bar {
+	background: var(--tocguide-accent);
 	opacity: 0.3;
 }
 
 // ─ Content preview (first sentence of section)
-.wp-block-tocflow-table-of-contents .tocflow__preview,
-.tocflow .tocflow__preview {
+.wp-block-tocguide-table-of-contents .tocguide__preview,
+.tocguide .tocguide__preview {
 	display: block;
 	font-size: 0.78em;
 	line-height: 1.5;
@@ -378,15 +378,15 @@
 }
 
 // ─ Reading progress: fade sections the reader has scrolled past
-.wp-block-tocflow-table-of-contents .tocflow__item.is-read > .tocflow__item-row > .tocflow__link,
-.tocflow .tocflow__item.is-read > .tocflow__item-row > .tocflow__link {
+.wp-block-tocguide-table-of-contents .tocguide__item.is-read > .tocguide__item-row > .tocguide__link,
+.tocguide .tocguide__item.is-read > .tocguide__item-row > .tocguide__link {
 	opacity: 0.35;
 	transition: opacity 0.3s;
 }
 
 // ─ Author note
-.wp-block-tocflow-table-of-contents .tocflow__note-wrap,
-.tocflow .tocflow__note-wrap {
+.wp-block-tocguide-table-of-contents .tocguide__note-wrap,
+.tocguide .tocguide__note-wrap {
 	display: flex;
 	align-items: center;
 	gap: 0.35rem;
@@ -394,16 +394,16 @@
 	flex-wrap: wrap;
 }
 
-.wp-block-tocflow-table-of-contents .tocflow__note-toggle,
-.tocflow .tocflow__note-toggle {
+.wp-block-tocguide-table-of-contents .tocguide__note-toggle,
+.tocguide .tocguide__note-toggle {
 	appearance: none;
-	background: color-mix(in srgb, var(--tocflow-accent) 10%, transparent);
-	border: 1px solid color-mix(in srgb, var(--tocflow-accent) 28%, transparent);
+	background: color-mix(in srgb, var(--tocguide-accent) 10%, transparent);
+	border: 1px solid color-mix(in srgb, var(--tocguide-accent) 28%, transparent);
 	border-radius: 4px;
 	padding: 0.1em 0.45em;
 	font-size: 0.72em;
 	cursor: pointer;
-	color: var(--tocflow-accent);
+	color: var(--tocguide-accent);
 	line-height: 1.5;
 	transition: background 0.15s;
 	display: inline-flex;
@@ -411,19 +411,19 @@
 	gap: 0.25em;
 }
 
-.wp-block-tocflow-table-of-contents .tocflow__note-toggle:hover,
-.tocflow .tocflow__note-toggle:hover {
-	background: color-mix(in srgb, var(--tocflow-accent) 18%, transparent);
+.wp-block-tocguide-table-of-contents .tocguide__note-toggle:hover,
+.tocguide .tocguide__note-toggle:hover {
+	background: color-mix(in srgb, var(--tocguide-accent) 18%, transparent);
 }
 
-.wp-block-tocflow-table-of-contents .tocflow__note,
-.tocflow .tocflow__note {
+.wp-block-tocguide-table-of-contents .tocguide__note,
+.tocguide .tocguide__note {
 	display: block;
 	font-size: 0.8em;
 	line-height: 1.55;
 	padding: 0.4rem 0.65rem;
-	background: color-mix(in srgb, var(--tocflow-accent) 7%, transparent);
-	border-inline-start: 2px solid color-mix(in srgb, var(--tocflow-accent) 60%, transparent);
+	background: color-mix(in srgb, var(--tocguide-accent) 7%, transparent);
+	border-inline-start: 2px solid color-mix(in srgb, var(--tocguide-accent) 60%, transparent);
 	border-radius: 0 4px 4px 0;
 	margin-top: 0.3rem;
 	font-style: italic;
@@ -432,8 +432,8 @@
 }
 
 // ─ Actions row (reactions + cite button)
-.wp-block-tocflow-table-of-contents .tocflow__actions,
-.tocflow .tocflow__actions {
+.wp-block-tocguide-table-of-contents .tocguide__actions,
+.tocguide .tocguide__actions {
 	display: flex;
 	align-items: center;
 	gap: 0.5rem;
@@ -442,14 +442,14 @@
 }
 
 // ─ Emoji reactions
-.wp-block-tocflow-table-of-contents .tocflow__reactions,
-.tocflow .tocflow__reactions {
+.wp-block-tocguide-table-of-contents .tocguide__reactions,
+.tocguide .tocguide__reactions {
 	display: flex;
 	gap: 0.1rem;
 }
 
-.wp-block-tocflow-table-of-contents .tocflow__reaction,
-.tocflow .tocflow__reaction {
+.wp-block-tocguide-table-of-contents .tocguide__reaction,
+.tocguide .tocguide__reaction {
 	appearance: none;
 	background: transparent;
 	border: 1px solid transparent;
@@ -463,31 +463,31 @@
 	user-select: none;
 }
 
-.wp-block-tocflow-table-of-contents .tocflow__reaction:hover,
-.tocflow .tocflow__reaction:hover {
-	background: var(--tocflow-line);
+.wp-block-tocguide-table-of-contents .tocguide__reaction:hover,
+.tocguide .tocguide__reaction:hover {
+	background: var(--tocguide-line);
 	opacity: 0.9;
 	transform: scale(1.18);
 }
 
-.wp-block-tocflow-table-of-contents .tocflow__reaction[aria-pressed="true"],
-.tocflow .tocflow__reaction[aria-pressed="true"] {
+.wp-block-tocguide-table-of-contents .tocguide__reaction[aria-pressed="true"],
+.tocguide .tocguide__reaction[aria-pressed="true"] {
 	background: color-mix(in srgb, currentcolor 8%, transparent);
-	border-color: var(--tocflow-line);
+	border-color: var(--tocguide-line);
 	opacity: 1;
 }
 
-.wp-block-tocflow-table-of-contents .tocflow__reaction.is-popped,
-.tocflow .tocflow__reaction.is-popped {
+.wp-block-tocguide-table-of-contents .tocguide__reaction.is-popped,
+.tocguide .tocguide__reaction.is-popped {
 	transform: scale(1.35);
 }
 
 // ─ Citation button
-.wp-block-tocflow-table-of-contents .tocflow__cite-btn,
-.tocflow .tocflow__cite-btn {
+.wp-block-tocguide-table-of-contents .tocguide__cite-btn,
+.tocguide .tocguide__cite-btn {
 	appearance: none;
 	background: transparent;
-	border: 1px solid var(--tocflow-line);
+	border: 1px solid var(--tocguide-line);
 	border-radius: 4px;
 	padding: 0.1em 0.5em;
 	font-size: 0.72em;
@@ -501,33 +501,33 @@
 	gap: 0.25em;
 }
 
-.wp-block-tocflow-table-of-contents .tocflow__cite-btn:hover,
-.tocflow .tocflow__cite-btn:hover {
+.wp-block-tocguide-table-of-contents .tocguide__cite-btn:hover,
+.tocguide .tocguide__cite-btn:hover {
 	opacity: 0.78;
-	background: var(--tocflow-line);
+	background: var(--tocguide-line);
 }
 
-.wp-block-tocflow-table-of-contents .tocflow__cite-btn.is-copied,
-.tocflow .tocflow__cite-btn.is-copied {
+.wp-block-tocguide-table-of-contents .tocguide__cite-btn.is-copied,
+.tocguide .tocguide__cite-btn.is-copied {
 	opacity: 1;
-	background: color-mix(in srgb, var(--tocflow-accent) 10%, transparent);
-	border-color: color-mix(in srgb, var(--tocflow-accent) 40%, transparent);
-	color: var(--tocflow-accent);
+	background: color-mix(in srgb, var(--tocguide-accent) 10%, transparent);
+	border-color: color-mix(in srgb, var(--tocguide-accent) 40%, transparent);
+	color: var(--tocguide-accent);
 }
 
 @media (prefers-reduced-motion: reduce) {
 
-	.wp-block-tocflow-table-of-contents .tocflow__reaction,
-	.tocflow .tocflow__reaction,
-	.wp-block-tocflow-table-of-contents .tocflow__density-bar,
-	.tocflow .tocflow__density-bar,
-	.wp-block-tocflow-table-of-contents .tocflow__item.is-read > .tocflow__item-row > .tocflow__link,
-	.tocflow .tocflow__item.is-read > .tocflow__item-row > .tocflow__link {
+	.wp-block-tocguide-table-of-contents .tocguide__reaction,
+	.tocguide .tocguide__reaction,
+	.wp-block-tocguide-table-of-contents .tocguide__density-bar,
+	.tocguide .tocguide__density-bar,
+	.wp-block-tocguide-table-of-contents .tocguide__item.is-read > .tocguide__item-row > .tocguide__link,
+	.tocguide .tocguide__item.is-read > .tocguide__item-row > .tocguide__link {
 		transition: none;
 	}
 
-	.wp-block-tocflow-table-of-contents .tocflow__reaction.is-popped,
-	.tocflow .tocflow__reaction.is-popped {
+	.wp-block-tocguide-table-of-contents .tocguide__reaction.is-popped,
+	.tocguide .tocguide__reaction.is-popped {
 		transform: none;
 	}
 }
@@ -535,8 +535,8 @@
 // ── Hover preview tooltip bubble (floating, JS-positioned) ──────────────────
 // ── Study tools bar (total time + resume button) ─────────────────────────────
 
-.wp-block-tocflow-table-of-contents .tocflow__study-bar,
-.tocflow .tocflow__study-bar {
+.wp-block-tocguide-table-of-contents .tocguide__study-bar,
+.tocguide .tocguide__study-bar {
 	display: flex;
 	align-items: center;
 	gap: 0.6rem;
@@ -544,20 +544,20 @@
 	margin-bottom: 0.5rem;
 }
 
-.wp-block-tocflow-table-of-contents .tocflow__total-time,
-.tocflow .tocflow__total-time {
+.wp-block-tocguide-table-of-contents .tocguide__total-time,
+.tocguide .tocguide__total-time {
 	font-size: 0.75em;
 	opacity: 0.6;
 	letter-spacing: 0.02em;
 }
 
-.wp-block-tocflow-table-of-contents .tocflow__resume-btn,
-.tocflow .tocflow__resume-btn {
+.wp-block-tocguide-table-of-contents .tocguide__resume-btn,
+.tocguide .tocguide__resume-btn {
 	appearance: none;
-	background: color-mix(in srgb, var(--tocflow-accent) 12%, transparent);
-	border: 1px solid color-mix(in srgb, var(--tocflow-accent) 35%, transparent);
+	background: color-mix(in srgb, var(--tocguide-accent) 12%, transparent);
+	border: 1px solid color-mix(in srgb, var(--tocguide-accent) 35%, transparent);
 	border-radius: 999px;
-	color: var(--tocflow-accent);
+	color: var(--tocguide-accent);
 	cursor: pointer;
 	font-family: inherit;
 	font-size: 0.75em;
@@ -568,21 +568,21 @@
 	transition: background 0.15s, box-shadow 0.15s;
 }
 
-.wp-block-tocflow-table-of-contents .tocflow__resume-btn:hover,
-.tocflow .tocflow__resume-btn:hover {
-	background: color-mix(in srgb, var(--tocflow-accent) 20%, transparent);
+.wp-block-tocguide-table-of-contents .tocguide__resume-btn:hover,
+.tocguide .tocguide__resume-btn:hover {
+	background: color-mix(in srgb, var(--tocguide-accent) 20%, transparent);
 }
 
-.wp-block-tocflow-table-of-contents .tocflow__resume-btn:focus-visible,
-.tocflow .tocflow__resume-btn:focus-visible {
-	outline: 2px solid var(--tocflow-accent);
+.wp-block-tocguide-table-of-contents .tocguide__resume-btn:focus-visible,
+.tocguide .tocguide__resume-btn:focus-visible {
+	outline: 2px solid var(--tocguide-accent);
 	outline-offset: 2px;
 }
 
 // ── Reading progress bar ─────────────────────────────────────────────────────
 
-.wp-block-tocflow-table-of-contents .tocflow__reading-wrap,
-.tocflow .tocflow__reading-wrap {
+.wp-block-tocguide-table-of-contents .tocguide__reading-wrap,
+.tocguide .tocguide__reading-wrap {
 	background: color-mix(in srgb, currentcolor 10%, transparent);
 	border-radius: 999px;
 	height: 4px;
@@ -590,9 +590,9 @@
 	overflow: hidden;
 }
 
-.wp-block-tocflow-table-of-contents .tocflow__reading-bar,
-.tocflow .tocflow__reading-bar {
-	background: var(--tocflow-accent);
+.wp-block-tocguide-table-of-contents .tocguide__reading-bar,
+.tocguide .tocguide__reading-bar {
+	background: var(--tocguide-accent);
 	border-radius: 999px;
 	height: 100%;
 	transition: width 0.4s ease;
@@ -601,24 +601,24 @@
 
 @media (prefers-reduced-motion: reduce) {
 
-	.wp-block-tocflow-table-of-contents .tocflow__reading-bar,
-	.tocflow .tocflow__reading-bar {
+	.wp-block-tocguide-table-of-contents .tocguide__reading-bar,
+	.tocguide .tocguide__reading-bar {
 		transition: none;
 	}
 }
 
 // ── Reader note pads (per-section personal notes) ─────────────────────────
 
-.wp-block-tocflow-table-of-contents .tocflow__rnote-wrap,
-.tocflow .tocflow__rnote-wrap {
+.wp-block-tocguide-table-of-contents .tocguide__rnote-wrap,
+.tocguide .tocguide__rnote-wrap {
 	margin-block-start: 0.3rem;
 }
 
-.wp-block-tocflow-table-of-contents .tocflow__rnote-toggle,
-.tocflow .tocflow__rnote-toggle {
+.wp-block-tocguide-table-of-contents .tocguide__rnote-toggle,
+.tocguide .tocguide__rnote-toggle {
 	appearance: none;
 	background: transparent;
-	border: 1px solid var(--tocflow-line, #e2e8f0);
+	border: 1px solid var(--tocguide-line, #e2e8f0);
 	border-radius: 4px;
 	color: inherit;
 	cursor: pointer;
@@ -630,30 +630,30 @@
 	transition: opacity 0.15s, background 0.15s;
 }
 
-.wp-block-tocflow-table-of-contents .tocflow__rnote-toggle:hover,
-.wp-block-tocflow-table-of-contents .tocflow__rnote-toggle.has-content,
-.tocflow .tocflow__rnote-toggle:hover,
-.tocflow .tocflow__rnote-toggle.has-content {
-	background: color-mix(in srgb, var(--tocflow-accent) 8%, transparent);
-	border-color: color-mix(in srgb, var(--tocflow-accent) 30%, transparent);
+.wp-block-tocguide-table-of-contents .tocguide__rnote-toggle:hover,
+.wp-block-tocguide-table-of-contents .tocguide__rnote-toggle.has-content,
+.tocguide .tocguide__rnote-toggle:hover,
+.tocguide .tocguide__rnote-toggle.has-content {
+	background: color-mix(in srgb, var(--tocguide-accent) 8%, transparent);
+	border-color: color-mix(in srgb, var(--tocguide-accent) 30%, transparent);
 	opacity: 1;
 }
 
-.wp-block-tocflow-table-of-contents .tocflow__rnote-toggle:focus-visible,
-.tocflow .tocflow__rnote-toggle:focus-visible {
+.wp-block-tocguide-table-of-contents .tocguide__rnote-toggle:focus-visible,
+.tocguide .tocguide__rnote-toggle:focus-visible {
 	outline: 2px solid currentcolor;
 	outline-offset: 2px;
 }
 
-.wp-block-tocflow-table-of-contents .tocflow__rnote-pad,
-.tocflow .tocflow__rnote-pad {
+.wp-block-tocguide-table-of-contents .tocguide__rnote-pad,
+.tocguide .tocguide__rnote-pad {
 	margin-block-start: 0.35rem;
 }
 
-.wp-block-tocflow-table-of-contents .tocflow__rnote-ta,
-.tocflow .tocflow__rnote-ta {
+.wp-block-tocguide-table-of-contents .tocguide__rnote-ta,
+.tocguide .tocguide__rnote-ta {
 	background: color-mix(in srgb, currentcolor 4%, transparent);
-	border: 1px solid var(--tocflow-line, #e2e8f0);
+	border: 1px solid var(--tocguide-line, #e2e8f0);
 	border-radius: 6px;
 	color: inherit;
 	display: block;
@@ -665,15 +665,15 @@
 	width: 100%;
 
 	&:focus {
-		border-color: var(--tocflow-accent);
-		outline: 2px solid color-mix(in srgb, var(--tocflow-accent) 35%, transparent);
+		border-color: var(--tocguide-accent);
+		outline: 2px solid color-mix(in srgb, var(--tocguide-accent) 35%, transparent);
 		outline-offset: 0;
 	}
 }
 
 // Appended to <body> by initHoverPreviews(); rendered once per TOC.
 
-.tocflow__tip-bubble {
+.tocguide__tip-bubble {
 	position: fixed;
 	z-index: 99999;
 	max-width: 280px;
@@ -720,7 +720,7 @@
 
 @media (prefers-color-scheme: dark) {
 
-	.tocflow__tip-bubble {
+	.tocguide__tip-bubble {
 		background: rgba(238, 238, 238, 0.92);
 		color: #111;
 
@@ -736,31 +736,31 @@
 
 @media (prefers-reduced-motion: reduce) {
 
-	.tocflow__tip-bubble {
+	.tocguide__tip-bubble {
 		transition: none;
 	}
 }
 
 // ── Export / print toolbar ───────────────────────────────────────────────────
 
-.wp-block-tocflow-table-of-contents .tocflow__export-bar,
-.tocflow .tocflow__export-bar {
+.wp-block-tocguide-table-of-contents .tocguide__export-bar,
+.tocguide .tocguide__export-bar {
 	display: flex;
 	flex-wrap: wrap;
 	gap: 0.35rem;
 	margin-top: 0.85rem;
 	padding-top: 0.65rem;
-	border-top: 1px solid var(--tocflow-line, #e2e8f0);
+	border-top: 1px solid var(--tocguide-line, #e2e8f0);
 }
 
-.wp-block-tocflow-table-of-contents .tocflow__export-btn,
-.tocflow .tocflow__export-btn {
+.wp-block-tocguide-table-of-contents .tocguide__export-btn,
+.tocguide .tocguide__export-btn {
 	appearance: none;
 	display: inline-flex;
 	align-items: center;
 	gap: 0.3em;
 	background: transparent;
-	border: 1px solid var(--tocflow-line, #e2e8f0);
+	border: 1px solid var(--tocguide-line, #e2e8f0);
 	border-radius: 4px;
 	padding: 0.2em 0.6em;
 	font-size: 0.75em;
@@ -772,35 +772,35 @@
 	font-family: inherit;
 }
 
-.wp-block-tocflow-table-of-contents .tocflow__export-btn:hover,
-.wp-block-tocflow-table-of-contents .tocflow__export-btn:focus-visible,
-.tocflow .tocflow__export-btn:hover,
-.tocflow .tocflow__export-btn:focus-visible {
+.wp-block-tocguide-table-of-contents .tocguide__export-btn:hover,
+.wp-block-tocguide-table-of-contents .tocguide__export-btn:focus-visible,
+.tocguide .tocguide__export-btn:hover,
+.tocguide .tocguide__export-btn:focus-visible {
 	opacity: 1;
-	background: var(--tocflow-line, #e2e8f0);
+	background: var(--tocguide-line, #e2e8f0);
 	outline: 2px solid currentcolor;
 	outline-offset: 2px;
 }
 
-.wp-block-tocflow-table-of-contents .tocflow__export-btn.is-copied,
-.tocflow .tocflow__export-btn.is-copied {
+.wp-block-tocguide-table-of-contents .tocguide__export-btn.is-copied,
+.tocguide .tocguide__export-btn.is-copied {
 	opacity: 1;
-	background: color-mix(in srgb, var(--tocflow-accent) 10%, transparent);
-	border-color: color-mix(in srgb, var(--tocflow-accent) 35%, transparent);
-	color: var(--tocflow-accent);
+	background: color-mix(in srgb, var(--tocguide-accent) 10%, transparent);
+	border-color: color-mix(in srgb, var(--tocguide-accent) 35%, transparent);
+	color: var(--tocguide-accent);
 }
 
 // ── Focus-visible polish ─────────────────────────────────────────────────────
 
-.wp-block-tocflow-table-of-contents a:focus-visible,
-.tocflow a:focus-visible {
+.wp-block-tocguide-table-of-contents a:focus-visible,
+.tocguide a:focus-visible {
 	outline: 2px solid currentcolor;
 	outline-offset: 2px;
 	border-radius: 2px;
 }
 
-.wp-block-tocflow-table-of-contents button:focus-visible,
-.tocflow button:focus-visible {
+.wp-block-tocguide-table-of-contents button:focus-visible,
+.tocguide button:focus-visible {
 	outline: 2px solid currentcolor;
 	outline-offset: 2px;
 }
@@ -810,8 +810,8 @@
 @media print {
 
 	// Keep the TOC visible and static.
-	.wp-block-tocflow-table-of-contents,
-	.tocflow {
+	.wp-block-tocguide-table-of-contents,
+	.tocguide {
 		border: 1px solid #ccc;
 		background: none;
 		page-break-inside: avoid;
@@ -819,57 +819,57 @@
 	}
 
 	// Expand a collapsed TOC for print.
-	.wp-block-tocflow-table-of-contents.is-collapsed .tocflow__body,
-	.tocflow.is-collapsed .tocflow__body {
+	.wp-block-tocguide-table-of-contents.is-collapsed .tocguide__body,
+	.tocguide.is-collapsed .tocguide__body {
 		display: block;
 	}
 
 	// Hide all interactive controls.
-	.wp-block-tocflow-table-of-contents .tocflow__toggle,
-	.wp-block-tocflow-table-of-contents .tocflow__reaction,
-	.wp-block-tocflow-table-of-contents .tocflow__cite-btn,
-	.wp-block-tocflow-table-of-contents .tocflow__note-toggle,
-	.wp-block-tocflow-table-of-contents .tocflow__export-bar,
-	.wp-block-tocflow-table-of-contents .tocflow__tip-bubble,
-	.wp-block-tocflow-table-of-contents .tocflow__resume-btn,
-	.wp-block-tocflow-table-of-contents .tocflow__reading-wrap,
-	.wp-block-tocflow-table-of-contents .tocflow__rnote-toggle,
-	.wp-block-tocflow-table-of-contents .tocflow__rnote-pad,
-	.tocflow .tocflow__toggle,
-	.tocflow .tocflow__reaction,
-	.tocflow .tocflow__cite-btn,
-	.tocflow .tocflow__note-toggle,
-	.tocflow .tocflow__export-bar,
-	.tocflow .tocflow__tip-bubble,
-	.tocflow .tocflow__resume-btn,
-	.tocflow .tocflow__reading-wrap,
-	.tocflow .tocflow__rnote-toggle,
-	.tocflow .tocflow__rnote-pad {
+	.wp-block-tocguide-table-of-contents .tocguide__toggle,
+	.wp-block-tocguide-table-of-contents .tocguide__reaction,
+	.wp-block-tocguide-table-of-contents .tocguide__cite-btn,
+	.wp-block-tocguide-table-of-contents .tocguide__note-toggle,
+	.wp-block-tocguide-table-of-contents .tocguide__export-bar,
+	.wp-block-tocguide-table-of-contents .tocguide__tip-bubble,
+	.wp-block-tocguide-table-of-contents .tocguide__resume-btn,
+	.wp-block-tocguide-table-of-contents .tocguide__reading-wrap,
+	.wp-block-tocguide-table-of-contents .tocguide__rnote-toggle,
+	.wp-block-tocguide-table-of-contents .tocguide__rnote-pad,
+	.tocguide .tocguide__toggle,
+	.tocguide .tocguide__reaction,
+	.tocguide .tocguide__cite-btn,
+	.tocguide .tocguide__note-toggle,
+	.tocguide .tocguide__export-bar,
+	.tocguide .tocguide__tip-bubble,
+	.tocguide .tocguide__resume-btn,
+	.tocguide .tocguide__reading-wrap,
+	.tocguide .tocguide__rnote-toggle,
+	.tocguide .tocguide__rnote-pad {
 		display: none !important;
 	}
 
 	// Show author notes expanded.
-	.wp-block-tocflow-table-of-contents .tocflow__note,
-	.tocflow .tocflow__note {
+	.wp-block-tocguide-table-of-contents .tocguide__note,
+	.tocguide .tocguide__note {
 		display: block !important;
 	}
 
 	// Remove animated effects.
-	.wp-block-tocflow-table-of-contents .tocflow__item.is-read > .tocflow__item-row > .tocflow__link,
-	.tocflow .tocflow__item.is-read > .tocflow__item-row > .tocflow__link {
+	.wp-block-tocguide-table-of-contents .tocguide__item.is-read > .tocguide__item-row > .tocguide__link,
+	.tocguide .tocguide__item.is-read > .tocguide__item-row > .tocguide__link {
 		opacity: 1;
 	}
 
-	.wp-block-tocflow-table-of-contents .tocflow__density-bar,
-	.tocflow .tocflow__density-bar {
+	.wp-block-tocguide-table-of-contents .tocguide__density-bar,
+	.tocguide .tocguide__density-bar {
 		display: none;
 	}
 }
 
 @media (prefers-reduced-motion: reduce) {
 
-	.wp-block-tocflow-table-of-contents .tocflow__export-btn,
-	.tocflow .tocflow__export-btn {
+	.wp-block-tocguide-table-of-contents .tocguide__export-btn,
+	.tocguide .tocguide__export-btn {
 		transition: none;
 	}
 }

@@ -2,7 +2,7 @@
 # This file is distributed under the GPL-2.0-or-later.
 msgid ""
 msgstr ""
-"Project-Id-Version: TOCflow 1.3.3\n"
+"Project-Id-Version: TOCguide 1.3.3\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/workspace\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,14 +17,14 @@ msgstr ""
 #. Plugin Name of the plugin
 #: tocguide.php
 #: admin/views/settings.php:25
-#: includes/class-tocflow-admin.php:52
-#: includes/class-tocflow-admin.php:53
+#: includes/class-tocguide-admin.php:52
+#: includes/class-tocguide-admin.php:53
 msgid "TOCguide"
 msgstr ""
 
 #. Plugin URI of the plugin
 #: tocguide.php
-msgid "https://github.com/matthummel-pa/tocflow"
+msgid "https://github.com/matthummel-pa/tocguide"
 msgstr ""
 
 #. Description of the plugin
@@ -57,7 +57,7 @@ msgid "TOCguide sections"
 msgstr ""
 
 #: admin/views/settings.php:33
-#: includes/class-tocflow-plugin.php:372
+#: includes/class-tocguide-plugin.php:372
 msgid "Settings"
 msgstr ""
 
@@ -212,7 +212,7 @@ msgid "Reading Guide documentation"
 msgstr ""
 
 #: admin/views/settings.php:113
-#: includes/class-tocflow-admin.php:119
+#: includes/class-tocguide-admin.php:119
 msgid "Shortcode"
 msgstr ""
 
@@ -265,7 +265,7 @@ msgid "Skip a heading"
 msgstr ""
 
 #: admin/views/settings.php:127
-msgid "Add the CSS class no-toc or tocflow-skip to a Heading block (Advanced > Additional CSS class(es)) to keep it out of the outline."
+msgid "Add the CSS class no-toc or tocguide-skip to a Heading block (Advanced > Additional CSS class(es)) to keep it out of the outline."
 msgstr ""
 
 #: admin/views/settings.php:153
@@ -318,7 +318,7 @@ msgid "Auto-generate the block"
 msgstr ""
 
 #: admin/views/settings.php:201
-msgid "Prints the Table of Contents Gutenberg block on the front end. Posts that already have the block (or the [tocflow] shortcode) are left alone. You can still insert the block by hand in the editor."
+msgid "Prints the Table of Contents Gutenberg block on the front end. Posts that already have the block (or the [tocguide] shortcode) are left alone. You can still insert the block by hand in the editor."
 msgstr ""
 
 #: admin/views/settings.php:204
@@ -758,173 +758,173 @@ msgstr ""
 msgid "Save settings"
 msgstr ""
 
-#: includes/class-tocflow-admin.php:105
+#: includes/class-tocguide-admin.php:105
 msgid "Using the block"
 msgstr ""
 
-#: includes/class-tocflow-admin.php:106
+#: includes/class-tocguide-admin.php:106
 msgid "Edit a post, click the inserter, and search for “Table of Contents”. The outline is built from Heading blocks in that post."
 msgstr ""
 
-#: includes/class-tocflow-admin.php:112
+#: includes/class-tocguide-admin.php:112
 msgid "Auto-generate"
 msgstr ""
 
-#: includes/class-tocflow-admin.php:113
-msgid "Settings → TOCguide can print the Table of Contents block at the top of content or after the first heading. Customize title, heading levels, style, and layout there. Manual blocks and the [tocguide] or [tocflow] shortcode still skip auto-generate so you never get two outlines."
+#: includes/class-tocguide-admin.php:113
+msgid "Settings → TOCguide can print the Table of Contents block at the top of content or after the first heading. Customize title, heading levels, style, and layout there. Manual blocks and the [tocguide] or [tocguide] shortcode still skip auto-generate so you never get two outlines."
 msgstr ""
 
-#: includes/class-tocflow-admin.php:120
+#: includes/class-tocguide-admin.php:120
 msgid "prints the same outline in classic content, widgets, or a theme template. The Gutenberg block is the primary placement method."
 msgstr ""
 
-#: includes/class-tocflow-admin.php:124
-#: includes/class-tocflow-plugin.php:390
+#: includes/class-tocguide-admin.php:124
+#: includes/class-tocguide-plugin.php:390
 msgid "Support"
 msgstr ""
 
-#: includes/class-tocflow-admin.php:125
+#: includes/class-tocguide-admin.php:125
 msgid "GitHub issues"
 msgstr ""
 
-#: includes/class-tocflow-admin.php:126
+#: includes/class-tocguide-admin.php:126
 msgid "Online docs"
 msgstr ""
 
-#: includes/class-tocflow-admin.php:170
+#: includes/class-tocguide-admin.php:170
 msgid "TOCguide is ready."
 msgstr ""
 
-#: includes/class-tocflow-admin.php:171
-msgid "Add the Table of Contents block to a post, or auto-generate it under Settings → TOCguide. The [tocguide] and [tocflow] shortcodes still work in classic content."
+#: includes/class-tocguide-admin.php:171
+msgid "Add the Table of Contents block to a post, or auto-generate it under Settings → TOCguide. The [tocguide] and [tocguide] shortcodes still work in classic content."
 msgstr ""
 
-#: includes/class-tocflow-admin.php:172
+#: includes/class-tocguide-admin.php:172
 msgid "Open settings"
 msgstr ""
 
 #. translators: abbreviation for "minute" in read-time estimates, e.g. "~3 min"
-#: includes/class-tocflow-headings.php:559
+#: includes/class-tocguide-headings.php:559
 msgid "min"
 msgstr ""
 
-#: includes/class-tocflow-headings.php:593
+#: includes/class-tocguide-headings.php:593
 msgid "Author's note"
 msgstr ""
 
 #. translators: %s = heading text
-#: includes/class-tocflow-headings.php:608
+#: includes/class-tocguide-headings.php:608
 #, php-format
 msgid "My note for: %s"
 msgstr ""
 
-#: includes/class-tocflow-headings.php:613
+#: includes/class-tocguide-headings.php:613
 msgid "Your notes for this section\\xe2\\x80\\xa6"
 msgstr ""
 
 #. translators: %s = heading text
-#: includes/class-tocflow-headings.php:614
+#: includes/class-tocguide-headings.php:614
 #, php-format
 msgid "Notes for: %s"
 msgstr ""
 
-#: includes/class-tocflow-headings.php:626
+#: includes/class-tocguide-headings.php:626
 msgid "Insightful"
 msgstr ""
 
-#: includes/class-tocflow-headings.php:627
+#: includes/class-tocguide-headings.php:627
 msgid "Saved"
 msgstr ""
 
-#: includes/class-tocflow-headings.php:628
+#: includes/class-tocguide-headings.php:628
 msgid "Unclear"
 msgstr ""
 
-#: includes/class-tocflow-headings.php:629
+#: includes/class-tocguide-headings.php:629
 msgid "Got it"
 msgstr ""
 
-#: includes/class-tocflow-headings.php:632
+#: includes/class-tocguide-headings.php:632
 msgid "React to this section"
 msgstr ""
 
-#: includes/class-tocflow-headings.php:646
+#: includes/class-tocguide-headings.php:646
 msgid "Copy citation for this section"
 msgstr ""
 
-#: includes/class-tocflow-headings.php:648
+#: includes/class-tocguide-headings.php:648
 msgid "Cite"
 msgstr ""
 
-#: includes/class-tocflow-headings.php:757
-#: includes/class-tocflow-headings.php:1080
-#: includes/class-tocflow-plugin.php:120
-#: includes/class-tocflow-settings.php:148
+#: includes/class-tocguide-headings.php:757
+#: includes/class-tocguide-headings.php:1080
+#: includes/class-tocguide-plugin.php:120
+#: includes/class-tocguide-settings.php:148
 #: src/edit.js:187
 #: src/edit.js:801
 msgid "Table of Contents"
 msgstr ""
 
-#: includes/class-tocflow-headings.php:960
+#: includes/class-tocguide-headings.php:960
 msgid "Toggle table of contents"
 msgstr ""
 
 #. translators: %d = estimated total reading time in minutes
-#: includes/class-tocflow-headings.php:986
+#: includes/class-tocguide-headings.php:986
 #, php-format
 msgid "~%d min total"
 msgstr ""
 
-#: includes/class-tocflow-headings.php:992
+#: includes/class-tocguide-headings.php:992
 msgid "Resume"
 msgstr ""
 
-#: includes/class-tocflow-headings.php:1003
+#: includes/class-tocguide-headings.php:1003
 #: src/edit.js:632
 msgid "Reading progress"
 msgstr ""
 
-#: includes/class-tocflow-headings.php:1016
+#: includes/class-tocguide-headings.php:1016
 msgid "Export table of contents"
 msgstr ""
 
-#: includes/class-tocflow-headings.php:1020
+#: includes/class-tocguide-headings.php:1020
 msgid "Copy outline as Markdown"
 msgstr ""
 
-#: includes/class-tocflow-headings.php:1022
+#: includes/class-tocguide-headings.php:1022
 msgid "Copy"
 msgstr ""
 
-#: includes/class-tocflow-headings.php:1027
+#: includes/class-tocguide-headings.php:1027
 msgid "Download outline as Markdown file"
 msgstr ""
 
-#: includes/class-tocflow-headings.php:1029
+#: includes/class-tocguide-headings.php:1029
 msgid ".md"
 msgstr ""
 
-#: includes/class-tocflow-headings.php:1033
+#: includes/class-tocguide-headings.php:1033
 msgid "Download outline as Word document"
 msgstr ""
 
-#: includes/class-tocflow-headings.php:1035
+#: includes/class-tocguide-headings.php:1035
 msgid ".doc"
 msgstr ""
 
-#: includes/class-tocflow-headings.php:1039
+#: includes/class-tocguide-headings.php:1039
 msgid "Print table of contents"
 msgstr ""
 
-#: includes/class-tocflow-headings.php:1041
+#: includes/class-tocguide-headings.php:1041
 msgid "Print"
 msgstr ""
 
-#: includes/class-tocflow-plugin.php:373
+#: includes/class-tocguide-plugin.php:373
 msgid "Docs & Support"
 msgstr ""
 
-#: includes/class-tocflow-plugin.php:389
+#: includes/class-tocguide-plugin.php:389
 msgid "Documentation"
 msgstr ""
 

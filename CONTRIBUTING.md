@@ -27,7 +27,7 @@ checklist, and the release process — see
 
 ## Reporting bugs
 
-Open a [GitHub Issue](https://github.com/matthummel-pa/tocflow/issues) using
+Open a [GitHub Issue](https://github.com/matthummel-pa/tocguide/issues) using
 the **Bug report** template. Include your WordPress version, PHP version, active
 theme, and steps to reproduce.
 

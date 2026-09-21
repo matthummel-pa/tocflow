@@ -17,14 +17,14 @@
 	 */
 	function initColorFields() {
 		document
-			.querySelectorAll( '.tocflow-color-field' )
+			.querySelectorAll( '.tocguide-color-field' )
 			.forEach( function ( wrap ) {
 				const text = wrap.querySelector( 'input[type="text"]' );
 				const swatch = wrap.querySelector( 'input[type="color"]' );
 				if ( ! text || ! swatch ) {
 					return;
 				}
-				const clear = wrap.querySelector( '.tocflow-color-clear' );
+				const clear = wrap.querySelector( '.tocguide-color-clear' );
 
 				// Text → swatch (only when value is a valid 6-digit hex).
 				text.addEventListener( 'input', function () {
@@ -81,12 +81,12 @@
 		initColorFields();
 
 		// Reading Guide sub-options depend on guide mode being on.
-		syncConditional( 'tocflow-auto-guide-mode', 'tocflow-guide-subopts' );
+		syncConditional( 'tocguide-auto-guide-mode', 'tocguide-guide-subopts' );
 
 		// Citation format selector depends on citations being on.
 		syncConditional(
-			'tocflow-auto-show-citations',
-			'tocflow-citation-style-row'
+			'tocguide-auto-show-citations',
+			'tocguide-citation-style-row'
 		);
 	} );
 } )();

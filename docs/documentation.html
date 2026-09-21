@@ -5,12 +5,12 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>TOCguide documentation — Table of Contents block for WordPress</title>
 <meta name="description" content="Full documentation for TOCguide v1.2.0: install, block sidebar, Reading Guide mode, study assistant (reader notes, progress bar, resume bookmark, section planner), hover previews, section citations, auto-insert, shortcode, settings reference, compatibility, and developer filters.">
-<link rel="canonical" href="https://matthummel-pa.github.io/tocflow/documentation.html">
+<link rel="canonical" href="https://matthummel-pa.github.io/tocguide/documentation.html">
 <meta property="og:title" content="TOCguide documentation">
 <meta property="og:description" content="Install, block sidebar, Reading Guide, hover previews, citations, auto-insert, shortcode, settings, compatibility, and developer notes.">
 <meta property="og:type" content="website">
-<meta property="og:url" content="https://matthummel-pa.github.io/tocflow/documentation.html">
-<meta property="og:image" content="https://matthummel-pa.github.io/tocflow/assets/social-preview.png">
+<meta property="og:url" content="https://matthummel-pa.github.io/tocguide/documentation.html">
+<meta property="og:image" content="https://matthummel-pa.github.io/tocguide/assets/social-preview.png">
 <meta name="twitter:card" content="summary_large_image">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -136,13 +136,13 @@
   <p class="breadcrumb"><a href="index.html">← TOCguide home</a> · <a href="support.html">Support</a></p>
   <p class="kicker">Plugin documentation · v1.2.0</p>
   <h1>TOCguide</h1>
-  <p class="intro">A server-rendered Table of Contents for the WordPress block editor — and the only TOC plugin with a built-in Reading Guide. Slug: <code>tocflow</code>.</p>
+  <p class="intro">A server-rendered Table of Contents for the WordPress block editor — and the only TOC plugin with a built-in Reading Guide. Slug: <code>tocguide</code>.</p>
 
   <!-- Install -->
   <h2 id="install">1. Install</h2>
-  <p><strong>From WordPress.org</strong> — go to <em>Plugins → Add New</em>, search for <em>tocflow</em>, click Install Now.</p>
-  <p><strong>From a ZIP</strong> — download <code>tocguide.zip</code> from <a href="https://github.com/matthummel-pa/tocflow/releases/latest">GitHub Releases</a>, then <em>Plugins → Add New → Upload Plugin</em>.</p>
-  <p><strong>Developers</strong> — clone the GitHub repo into <code>wp-content/plugins/</code> (folder may be <code>tocflow</code>; WordPress.org installs use <code>tocguide</code>) and run:</p>
+  <p><strong>From WordPress.org</strong> — go to <em>Plugins → Add New</em>, search for <em>tocguide</em>, click Install Now.</p>
+  <p><strong>From a ZIP</strong> — download <code>tocguide.zip</code> from <a href="https://github.com/matthummel-pa/tocguide/releases/latest">GitHub Releases</a>, then <em>Plugins → Add New → Upload Plugin</em>.</p>
+  <p><strong>Developers</strong> — clone the GitHub repo into <code>wp-content/plugins/tocguide</code> and run:</p>
   <pre><code>npm install
 npm run build</code></pre>
   <p>Source files are in <code>src/</code>. Compiled assets land in <code>build/</code>. Run <code>npm run start</code> for watch mode.</p>
@@ -198,7 +198,7 @@ npm run build</code></pre>
 
   <!-- Skip -->
   <h2 id="skip">5. Skip a heading</h2>
-  <p>Add CSS class <code>no-toc</code> or <code>tocflow-skip</code> to a Heading block under <em>Advanced → Additional CSS class(es)</em>. That heading is excluded from both the TOC list and the anchor injection.</p>
+  <p>Add CSS class <code>no-toc</code> or <code>tocguide-skip</code> to a Heading block under <em>Advanced → Additional CSS class(es)</em>. That heading is excluded from both the TOC list and the anchor injection.</p>
 
   <!-- Reading Guide -->
   <h2 id="reading-guide">6. Reading Guide <span class="badge-new">1.1+</span></h2>
@@ -221,7 +221,7 @@ npm run build</code></pre>
     <thead><tr><th>Feature</th><th>How it works</th></tr></thead>
     <tbody>
       <tr><td><strong>Section content previews</strong></td><td>Always-visible opening ~20 words beneath each TOC link. Extracted server-side from block content; container blocks (Group, Columns, Cover) are handled without double-counting.</td></tr>
-      <tr><td><strong>Section length bars</strong></td><td>Thin bar showing word count as a proportion of the longest section. Rendered as a CSS custom property (<code>--tocflow-density</code>) set per item at PHP render time.</td></tr>
+      <tr><td><strong>Section length bars</strong></td><td>Thin bar showing word count as a proportion of the longest section. Rendered as a CSS custom property (<code>--tocguide-density</code>) set per item at PHP render time.</td></tr>
       <tr><td><strong>Read-time estimates</strong></td><td><code>~N min</code> badge. Calculated as <code>ceil(words / 200)</code> at render time. Minimum 1 min.</td></tr>
       <tr><td><strong>Reading progress</strong></td><td>IntersectionObserver fades TOC items as the reader scrolls each heading past the top of the viewport. No timers; pure intersection tracking.</td></tr>
     </tbody>
@@ -254,7 +254,7 @@ npm run build</code></pre>
   <h3 id="reactions">Emoji reactions (reader → writer)</h3>
   <p>Readers react to individual sections with four emoji: 💡 Insightful · ⭐ Saved · 🤔 Unclear · ✅ Got it.</p>
   <ul>
-    <li>State is stored in <code>localStorage</code> with a key of <code>tocflow-r-{postId}-{slug}-{emoji}</code>.</li>
+    <li>State is stored in <code>localStorage</code> with a key of <code>tocguide-r-{postId}-{slug}-{emoji}</code>.</li>
     <li>Reactions are per-device and per-browser. Nothing is sent to your server or any third party.</li>
     <li>Accessible: each button has <code>aria-pressed</code> reflecting its state.</li>
     <li>Respects <code>prefers-reduced-motion</code> — the pop animation is disabled when the user prefers reduced motion.</li>
@@ -279,7 +279,7 @@ npm run build</code></pre>
   <table>
     <thead><tr><th>Setting</th><th>Notes</th></tr></thead>
     <tbody>
-      <tr><td>Position: Off / Top of content / After first heading</td><td>Posts already containing the block or <code>[tocflow]</code> shortcode are skipped.</td></tr>
+      <tr><td>Position: Off / Top of content / After first heading</td><td>Posts already containing the block or <code>[tocguide]</code> shortcode are skipped.</td></tr>
       <tr><td>Post types</td><td>Checkboxes for all registered public post types.</td></tr>
       <tr><td>Title text and show/hide</td><td>Default title for the auto-generated block.</td></tr>
       <tr><td>Title element</td><td>P, H2, H3, or H4.</td></tr>
@@ -302,9 +302,9 @@ npm run build</code></pre>
 
   <!-- Shortcode -->
   <h2 id="shortcode">8. Shortcode</h2>
-  <p>Use <code>[tocflow]</code> in Classic Editor content, text widgets, or theme templates via <code>do_shortcode('[tocflow]')</code>.</p>
+  <p>Use <code>[tocguide]</code> in Classic Editor content, text widgets, or theme templates via <code>do_shortcode('[tocguide]')</code>.</p>
   <p>All block attributes are available as shortcode attributes (snake_case or camelCase):</p>
-  <pre><code>[tocflow title="Contents" ordered="1" numbering="nested" style="boxed" h4="1" min="3"]</code></pre>
+  <pre><code>[tocguide title="Contents" ordered="1" numbering="nested" style="boxed" h4="1" min="3"]</code></pre>
   <table>
     <thead><tr><th>Attribute</th><th>Values</th><th>Default</th></tr></thead>
     <tbody>
@@ -362,16 +362,16 @@ npm run build</code></pre>
   </div>
 
   <h3 id="page-builders">Page builders</h3>
-  <p>Place <code>[tocflow]</code> in any Shortcode, HTML, or Code element in your page builder. TOCguide automatically reads heading data from each builder's stored meta and injects matching anchor IDs into the rendered page via a late <code>the_content</code> filter (priority 999, runs after all builder output).</p>
+  <p>Place <code>[tocguide]</code> in any Shortcode, HTML, or Code element in your page builder. TOCguide automatically reads heading data from each builder's stored meta and injects matching anchor IDs into the rendered page via a late <code>the_content</code> filter (priority 999, runs after all builder output).</p>
   <table>
     <thead><tr><th>Builder</th><th>Heading detection</th><th>Notes</th></tr></thead>
     <tbody>
-      <tr><td><strong>Elementor</strong></td><td>Heading widget JSON parsed from <code>_elementor_data</code> meta</td><td>Add a Shortcode widget with <code>[tocflow]</code>. Heading and Text Editor widgets are both supported. Works with Elementor Pro.</td></tr>
+      <tr><td><strong>Elementor</strong></td><td>Heading widget JSON parsed from <code>_elementor_data</code> meta</td><td>Add a Shortcode widget with <code>[tocguide]</code>. Heading and Text Editor widgets are both supported. Works with Elementor Pro.</td></tr>
       <tr><td><strong>Bricks Builder</strong></td><td>Heading and rich-text elements parsed from <code>_bricks_page_content_2</code> meta</td><td>Use a Code or Shortcode element. Bricks heading and rich-text elements both detected.</td></tr>
-      <tr><td><strong>Divi</strong></td><td>HTML scan of rendered output</td><td>Use a Code module or Shortcode module for <code>[tocflow]</code>. Heading tags inside Divi text/heading modules are captured in the rendered HTML.</td></tr>
-      <tr><td><strong>Beaver Builder</strong></td><td>HTML scan; shortcode detection in builder meta</td><td>Use an HTML module or Shortcode module. Beaver Builder module data is scanned for <code>tocflow</code> references to trigger ID injection.</td></tr>
+      <tr><td><strong>Divi</strong></td><td>HTML scan of rendered output</td><td>Use a Code module or Shortcode module for <code>[tocguide]</code>. Heading tags inside Divi text/heading modules are captured in the rendered HTML.</td></tr>
+      <tr><td><strong>Beaver Builder</strong></td><td>HTML scan; shortcode detection in builder meta</td><td>Use an HTML module or Shortcode module. Beaver Builder module data is scanned for <code>tocguide</code> references to trigger ID injection.</td></tr>
       <tr><td><strong>WPBakery / Visual Composer</strong></td><td>HTML scan of rendered output</td><td>Use a Raw HTML element or the Shortcode element. Works with both the Classic and block-based WPBakery.</td></tr>
-      <tr><td><strong>Oxygen Builder</strong></td><td>HTML scan; <code>ct_builder_shortcodes</code> meta detected</td><td>Use a Shortcode element or Code Block with <code>[tocflow]</code>.</td></tr>
+      <tr><td><strong>Oxygen Builder</strong></td><td>HTML scan; <code>ct_builder_shortcodes</code> meta detected</td><td>Use a Shortcode element or Code Block with <code>[tocguide]</code>.</td></tr>
       <tr><td><strong>Breakdance</strong></td><td>HTML scan; <code>breakdance_data</code> meta detected</td><td>Use a Shortcode element. Compatible with Breakdance's heading components.</td></tr>
       <tr><td><strong>Gutenberg (native)</strong></td><td>Block parse via <code>parse_blocks()</code></td><td>The canonical integration path. Heading IDs are injected via the <code>render_block</code> filter — no <code>the_content</code> overhead on block sites.</td></tr>
     </tbody>
@@ -392,8 +392,8 @@ npm run build</code></pre>
 
   <!-- Developer -->
   <h2 id="dev-build">10. Developer: build</h2>
-  <pre><code>git clone https://github.com/matthummel-pa/tocflow.git
-cd tocflow
+  <pre><code>git clone https://github.com/matthummel-pa/tocguide.git
+cd tocguide
 npm install
 npm run build   # production build → build/
 npm run start   # development watch mode</code></pre>
@@ -404,24 +404,24 @@ npm run start   # development watch mode</code></pre>
   <table>
     <thead><tr><th>Filter</th><th>Args</th><th>Purpose</th></tr></thead>
     <tbody>
-      <tr><td><code>tocflow_headings</code></td><td><code>$headings, $post_id</code></td><td>Modify the heading list before rendering. Each entry has <code>level</code>, <code>text</code>, <code>slug</code>.</td></tr>
-      <tr><td><code>tocflow_nav_classes</code></td><td><code>$classes, $attributes</code></td><td>Add or remove CSS classes on the <code>&lt;nav&gt;</code> wrapper.</td></tr>
-      <tr><td><code>tocflow_render_nav</code></td><td><code>$html, $attributes, $post_id</code></td><td>Filter the final rendered nav HTML.</td></tr>
-      <tr><td><code>tocflow_skip_post_types</code></td><td><code>$post_types</code></td><td>Return an array of post type slugs to exclude from auto-insert.</td></tr>
+      <tr><td><code>tocguide_headings</code></td><td><code>$headings, $post_id</code></td><td>Modify the heading list before rendering. Each entry has <code>level</code>, <code>text</code>, <code>slug</code>.</td></tr>
+      <tr><td><code>tocguide_nav_classes</code></td><td><code>$classes, $attributes</code></td><td>Add or remove CSS classes on the <code>&lt;nav&gt;</code> wrapper.</td></tr>
+      <tr><td><code>tocguide_render_nav</code></td><td><code>$html, $attributes, $post_id</code></td><td>Filter the final rendered nav HTML.</td></tr>
+      <tr><td><code>tocguide_skip_post_types</code></td><td><code>$post_types</code></td><td>Return an array of post type slugs to exclude from auto-insert.</td></tr>
     </tbody>
   </table>
   <pre><code>// Example: exclude headings with a specific CSS class
-add_filter( 'tocflow_headings', function( $headings, $post_id ) {
+add_filter( 'tocguide_headings', function( $headings, $post_id ) {
     return array_filter( $headings, function( $h ) {
         return strpos( $h['slug'], 'sponsor' ) === false;
     });
 }, 10, 2 );</code></pre>
 
   <h2 id="privacy">12. Privacy</h2>
-  <p>TOCguide does not collect personal data, set cookies, or call remote services. Emoji reactions use the browser's own <code>localStorage</code> — no data leaves the reader's device. Citation data is built from post meta that is already public. JSON-LD is printed only if you opt in. <a href="https://github.com/matthummel-pa/tocflow/blob/main/PRIVACY.md">Full privacy policy →</a></p>
+  <p>TOCguide does not collect personal data, set cookies, or call remote services. Emoji reactions use the browser's own <code>localStorage</code> — no data leaves the reader's device. Citation data is built from post meta that is already public. JSON-LD is printed only if you opt in. <a href="https://github.com/matthummel-pa/tocguide/blob/main/PRIVACY.md">Full privacy policy →</a></p>
 
   <footer>
-    <p>© 2026 <a href="https://matthummel.com">Matt Hummel</a> · <a href="index.html">Home</a> · <a href="support.html">Support</a> · <a href="https://github.com/matthummel-pa/tocflow">GitHub</a> · GPLv2 or later</p>
+    <p>© 2026 <a href="https://matthummel.com">Matt Hummel</a> · <a href="index.html">Home</a> · <a href="support.html">Support</a> · <a href="https://github.com/matthummel-pa/tocguide">GitHub</a> · GPLv2 or later</p>
   </footer>
 </div>
 </div>

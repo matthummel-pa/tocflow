@@ -5,28 +5,28 @@
  * Deactivation must not delete data. Uninstall only deletes the option
  * when the site owner opted in via Settings → TOCguide.
  *
- * @package TOCflow
+ * @package TOCguide
  */
 
 if ( ! defined( 'WP_UNINSTALL_PLUGIN' ) ) {
 	exit;
 }
 
-$tocflow_settings = get_option( 'tocflow_settings', array() );
+$tocguide_settings = get_option( 'tocguide_settings', array() );
 
-if ( is_array( $tocflow_settings ) && ! empty( $tocflow_settings['delete_data'] ) ) {
-	delete_option( 'tocflow_settings' );
+if ( is_array( $tocguide_settings ) && ! empty( $tocguide_settings['delete_data'] ) ) {
+	delete_option( 'tocguide_settings' );
 
-	$tocflow_users = get_users(
+	$tocguide_users = get_users(
 		array(
 			'fields'       => 'ID',
-			'meta_key'     => 'tocflow_welcome_dismissed', // phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_key -- one-time uninstall cleanup.
+			'meta_key'     => 'tocguide_welcome_dismissed', // phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_key -- one-time uninstall cleanup.
 			'meta_compare' => 'EXISTS',
 		)
 	);
-	foreach ( $tocflow_users as $tocflow_user_id ) {
-		delete_user_meta( (int) $tocflow_user_id, 'tocflow_welcome_dismissed' );
+	foreach ( $tocguide_users as $tocguide_user_id ) {
+		delete_user_meta( (int) $tocguide_user_id, 'tocguide_welcome_dismissed' );
 	}
 }
 
-delete_transient( 'tocflow_activation_redirect' );
+delete_transient( 'tocguide_activation_redirect' );

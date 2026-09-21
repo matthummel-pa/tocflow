@@ -2,7 +2,7 @@
 /**
  * Silence is golden.
  *
- * @package TOCflow
+ * @package TOCguide
  */
 
 // phpcs:ignore Squiz.Commenting.FileComment.Missing -- Intentionally empty directory guard.

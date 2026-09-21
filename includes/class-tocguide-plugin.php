@@ -2,7 +2,7 @@
 /**
  * Plugin bootstrap, hooks, shortcode, and auto-insert.
  *
- * @package TOCflow
+ * @package TOCguide
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -12,19 +12,19 @@ if ( ! defined( 'ABSPATH' ) ) {
 /**
  * Main plugin controller.
  */
-class TOCflow_Plugin {
+class TOCguide_Plugin {
 
 	/**
 	 * Singleton instance.
 	 *
-	 * @var TOCflow_Plugin|null
+	 * @var TOCguide_Plugin|null
 	 */
 	private static $instance = null;
 
 	/**
 	 * Get the singleton.
 	 *
-	 * @return TOCflow_Plugin
+	 * @return TOCguide_Plugin
 	 */
 	public static function instance() {
 		if ( null === self::$instance ) {
@@ -39,22 +39,22 @@ class TOCflow_Plugin {
 	public function boot() {
 		add_action( 'init', array( $this, 'register_block' ) );
 		add_action( 'init', array( $this, 'register_shortcode' ) );
-		add_action( 'admin_init', array( 'TOCflow_Settings', 'register' ) );
+		add_action( 'admin_init', array( 'TOCguide_Settings', 'register' ) );
 
 		// Gutenberg: ID injection via block rendering pipeline.
-		add_filter( 'render_block', array( 'TOCflow_Headings', 'add_heading_ids' ), 10, 2 );
+		add_filter( 'render_block', array( 'TOCguide_Headings', 'add_heading_ids' ), 10, 2 );
 
 		// Page builders: ID injection via rendered HTML (runs after builder output).
 		add_filter( 'the_content', array( $this, 'inject_builder_heading_ids' ), 999 );
 
 		add_filter( 'the_content', array( $this, 'auto_insert' ), 12 );
 		add_action( 'wp_enqueue_scripts', array( $this, 'enqueue_front_assets' ), 20 );
-		add_filter( 'plugin_action_links_' . TOCFLOW_BASENAME, array( $this, 'action_links' ) );
+		add_filter( 'plugin_action_links_' . TOCGUIDE_BASENAME, array( $this, 'action_links' ) );
 		add_filter( 'plugin_row_meta', array( $this, 'row_meta' ), 10, 2 );
 
 		if ( is_admin() ) {
-			require_once TOCFLOW_DIR . 'includes/class-tocflow-admin.php';
-			TOCflow_Admin::instance()->boot();
+			require_once TOCGUIDE_DIR . 'includes/class-tocguide-admin.php';
+			TOCguide_Admin::instance()->boot();
 		}
 	}
 
@@ -62,7 +62,7 @@ class TOCflow_Plugin {
 	 * Register the dynamic block from compiled metadata.
 	 */
 	public function register_block() {
-		$build = TOCFLOW_DIR . 'build';
+		$build = TOCGUIDE_DIR . 'build';
 		if ( ! file_exists( $build . '/block.json' ) ) {
 			return;
 		}
@@ -85,7 +85,7 @@ class TOCflow_Plugin {
 			return $content;
 		}
 
-		if ( ! TOCflow_Headings::should_inject_ids() ) {
+		if ( ! TOCguide_Headings::should_inject_ids() ) {
 			return $content;
 		}
 
@@ -100,16 +100,16 @@ class TOCflow_Plugin {
 			return $content;
 		}
 
-		$headings = TOCflow_Headings::get_all( $post_id );
+		$headings = TOCguide_Headings::get_all( $post_id );
 		if ( empty( $headings ) ) {
 			return $content;
 		}
 
-		return TOCflow_Headings::inject_ids_in_html( $content, $headings );
+		return TOCguide_Headings::inject_ids_in_html( $content, $headings );
 	}
 
 	/**
-	 * [tocguide] / [tocflow] shortcode — same output as the block, for classic content and theme templates.
+	 * [tocguide] shortcode — same output as the block, for classic content and theme templates.
 	 *
 	 * @param array|string $atts Shortcode attributes.
 	 * @return string
@@ -166,7 +166,7 @@ class TOCflow_Plugin {
 		}
 
 		$style = sanitize_key( $atts['style'] );
-		if ( ! in_array( $style, TOCflow_Headings::allowed_style_slugs(), true ) ) {
+		if ( ! in_array( $style, TOCguide_Headings::allowed_style_slugs(), true ) ) {
 			$style = 'default';
 		}
 
@@ -186,7 +186,7 @@ class TOCflow_Plugin {
 		}
 
 		$highlight = '' === $atts['highlight']
-			? (bool) TOCflow_Settings::get_value( 'highlight_active' )
+			? (bool) TOCguide_Settings::get_value( 'highlight_active' )
 			: $this->is_truthy( $atts['highlight'] );
 
 		$guide_mode    = $this->is_truthy( $atts['guide'] );
@@ -242,14 +242,13 @@ class TOCflow_Plugin {
 			'showReaderNotes'     => $this->is_truthy( $atts['rnotes'] ),
 		);
 
-		return TOCflow_Headings::render_nav( $attributes, $post_id, false );
+		return TOCguide_Headings::render_nav( $attributes, $post_id, false );
 	}
 
 	/**
 	 * Register the shortcode.
 	 */
 	public function register_shortcode() {
-		add_shortcode( 'tocflow', array( $this, 'shortcode' ) );
 		add_shortcode( 'tocguide', array( $this, 'shortcode' ) );
 	}
 
@@ -265,17 +264,17 @@ class TOCflow_Plugin {
 		if ( ! $post ) {
 			return;
 		}
-		$settings = TOCflow_Settings::get();
-		$needed   = has_block( 'tocflow/table-of-contents', $post )
-			|| TOCflow_Headings::content_has_shortcode( $post->post_content )
+		$settings = TOCguide_Settings::get();
+		$needed   = has_block( 'tocguide/table-of-contents', $post )
+			|| TOCguide_Headings::content_has_shortcode( $post->post_content )
 			|| ( 'none' !== $settings['auto_insert'] && in_array( $post->post_type, $settings['auto_insert_types'], true ) )
-			|| TOCflow_Headings::should_inject_ids(); // Covers page-builder shortcode placements.
+			|| TOCguide_Headings::should_inject_ids(); // Covers page-builder shortcode placements.
 		if ( ! $needed ) {
 			return;
 		}
 
-		$script = 'tocflow-table-of-contents-view-script';
-		$style  = 'tocflow-table-of-contents-style';
+		$script = 'tocguide-table-of-contents-view-script';
+		$style  = 'tocguide-table-of-contents-style';
 		if ( wp_script_is( $script, 'registered' ) ) {
 			wp_enqueue_script( $script );
 		}
@@ -295,7 +294,7 @@ class TOCflow_Plugin {
 			return $content;
 		}
 
-		$settings = TOCflow_Settings::get();
+		$settings = TOCguide_Settings::get();
 		if ( 'none' === $settings['auto_insert'] ) {
 			return $content;
 		}
@@ -310,10 +309,10 @@ class TOCflow_Plugin {
 			return $content;
 		}
 
-		if ( has_block( 'tocflow/table-of-contents', $post ) ) {
+		if ( has_block( 'tocguide/table-of-contents', $post ) ) {
 			return $content;
 		}
-		if ( TOCflow_Headings::content_has_shortcode( $post->post_content ) ) {
+		if ( TOCguide_Headings::content_has_shortcode( $post->post_content ) ) {
 			return $content;
 		}
 
@@ -337,13 +336,13 @@ class TOCflow_Plugin {
 	 * @return string
 	 */
 	public static function render_auto_block( $post_id ) {
-		$attributes = TOCflow_Settings::block_attributes();
+		$attributes = TOCguide_Settings::block_attributes();
 		$registry   = WP_Block_Type_Registry::get_instance();
 
-		if ( class_exists( 'WP_Block' ) && $registry->is_registered( 'tocflow/table-of-contents' ) ) {
+		if ( class_exists( 'WP_Block' ) && $registry->is_registered( 'tocguide/table-of-contents' ) ) {
 			$block = new WP_Block(
 				array(
-					'blockName'    => 'tocflow/table-of-contents',
+					'blockName'    => 'tocguide/table-of-contents',
 					'attrs'        => $attributes,
 					'innerBlocks'  => array(),
 					'innerHTML'    => '',
@@ -360,7 +359,7 @@ class TOCflow_Plugin {
 			}
 		}
 
-		return TOCflow_Headings::render_nav( $attributes, $post_id, false );
+		return TOCguide_Headings::render_nav( $attributes, $post_id, false );
 	}
 
 	/**
@@ -370,8 +369,8 @@ class TOCflow_Plugin {
 	 * @return array
 	 */
 	public function action_links( $links ) {
-		$settings = '<a href="' . esc_url( admin_url( 'options-general.php?page=tocflow' ) ) . '">' . esc_html__( 'Settings', 'tocguide' ) . '</a>';
-		$docs     = '<a href="' . esc_url( admin_url( 'options-general.php?page=tocflow&tab=support' ) ) . '">' . esc_html__( 'Docs & Support', 'tocguide' ) . '</a>';
+		$settings = '<a href="' . esc_url( admin_url( 'options-general.php?page=tocguide' ) ) . '">' . esc_html__( 'Settings', 'tocguide' ) . '</a>';
+		$docs     = '<a href="' . esc_url( admin_url( 'options-general.php?page=tocguide&tab=support' ) ) . '">' . esc_html__( 'Docs & Support', 'tocguide' ) . '</a>';
 		array_unshift( $links, $settings, $docs );
 		return $links;
 	}
@@ -384,11 +383,11 @@ class TOCflow_Plugin {
 	 * @return array
 	 */
 	public function row_meta( $links, $file ) {
-		if ( TOCFLOW_BASENAME !== $file ) {
+		if ( TOCGUIDE_BASENAME !== $file ) {
 			return $links;
 		}
-		$links[] = '<a href="https://matthummel-pa.github.io/tocflow/" target="_blank" rel="noopener noreferrer">' . esc_html__( 'Documentation', 'tocguide' ) . '</a>';
-		$links[] = '<a href="https://github.com/matthummel-pa/tocflow/issues" target="_blank" rel="noopener noreferrer">' . esc_html__( 'Support', 'tocguide' ) . '</a>';
+		$links[] = '<a href="https://matthummel-pa.github.io/tocguide/" target="_blank" rel="noopener noreferrer">' . esc_html__( 'Documentation', 'tocguide' ) . '</a>';
+		$links[] = '<a href="https://github.com/matthummel-pa/tocguide/issues" target="_blank" rel="noopener noreferrer">' . esc_html__( 'Support', 'tocguide' ) . '</a>';
 		return $links;
 	}
 
@@ -406,16 +405,16 @@ class TOCflow_Plugin {
 	 * Activation: store a one-time welcome flag. Do not delete data on deactivate.
 	 */
 	public static function activate() {
-		if ( false === get_option( TOCflow_Settings::OPTION ) ) {
-			add_option( TOCflow_Settings::OPTION, TOCflow_Settings::defaults(), '', false );
+		if ( false === get_option( TOCguide_Settings::OPTION ) ) {
+			add_option( TOCguide_Settings::OPTION, TOCguide_Settings::defaults(), '', false );
 		}
-		set_transient( 'tocflow_activation_redirect', 1, 30 );
+		set_transient( 'tocguide_activation_redirect', 1, 30 );
 	}
 
 	/**
 	 * Deactivation must not delete settings (Envato + WP.org).
 	 */
 	public static function deactivate() {
-		delete_transient( 'tocflow_activation_redirect' );
+		delete_transient( 'tocguide_activation_redirect' );
 	}
 }

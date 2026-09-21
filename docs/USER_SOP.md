@@ -4,7 +4,7 @@ A step-by-step guide for **using** the TOCguide plugin. No coding required.
 
 TOCguide adds one block — **Table of Contents** — that builds a linked outline from the headings in your post. You can also auto-insert it on every post or place it with a shortcode.
 
-Online version: https://matthummel-pa.github.io/tocflow/
+Online version: https://matthummel-pa.github.io/tocguide/
 
 ---
 
@@ -12,13 +12,13 @@ Online version: https://matthummel-pa.github.io/tocflow/
 
 **Option A — ZIP**
 
-1. Download `tocflow.zip` from [Releases](https://github.com/matthummel-pa/tocflow/releases).
+1. Download `tocguide.zip` from [Releases](https://github.com/matthummel-pa/tocguide/releases).
 2. WordPress admin: **Plugins → Add New → Upload Plugin**.
 3. Install, then **Activate**.
 
 **Option B — Folder**
 
-Copy the `tocflow` folder into `wp-content/plugins/` and activate **TOCguide**.
+Copy the `tocguide` folder into `wp-content/plugins/` and activate **TOCguide**.
 
 Open **Settings → TOCguide** once. Set a scroll offset if your site has a sticky header (try 80–120px).
 
@@ -59,21 +59,21 @@ Color, spacing, typography, and border are the normal block controls.
 
 This prints the same **Table of Contents** Gutenberg block on the front end. It is not a shortcode.
 
-- Off (default) — add the block yourself, or use `[tocflow]` in classic content
+- Off (default) — add the block yourself, or use `[tocguide]` in classic content
 - Top of content
 - After the first heading
 
 Choose post types (Posts, Pages, …). Set title, heading levels, style, columns, collapse, and the rest of the layout on that same screen.
 
-If a post already has the block or `[tocflow]`, auto-generate is skipped so you never get two outlines.
+If a post already has the block or `[tocguide]`, auto-generate is skipped so you never get two outlines.
 
 ---
 
 ## 5. Shortcode
 
 ```
-[tocflow]
-[tocflow title="On this page" ordered="1" numbering="nested" style="boxed" collapsible="1"]
+[tocguide]
+[tocguide title="On this page" ordered="1" numbering="nested" style="boxed" collapsible="1"]
 ```
 
 Attributes: `title`, `showtitle`, `titletag`, `h1`–`h6`, `ordered`, `numbering`, `markers`, `collapsible`, `collapsed`, `sticky`, `compact`, `columns`, `underline`, `highlight`, `maxheight`, `min`, `smooth`, `style`.
@@ -82,7 +82,7 @@ Attributes: `title`, `showtitle`, `titletag`, `h1`–`h6`, `ordered`, `numbering
 
 ## 6. Skip a heading
 
-On the Heading block: **Advanced → Additional CSS class(es)** → `no-toc` (or `tocflow-skip`).
+On the Heading block: **Advanced → Additional CSS class(es)** → `no-toc` (or `tocguide-skip`).
 
 ---
 
@@ -101,13 +101,13 @@ On the Heading block: **Advanced → Additional CSS class(es)** → `no-toc` (or
 - Plugin activated? Using the block editor (not Classic unless you use the shortcode)?
 
 **Styles clash with the theme**
-- Try another preset, or CSS on `.tocflow`, `.tocflow__link`, `.tocflow__link.is-active`.
+- Try another preset, or CSS on `.tocguide`, `.tocguide__link`, `.tocguide__link.is-active`.
 
 ---
 
 ## 8. FAQ
 
-**Classic Editor?** Use `[tocflow]`.
+**Classic Editor?** Use `[tocguide]`.
 
 **Slow site?** No. The outline is PHP-rendered HTML. A small script loads only on pages that have a TOC (smooth scroll / collapse / highlight).
 
@@ -119,4 +119,4 @@ On the Heading block: **Advanced → Additional CSS class(es)** → `no-toc` (or
 
 ## 9. Getting help
 
-[GitHub Issues](https://github.com/matthummel-pa/tocflow/issues) — include WordPress version, theme, and a screenshot. Policy: [SUPPORT.md](../SUPPORT.md).
+[GitHub Issues](https://github.com/matthummel-pa/tocguide/issues) — include WordPress version, theme, and a screenshot. Policy: [SUPPORT.md](../SUPPORT.md).

@@ -2,7 +2,7 @@
 /**
  * Heading collection, list rendering, and heading-id injection.
  *
- * @package TOCflow
+ * @package TOCguide
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -12,7 +12,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 /**
  * Single source of truth for TOC headings and matching anchors.
  */
-class TOCflow_Headings {
+class TOCguide_Headings {
 
 	/**
 	 * Create a URL-safe, unique anchor slug from heading text.
@@ -37,7 +37,7 @@ class TOCflow_Headings {
 	}
 
 	/**
-	 * Whether a heading should be skipped (class no-toc / tocflow-skip).
+	 * Whether a heading should be skipped (class no-toc / tocguide-skip).
 	 *
 	 * @param array  $block Parsed block.
 	 * @param string $html  Inner HTML.
@@ -52,7 +52,7 @@ class TOCflow_Headings {
 			$classes .= ' ' . $match[1];
 		}
 		$classes = strtolower( $classes );
-		return ( false !== strpos( $classes, 'no-toc' ) || false !== strpos( $classes, 'tocflow-skip' ) );
+		return ( false !== strpos( $classes, 'no-toc' ) || false !== strpos( $classes, 'tocguide-skip' ) );
 	}
 
 	/**
@@ -154,7 +154,7 @@ class TOCflow_Headings {
 			}
 		}
 
-		$cache[ $post_id ] = apply_filters( 'tocflow_headings', $collected, $post_id );
+		$cache[ $post_id ] = apply_filters( 'tocguide_headings', $collected, $post_id );
 		return $cache[ $post_id ];
 	}
 
@@ -502,7 +502,7 @@ class TOCflow_Headings {
 
 			if ( $level > $prev ) {
 				for ( $i = 0; $i < ( $level - $prev ); $i++ ) {
-					$class = 0 === $open ? ' class="tocflow__list"' : ' class="tocflow__sub"';
+					$class = 0 === $open ? ' class="tocguide__list"' : ' class="tocguide__sub"';
 					$html .= '<' . $list_tag . $class . '>';
 					++$open;
 				}
@@ -517,43 +517,43 @@ class TOCflow_Headings {
 			}
 
 			// ── Item opening tag ──────────────────────────────────────────────
-			$tip_id = $preview_on_hover ? 'tocflow-tip-' . sanitize_html_class( $slug ) : '';
+			$tip_id = $preview_on_hover ? 'tocguide-tip-' . sanitize_html_class( $slug ) : '';
 			if ( $any_guide ) {
 				$item_extra = '';
 				if ( $preview_on_hover ) {
-					$item_extra = ' class="tocflow__item has-hover-preview"';
+					$item_extra = ' class="tocguide__item has-hover-preview"';
 				} else {
-					$item_extra = ' class="tocflow__item"';
+					$item_extra = ' class="tocguide__item"';
 				}
 				$item_style = '';
 				if ( $show_density && isset( $heading['word_count'] ) ) {
 					$density    = $max_words > 0 ? min( 1.0, (float) $heading['word_count'] / $max_words ) : 0.0;
-					$item_style = ' style="--tocflow-density:' . esc_attr( number_format( $density, 3, '.', '' ) ) . '"';
+					$item_style = ' style="--tocguide-density:' . esc_attr( number_format( $density, 3, '.', '' ) ) . '"';
 				}
 				$html .= '<li' . $item_extra
-					. ' data-tocflow-slug="' . esc_attr( $slug ) . '"'
-					. ' data-tocflow-heading="' . esc_attr( $text ) . '"'
+					. ' data-tocguide-slug="' . esc_attr( $slug ) . '"'
+					. ' data-tocguide-heading="' . esc_attr( $text ) . '"'
 					. $item_style . '>';
 			} else {
-				$html .= '<li class="tocflow__item">';
+				$html .= '<li class="tocguide__item">';
 			}
 
 			// ── Link row (link + optional read-time badge) ────────────────────
 			if ( $any_guide ) {
-				$html .= '<div class="tocflow__item-row">';
+				$html .= '<div class="tocguide__item-row">';
 			}
 
 			// Link — include aria-describedby when hover tooltip is active.
 			if ( $tip_id ) {
-				$html .= '<a class="tocflow__link" href="#' . esc_attr( $slug ) . '"'
+				$html .= '<a class="tocguide__link" href="#' . esc_attr( $slug ) . '"'
 					. ' aria-describedby="' . esc_attr( $tip_id ) . '">'
 					. esc_html( $text ) . '</a>';
 			} else {
-				$html .= '<a class="tocflow__link" href="#' . esc_attr( $slug ) . '">' . esc_html( $text ) . '</a>';
+				$html .= '<a class="tocguide__link" href="#' . esc_attr( $slug ) . '">' . esc_html( $text ) . '</a>';
 			}
 			if ( $show_time && isset( $heading['read_minutes'] ) ) {
 				$mins  = (int) $heading['read_minutes'];
-				$html .= '<span class="tocflow__time" aria-hidden="true">~'
+				$html .= '<span class="tocguide__time" aria-hidden="true">~'
 					. $mins . '&thinsp;'
 					/* translators: abbreviation for "minute" in read-time estimates, e.g. "~3 min" */
 					. esc_html( __( 'min', 'tocguide' ) )
@@ -565,7 +565,7 @@ class TOCflow_Headings {
 
 			// ── Hover tooltip label (screen-reader target for aria-describedby) ─
 			if ( $preview_on_hover && ! empty( $heading['preview'] ) ) {
-				$html .= '<span class="tocflow__tip-label tocflow__visually-hidden"'
+				$html .= '<span class="tocguide__tip-label tocguide__visually-hidden"'
 					. ' id="' . esc_attr( $tip_id ) . '"'
 					. ' role="tooltip">'
 					. esc_html( $heading['preview'] )
@@ -574,25 +574,25 @@ class TOCflow_Headings {
 
 			// ── Density bar ───────────────────────────────────────────────────
 			if ( $show_density ) {
-				$html .= '<span class="tocflow__density-bar" aria-hidden="true"></span>';
+				$html .= '<span class="tocguide__density-bar" aria-hidden="true"></span>';
 			}
 
 			// ── Content preview ───────────────────────────────────────────────
 			if ( $show_preview && ! empty( $heading['preview'] ) ) {
-				$html .= '<span class="tocflow__preview">' . esc_html( $heading['preview'] ) . '</span>';
+				$html .= '<span class="tocguide__preview">' . esc_html( $heading['preview'] ) . '</span>';
 			}
 
 			// ── Author note ───────────────────────────────────────────────────
 			if ( isset( $notes[ $slug ] ) && '' !== (string) $notes[ $slug ] ) {
-				$note_id = 'tocflow-note-' . sanitize_html_class( $slug );
-				$html   .= '<div class="tocflow__note-wrap">'
-					. '<button type="button" class="tocflow__note-toggle"'
+				$note_id = 'tocguide-note-' . sanitize_html_class( $slug );
+				$html   .= '<div class="tocguide__note-wrap">'
+					. '<button type="button" class="tocguide__note-toggle"'
 					. ' aria-expanded="false"'
 					. ' aria-controls="' . esc_attr( $note_id ) . '">'
-					. '<span class="tocflow__note-icon" aria-hidden="true">&#x270D;</span>'
-					. '<span class="tocflow__visually-hidden">' . esc_html__( "Author's note", 'tocguide' ) . '</span>'
+					. '<span class="tocguide__note-icon" aria-hidden="true">&#x270D;</span>'
+					. '<span class="tocguide__visually-hidden">' . esc_html__( "Author's note", 'tocguide' ) . '</span>'
 					. '</button>'
-					. '<span class="tocflow__note" id="' . esc_attr( $note_id ) . '" hidden>'
+					. '<span class="tocguide__note" id="' . esc_attr( $note_id ) . '" hidden>'
 					. esc_html( (string) $notes[ $slug ] )
 					. '</span>'
 					. '</div>';
@@ -600,16 +600,16 @@ class TOCflow_Headings {
 
 			// ── Reader note pad ───────────────────────────────────────────────
 			if ( $show_reader_notes ) {
-				$rnote_id = 'tocflow-rnote-' . sanitize_html_class( $slug );
-				$html    .= '<div class="tocflow__rnote-wrap">'
-					. '<button type="button" class="tocflow__rnote-toggle"'
+				$rnote_id = 'tocguide-rnote-' . sanitize_html_class( $slug );
+				$html    .= '<div class="tocguide__rnote-wrap">'
+					. '<button type="button" class="tocguide__rnote-toggle"'
 					. ' aria-expanded="false"'
 					. ' aria-controls="' . esc_attr( $rnote_id ) . '"'
 					. ' aria-label="' . esc_attr( sprintf( /* translators: %s = heading text */ __( 'My note for: %s', 'tocguide' ), $text ) ) . '">'
-					. '<span class="tocflow__rnote-icon" aria-hidden="true">&#x1F4DD;</span>'
+					. '<span class="tocguide__rnote-icon" aria-hidden="true">&#x1F4DD;</span>'
 					. '</button>'
-					. '<div class="tocflow__rnote-pad" id="' . esc_attr( $rnote_id ) . '" hidden>'
-					. '<textarea class="tocflow__rnote-ta" rows="3"'
+					. '<div class="tocguide__rnote-pad" id="' . esc_attr( $rnote_id ) . '" hidden>'
+					. '<textarea class="tocguide__rnote-ta" rows="3"'
 					. ' placeholder="' . esc_attr__( 'Your notes for this section\xe2\x80\xa6', 'tocguide' ) . '"'
 					. ' aria-label="' . esc_attr( sprintf( /* translators: %s = heading text */ __( 'Notes for: %s', 'tocguide' ), $text ) ) . '">'
 					. '</textarea>'
@@ -619,7 +619,7 @@ class TOCflow_Headings {
 
 			// ── Reactions + citation row ───────────────────────────────────────
 			if ( $show_reactions || $show_citations ) {
-				$html .= '<div class="tocflow__actions">';
+				$html .= '<div class="tocguide__actions">';
 
 				if ( $show_reactions ) {
 					$reaction_map = array(
@@ -628,10 +628,10 @@ class TOCflow_Headings {
 						'🤔' => __( 'Unclear', 'tocguide' ),
 						'✅' => __( 'Got it', 'tocguide' ),
 					);
-					$html        .= '<div class="tocflow__reactions" role="group" aria-label="'
+					$html        .= '<div class="tocguide__reactions" role="group" aria-label="'
 						. esc_attr__( 'React to this section', 'tocguide' ) . '">';
 					foreach ( $reaction_map as $emoji => $label ) {
-						$html .= '<button type="button" class="tocflow__reaction"'
+						$html .= '<button type="button" class="tocguide__reaction"'
 							. ' aria-pressed="false"'
 							. ' aria-label="' . esc_attr( $label ) . '"'
 							. ' data-reaction="' . esc_attr( $emoji ) . '">'
@@ -642,10 +642,10 @@ class TOCflow_Headings {
 				}
 
 				if ( $show_citations ) {
-					$html .= '<button type="button" class="tocflow__cite-btn"'
+					$html .= '<button type="button" class="tocguide__cite-btn"'
 						. ' aria-label="' . esc_attr__( 'Copy citation for this section', 'tocguide' ) . '">'
-						. '<span class="tocflow__cite-icon" aria-hidden="true">§</span>'
-						. '<span class="tocflow__visually-hidden">' . esc_html__( 'Cite', 'tocguide' ) . '</span>'
+						. '<span class="tocguide__cite-icon" aria-hidden="true">§</span>'
+						. '<span class="tocguide__visually-hidden">' . esc_html__( 'Cite', 'tocguide' ) . '</span>'
 						. '</button>';
 				}
 
@@ -742,7 +742,7 @@ class TOCflow_Headings {
 			$guide['show_reader_notes'] = true;
 		}
 
-		$min = (int) TOCflow_Settings::get_value( 'min_headings', 2 );
+		$min = (int) TOCguide_Settings::get_value( 'min_headings', 2 );
 		if ( isset( $attributes['minHeadings'] ) && (int) $attributes['minHeadings'] >= 1 ) {
 			$min = (int) $attributes['minHeadings'];
 		}
@@ -750,7 +750,7 @@ class TOCflow_Headings {
 			return '';
 		}
 
-		$settings   = TOCflow_Settings::get();
+		$settings   = TOCguide_Settings::get();
 		$list_tag   = ! empty( $attributes['ordered'] ) ? 'ol' : 'ul';
 		$title_raw  = isset( $attributes['title'] ) ? (string) $attributes['title'] : '';
 		$title_text = trim( wp_strip_all_tags( $title_raw ) );
@@ -761,8 +761,8 @@ class TOCflow_Headings {
 		$preset     = self::style_slug_from_attributes( $attributes );
 		$class_name = isset( $attributes['className'] ) ? (string) $attributes['className'] : '';
 		$classes    = array(
-			'tocflow',
-			'tocflow--' . $preset,
+			'tocguide',
+			'tocguide--' . $preset,
 		);
 
 		/*
@@ -847,24 +847,24 @@ class TOCflow_Headings {
 		}
 
 		$class_attr  = implode( ' ', array_map( 'sanitize_html_class', $classes ) );
-		$style_parts = array( '--tocflow-offset:' . (int) $offset . 'px' );
+		$style_parts = array( '--tocguide-offset:' . (int) $offset . 'px' );
 		if ( $max_height > 0 ) {
-			$style_parts[] = '--tocflow-max-height:' . $max_height . 'px';
+			$style_parts[] = '--tocguide-max-height:' . $max_height . 'px';
 		}
 
 		// Global design overrides — set CSS custom properties from settings.
 		$design_map = array(
-			'design_bg_color'      => '--tocflow-bg',
-			'design_text_color'    => '--tocflow-color',
-			'design_link_color'    => '--tocflow-link-color',
-			'design_font_size'     => '--tocflow-font-size',
-			'design_font_weight'   => '--tocflow-font-weight',
-			'design_line_height'   => '--tocflow-line-height',
-			'design_border_width'  => '--tocflow-border-width',
-			'design_border_color'  => '--tocflow-border-color',
-			'design_border_style'  => '--tocflow-border-style',
-			'design_border_radius' => '--tocflow-radius',
-			'design_padding'       => '--tocflow-padding',
+			'design_bg_color'      => '--tocguide-bg',
+			'design_text_color'    => '--tocguide-color',
+			'design_link_color'    => '--tocguide-link-color',
+			'design_font_size'     => '--tocguide-font-size',
+			'design_font_weight'   => '--tocguide-font-weight',
+			'design_line_height'   => '--tocguide-line-height',
+			'design_border_width'  => '--tocguide-border-width',
+			'design_border_color'  => '--tocguide-border-color',
+			'design_border_style'  => '--tocguide-border-style',
+			'design_border_radius' => '--tocguide-radius',
+			'design_padding'       => '--tocguide-padding',
 		);
 		foreach ( $design_map as $setting_key => $css_prop ) {
 			$val = isset( $settings[ $setting_key ] ) ? trim( (string) $settings[ $setting_key ] ) : '';
@@ -881,38 +881,38 @@ class TOCflow_Headings {
 		// Focus ring style (accessibility setting).
 		$focus_style = isset( $settings['focus_style'] ) ? sanitize_key( $settings['focus_style'] ) : 'default';
 		if ( 'default' !== $focus_style ) {
-			$guide_attrs['data-tocflow-focus'] = $focus_style;
+			$guide_attrs['data-tocguide-focus'] = $focus_style;
 		}
 
-		// data-tocflow-post is needed by any feature that uses localStorage.
+		// data-tocguide-post is needed by any feature that uses localStorage.
 		$needs_post_id = ! empty( $attributes['guideMode'] )
 			|| ! empty( $attributes['showBookmark'] )
 			|| ! empty( $attributes['showReaderNotes'] );
 		if ( $needs_post_id ) {
-			$guide_attrs['data-tocflow-post'] = (string) $post_id;
+			$guide_attrs['data-tocguide-post'] = (string) $post_id;
 		}
 
 		if ( ! empty( $attributes['guideMode'] ) ) {
 			if ( ! empty( $attributes['trackProgress'] ) ) {
-				$guide_attrs['data-tocflow-progress'] = '1';
+				$guide_attrs['data-tocguide-progress'] = '1';
 			}
 			if ( ! empty( $guide['show_citations'] ) ) {
 				$cite_style = isset( $attributes['citationStyle'] ) ? sanitize_key( $attributes['citationStyle'] ) : 'apa';
 				$cite_meta  = self::citation_meta( $post_id, $cite_style );
 				if ( ! empty( $cite_meta ) ) {
-					$guide_attrs['data-tocflow-meta'] = (string) wp_json_encode( $cite_meta );
+					$guide_attrs['data-tocguide-meta'] = (string) wp_json_encode( $cite_meta );
 				}
 			}
 		}
 
 		if ( ! empty( $attributes['showReadingProgress'] ) ) {
-			$guide_attrs['data-tocflow-reader-progress'] = '1';
+			$guide_attrs['data-tocguide-reader-progress'] = '1';
 		}
 		if ( ! empty( $attributes['showBookmark'] ) ) {
-			$guide_attrs['data-tocflow-bookmark'] = '1';
+			$guide_attrs['data-tocguide-bookmark'] = '1';
 		}
 		if ( ! empty( $attributes['showReaderNotes'] ) ) {
-			$guide_attrs['data-tocflow-reader-notes'] = '1';
+			$guide_attrs['data-tocguide-reader-notes'] = '1';
 		}
 
 		if ( $wrap ) {
@@ -920,8 +920,8 @@ class TOCflow_Headings {
 				array(
 					'class'               => $class_attr,
 					'aria-label'          => $label,
-					'data-tocflow-offset' => (string) $offset,
-					'data-tocflow-smooth' => $smooth_flag,
+					'data-tocguide-offset' => (string) $offset,
+					'data-tocguide-smooth' => $smooth_flag,
 					'style'               => $style_attr,
 				),
 				$guide_attrs
@@ -934,8 +934,8 @@ class TOCflow_Headings {
 				$extra .= ' ' . esc_attr( $attr_name ) . '="' . esc_attr( $attr_val ) . '"';
 			}
 			$html = sprintf(
-				'<nav class="%1$s" aria-label="%2$s" data-tocflow-offset="%3$s" data-tocflow-smooth="%4$s" style="%5$s"%6$s>',
-				esc_attr( $class_attr . ' wp-block-tocflow-table-of-contents' ),
+				'<nav class="%1$s" aria-label="%2$s" data-tocguide-offset="%3$s" data-tocguide-smooth="%4$s" style="%5$s"%6$s>',
+				esc_attr( $class_attr . ' wp-block-tocguide-table-of-contents' ),
 				esc_attr( $label ),
 				esc_attr( (string) $offset ),
 				esc_attr( $smooth_flag ),
@@ -945,20 +945,20 @@ class TOCflow_Headings {
 		}
 
 		// Hidden live region — picks up copy-to-clipboard and other state changes.
-		$html .= '<span class="tocflow__live-region tocflow__visually-hidden" aria-live="polite" aria-atomic="true"></span>';
+		$html .= '<span class="tocguide__live-region tocguide__visually-hidden" aria-live="polite" aria-atomic="true"></span>';
 
 		if ( $show_title || ! empty( $attributes['collapsible'] ) ) {
-			$html .= '<div class="tocflow__header">';
+			$html .= '<div class="tocguide__header">';
 			if ( $show_title ) {
-				$html .= '<' . $title_tag . ' class="tocflow__title">' . esc_html( $title_text ) . '</' . $title_tag . '>';
+				$html .= '<' . $title_tag . ' class="tocguide__title">' . esc_html( $title_text ) . '</' . $title_tag . '>';
 			} elseif ( ! empty( $attributes['collapsible'] ) ) {
-				$html .= '<span class="tocflow__title tocflow__visually-hidden">' . esc_html( $label ) . '</span>';
+				$html .= '<span class="tocguide__title tocguide__visually-hidden">' . esc_html( $label ) . '</span>';
 			}
 			if ( ! empty( $attributes['collapsible'] ) ) {
 				$expanded = empty( $attributes['collapsedDefault'] ) ? 'true' : 'false';
-				$html    .= '<button type="button" class="tocflow__toggle" aria-expanded="' . esc_attr( $expanded ) . '">';
-				$html    .= '<span class="tocflow__visually-hidden">' . esc_html__( 'Toggle table of contents', 'tocguide' ) . '</span>';
-				$html    .= '<span class="tocflow__toggle-icon" aria-hidden="true"></span>';
+				$html    .= '<button type="button" class="tocguide__toggle" aria-expanded="' . esc_attr( $expanded ) . '">';
+				$html    .= '<span class="tocguide__visually-hidden">' . esc_html__( 'Toggle table of contents', 'tocguide' ) . '</span>';
+				$html    .= '<span class="tocguide__toggle-icon" aria-hidden="true"></span>';
 				$html    .= '</button>';
 			}
 			$html .= '</div>';
@@ -971,7 +971,7 @@ class TOCflow_Headings {
 		$has_resume     = ! empty( $attributes['showBookmark'] );
 
 		if ( $has_total_time || $has_resume ) {
-			$html .= '<div class="tocflow__study-bar">';
+			$html .= '<div class="tocguide__study-bar">';
 			if ( $has_total_time ) {
 				$total_words = 0;
 				foreach ( $items as $item ) {
@@ -981,13 +981,13 @@ class TOCflow_Headings {
 				}
 				$total_mins = max( 1, (int) ceil( $total_words / 200 ) );
 				/* translators: %d = estimated total reading time in minutes */
-				$html .= '<span class="tocflow__total-time" aria-hidden="true">'
+				$html .= '<span class="tocguide__total-time" aria-hidden="true">'
 					/* translators: %d = estimated total reading time in minutes */
 					. sprintf( esc_html__( '~%d min total', 'tocguide' ), $total_mins )
 					. '</span>';
 			}
 			if ( $has_resume ) {
-				$html .= '<button type="button" class="tocflow__resume-btn" hidden>'
+				$html .= '<button type="button" class="tocguide__resume-btn" hidden>'
 					. '<span aria-hidden="true">&#x21A9;</span>&thinsp;'
 					. esc_html__( 'Resume', 'tocguide' )
 					. '</button>';
@@ -997,45 +997,45 @@ class TOCflow_Headings {
 
 		// ── Reading progress bar ──────────────────────────────────────────────
 		if ( ! empty( $attributes['showReadingProgress'] ) ) {
-			$html .= '<div class="tocflow__reading-wrap"'
+			$html .= '<div class="tocguide__reading-wrap"'
 				. ' role="progressbar"'
 				. ' aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"'
 				. ' aria-label="' . esc_attr__( 'Reading progress', 'tocguide' ) . '">'
-				. '<div class="tocflow__reading-bar"></div>'
+				. '<div class="tocguide__reading-bar"></div>'
 				. '</div>';
 		}
 
-		$html .= '<div class="tocflow__body">';
+		$html .= '<div class="tocguide__body">';
 		$html .= self::render_list( $items, $list_tag, $guide );
 		$html .= '</div>';
 
 		// ── Export / print bar ────────────────────────────────────────────────
 		if ( ! empty( $attributes['showExport'] ) ) {
 			$post_title = html_entity_decode( get_the_title( $post_id ), ENT_QUOTES, 'UTF-8' );
-			$html      .= '<div class="tocflow__export-bar" role="group"'
+			$html      .= '<div class="tocguide__export-bar" role="group"'
 				. ' aria-label="' . esc_attr__( 'Export table of contents', 'tocguide' ) . '"'
-				. ' data-tocflow-export-title="' . esc_attr( $post_title ) . '">';
+				. ' data-tocguide-export-title="' . esc_attr( $post_title ) . '">';
 
-			$html .= '<button type="button" class="tocflow__export-btn" data-tocflow-action="copy-md"'
+			$html .= '<button type="button" class="tocguide__export-btn" data-tocguide-action="copy-md"'
 				. ' aria-label="' . esc_attr__( 'Copy outline as Markdown', 'tocguide' ) . '">'
 				. '<span aria-hidden="true">📋</span> '
 				. '<span>' . esc_html__( 'Copy', 'tocguide' ) . '</span>'
-				. '<span class="tocflow__export-confirm tocflow__visually-hidden" role="status" aria-live="polite"></span>'
+				. '<span class="tocguide__export-confirm tocguide__visually-hidden" role="status" aria-live="polite"></span>'
 				. '</button>';
 
-			$html .= '<button type="button" class="tocflow__export-btn" data-tocflow-action="download-md"'
+			$html .= '<button type="button" class="tocguide__export-btn" data-tocguide-action="download-md"'
 				. ' aria-label="' . esc_attr__( 'Download outline as Markdown file', 'tocguide' ) . '">'
 				. '<span aria-hidden="true">⬇</span> '
 				. '<span>' . esc_html__( '.md', 'tocguide' ) . '</span>'
 				. '</button>';
 
-			$html .= '<button type="button" class="tocflow__export-btn" data-tocflow-action="download-doc"'
+			$html .= '<button type="button" class="tocguide__export-btn" data-tocguide-action="download-doc"'
 				. ' aria-label="' . esc_attr__( 'Download outline as Word document', 'tocguide' ) . '">'
 				. '<span aria-hidden="true">⬇</span> '
 				. '<span>' . esc_html__( '.doc', 'tocguide' ) . '</span>'
 				. '</button>';
 
-			$html .= '<button type="button" class="tocflow__export-btn" data-tocflow-action="print"'
+			$html .= '<button type="button" class="tocguide__export-btn" data-tocguide-action="print"'
 				. ' aria-label="' . esc_attr__( 'Print table of contents', 'tocguide' ) . '">'
 				. '<span aria-hidden="true">🖨</span> '
 				. '<span>' . esc_html__( 'Print', 'tocguide' ) . '</span>'
@@ -1183,7 +1183,7 @@ class TOCflow_Headings {
 			}
 
 			// Honour skip classes.
-			if ( preg_match( '/class=["\'][^"\']*(?:no-toc|tocflow-skip)[^"\']*["\']/i', $attrs ) ) {
+			if ( preg_match( '/class=["\'][^"\']*(?:no-toc|tocguide-skip)[^"\']*["\']/i', $attrs ) ) {
 				continue;
 			}
 
@@ -1331,7 +1331,7 @@ class TOCflow_Headings {
 				$attrs = isset( $heading_tag[2] ) ? $heading_tag[2] : '';
 
 				// Skip headings excluded from the TOC.
-				if ( preg_match( '/class=["\'][^"\']*(?:no-toc|tocflow-skip)[^"\']*["\']/i', $attrs ) ) {
+				if ( preg_match( '/class=["\'][^"\']*(?:no-toc|tocguide-skip)[^"\']*["\']/i', $attrs ) ) {
 					return $heading_tag[0];
 				}
 
@@ -1357,7 +1357,7 @@ class TOCflow_Headings {
 	/**
 	 * Whether post content contains a plugin shortcode.
 	 *
-	 * `[tocflow]` is the original tag; `[tocguide]` matches the WordPress.org slug.
+	 * `[tocguide]` shortcode.
 	 *
 	 * @param string $content Post content.
 	 * @return bool
@@ -1366,12 +1366,7 @@ class TOCflow_Headings {
 		if ( ! is_string( $content ) || '' === $content ) {
 			return false;
 		}
-		foreach ( array( 'tocflow', 'tocguide' ) as $tag ) {
-			if ( has_shortcode( $content, $tag ) ) {
-				return true;
-			}
-		}
-		return false;
+		return has_shortcode( $content, 'tocguide' );
 	}
 
 	/**
@@ -1380,7 +1375,7 @@ class TOCflow_Headings {
 	 * @return bool
 	 */
 	public static function should_inject_ids() {
-		$settings = TOCflow_Settings::get();
+		$settings = TOCguide_Settings::get();
 		if ( 'none' !== $settings['auto_insert'] ) {
 			return true;
 		}
@@ -1388,16 +1383,16 @@ class TOCflow_Headings {
 		if ( ! $post ) {
 			return false;
 		}
-		if ( has_block( 'tocflow/table-of-contents', $post ) ) {
+		if ( has_block( 'tocguide/table-of-contents', $post ) ) {
 			return true;
 		}
 		if ( self::content_has_shortcode( $post->post_content ) ) {
 			return true;
 		}
 
-		// Page-builder shortcode: the [tocflow] shortcode may live inside a builder
+		// Page-builder shortcode: the [tocguide] shortcode may live inside a builder
 		// widget rather than in post_content directly.  Scan builder meta for it.
-		if ( self::builder_has_tocflow( $post->ID ) ) {
+		if ( self::builder_has_tocguide( $post->ID ) ) {
 			return true;
 		}
 
@@ -1405,13 +1400,13 @@ class TOCflow_Headings {
 	}
 
 	/**
-	 * Check whether any supported page builder stores a [tocflow] shortcode
+	 * Check whether any supported page builder stores a [tocguide] shortcode
 	 * reference for this post (without executing any code).
 	 *
 	 * @param int $post_id Post ID.
 	 * @return bool
 	 */
-	private static function builder_has_tocflow( $post_id ) {
+	private static function builder_has_tocguide( $post_id ) {
 		// Elementor.
 		if ( 'builder' === get_post_meta( $post_id, '_elementor_edit_mode', true ) ) {
 			$data = get_post_meta( $post_id, '_elementor_data', true );

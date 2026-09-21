@@ -6,10 +6,10 @@
 
 A ThemeForest theme **requires or recommends** the plugin slug `tocguide`:
 
-1. Bundle `tocflow.zip` in the theme package **or** load it from WordPress.org once listed.
+1. Bundle `tocguide.zip` in the theme package **or** load it from WordPress.org once listed.
 2. Register it with [TGM Plugin Activation](http://tgmpluginactivation.com/) (classic PHP themes) or declare a plugin dependency in `theme.json` / the site editor (block themes).
 3. In theme documentation, tell buyers: *Install TOCguide, insert the Table of Contents block (or enable auto-insert).*
-4. Style the outline with theme CSS targeting `.tocflow`, `.tocflow--boxed`, `.tocflow.is-sticky`, `.tocflow__link.is-active`. Do not fork the PHP.
+4. Style the outline with theme CSS targeting `.tocguide`, `.tocguide--boxed`, `.tocguide.is-sticky`, `.tocguide__link.is-active`. Do not fork the PHP.
 
 ## Copy for a theme item page
 

@@ -1,7 +1,7 @@
 # TOCguide
 
 <p align="center">
-  <img src="docs/assets/tocflow-logo.svg" alt="TOCguide — WordPress Table of Contents block" width="440">
+  <img src="docs/assets/tocguide-logo.svg" alt="TOCguide — WordPress Table of Contents block" width="440">
 </p>
 
 <p align="center">
@@ -20,7 +20,7 @@
 </p>
 
 <p align="center">
-  <a href="https://github.com/matthummel-pa/tocguide/actions/workflows/ci.yml"><img alt="CI" src="https://github.com/matthummel-pa/tocflow/actions/workflows/ci.yml/badge.svg"></a>
+  <a href="https://github.com/matthummel-pa/tocguide/actions/workflows/ci.yml"><img alt="CI" src="https://github.com/matthummel-pa/tocguide/actions/workflows/ci.yml/badge.svg"></a>
   <img alt="WordPress" src="https://img.shields.io/badge/WordPress-6.4%2B-3858e9">
   <img alt="PHP" src="https://img.shields.io/badge/PHP-7.4%2B-777bb3">
   <img alt="License" src="https://img.shields.io/badge/license-GPLv2%20or%20later-1b1f24">
@@ -36,16 +36,16 @@
 
 | Fix | Detail |
 |---|---|
-| **`$guide_attrs` ordering bug** | Array was reset to empty _after_ `data-tocflow-focus` was written into it — accessibility focus-ring attr was always discarded |
-| **Global design colours / fonts** | `--tocflow-bg`, `--tocflow-color`, `--tocflow-link-color`, `--tocflow-font-*`, `--tocflow-border-*` etc. now correctly reach the rendered `<nav>` and are picked up by `var()` in the stylesheet |
+| **`$guide_attrs` ordering bug** | Array was reset to empty _after_ `data-tocguide-focus` was written into it — accessibility focus-ring attr was always discarded |
+| **Global design colours / fonts** | `--tocguide-bg`, `--tocguide-color`, `--tocguide-link-color`, `--tocguide-font-*`, `--tocguide-border-*` etc. now correctly reach the rendered `<nav>` and are picked up by `var()` in the stylesheet |
 
 ### v1.3.1 — Security & code-quality fix
 
 | Fix | Detail |
 |---|---|
 | **`WordPress.Security.EscapeOutput`** | `$swatch_val` in the admin colour-picker `printf()` was pre-escaped at construction; moved `esc_attr()` to the call site — the only form WordPress.org reviewers accept |
-| **Missing PHPDoc** | Added doc block for `TOCflow_Settings::sanitize()` |
-| **Inline comment style** | Fixed casing and trailing full-stop in `class-tocflow-plugin.php` (WPCS `Squiz.Commenting.InlineComment`) |
+| **Missing PHPDoc** | Added doc block for `TOCguide_Settings::sanitize()` |
+| **Inline comment style** | Fixed casing and trailing full-stop in `class-tocguide-plugin.php` (WPCS `Squiz.Commenting.InlineComment`) |
 | **Array alignment** | PHPCBF auto-corrected 181 `=>` alignment and indentation warnings across PHP files |
 | **Short description length** | Trimmed `readme.txt` short description from 175 → 145 characters (WordPress.org parser enforces a 150-character max; longer values are silently truncated) |
 
@@ -53,10 +53,10 @@
 
 | Feature | Where | Detail |
 |---|---|---|
-| **Design & Appearance** | Settings → TOCguide | Background, text, link colours; font size, weight, line height; border width/style/colour/radius; padding — all applied as CSS custom properties (`--tocflow-bg`, `--tocflow-color`, etc.) |
+| **Design & Appearance** | Settings → TOCguide | Background, text, link colours; font size, weight, line height; border width/style/colour/radius; padding — all applied as CSS custom properties (`--tocguide-bg`, `--tocguide-color`, etc.) |
 | **Reading Guide defaults** | Settings → TOCguide | Global on/off for hover preview, guide mode, section previews, density bars, read time, progress fade, reactions, citations, and citation format |
 | **Study Tools & Export defaults** | Settings → TOCguide | Global on/off for reading progress bar, resume bookmark, reader note pads, export toolbar |
-| **Accessibility — focus ring style** | Settings → TOCguide | Default (underline), Bold (3 px outline, WCAG 2.1 AA), High-contrast (yellow background, WCAG 2.1 AAA) via `data-tocflow-focus` |
+| **Accessibility — focus ring style** | Settings → TOCguide | Default (underline), Bold (3 px outline, WCAG 2.1 AA), High-contrast (yellow background, WCAG 2.1 AAA) via `data-tocguide-focus` |
 | **Admin colour picker** | Settings page JS | Hex text input syncs with `<input type=color>` swatch; guide sub-options show/hide when guide mode is toggled |
 
 All global defaults apply to auto-inserted blocks and shortcodes. Per-block editor settings always override them.
@@ -65,7 +65,7 @@ All global defaults apply to auto-inserted blocks and shortcodes. Per-block edit
 
 | Fix | Detail |
 |---|---|
-| **`TOCFLOW_VERSION` constant** | Was stuck at `1.2.0`; corrected to `1.2.2` |
+| **`TOCGUIDE_VERSION` constant** | Was stuck at `1.2.0`; corrected to `1.2.2` |
 | **`Tested up to`** | Updated from `6.7` → `7.1` (WP 7.1 "Mary Lou" released 2026-08-19) |
 | **Tags** | Removed third-party trademark `elementor`; replaced with `study tools` |
 | **PHP indentation** | Fixed WPCS 3-tab → 4-tab on shortcode Study-tool attrs and admin settings view |
@@ -83,8 +83,8 @@ All global defaults apply to auto-inserted blocks and shortcodes. Per-block edit
 | Feature | How to enable | Where state lives |
 |---|---|---|
 | **Reading progress bar** (0–100 % of headings read) | "Study Tools" panel → "Reading progress bar", or `rprogress="1"` shortcode | Client only — `IntersectionObserver`, no server |
-| **Resume reading bookmark** (↩ Resume button on return) | "Study Tools" → "Resume reading bookmark", or `bookmark="1"` | `localStorage` key `tocflow-bm-{post_id}` |
-| **Reader note pads** (📝 per-section personal notes) | "Study Tools" → "Reader note pads", or `rnotes="1"` | `localStorage` key `tocflow-rn-{post_id}-{slug}` |
+| **Resume reading bookmark** (↩ Resume button on return) | "Study Tools" → "Resume reading bookmark", or `bookmark="1"` | `localStorage` key `tocguide-bm-{post_id}` |
+| **Reader note pads** (📝 per-section personal notes) | "Study Tools" → "Reader note pads", or `rnotes="1"` | `localStorage` key `tocguide-rn-{post_id}-{slug}` |
 | **Section Planner** (writing status per heading for authors) | Block sidebar → "Section Planner" panel | `sectionStatus` block attribute — never sent to front end |
 | **Total read-time badge** | Automatic when Reading Guide + read-time are both active | Computed server-side from word counts, no extra query |
 
@@ -119,7 +119,7 @@ TOCguide is built to add **zero measurable overhead** on pages that don't use it
 | **Front-end CSS** | `style-index.css` — 19 KB minified, ~4 KB gzipped. One file; no render-blocking imports. |
 | **Scroll event handlers** | None. All scroll-position features (`initScrollSpy`, `initProgressTracking`, `initReadingProgress`, `initBookmark`) use `IntersectionObserver` — passive, runs off the main thread. The only `scroll` listener (`window.addEventListener('scroll', pick, { passive: true })`) is in the scroll-spy fallback and is marked passive. |
 | **localStorage writes** | Reader notes are debounced (400 ms). Bookmark writes are debounced (500 ms). localStorage is never read or written until the author explicitly enables a study tool. |
-| **PHP database queries** | `TOCflow_Headings::get_all()` and `get_sections()` cache their results in a static array — at most one `get_post()` call per post per request. No extra `WP_Query` or custom table reads. |
+| **PHP database queries** | `TOCguide_Headings::get_all()` and `get_sections()` cache their results in a static array — at most one `get_post()` call per post per request. No extra `WP_Query` or custom table reads. |
 | **Remote calls** | None, ever. No phone-home, no CDN assets, no tracking pixels, no external fonts loaded by the plugin. |
 | **`the_content` filters** | Two filters run at priority 12 and 999, both guarded by `is_singular() && in_the_loop() && is_main_query()`. The builder ID-injection filter (999) short-circuits immediately on pure Gutenberg posts. |
 | **`prefers-reduced-motion`** | Smooth scroll and CSS transitions respect the OS preference. |
@@ -142,24 +142,24 @@ TOCguide is built to add **zero measurable overhead** on pages that don't use it
 - Smooth scroll + offset for sticky headers (`prefers-reduced-motion` respected)
 - Collapse/expand, sticky outline, scroll-spy highlight
 - Auto-insert (top of content or after the first heading)
-- `[tocflow]` shortcode for classic content and page builders
+- `[tocguide]` shortcode for classic content and page builders
 - Skip a heading with the class `no-toc`
 - Optional ItemList JSON-LD schema
 - Settings + Docs & Support screens in wp-admin
 
-The plugin slug, folder, and text domain are **`tocguide`**. Display name: **TOCguide**. GitHub repo: `tocflow`. See [`docs/NAMING.md`](docs/NAMING.md).
+The plugin slug, folder, text domain, and GitHub repo are **`tocguide`**. Display name: **TOCguide**. See [`docs/NAMING.md`](docs/NAMING.md).
 
 ---
 
 ## Install
 
-Current version: **1.3.1**.
+Current version: **1.5.0**.
 
-1. Download `tocflow.zip` from [Releases](https://github.com/matthummel-pa/tocflow/releases).
+1. Download `tocguide.zip` from [Releases](https://github.com/matthummel-pa/tocguide/releases).
 2. In WordPress: **Plugins → Add New → Upload Plugin**.
 3. Activate. Optional: **Settings → TOCguide**.
 
-Or clone this repo into `wp-content/plugins/tocflow`, run `npm install && npm run build`, and activate.
+Or clone this repo into `wp-content/plugins/tocguide`, run `npm install && npm run build`, and activate.
 
 ### Use the block
 
@@ -170,8 +170,8 @@ Or clone this repo into `wp-content/plugins/tocflow`, run `npm install && npm ru
 ### Shortcode
 
 ```
-[tocflow]
-[tocflow title="On this page" ordered="1" style="boxed"]
+[tocguide]
+[tocguide title="On this page" ordered="1" style="boxed"]
 ```
 
 ---
@@ -180,7 +180,7 @@ Or clone this repo into `wp-content/plugins/tocflow`, run `npm install && npm ru
 
 | Doc | Who it is for |
 | --- | --- |
-| [Support site](https://matthummel-pa.github.io/tocflow/) | Users, buyers, reviewers |
+| [Support site](https://matthummel-pa.github.io/tocguide/) | Users, buyers, reviewers |
 | [User guide](docs/USER_SOP.md) | Site owners |
 | [Developer SOP](docs/DEVELOPER_SOP.md) | Contributors |
 | [Support policy](SUPPORT.md) | Buyers / WordPress.org users |
@@ -196,8 +196,8 @@ Or clone this repo into `wp-content/plugins/tocflow`, run `npm install && npm ru
 Requires **Node.js 20+** (see `.nvmrc`).
 
 ```bash
-git clone https://github.com/matthummel-pa/tocflow.git
-cd tocflow
+git clone https://github.com/matthummel-pa/tocguide.git
+cd tocguide
 npm install
 npm run start          # watch
 # npm run build        # production

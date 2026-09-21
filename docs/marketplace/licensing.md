@@ -29,7 +29,7 @@ Do **not** add license keys, trialware, or remote checks that only unlock code a
 | CodeCanyon | **100% GPL**, GPLv2 or later — not split |
 | GitHub | SPDX `GPL-2.0-or-later` |
 
-The slug stays `tocflow` on every listing. See [NAMING.md](../NAMING.md).
+The slug stays `tocguide` on every listing. See [NAMING.md](../NAMING.md).
 
 ## Envato exclusivity
 

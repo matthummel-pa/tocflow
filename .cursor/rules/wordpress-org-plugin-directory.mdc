@@ -12,7 +12,7 @@ Source of truth (do not invent policy):
 - Block Directory extras: https://developer.wordpress.org/plugins/wordpress-org/block-specific-plugin-guidelines/
 - Common issues: https://developer.wordpress.org/plugins/wordpress-org/common-issues/
 
-This repo’s WordPress.org slug, plugin folder, and text domain are **`tocguide`**. Display name: **TOCguide**. GitHub remains `tocflow`. After WordPress.org approval the slug cannot change. See `docs/NAMING.md`.
+This repo’s WordPress.org slug, plugin folder, text domain, and GitHub name are **`tocguide`**. Display name: **TOCguide**. After WordPress.org approval the slug cannot change. See `docs/NAMING.md`.
 
 TOCguide ships **admin settings, auto-insert, and a shortcode**, so it is a **Plugin Directory** plugin, not a Block Directory “block-only” plugin. Do not strip wp-admin to chase the Block Directory unless Matt explicitly wants a second, editor-only product.
 

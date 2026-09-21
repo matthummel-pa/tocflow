@@ -3,7 +3,7 @@
 	"description": "A server-rendered Table of Contents block for the WordPress editor.",
 	"type": "wordpress-plugin",
 	"license": "GPL-2.0-or-later",
-	"homepage": "https://matthummel-pa.github.io/tocflow/",
+	"homepage": "https://matthummel-pa.github.io/tocguide/",
 	"authors": [
 		{
 			"name": "Matt Hummel",
@@ -12,9 +12,9 @@
 		}
 	],
 	"support": {
-		"issues": "https://github.com/matthummel-pa/tocflow/issues",
-		"docs": "https://matthummel-pa.github.io/tocflow/",
-		"source": "https://github.com/matthummel-pa/tocflow",
+		"issues": "https://github.com/matthummel-pa/tocguide/issues",
+		"docs": "https://matthummel-pa.github.io/tocguide/",
+		"source": "https://github.com/matthummel-pa/tocguide",
 		"email": "matt@matthummel.com"
 	},
 	"require": {

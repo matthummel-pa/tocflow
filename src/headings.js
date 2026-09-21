@@ -32,7 +32,7 @@ export function collectHeadings( blocks, used = {} ) {
 
 	const skip = ( block ) => {
 		const extra = ( block?.attributes?.className || '' ).toLowerCase();
-		return extra.includes( 'no-toc' ) || extra.includes( 'tocflow-skip' );
+		return extra.includes( 'no-toc' ) || extra.includes( 'tocguide-skip' );
 	};
 
 	const walk = ( inner ) => {

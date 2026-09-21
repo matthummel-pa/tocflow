@@ -6,9 +6,9 @@ TOCguide is a GPL-licensed WordPress plugin. Support is provided in English.
 
 | Channel | Use it for |
 | --- | --- |
-| [User guide](https://matthummel-pa.github.io/tocflow/) | How to install, settings, FAQ |
-| [GitHub Issues](https://github.com/matthummel-pa/tocflow/issues) | Bugs and feature requests |
-| [Docs & Support](https://github.com/matthummel-pa/tocflow/blob/main/docs/USER_SOP.md) in wp-admin (**Settings → TOCguide → Docs & Support**) | In-dashboard copy of the same guidance |
+| [User guide](https://matthummel-pa.github.io/tocguide/) | How to install, settings, FAQ |
+| [GitHub Issues](https://github.com/matthummel-pa/tocguide/issues) | Bugs and feature requests |
+| [Docs & Support](https://github.com/matthummel-pa/tocguide/blob/main/docs/USER_SOP.md) in wp-admin (**Settings → TOCguide → Docs & Support**) | In-dashboard copy of the same guidance |
 | [Email (security only)](mailto:matt@matthummel.com) | See [SECURITY.md](SECURITY.md) |
 | [Privacy](PRIVACY.md) | What the plugin stores (nothing off-site) |
 
@@ -28,7 +28,7 @@ WordPress.org forum support will be enabled if/when the plugin is listed in the 
 
 ## What support does not cover
 
-- Custom theme CSS beyond the documented `.tocflow` classes
+- Custom theme CSS beyond the documented `.tocguide` classes
 - Conflicts caused by another plugin rewriting headings or `the_content` (we will still try to identify the conflict)
 - Site migrations, hosting, or general WordPress administration
 - Guaranteed same-day replies

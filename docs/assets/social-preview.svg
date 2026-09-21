@@ -38,7 +38,7 @@
     <text x="747" y="413" fill="#eafff4">Free</text>
   </g>
 
-  <text x="96" y="540" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif" font-size="24" font-weight="600" fill="#aedcc4">github.com/matthummel-pa/tocflow</text>
+  <text x="96" y="540" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif" font-size="24" font-weight="600" fill="#aedcc4">github.com/matthummel-pa/tocguide</text>
 
   <!-- decorative outline card -->
   <g filter="url(#sh)" opacity="0.97">

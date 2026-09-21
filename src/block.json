@@ -1,8 +1,8 @@
 {
 	"$schema": "https://schemas.wp.org/trunk/block.json",
 	"apiVersion": 3,
-	"name": "tocflow/table-of-contents",
-	"version": "1.4.0",
+	"name": "tocguide/table-of-contents",
+	"version": "1.5.0",
 	"title": "Table of Contents",
 	"category": "widgets",
 	"icon": "list-view",
@@ -55,10 +55,10 @@
 		}
 	},
 	"selectors": {
-		"root": ".wp-block-tocflow-table-of-contents",
+		"root": ".wp-block-tocguide-table-of-contents",
 		"color": {
-			"text": ".wp-block-tocflow-table-of-contents",
-			"link": ".wp-block-tocflow-table-of-contents a"
+			"text": ".wp-block-tocguide-table-of-contents",
+			"link": ".wp-block-tocguide-table-of-contents a"
 		}
 	},
 	"styles": [

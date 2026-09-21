@@ -2,7 +2,7 @@
 /**
  * Settings defaults, sanitization, and accessors.
  *
- * @package TOCflow
+ * @package TOCguide
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -12,9 +12,9 @@ if ( ! defined( 'ABSPATH' ) ) {
 /**
  * Plugin settings stored in a single option.
  */
-class TOCflow_Settings {
+class TOCguide_Settings {
 
-	const OPTION = 'tocflow_settings';
+	const OPTION = 'tocguide_settings';
 
 	/**
 	 * Default settings.
@@ -128,7 +128,7 @@ class TOCflow_Settings {
 	public static function block_attributes() {
 		$settings = self::get();
 		$style    = isset( $settings['auto_style'] ) ? sanitize_key( $settings['auto_style'] ) : 'default';
-		$allowed  = class_exists( 'TOCflow_Headings' ) ? TOCflow_Headings::allowed_style_slugs() : array( 'default' );
+		$allowed  = class_exists( 'TOCguide_Headings' ) ? TOCguide_Headings::allowed_style_slugs() : array( 'default' );
 		if ( ! in_array( $style, $allowed, true ) ) {
 			$style = 'default';
 		}
@@ -385,7 +385,7 @@ class TOCflow_Settings {
 	 */
 	public static function register() {
 		register_setting(
-			'tocflow_settings_group',
+			'tocguide_settings_group',
 			self::OPTION,
 			array(
 				'type'              => 'array',

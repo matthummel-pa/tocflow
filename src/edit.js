@@ -64,18 +64,21 @@ function PreviewList( { items, ordered, sectionStatus = {} } ) {
 	} );
 
 	const renderItems = ( nodes, depth ) => (
-		<Tag className={ depth === 0 ? 'tocflow__list' : 'tocflow__sub' }>
+		<Tag className={ depth === 0 ? 'tocguide__list' : 'tocguide__sub' }>
 			{ nodes.map( ( node, index ) => (
 				<li
 					key={ `${ node.slug }-${ index }` }
-					className="tocflow__item"
+					className="tocguide__item"
 				>
 					{ node.text ? (
-						<a className="tocflow__link" href={ `#${ node.slug }` }>
+						<a
+							className="tocguide__link"
+							href={ `#${ node.slug }` }
+						>
 							{ node.text }
 							{ sectionStatus[ node.slug ] && (
 								<span
-									className="tocflow__status-dot"
+									className="tocguide__status-dot"
 									title={ sectionStatus[ node.slug ] }
 									aria-hidden="true"
 								>
@@ -163,15 +166,15 @@ export default function Edit( { attributes, setAttributes } ) {
 
 	const style = {};
 	if ( scrollOffset >= 0 ) {
-		style[ '--tocflow-offset' ] = `${ scrollOffset }px`;
+		style[ '--tocguide-offset' ] = `${ scrollOffset }px`;
 	}
 	if ( maxHeight > 0 ) {
-		style[ '--tocflow-max-height' ] = `${ maxHeight }px`;
+		style[ '--tocguide-max-height' ] = `${ maxHeight }px`;
 	}
 
 	const blockProps = useBlockProps( {
 		className: [
-			'tocflow',
+			'tocguide',
 			sticky ? 'is-sticky' : '',
 			collapsible ? 'is-collapsible' : '',
 			compact ? 'is-compact' : '',
@@ -809,7 +812,7 @@ export default function Edit( { attributes, setAttributes } ) {
 			<nav { ...blockProps }>
 				<RichText
 					tagName={ TitleTag }
-					className="tocflow__title"
+					className="tocguide__title"
 					identifier="title"
 					value={ title }
 					onChange={ ( value ) => setAttributes( { title: value } ) }
@@ -819,7 +822,7 @@ export default function Edit( { attributes, setAttributes } ) {
 					style={ showTitle ? undefined : { opacity: 0.45 } }
 				/>
 				<Disabled>
-					<div className="tocflow__body">
+					<div className="tocguide__body">
 						{ items.length ? (
 							<PreviewList
 								items={ items }
@@ -827,7 +830,7 @@ export default function Edit( { attributes, setAttributes } ) {
 								sectionStatus={ sectionStatus }
 							/>
 						) : (
-							<p className="tocflow__placeholder">
+							<p className="tocguide__placeholder">
 								{ __(
 									'Add Heading blocks to this post and they will appear here. Headings with the class no-toc are skipped.',
 									'tocguide'

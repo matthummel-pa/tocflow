@@ -15,10 +15,10 @@ const prefersReduced = () =>
 	window.matchMedia( '(prefers-reduced-motion: reduce)' ).matches;
 
 const offsetOf = ( nav ) =>
-	parseInt( nav.getAttribute( 'data-tocflow-offset' ) || '0', 10 ) || 0;
+	parseInt( nav.getAttribute( 'data-tocguide-offset' ) || '0', 10 ) || 0;
 
 const smoothEnabled = ( nav ) =>
-	nav.getAttribute( 'data-tocflow-smooth' ) !== '0';
+	nav.getAttribute( 'data-tocguide-smooth' ) !== '0';
 
 /**
  * Announce a short message to screen readers via the nav's live region.
@@ -27,7 +27,7 @@ const smoothEnabled = ( nav ) =>
  * @param {string}      message Text to announce.
  */
 const announce = ( nav, message ) => {
-	const region = nav.querySelector( '.tocflow__live-region' );
+	const region = nav.querySelector( '.tocguide__live-region' );
 	if ( ! region ) {
 		return;
 	}
@@ -42,7 +42,7 @@ const announce = ( nav, message ) => {
 // ── Collapse toggle ───────────────────────────────────────────────────────────
 
 const initToggle = ( nav ) => {
-	const button = nav.querySelector( '.tocflow__toggle' );
+	const button = nav.querySelector( '.tocguide__toggle' );
 	if ( ! button ) {
 		return;
 	}
@@ -94,7 +94,7 @@ const initScrollSpy = ( nav ) => {
 		return;
 	}
 	const links = Array.from(
-		nav.querySelectorAll( '.tocflow__link[href^="#"]' )
+		nav.querySelectorAll( '.tocguide__link[href^="#"]' )
 	);
 	if ( ! links.length ) {
 		return;
@@ -144,7 +144,7 @@ const initScrollSpy = ( nav ) => {
 // ── Reading progress: mark sections as read when scrolled past ────────────────
 
 const initProgressTracking = ( nav ) => {
-	if ( nav.getAttribute( 'data-tocflow-progress' ) !== '1' ) {
+	if ( nav.getAttribute( 'data-tocguide-progress' ) !== '1' ) {
 		return;
 	}
 	if ( typeof window.IntersectionObserver === 'undefined' ) {
@@ -152,14 +152,14 @@ const initProgressTracking = ( nav ) => {
 	}
 
 	const entries = Array.from(
-		nav.querySelectorAll( '.tocflow__link[href^="#"]' )
+		nav.querySelectorAll( '.tocguide__link[href^="#"]' )
 	)
 		.map( ( link ) => {
 			const id = decodeURIComponent(
 				( link.getAttribute( 'href' ) || '' ).slice( 1 )
 			);
 			const heading = id ? document.getElementById( id ) : null;
-			const item = link.closest( '.tocflow__item' );
+			const item = link.closest( '.tocguide__item' );
 			return heading && item ? { heading, item } : null;
 		} )
 		.filter( Boolean );
@@ -197,17 +197,17 @@ const initProgressTracking = ( nav ) => {
 // ── Emoji reactions (localStorage, no server required) ────────────────────────
 
 const reactionKey = ( postId, slug, emoji ) =>
-	`tocflow-r-${ postId }-${ slug }-${ emoji }`;
+	`tocguide-r-${ postId }-${ slug }-${ emoji }`;
 
 const initReactions = ( nav ) => {
-	const postId = nav.getAttribute( 'data-tocflow-post' );
+	const postId = nav.getAttribute( 'data-tocguide-post' );
 	if ( ! postId ) {
 		return;
 	}
 
-	nav.querySelectorAll( '.tocflow__reaction' ).forEach( ( btn ) => {
-		const item = btn.closest( '.tocflow__item' );
-		const slug = item ? item.getAttribute( 'data-tocflow-slug' ) : null;
+	nav.querySelectorAll( '.tocguide__reaction' ).forEach( ( btn ) => {
+		const item = btn.closest( '.tocguide__item' );
+		const slug = item ? item.getAttribute( 'data-tocguide-slug' ) : null;
 		const emoji = btn.getAttribute( 'data-reaction' );
 		if ( ! slug || ! emoji ) {
 			return;
@@ -252,7 +252,7 @@ const initReactions = ( nav ) => {
 // ── Author section notes (toggle reveal) ─────────────────────────────────────
 
 const initNotes = ( nav ) => {
-	nav.querySelectorAll( '.tocflow__note-toggle' ).forEach( ( btn ) => {
+	nav.querySelectorAll( '.tocguide__note-toggle' ).forEach( ( btn ) => {
 		btn.addEventListener( 'click', () => {
 			const expanded = btn.getAttribute( 'aria-expanded' ) === 'true';
 			btn.setAttribute( 'aria-expanded', expanded ? 'false' : 'true' );
@@ -349,7 +349,7 @@ const copyText = ( text, btn, nav = null ) => {
 };
 
 const initCitations = ( nav ) => {
-	const rawMeta = nav.getAttribute( 'data-tocflow-meta' );
+	const rawMeta = nav.getAttribute( 'data-tocguide-meta' );
 	if ( ! rawMeta ) {
 		return;
 	}
@@ -361,11 +361,11 @@ const initCitations = ( nav ) => {
 	}
 	const style = meta.citationStyle || 'apa';
 
-	nav.querySelectorAll( '.tocflow__cite-btn' ).forEach( ( btn ) => {
-		const item = btn.closest( '.tocflow__item' );
-		const slug = item ? item.getAttribute( 'data-tocflow-slug' ) : null;
+	nav.querySelectorAll( '.tocguide__cite-btn' ).forEach( ( btn ) => {
+		const item = btn.closest( '.tocguide__item' );
+		const slug = item ? item.getAttribute( 'data-tocguide-slug' ) : null;
 		const headingText = item
-			? item.getAttribute( 'data-tocflow-heading' )
+			? item.getAttribute( 'data-tocguide-heading' )
 			: null;
 		if ( ! slug || ! headingText ) {
 			return;
@@ -388,27 +388,27 @@ const initCitations = ( nav ) => {
  * @param {string} slug   Section slug.
  * @return {string} localStorage key.
  */
-const noteKey = ( postId, slug ) => `tocflow-rn-${ postId }-${ slug }`;
+const noteKey = ( postId, slug ) => `tocguide-rn-${ postId }-${ slug }`;
 
 /**
  * @param {HTMLElement} nav The TOC nav element.
  */
 const initReaderNotes = ( nav ) => {
-	const postId = nav.getAttribute( 'data-tocflow-post' );
+	const postId = nav.getAttribute( 'data-tocguide-post' );
 	if ( ! postId ) {
 		return;
 	}
 
-	nav.querySelectorAll( '.tocflow__rnote-toggle' ).forEach( ( btn ) => {
-		const item = btn.closest( '.tocflow__item' );
-		const slug = item ? item.getAttribute( 'data-tocflow-slug' ) : null;
+	nav.querySelectorAll( '.tocguide__rnote-toggle' ).forEach( ( btn ) => {
+		const item = btn.closest( '.tocguide__item' );
+		const slug = item ? item.getAttribute( 'data-tocguide-slug' ) : null;
 		if ( ! slug ) {
 			return;
 		}
 
 		const padId = btn.getAttribute( 'aria-controls' );
 		const pad = padId ? document.getElementById( padId ) : null;
-		const ta = pad ? pad.querySelector( '.tocflow__rnote-ta' ) : null;
+		const ta = pad ? pad.querySelector( '.tocguide__rnote-ta' ) : null;
 		if ( ! pad || ! ta ) {
 			return;
 		}
@@ -464,20 +464,20 @@ const initReaderNotes = ( nav ) => {
  * @param {HTMLElement} nav The TOC nav element.
  */
 const initReadingProgress = ( nav ) => {
-	if ( nav.getAttribute( 'data-tocflow-reader-progress' ) !== '1' ) {
+	if ( nav.getAttribute( 'data-tocguide-reader-progress' ) !== '1' ) {
 		return;
 	}
 	if ( typeof window.IntersectionObserver === 'undefined' ) {
 		return;
 	}
 
-	const bar = nav.querySelector( '.tocflow__reading-bar' );
+	const bar = nav.querySelector( '.tocguide__reading-bar' );
 	if ( ! bar ) {
 		return;
 	}
 
 	const links = Array.from(
-		nav.querySelectorAll( '.tocflow__link[href^="#"]' )
+		nav.querySelectorAll( '.tocguide__link[href^="#"]' )
 	);
 	if ( ! links.length ) {
 		return;
@@ -496,7 +496,7 @@ const initReadingProgress = ( nav ) => {
 		return;
 	}
 
-	const wrap = nav.querySelector( '.tocflow__reading-wrap' );
+	const wrap = nav.querySelector( '.tocguide__reading-wrap' );
 	let passed = 0;
 
 	const update = () => {
@@ -538,31 +538,31 @@ const initReadingProgress = ( nav ) => {
  * @param {string} postId Post ID string.
  * @return {string} localStorage key.
  */
-const bookmarkKey = ( postId ) => `tocflow-bm-${ postId }`;
+const bookmarkKey = ( postId ) => `tocguide-bm-${ postId }`;
 
 /**
  * @param {HTMLElement} nav The TOC nav element.
  */
 const initBookmark = ( nav ) => {
-	const postId = nav.getAttribute( 'data-tocflow-post' );
+	const postId = nav.getAttribute( 'data-tocguide-post' );
 	if ( ! postId ) {
 		return;
 	}
-	if ( nav.getAttribute( 'data-tocflow-bookmark' ) !== '1' ) {
+	if ( nav.getAttribute( 'data-tocguide-bookmark' ) !== '1' ) {
 		return;
 	}
 	if ( typeof window.IntersectionObserver === 'undefined' ) {
 		return;
 	}
 
-	const resumeBtn = nav.querySelector( '.tocflow__resume-btn' );
+	const resumeBtn = nav.querySelector( '.tocguide__resume-btn' );
 	const key = bookmarkKey( postId );
 
 	// Track the last visible heading as the reader scrolls.
 	// Writes are debounced to avoid hammering localStorage on every
 	// IntersectionObserver callback during fast scrolling.
 	const links = Array.from(
-		nav.querySelectorAll( '.tocflow__link[href^="#"]' )
+		nav.querySelectorAll( '.tocguide__link[href^="#"]' )
 	);
 
 	let saveTimer;
@@ -636,14 +636,14 @@ const initBookmark = ( nav ) => {
  */
 const initHoverPreviews = ( nav ) => {
 	const items = Array.from(
-		nav.querySelectorAll( '.tocflow__item.has-hover-preview' )
+		nav.querySelectorAll( '.tocguide__item.has-hover-preview' )
 	);
 	if ( ! items.length ) {
 		return;
 	}
 
 	const bubble = document.createElement( 'div' );
-	bubble.className = 'tocflow__tip-bubble';
+	bubble.className = 'tocguide__tip-bubble';
 	bubble.setAttribute( 'aria-hidden', 'true' );
 	document.body.appendChild( bubble );
 
@@ -686,12 +686,12 @@ const initHoverPreviews = ( nav ) => {
 
 	const showBubble = ( item ) => {
 		clearTimeout( hideTimer );
-		const label = item.querySelector( '.tocflow__tip-label' );
+		const label = item.querySelector( '.tocguide__tip-label' );
 		const text = label ? label.textContent.trim() : '';
 		if ( ! text ) {
 			return;
 		}
-		const anchor = item.querySelector( '.tocflow__link' ) || item;
+		const anchor = item.querySelector( '.tocguide__link' ) || item;
 		bubble.textContent = text;
 		bubble.classList.add( 'is-visible' );
 		positionBubble( anchor );
@@ -707,7 +707,7 @@ const initHoverPreviews = ( nav ) => {
 	};
 
 	items.forEach( ( item ) => {
-		const link = item.querySelector( '.tocflow__link' );
+		const link = item.querySelector( '.tocguide__link' );
 		item.addEventListener( 'mouseenter', () => showBubble( item ) );
 		item.addEventListener( 'mouseleave', hideBubble );
 		if ( link ) {
@@ -727,19 +727,19 @@ const initHoverPreviews = ( nav ) => {
  */
 const collectItems = ( nav ) => {
 	const items = [];
-	nav.querySelectorAll( '.tocflow__item' ).forEach( ( li ) => {
-		const link = li.querySelector( '.tocflow__link' );
+	nav.querySelectorAll( '.tocguide__item' ).forEach( ( li ) => {
+		const link = li.querySelector( '.tocguide__link' );
 		if ( ! link ) {
 			return;
 		}
 		const text = link.textContent.trim();
 		const slug = ( link.getAttribute( 'href' ) || '' ).replace( /^#/, '' );
-		// Depth = nesting level (tocflow__list = 1, tocflow__sub = 2, …).
+		// Depth = nesting level (tocguide__list = 1, tocguide__sub = 2, …).
 		let depth = 1;
 		let parent = li.parentElement;
-		while ( parent && ! parent.classList.contains( 'tocflow__body' ) ) {
+		while ( parent && ! parent.classList.contains( 'tocguide__body' ) ) {
 			if (
-				parent.classList.contains( 'tocflow__sub' ) ||
+				parent.classList.contains( 'tocguide__sub' ) ||
 				parent.tagName === 'OL' ||
 				parent.tagName === 'UL'
 			) {
@@ -862,13 +862,13 @@ const printOutline = ( title, html ) => {
  * @param {HTMLElement} nav The TOC nav element.
  */
 const initExport = ( nav ) => {
-	const bar = nav.querySelector( '.tocflow__export-bar' );
+	const bar = nav.querySelector( '.tocguide__export-bar' );
 	if ( ! bar ) {
 		return;
 	}
 
 	const pageTitle =
-		bar.getAttribute( 'data-tocflow-export-title' ) ||
+		bar.getAttribute( 'data-tocguide-export-title' ) ||
 		document.title ||
 		'Table of Contents';
 	const pageUrl = window.location.href.split( '#' )[ 0 ];
@@ -877,8 +877,8 @@ const initExport = ( nav ) => {
 		.replace( /[^a-z0-9]+/g, '-' )
 		.replace( /(^-|-$)/g, '' );
 
-	bar.querySelectorAll( '.tocflow__export-btn' ).forEach( ( btn ) => {
-		const action = btn.getAttribute( 'data-tocflow-action' );
+	bar.querySelectorAll( '.tocguide__export-btn' ).forEach( ( btn ) => {
+		const action = btn.getAttribute( 'data-tocguide-action' );
 
 		btn.addEventListener( 'click', () => {
 			const items = collectItems( nav );
@@ -891,7 +891,7 @@ const initExport = ( nav ) => {
 						announce( nav, 'Outline copied as Markdown.' );
 						btn.classList.add( 'is-copied' );
 						const confirm = btn.querySelector(
-							'.tocflow__export-confirm'
+							'.tocguide__export-confirm'
 						);
 						if ( confirm ) {
 							confirm.textContent = '✓';
@@ -951,10 +951,10 @@ const initExport = ( nav ) => {
 // ── Bootstrap ─────────────────────────────────────────────────────────────────
 
 const initNav = ( nav ) => {
-	if ( nav.dataset.tocflowReady ) {
+	if ( nav.dataset.tocguideReady ) {
 		return;
 	}
-	nav.dataset.tocflowReady = '1';
+	nav.dataset.tocguideReady = '1';
 	initToggle( nav );
 	initSmoothScroll( nav );
 	initScrollSpy( nav );
@@ -988,6 +988,6 @@ const initNav = ( nav ) => {
 
 domReady( () => {
 	document
-		.querySelectorAll( '.wp-block-tocflow-table-of-contents, .tocflow' )
+		.querySelectorAll( '.wp-block-tocguide-table-of-contents, .tocguide' )
 		.forEach( initNav );
 } );

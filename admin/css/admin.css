@@ -1,9 +1,9 @@
-.tocflow-admin {
+.tocguide-admin {
 	max-width: 880px;
 	margin-top: 12px;
 }
 
-.tocflow-admin__hero {
+.tocguide-admin__hero {
 	display: flex;
 	align-items: flex-end;
 	justify-content: space-between;
@@ -15,13 +15,13 @@
 	color: #f4faf6;
 }
 
-.tocflow-admin__brand {
+.tocguide-admin__brand {
 	display: flex;
 	align-items: center;
 	gap: 14px;
 }
 
-.tocflow-admin__brand h1 {
+.tocguide-admin__brand h1 {
 	margin: 0;
 	padding: 0;
 	color: #fff;
@@ -31,13 +31,13 @@
 	letter-spacing: -0.03em;
 }
 
-.tocflow-admin__brand p {
+.tocguide-admin__brand p {
 	margin: 4px 0 0;
 	opacity: 0.9;
 	font-size: 13px;
 }
 
-.tocflow-admin__version {
+.tocguide-admin__version {
 	margin: 0;
 	font-size: 12px;
 	letter-spacing: 0.08em;
@@ -45,17 +45,17 @@
 	opacity: 0.8;
 }
 
-.tocflow-admin__tabs {
+.tocguide-admin__tabs {
 	margin: 16px 0 20px;
 }
 
-.tocflow-admin__grid {
+.tocguide-admin__grid {
 	display: grid;
 	grid-template-columns: 1fr 1fr;
 	gap: 16px;
 }
 
-.tocflow-card {
+.tocguide-card {
 	background: #fff;
 	border: 1px solid #d8e2db;
 	border-radius: 10px;
@@ -63,76 +63,76 @@
 	box-shadow: 0 1px 2px rgba(28, 61, 46, 0.04);
 }
 
-.tocflow-card--wide {
+.tocguide-card--wide {
 	grid-column: 1 / -1;
 }
 
-.tocflow-card h2 {
+.tocguide-card h2 {
 	font-size: 15px;
 	margin: 12px 0 8px;
 }
 
-.tocflow-admin__form .tocflow-card {
+.tocguide-admin__form .tocguide-card {
 	margin-bottom: 16px;
 }
 
-.tocflow-admin__checks {
+.tocguide-admin__checks {
 	display: flex;
 	flex-wrap: wrap;
 	gap: 6px 18px;
 }
 
-.tocflow-admin__checks label {
+.tocguide-admin__checks label {
 	display: inline-flex;
 	align-items: center;
 	gap: 6px;
 	margin: 0;
 }
 
-.tocflow-admin__links {
+.tocguide-admin__links {
 	margin: 8px 0 0;
 	padding-left: 18px;
 }
 
-.tocflow-admin code {
+.tocguide-admin code {
 	background: #eef6f1;
 	padding: 1px 6px;
 	border-radius: 4px;
 }
 
-.tocflow-compat-card .description {
+.tocguide-compat-card .description {
 	margin: 4px 0 14px;
 }
 
-.tocflow-compat-grid {
+.tocguide-compat-grid {
 	display: grid;
 	grid-template-columns: repeat(2, 1fr);
 	gap: 12px 24px;
 	margin: 10px 0 16px;
 }
 
-.tocflow-compat-group {
+.tocguide-compat-group {
 	font-size: 13px;
 }
 
-.tocflow-compat-group strong {
+.tocguide-compat-group strong {
 	display: block;
 	font-size: 13px;
 	margin-bottom: 4px;
 	color: #1c3d2e;
 }
 
-.tocflow-compat-group ul {
+.tocguide-compat-group ul {
 	margin: 0;
 	padding-left: 16px;
 	color: #3c5a4a;
 }
 
-.tocflow-compat-group li {
+.tocguide-compat-group li {
 	margin: 2px 0;
 }
 
-.tocflow-badge-new {
+.tocguide-badge-new {
 	display: inline-block;
 	background: #275c3e;
 	color: #fff;
@@ -149,19 +149,19 @@
 
 /* ── Color picker widget ────────────────────────────────────────────────── */
 
-.tocflow-color-field {
+.tocguide-color-field {
 	display: inline-flex;
 	align-items: center;
 	gap: 6px;
 }
 
-.tocflow-color-field input[type="text"] {
+.tocguide-color-field input[type="text"] {
 	width: 90px;
 	font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
 	font-size: 12px;
 }
 
-.tocflow-color-field input[type="color"] {
+.tocguide-color-field input[type="color"] {
 	width: 32px;
 	height: 30px;
 	padding: 1px 2px;
@@ -171,21 +171,21 @@
 	background: none;
 }
 
-.tocflow-color-clear {
+.tocguide-color-clear {
 	font-size: 12px;
 	color: #888;
 	text-decoration: none;
 	white-space: nowrap;
 }
 
-.tocflow-color-clear:hover {
+.tocguide-color-clear:hover {
 	color: #d63638;
 	text-decoration: underline;
 }
 
 /* ── Section badges ─────────────────────────────────────────────────────── */
 
-.tocflow-section-badge {
+.tocguide-section-badge {
 	display: inline-block;
 	font-size: 10px;
 	font-weight: 700;
@@ -198,19 +198,19 @@
 	line-height: 1.5;
 }
 
-.tocflow-section-badge--guide {
+.tocguide-section-badge--guide {
 	background: #0a5c80;
 	color: #fff;
 }
 
-.tocflow-section-badge--study {
+.tocguide-section-badge--study {
 	background: #5b4200;
 	color: #fff;
 }
 
 /* ── Guide sub-options indent ───────────────────────────────────────────── */
 
-#tocflow-guide-subopts {
+#tocguide-guide-subopts {
 	margin-top: 8px;
 	padding: 12px 16px;
 	background: #f6faf8;
@@ -218,31 +218,31 @@
 	border-radius: 0 4px 4px 0;
 }
 
-#tocflow-guide-subopts .form-table {
+#tocguide-guide-subopts .form-table {
 	margin: 0;
 }
 
-#tocflow-guide-subopts .form-table th {
+#tocguide-guide-subopts .form-table th {
 	padding: 6px 10px 6px 0;
 	font-size: 13px;
 }
 
-#tocflow-guide-subopts .form-table td {
+#tocguide-guide-subopts .form-table td {
 	padding: 6px 0;
 }
 
 @media (max-width: 782px) {
 
-	.tocflow-admin__grid {
+	.tocguide-admin__grid {
 		grid-template-columns: 1fr;
 	}
 
-	.tocflow-admin__hero {
+	.tocguide-admin__hero {
 		flex-direction: column;
 		align-items: flex-start;
 	}
 
-	.tocflow-compat-grid {
+	.tocguide-compat-grid {
 		grid-template-columns: 1fr;
 	}
 }
