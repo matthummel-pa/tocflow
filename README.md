@@ -10,17 +10,17 @@
 </p>
 
 <p align="center">
-  <a href="https://matthummel-pa.github.io/tocflow/"><strong>Docs</strong></a>
+  <a href="https://matthummel-pa.github.io/tocguide/"><strong>Docs</strong></a>
   ·
-  <a href="https://github.com/matthummel-pa/tocflow/releases/latest">Download</a>
+  <a href="https://github.com/matthummel-pa/tocguide/releases/latest">Download</a>
   ·
-  <a href="https://github.com/matthummel-pa/tocflow/issues">Issues</a>
+  <a href="https://github.com/matthummel-pa/tocguide/issues">Issues</a>
   ·
   <a href="LICENSE">GPLv2 or later</a>
 </p>
 
 <p align="center">
-  <a href="https://github.com/matthummel-pa/tocflow/actions/workflows/ci.yml"><img alt="CI" src="https://github.com/matthummel-pa/tocflow/actions/workflows/ci.yml/badge.svg"></a>
+  <a href="https://github.com/matthummel-pa/tocguide/actions/workflows/ci.yml"><img alt="CI" src="https://github.com/matthummel-pa/tocflow/actions/workflows/ci.yml/badge.svg"></a>
   <img alt="WordPress" src="https://img.shields.io/badge/WordPress-6.4%2B-3858e9">
   <img alt="PHP" src="https://img.shields.io/badge/PHP-7.4%2B-777bb3">
   <img alt="License" src="https://img.shields.io/badge/license-GPLv2%20or%20later-1b1f24">
