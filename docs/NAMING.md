@@ -36,7 +36,7 @@ A coined brand is one token (`akismet`, `jetpack`). **TOCguide** is a coined bra
 ## GitHub settings
 
 - **Name:** `tocguide`
-- **Description:** `Server-rendered Table of Contents block for the WordPress editor.`
+- **Description:** `Lightweight, server-rendered Table of Contents block for Gutenberg. Accessible outline from your headings. Independent plugin.`
 - **Website:** `https://matthummel-pa.github.io/tocguide/`
 - **Topics:** `wordpress`, `wordpress-plugin`, `gutenberg`, `block-editor`, `table-of-contents`, `toc`, `php`, `javascript`
 
