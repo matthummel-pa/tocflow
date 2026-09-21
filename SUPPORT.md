@@ -2,6 +2,8 @@
 
 TOCguide is a GPL-licensed WordPress plugin. Support is provided in English.
 
+TOCguide is independent software by Matt Hummel (slug `tocguide`). It is not affiliated with any other company or plugin.
+
 ## Where to get help
 
 | Channel | Use it for |

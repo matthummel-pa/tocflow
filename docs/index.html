@@ -144,16 +144,16 @@
 
 <header class="hero">
   <div class="wrap">
-    <p class="kicker">WordPress plugin · slug <strong>tocguide</strong> · v1.4.0</p>
+    <p class="kicker">WordPress plugin · slug <strong>tocguide</strong> · v1.5.0</p>
     <h1>The TOC that reads<br><em>with your reader.</em></h1>
-    <p class="lede">TOCguide is the first Table of Contents block with a built-in Reading Guide — section previews, read-time estimates, hover tooltips, emoji reactions, and one-click academic citations. Server-rendered. Zero external APIs. Works with every theme and SEO plugin.</p>
+    <p class="lede">TOCguide is an independent Table of Contents block with a built-in Reading Guide — section previews, read-time estimates, hover tooltips, emoji reactions, and one-click academic citations. Server-rendered. Zero external APIs. Not affiliated with any other product.</p>
     <div class="btns">
       <a class="btn primary" href="https://github.com/matthummel-pa/tocguide/releases/latest">Download free — tocguide.zip</a>
       <a class="btn ghost" href="documentation.html">Full documentation</a>
-      <a class="btn ghost" href="#study-assistant">What's new in 1.2</a>
+      <a class="btn ghost" href="support.html">Support</a>
     </div>
     <div class="chips">
-      <span class="chip green">v1.2.0</span>
+      <span class="chip green">v1.5.0</span>
       <span class="chip">WordPress 6.4 – 7.1</span>
       <span class="chip">PHP 7.4 – 8.3</span>
       <span class="chip">GPL-2.0-or-later</span>
@@ -164,6 +164,7 @@
 
 <div class="wrap">
   <nav class="page-nav" aria-label="On this page">
+    <a href="#whats-new">What's new</a>
     <a href="#features">Features</a>
     <a href="#study-assistant">Study assistant</a>
     <a href="#reading-guide">Reading Guide</a>
@@ -172,6 +173,44 @@
     <a href="#quick-start">Quick start</a>
     <a href="#faq">FAQ</a>
   </nav>
+
+  <section id="whats-new">
+    <p class="chap">What's new</p>
+    <h2>v1.5.0 — one name, everywhere.</h2>
+    <p style="color:var(--muted);max-width:38rem">Display name TOCguide. Slug, text domain, block, shortcode, CSS, and GitHub repo are all <code>tocguide</code>. Independent plugin — not affiliated with any other product.</p>
+    <div class="grid">
+      <article class="card">
+        <span class="icon">1.5</span>
+        <h3>Identity</h3>
+        <p>PHP, CSS, block <code>tocguide/table-of-contents</code>, shortcode <code>[tocguide]</code>, option <code>tocguide_settings</code>.</p>
+      </article>
+      <article class="card">
+        <span class="icon">!</span>
+        <h3>Breaking</h3>
+        <p>Re-insert the block and re-save Settings if you used an earlier zip. Old keys are not migrated.</p>
+      </article>
+      <article class="card">
+        <span class="icon">1.4</span>
+        <h3>WordPress.org</h3>
+        <p>Guideline 17: a coined name that does not imply affiliation. Five tags. GPLv2 or later. No tracking.</p>
+      </article>
+      <article class="card">
+        <span class="icon">1.3</span>
+        <h3>Design &amp; a11y</h3>
+        <p>Sitewide colours, type, borders, and focus rings that actually print on the <code>&lt;nav&gt;</code>.</p>
+      </article>
+      <article class="card">
+        <span class="icon">1.2</span>
+        <h3>Study tools</h3>
+        <p>Progress bar, resume bookmark, reader notes — all opt-in, all on-device.</p>
+      </article>
+      <article class="card">
+        <span class="icon">1.1</span>
+        <h3>Reading Guide</h3>
+        <p>Previews, density, citations, and page-builder headings. Still the feature most people come for.</p>
+      </article>
+    </div>
+  </section>
 
   <!-- ── Standard features ── -->
   <section id="features">
@@ -500,6 +539,10 @@
     <details>
       <summary>Where do I put the block?</summary>
       <p>Typically right after the introduction paragraph, before the first heading. Some writers prefer just before the conclusion. Auto-insert mode handles positioning automatically sitewide.</p>
+    </details>
+    <details>
+      <summary>Is TOCguide affiliated with another product?</summary>
+      <p>No. It is an independent plugin by Matt Hummel. Display name TOCguide, slug <code>tocguide</code>. That naming answers WordPress.org guideline 17 (trademarks / implied affiliation).</p>
     </details>
     <details>
       <summary>Is the GitHub repo supposed to be called something else?</summary>

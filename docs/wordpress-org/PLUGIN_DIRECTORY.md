@@ -57,7 +57,7 @@ TOCguide is listed/submitted as a **normal plugin** (block + settings + shortcod
 
 ## Block Directory (do not target for TOCguide)
 
-Would require: one block, almost no PHP, **no Settings screens**, no ads, no account wall. Auto-insert + `[tocguide]` / `[tocguide]` + **Settings → TOCguide** disqualify it. Keep those features; stay on the main Plugin Directory.
+Would require: one block, almost no PHP, **no Settings screens**, no ads, no account wall. Auto-insert + `[tocguide]` + **Settings → TOCguide** disqualify it. Keep those features; stay on the main Plugin Directory.
 
 ## Contact
 

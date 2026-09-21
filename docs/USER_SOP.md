@@ -113,7 +113,7 @@ On the Heading block: **Advanced → Additional CSS class(es)** → `no-toc` (or
 
 **Multiple TOCs?** They all list the same headings. Prefer one.
 
-**Data leaving the site?** No.
+**Data leaving the site?** No. Independent plugin by Matt Hummel (slug `tocguide`); not affiliated with any other product.
 
 ---
 

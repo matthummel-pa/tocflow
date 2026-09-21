@@ -54,6 +54,11 @@ Banners and the icon are in `.wordpress-org/` already. To regenerate PNGs: `npm 
 - Admin code loads only in `is_admin()`
 - All output escaped; settings sanitized
 - Text domain is the literal `tocguide`
+- Independence statement in Plugin Name description + readme (guideline 17)
+- Third-party services: none (disclosed in `readme.txt` / `PRIVACY.md`)
+- No front-end credit links
+- Source + build (`npm run build`) documented in `readme.txt`
+- Screenshot captions in `readme.txt` (PNG files go in SVN `assets/` after approval: `screenshot-1.png` …)
 
 ## After listing
 

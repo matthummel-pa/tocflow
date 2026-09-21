@@ -134,9 +134,9 @@
 <!-- ── Main content ── -->
 <div class="content">
   <p class="breadcrumb"><a href="index.html">← TOCguide home</a> · <a href="support.html">Support</a></p>
-  <p class="kicker">Plugin documentation · v1.2.0</p>
+  <p class="kicker">Plugin documentation · v1.5.0</p>
   <h1>TOCguide</h1>
-  <p class="intro">A server-rendered Table of Contents for the WordPress block editor — and the only TOC plugin with a built-in Reading Guide. Slug: <code>tocguide</code>.</p>
+  <p class="intro">A server-rendered Table of Contents for the WordPress block editor, with a built-in Reading Guide. Independent plugin — slug, text domain, and GitHub repo are all <code>tocguide</code>.</p>
 
   <!-- Install -->
   <h2 id="install">1. Install</h2>
@@ -397,7 +397,7 @@ cd tocguide
 npm install
 npm run build   # production build → build/
 npm run start   # development watch mode</code></pre>
-  <p>Requires Node.js 18+ and npm 9+. The build uses <code>@wordpress/scripts</code>. Unminified source is in <code>src/</code>; compiled assets land in <code>build/</code> (gitignored, built on release via GitHub Actions).</p>
+  <p>Requires Node.js 20+ (see <code>.nvmrc</code>) and npm 9+. The build uses <code>@wordpress/scripts</code>. Unminified source is in <code>src/</code>; compiled assets land in <code>build/</code> (gitignored, built on release via GitHub Actions). PHP: <code>composer install && composer phpcs</code>.</p>
 
   <h2 id="dev-filters">11. Developer: PHP filters</h2>
   <p>Hook into TOCguide's rendering to customize headings, skip post types, or alter the output:</p>
@@ -418,7 +418,7 @@ add_filter( 'tocguide_headings', function( $headings, $post_id ) {
 }, 10, 2 );</code></pre>
 
   <h2 id="privacy">12. Privacy</h2>
-  <p>TOCguide does not collect personal data, set cookies, or call remote services. Emoji reactions use the browser's own <code>localStorage</code> — no data leaves the reader's device. Citation data is built from post meta that is already public. JSON-LD is printed only if you opt in. <a href="https://github.com/matthummel-pa/tocguide/blob/main/PRIVACY.md">Full privacy policy →</a></p>
+  <p>TOCguide does not collect personal data, set cookies, or call remote services. Plugin CSS and JS are local (no CDN). Emoji reactions use the browser's own <code>localStorage</code> — no data leaves the reader's device. Citation data is built from post meta that is already public. JSON-LD is printed only if you opt in. Independent plugin by Matt Hummel; slug <code>tocguide</code>. <a href="https://github.com/matthummel-pa/tocguide/blob/main/PRIVACY.md">Full privacy policy →</a></p>
 
   <footer>
     <p>© 2026 <a href="https://matthummel.com">Matt Hummel</a> · <a href="index.html">Home</a> · <a href="support.html">Support</a> · <a href="https://github.com/matthummel-pa/tocguide">GitHub</a> · GPLv2 or later</p>

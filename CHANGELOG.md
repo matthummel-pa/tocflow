@@ -5,10 +5,24 @@ This project adheres to [Semantic Versioning](https://semver.org/).
 
 ## [1.5.0] - 2026-09-21
 
+One identity for the whole product: **TOCguide** / **`tocguide`**. Built for WordPress.org guideline 17 (no implied affiliation) and for a slug that matches the folder, text domain, block name, and GitHub repo.
+
+### Added
+- Docs, support, and in-admin **Docs & Support** links all use `https://matthummel-pa.github.io/tocguide/` (`index.html`, `documentation.html`, `support.html`).
+- Directory-facing copy: independence statement, third-party/service disclosure (none), uninstall opt-in, `manage_options` + nonce notes, screenshot captions.
+
 ### Changed
-- Removed the old `*flow` prefix everywhere: PHP (`tocguide_*` / `TOCguide_*` / `TOCGUIDE_*`), CSS (`.tocguide`, `--tocguide-*`), option `tocguide_settings`, block `tocguide/table-of-contents`, shortcode `[tocguide]`, skip class `tocguide-skip`.
-- GitHub repository and Pages URLs are `matthummel-pa/tocguide`.
-- **Breaking:** existing blocks, custom CSS, and stored settings that used the previous prefix will not match until you re-insert the block / update CSS / re-save settings.
+- PHP: `tocguide_*` functions, `TOCguide_*` classes, `TOCGUIDE_*` constants; includes `class-tocguide-*.php`.
+- Gutenberg block: `tocguide/table-of-contents` (class `.wp-block-tocguide-table-of-contents`).
+- Option key: `tocguide_settings`. Shortcode: `[tocguide]` only. Skip class: `tocguide-skip` (plus `no-toc`).
+- CSS root class `.tocguide` and custom properties `--tocguide-*`.
+- Brand SVGs, GitHub Pages, and the GitHub repo are `matthummel-pa/tocguide`.
+
+### Breaking
+- Existing blocks, custom CSS, and stored settings that used the previous prefix will not match until you re-insert the block, update CSS, and re-save **Settings → TOCguide**. There is no automatic key migration.
+
+### Fixed
+- PHPCS `DoubleArrowNotAligned` on the `<nav>` wrapper attributes after the longer `data-tocguide-*` keys.
 
 ## [1.4.0] - 2026-09-19
 

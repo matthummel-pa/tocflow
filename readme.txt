@@ -13,7 +13,7 @@ Table of Contents block with a built-in Reading Guide — section previews, read
 
 == Description ==
 
-TOCguide adds a Table of Contents block to the WordPress block editor. It is an independent plugin by Matt Hummel and is not affiliated with any other company or plugin. Unlike other TOC plugins, it ships a **Reading Guide mode** that turns a plain navigation list into an intelligent reading companion. Every feature is rendered server-side or handled client-side with no external API calls, no accounts, and no tracking.
+TOCguide adds a Table of Contents block to the WordPress block editor. It is an independent plugin by Matt Hummel and is not affiliated with any other company or plugin. Optional **Reading Guide** mode turns the outline into a reading companion (section previews, read time, progress). Every feature is rendered server-side or handled in the browser with no external API calls, no accounts, and no tracking.
 
 = Standard TOC features =
 
@@ -33,7 +33,7 @@ TOCguide adds a Table of Contents block to the WordPress block editor. It is an 
 * Optional ItemList JSON-LD schema markup
 * No account, no external API calls, no tracking
 
-= Reading Guide mode — what no other TOC plugin does =
+= Reading Guide mode =
 
 Enable **Reading Guide** in the block sidebar to transform the TOC into a live reading companion. Every enrichment is computed from your block content — no JavaScript fetches, no third-party services.
 
@@ -62,9 +62,23 @@ TOCguide is designed to work with every major WordPress stack:
 * **PHP:** 7.4, 8.0, 8.1, 8.2, 8.3.
 * **WordPress:** 6.4 – 7.1 (tested on all major releases in this range).
 
-= Source =
+= Source and development =
 
-Unminified JavaScript and SCSS ship in `src/`. Compiled assets are in `build/`. Development: https://github.com/matthummel-pa/tocguide (`npm run build`).
+Unminified JavaScript and SCSS ship in `src/`. Compiled assets are in `build/`. From the GitHub repo: `npm install && npm run build`. Node 20+ (see `.nvmrc`). PHP coding standards: `composer install && composer phpcs`.
+
+This plugin does **not** load JavaScript or CSS from a third-party CDN. Front-end assets are enqueued from files inside the plugin. The GitHub Pages marketing site may load a webfont; that is not part of the plugin zip.
+
+= Third-party services =
+
+None. TOCguide does not call remote APIs, does not require an account, and does not send data off-site. Details: https://github.com/matthummel-pa/tocguide/blob/main/PRIVACY.md
+
+= Privacy =
+
+No personal data collection, no marketing cookies, no phone-home. Settings live in the `tocguide_settings` option. Uninstall deletes data only if you opted in under Settings → TOCguide. Deactivate does not delete settings. Optional JSON-LD is off by default. Study tools that use `localStorage` stay on the visitor's device.
+
+= Credits on the front end =
+
+TOCguide does not print a “powered by” or credit link on published posts.
 
 = How to use =
 
@@ -92,10 +106,6 @@ Examples:
 = Skip a heading =
 
 Add the CSS class `no-toc` or `tocguide-skip` to a Heading block (Advanced → Additional CSS class(es)).
-
-= Privacy =
-
-TOCguide does not collect personal data, set cookies, or call remote services. Emoji reactions use the browser's own localStorage — no data leaves the reader's device. Optional JSON-LD is printed in the page HTML only if you enable it in settings. Details: https://github.com/matthummel-pa/tocguide/blob/main/PRIVACY.md
 
 = Support =
 
@@ -178,11 +188,36 @@ No. Zero external network requests from TOCguide in any mode.
 
 GNU GPLv2 or later, covering the whole plugin (PHP, JavaScript, CSS, and images). Copyright Matt Hummel. Full text: `license.txt`.
 
+= Is TOCguide affiliated with another product? =
+
+No. Independent plugin by Matt Hummel. Display name TOCguide; slug, folder, and text domain `tocguide`. That naming is intentional for WordPress.org guideline 17.
+
+= Does it load scripts or fonts from a CDN? =
+
+No. Plugin CSS and JS are local. Core-bundled libraries are used where WordPress already ships them. No remote executable code.
+
+= Who can change settings? =
+
+Users with the `manage_options` capability (typically administrators). The welcome notice is dismissible and uses a nonce.
+
+= What happens when I delete the plugin? =
+
+Deactivate leaves settings in place. Delete runs `uninstall.php`, which removes stored options only if you enabled “delete data on uninstall” in Settings.
+
+== Screenshots ==
+
+1. Front-end Table of Contents with optional Reading Guide (previews, density, read time).
+2. Settings → TOCguide: auto-insert, design tokens, study tools, accessibility.
+3. Block sidebar in the editor (heading levels, layout, Reading Guide).
+4. Docs & Support tab in wp-admin (links to the documentation site).
+
 == Changelog ==
 
 = 1.5.0 =
-* Breaking: PHP, CSS, block name, shortcode, and settings keys now use `tocguide` only (no leftover `*flow` prefix). Re-insert the block and re-save settings if you installed an earlier zip.
-* GitHub repo and docs URLs: `matthummel-pa/tocguide`.
+* One identity: PHP (`tocguide_*` / `TOCguide_*` / `TOCGUIDE_*`), CSS (`.tocguide`, `--tocguide-*`), block `tocguide/table-of-contents`, shortcode `[tocguide]`, option `tocguide_settings`, skip class `tocguide-skip`.
+* Docs, support site, and in-admin Docs & Support URLs: `matthummel-pa.github.io/tocguide`.
+* GitHub repository: `matthummel-pa/tocguide`.
+* Breaking: re-insert the block and re-save Settings if you used an earlier zip. No automatic migration of old keys.
 
 = 1.4.0 =
 * Rebrand for WordPress.org guideline 17: display name is now TOCguide and the plugin slug / text domain / main file are `tocguide`. Not affiliated with any other product.
@@ -261,7 +296,7 @@ GNU GPLv2 or later, covering the whole plugin (PHP, JavaScript, CSS, and images)
 == Upgrade Notice ==
 
 = 1.5.0 =
-All remaining `*flow` prefixes are now `tocguide`. Re-insert the Table of Contents block and re-save Settings if you used an earlier zip.
+One `tocguide` identity for PHP, CSS, the block, shortcode, and settings. Re-insert the Table of Contents block and re-save Settings if you used an earlier zip.
 
 = 1.4.0 =
 Display name and WordPress.org slug are now TOCguide / tocguide so the listing is clearly independent. Existing blocks and CSS from that release kept working.

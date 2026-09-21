@@ -5,14 +5,17 @@
 </p>
 
 <p align="center">
-  <strong>A server-rendered Table of Contents block for WordPress.</strong><br>
-  Add one block. Get an accessible, SEO-friendly outline from your headings.
+  <strong>The Table of Contents that reads with your reader.</strong><br>
+  One Gutenberg block. A linked outline from your headings — plus an optional Reading Guide:<br>
+  section previews, read time, study tools, and citations. Server-rendered. No accounts. No tracking.
 </p>
 
 <p align="center">
   <a href="https://matthummel-pa.github.io/tocguide/"><strong>Docs</strong></a>
   ·
-  <a href="https://github.com/matthummel-pa/tocguide/releases/latest">Download</a>
+  <a href="https://matthummel-pa.github.io/tocguide/support.html">Support</a>
+  ·
+  <a href="https://github.com/matthummel-pa/tocguide/releases/latest">Download tocguide.zip</a>
   ·
   <a href="https://github.com/matthummel-pa/tocguide/issues">Issues</a>
   ·
@@ -21,90 +24,158 @@
 
 <p align="center">
   <a href="https://github.com/matthummel-pa/tocguide/actions/workflows/ci.yml"><img alt="CI" src="https://github.com/matthummel-pa/tocguide/actions/workflows/ci.yml/badge.svg"></a>
+  <img alt="Version" src="https://img.shields.io/badge/version-1.5.0-275c3e">
   <img alt="WordPress" src="https://img.shields.io/badge/WordPress-6.4%2B-3858e9">
   <img alt="PHP" src="https://img.shields.io/badge/PHP-7.4%2B-777bb3">
   <img alt="License" src="https://img.shields.io/badge/license-GPLv2%20or%20later-1b1f24">
+  <img alt="Tracking" src="https://img.shields.io/badge/tracking-none-275c3e">
+</p>
+
+<p align="center">
+  Independent plugin by Matt Hummel. Slug, folder, text domain, block, and GitHub repo: <code>tocguide</code>.<br>
+  Not affiliated with any other company or plugin.
+</p>
+
+<p align="center">
+  <img src="docs/assets/tocguide-output.svg" alt="TOCguide front-end outline mockup" width="640">
 </p>
 
 ---
 
-## What's new — v1.3.3 (Sep 2026)
+## Why TOCguide
 
-> For WordPress.org reviewers: the sections below describe every change since v1.0.2.
+Most Table of Contents plugins stop at a list of links. TOCguide starts there and then helps people **read** the post.
 
-### v1.3.3 — Custom colour & font display fix
+| You get | Why it matters |
+| --- | --- |
+| **The outline is in the HTML** | Search engines and screen readers see it before JavaScript. |
+| **Anchors match the list** | IDs are injected from the same heading map. Custom HTML anchors win. |
+| **Reading Guide (opt-in)** | Previews, density bars, `~N min` badges, progress fade — computed from your content, not an API. |
+| **Study tools (opt-in)** | Progress bar, resume bookmark, private note pads, citations, export — all `localStorage` or clipboard. |
+| **Works where you write** | Gutenberg block, `[tocguide]` shortcode, auto-insert, Elementor / Divi / Bricks and the other builders we document. |
+| **Theme-native** | The published TOC inherits the theme. No branded font on the front end. |
+
+Zero config for the default path: insert the block, get an accessible `<nav>`.
+
+---
+
+## Releases at a glance
+
+```mermaid
+timeline
+    title TOCguide
+    1.5.0 : One identity — tocguide everywhere
+         : Breaking prefix rename
+         : Docs + support URLs
+    1.4.0 : Directory name TOCguide
+         : Guideline 17 independence
+    1.3.0 : Global design + a11y settings
+    1.2.0 : Study assistant tools
+    1.1.0 : Reading Guide + builders
+    1.0.0 : Block, shortcode, auto-insert
+```
+
+| Version | Ship | What people notice |
+| :---: | :---: | --- |
+| **1.5.0** | **Now** | One slug everywhere: PHP, CSS, block `tocguide/table-of-contents`, `[tocguide]`, settings key. **Re-insert the block** if you used an earlier zip. |
+| 1.4.0 | Sep 2026 | Public name TOCguide for WordPress.org guideline 17. |
+| 1.3.x | Sep 2026 | Sitewide colors/fonts, focus rings, and the color-picker escape fix. |
+| 1.2.x | Sep 2026 | Progress bar, bookmark, reader notes, Section Planner. |
+| 1.1.0 | — | Reading Guide, citations, hover previews, page-builder headings. |
+| 1.0.x | — | Core TOC block, shortcode, auto-insert, five Block Styles. |
+
+Full prose: [`CHANGELOG.md`](CHANGELOG.md) · directory copy: [`readme.txt`](readme.txt).
+
+### v1.5.0 — one identity
+
+| Surface | Value |
+| --- | --- |
+| Display name | **TOCguide** |
+| Slug / folder / text domain | `tocguide` |
+| Main file | `tocguide.php` |
+| Block | `tocguide/table-of-contents` |
+| Shortcode | `[tocguide]` |
+| Option | `tocguide_settings` |
+| CSS | `.tocguide`, `--tocguide-*` |
+| Skip a heading | `no-toc` or `tocguide-skip` |
+| GitHub + Pages | `matthummel-pa/tocguide` |
+
+**Upgrade:** re-insert the Table of Contents block, update any custom CSS, and save **Settings → TOCguide**. Old keys are not migrated.
+
+### v1.3.3 — colours and focus actually print
 
 | Fix | Detail |
-|---|---|
-| **`$guide_attrs` ordering bug** | Array was reset to empty _after_ `data-tocguide-focus` was written into it — accessibility focus-ring attr was always discarded |
-| **Global design colours / fonts** | `--tocguide-bg`, `--tocguide-color`, `--tocguide-link-color`, `--tocguide-font-*`, `--tocguide-border-*` etc. now correctly reach the rendered `<nav>` and are picked up by `var()` in the stylesheet |
+| --- | --- |
+| `$guide_attrs` order | Focus-ring `data-tocguide-focus` was wiped before render |
+| Global design props | `--tocguide-bg`, `--tocguide-color`, borders, fonts reach the `<nav>` |
 
-### v1.3.1 — Security & code-quality fix
+### v1.3.0 — design & accessibility settings
 
-| Fix | Detail |
-|---|---|
-| **`WordPress.Security.EscapeOutput`** | `$swatch_val` in the admin colour-picker `printf()` was pre-escaped at construction; moved `esc_attr()` to the call site — the only form WordPress.org reviewers accept |
-| **Missing PHPDoc** | Added doc block for `TOCguide_Settings::sanitize()` |
-| **Inline comment style** | Fixed casing and trailing full-stop in `class-tocguide-plugin.php` (WPCS `Squiz.Commenting.InlineComment`) |
-| **Array alignment** | PHPCBF auto-corrected 181 `=>` alignment and indentation warnings across PHP files |
-| **Short description length** | Trimmed `readme.txt` short description from 175 → 145 characters (WordPress.org parser enforces a 150-character max; longer values are silently truncated) |
+| Feature | Where |
+| --- | --- |
+| Background, text, link, type, border, padding | Settings → Design & Appearance (`--tocguide-*`) |
+| Reading Guide / study / export defaults | Settings → TOCguide |
+| Focus ring: default / bold / high-contrast | Settings → Accessibility |
 
-### v1.3.0 — Global design & accessibility settings
+### v1.2.0 — study assistant
 
-| Feature | Where | Detail |
-|---|---|---|
-| **Design & Appearance** | Settings → TOCguide | Background, text, link colours; font size, weight, line height; border width/style/colour/radius; padding — all applied as CSS custom properties (`--tocguide-bg`, `--tocguide-color`, etc.) |
-| **Reading Guide defaults** | Settings → TOCguide | Global on/off for hover preview, guide mode, section previews, density bars, read time, progress fade, reactions, citations, and citation format |
-| **Study Tools & Export defaults** | Settings → TOCguide | Global on/off for reading progress bar, resume bookmark, reader note pads, export toolbar |
-| **Accessibility — focus ring style** | Settings → TOCguide | Default (underline), Bold (3 px outline, WCAG 2.1 AA), High-contrast (yellow background, WCAG 2.1 AAA) via `data-tocguide-focus` |
-| **Admin colour picker** | Settings page JS | Hex text input syncs with `<input type=color>` swatch; guide sub-options show/hide when guide mode is toggled |
+| Feature | Enable | State |
+| --- | --- | --- |
+| Reading progress bar | Study Tools or `rprogress="1"` | `IntersectionObserver` |
+| Resume bookmark | `bookmark="1"` | `localStorage` `tocguide-bm-{post}` |
+| Reader note pads | `rnotes="1"` | `localStorage` `tocguide-rn-…` |
+| Section Planner | Block sidebar | `sectionStatus` attribute (editor only) |
 
-All global defaults apply to auto-inserted blocks and shortcodes. Per-block editor settings always override them.
+All off by default. Nothing writes to a custom table. Nothing phones home.
 
-### v1.2.2 — WordPress.org compliance fixes
+### v1.1.0 — Reading Guide & builders
 
-| Fix | Detail |
-|---|---|
-| **`TOCGUIDE_VERSION` constant** | Was stuck at `1.2.0`; corrected to `1.2.2` |
-| **`Tested up to`** | Updated from `6.7` → `7.1` (WP 7.1 "Mary Lou" released 2026-08-19) |
-| **Tags** | Removed third-party trademark `elementor`; replaced with `study tools` |
-| **PHP indentation** | Fixed WPCS 3-tab → 4-tab on shortcode Study-tool attrs and admin settings view |
-| **readme.txt entries** | Added `= 1.2.1 =` and `= 1.2.2 =` Changelog + Upgrade Notice entries |
-| **GitHub Actions** | Bumped `softprops/action-gh-release` from v2 → v3 (Node 20 → Node 24 runtime) |
+Reading Guide, hover previews, emoji reactions, academic citations, export/print, Elementor / Bricks / Divi / WPBakery / Oxygen / Beaver / Breakdance heading maps. See the feature tables in older README history via git if you need the original grid.
 
-### v1.2.1 — Performance patch
+---
 
-| Fix | Detail |
-|---|---|
-| **Bookmark localStorage debounce** | Debounced resume-bookmark writes from every `IntersectionObserver` callback to every 500 ms — prevents redundant writes during fast scrolling |
+## WordPress.org listing notes
 
-### v1.2.0 — Study assistant & writer tools
+Written for Plugin Directory review (FAQ + 18 guidelines). This is a **Plugin Directory** plugin (settings + shortcode + auto-insert), not Block Directory.
 
-| Feature | How to enable | Where state lives |
-|---|---|---|
-| **Reading progress bar** (0–100 % of headings read) | "Study Tools" panel → "Reading progress bar", or `rprogress="1"` shortcode | Client only — `IntersectionObserver`, no server |
-| **Resume reading bookmark** (↩ Resume button on return) | "Study Tools" → "Resume reading bookmark", or `bookmark="1"` | `localStorage` key `tocguide-bm-{post_id}` |
-| **Reader note pads** (📝 per-section personal notes) | "Study Tools" → "Reader note pads", or `rnotes="1"` | `localStorage` key `tocguide-rn-{post_id}-{slug}` |
-| **Section Planner** (writing status per heading for authors) | Block sidebar → "Section Planner" panel | `sectionStatus` block attribute — never sent to front end |
-| **Total read-time badge** | Automatic when Reading Guide + read-time are both active | Computed server-side from word counts, no extra query |
+| Guideline | How TOCguide handles it |
+| --- | --- |
+| **1 GPL** | Entire zip is GPLv2 or later (`LICENSE` / `license.txt`). |
+| **4 Human-readable** | Unminified `src/` ships; `npm run build` is documented. |
+| **5 No trialware** | Full feature set in this free plugin. |
+| **7 No tracking** | No analytics, no phone-home, no accounts. See [`PRIVACY.md`](PRIVACY.md). |
+| **8 No remote code** | No CDN JS/CSS in the plugin. Assets enqueued from `build/`. |
+| **10 No forced credits** | No front-end “powered by” link. |
+| **11 Admin** | Settings under **Settings → TOCguide**. Welcome notice is dismissible. |
+| **12 Readme** | Five tags. Copy is for humans, not keyword stuffing. |
+| **13 Core libraries** | No bundled jQuery. Gutenberg packages via `wp-scripts`. |
+| **17 Trademarks** | Independent name **TOCguide** / slug **`tocguide`**. |
 
-All three reader tools are **off by default**. They only activate when the author explicitly enables them. No feature writes to the database; no feature makes a network call.
+**Third-party services:** none. Do not confuse the GitHub Pages site (Outfit from Google Fonts in `docs/*.html`) with the plugin zip — WordPress sites do not load that font from this plugin.
 
-### v1.1.0 — Reading Guide, hover previews, citations, page-builder compatibility
+**Capabilities:** settings require `manage_options`. Welcome dismiss uses a nonce (`tocguide_dismiss_welcome`).
 
-| Feature | Default | Notes |
-|---|---|---|
-| **Reading Guide mode** (previews, density bars, read time, progress fading) | Off | `guideMode` attribute; server-side word-count extraction |
-| **Hover section preview** (floating tooltip on TOC link) | Off | `previewOnHover`; `aria-describedby`; viewport-aware |
-| **Emoji reactions** per section (💡 ⭐ 🤔 ✅) | Off | `localStorage` only |
-| **Academic citations** (APA, MLA, Chicago, Harvard, plain) | Off | Built from WP post meta; no external API |
-| **Export / print toolbar** (Copy .md, Download .md, Download .doc, Print) | Off | Blob API + `navigator.clipboard`; no server |
-| **Elementor** heading extraction | Automatic fallback | Parses `_elementor_data` widget JSON |
-| **Bricks Builder** heading extraction | Automatic fallback | Parses `_bricks_page_content_2` JSON |
-| **Divi, WPBakery, Oxygen, Beaver, Breakdance** heading extraction | Automatic fallback | HTML regex scan of `post_content` |
-| **Accessibility** (`aria-live`, `focus-visible`, `aria-expanded`) | Always on | WCAG 2.1 AA compatible |
+**Uninstall:** `uninstall.php` runs on delete, not deactivate. Options are removed only if the owner opted in.
 
-Full entry-by-entry detail in [`CHANGELOG.md`](CHANGELOG.md).
+**Source:** `src/` (JS/SCSS) + `includes/` (PHP). Compiled assets in `build/` (gitignored; CI and `plugin-zip` build them).
+
+---
+
+## Features
+
+- Live editor preview as you add or edit headings
+- H1–H6 (H1 off by default), numbered or bulleted, five Block Styles
+- Smooth scroll + offset (`prefers-reduced-motion` respected)
+- Collapse/expand, sticky outline, scroll-spy
+- Auto-insert (top of content or after the first heading)
+- `[tocguide]` shortcode for classic content and page builders
+- Skip a heading with `no-toc` or `tocguide-skip`
+- Optional ItemList JSON-LD (off by default)
+- Settings + Docs & Support in wp-admin
+
+<p align="center">
+  <img src="docs/assets/tocguide-settings-panel.svg" alt="TOCguide settings mockup" width="560">
+</p>
 
 ---
 
@@ -115,39 +186,14 @@ TOCguide is built to add **zero measurable overhead** on pages that don't use it
 | Concern | How TOCguide handles it |
 |---|---|
 | **Assets on unrelated pages** | JS + CSS only load on singular posts/pages that contain the block, shortcode, or auto-insert target. The `enqueue_front_assets()` check gates all enqueues. |
-| **Front-end JavaScript** | `view.js` — 13 KB minified, ~4 KB gzipped. Loaded via `block.json viewScript` (WordPress handles the dependency). No jQuery. No framework. |
-| **Front-end CSS** | `style-index.css` — 19 KB minified, ~4 KB gzipped. One file; no render-blocking imports. |
-| **Scroll event handlers** | None. All scroll-position features (`initScrollSpy`, `initProgressTracking`, `initReadingProgress`, `initBookmark`) use `IntersectionObserver` — passive, runs off the main thread. The only `scroll` listener (`window.addEventListener('scroll', pick, { passive: true })`) is in the scroll-spy fallback and is marked passive. |
-| **localStorage writes** | Reader notes are debounced (400 ms). Bookmark writes are debounced (500 ms). localStorage is never read or written until the author explicitly enables a study tool. |
-| **PHP database queries** | `TOCguide_Headings::get_all()` and `get_sections()` cache their results in a static array — at most one `get_post()` call per post per request. No extra `WP_Query` or custom table reads. |
-| **Remote calls** | None, ever. No phone-home, no CDN assets, no tracking pixels, no external fonts loaded by the plugin. |
-| **`the_content` filters** | Two filters run at priority 12 and 999, both guarded by `is_singular() && in_the_loop() && is_main_query()`. The builder ID-injection filter (999) short-circuits immediately on pure Gutenberg posts. |
+| **Front-end JavaScript** | `view.js` — ~12 KB minified. Loaded via `block.json` `viewScript`. No jQuery. No framework. |
+| **Front-end CSS** | `style-index.css` — ~20 KB minified. One file; no render-blocking imports. |
+| **Scroll event handlers** | Features use `IntersectionObserver`. Any `scroll` listener is `{ passive: true }`. |
+| **localStorage writes** | Reader notes ~400 ms debounce; bookmark ~500 ms. Nothing is written until a study tool is enabled. |
+| **PHP database queries** | Heading maps cache in a static array — at most one `get_post()` per post per request. |
+| **Remote calls** | None. |
+| **`the_content` filters** | Priority 12 and 999, guarded by `is_singular() && in_the_loop() && is_main_query()`. Builder ID injection short-circuits on Gutenberg-only posts. |
 | **`prefers-reduced-motion`** | Smooth scroll and CSS transitions respect the OS preference. |
-
----
-
-## Why TOCguide
-
-- **Zero config** — insert the block; the outline builds itself.
-- **Server-rendered** — the list is in the first HTML response (SEO + screen readers).
-- **Accurate anchors** — matching `id`s are injected into headings; custom HTML anchors win.
-- **Accessible** — a `<nav>` landmark, keyboard-friendly collapse, `aria-current` while you read.
-- **Study-ready** — reading progress, personal notes, bookmarks, citations, and export — all without any account or server dependency.
-- **Compatible** — Gutenberg, Elementor, Divi, Bricks, Beaver Builder, WPBakery, Oxygen, Breakdance, and every major theme.
-
-### Features
-
-- Live preview in the editor as you add or edit headings
-- H1–H6 (H1 off by default), numbered or bulleted, five style presets
-- Smooth scroll + offset for sticky headers (`prefers-reduced-motion` respected)
-- Collapse/expand, sticky outline, scroll-spy highlight
-- Auto-insert (top of content or after the first heading)
-- `[tocguide]` shortcode for classic content and page builders
-- Skip a heading with the class `no-toc`
-- Optional ItemList JSON-LD schema
-- Settings + Docs & Support screens in wp-admin
-
-The plugin slug, folder, text domain, and GitHub repo are **`tocguide`**. Display name: **TOCguide**. See [`docs/NAMING.md`](docs/NAMING.md).
 
 ---
 
@@ -165,7 +211,7 @@ Or clone this repo into `wp-content/plugins/tocguide`, run `npm install && npm r
 
 1. Edit a post that has **Heading** blocks.
 2. Insert **Table of Contents** (usually right after the intro).
-3. In the sidebar: title, heading levels, list style, preset, collapse, sticky.
+3. In the sidebar: title, heading levels, list style, preset, collapse, sticky, Reading Guide.
 
 ### Shortcode
 
@@ -176,39 +222,70 @@ Or clone this repo into `wp-content/plugins/tocguide`, run `npm install && npm r
 
 ---
 
-## Documentation
-
-| Doc | Who it is for |
-| --- | --- |
-| [Support site](https://matthummel-pa.github.io/tocguide/) | Users, buyers, reviewers |
-| [User guide](docs/USER_SOP.md) | Site owners |
-| [Developer SOP](docs/DEVELOPER_SOP.md) | Contributors |
-| [Support policy](SUPPORT.md) | Buyers / WordPress.org users |
-| [Security](SECURITY.md) · [Privacy](PRIVACY.md) | Vulnerability reports and data handling |
-| [Marketplace kit](docs/marketplace/README.md) | WordPress.org and CodeCanyon |
-| [Changelog](CHANGELOG.md) | Release history |
-| [WordPress.org rules](docs/wordpress-org/PLUGIN_DIRECTORY.md) | Plugin Directory FAQ + guidelines |
-
----
-
 ## Develop
 
-Requires **Node.js 20+** (see `.nvmrc`).
+Requires **Node.js 20+** (`.nvmrc`). PHP 7.4+ for runtime; PHPCS via Composer in CI.
 
 ```bash
 git clone https://github.com/matthummel-pa/tocguide.git
 cd tocguide
 npm install
-npm run start          # watch
-# npm run build        # production
+npm run start          # watch → build/
+npm run build          # production
 npm run lint:js
 npm run lint:css
 npx --package=@wordpress/env wp-env start   # optional local WordPress
 ```
 
-The compiled `build/` directory is gitignored — build at least once before activating the plugin.
+```bash
+composer install
+composer phpcs
+```
 
-PHP: `composer install` then `composer phpcs`. See [`docs/DEVELOPER_SOP.md`](docs/DEVELOPER_SOP.md) and [`CONTRIBUTING.md`](CONTRIBUTING.md).
+`build/` is gitignored. You must build before the block registers (`register_block_type( …/build )`).
+
+| Path | Role |
+| --- | --- |
+| `tocguide.php` | Headers, constants, boot |
+| `includes/class-tocguide-*.php` | Settings, headings, plugin, admin |
+| `src/block.json` | Block metadata (`apiVersion` 3, dynamic) |
+| `src/edit.js` / `view.js` / `style.scss` | Editor, front JS, shared CSS |
+| `src/render.php` | Markup only — no function declarations |
+| `admin/` | Settings + Docs & Support UI |
+| `docs/` | GitHub Pages (`/docs` on `main`) |
+| `.wordpress-org/` | Banner/icon sources for SVN `assets/` (not in the plugin folder) |
+
+**Conventions**
+
+- Text domain is the literal `'tocguide'` (never a constant).
+- Dynamic block: `save.js` returns `null`; PHP renders.
+- Prefix functions `tocguide_`, classes `TOCguide_`, constants `TOCGUIDE_`.
+- Do not load Core copies of jQuery. Do not execute remote JS.
+- Front-end TOC must not inject a branded (or serif) font.
+
+Filters (documented in [`docs/documentation.html`](https://matthummel-pa.github.io/tocguide/documentation.html)): `tocguide_headings`, `tocguide_nav_classes`, `tocguide_render_nav`, `tocguide_skip_post_types`.
+
+Release: bump `tocguide.php`, `TOCGUIDE_VERSION`, `package.json`, `src/block.json`, `readme.txt` Stable tag, then tag `vX.Y.Z` (Actions builds `tocguide.zip`).
+
+See [`docs/DEVELOPER_SOP.md`](docs/DEVELOPER_SOP.md) and [`CONTRIBUTING.md`](CONTRIBUTING.md).
+
+---
+
+## Documentation
+
+| Doc | Who it is for |
+| --- | --- |
+| [Support site](https://matthummel-pa.github.io/tocguide/) | Users, buyers, reviewers |
+| [Full documentation](https://matthummel-pa.github.io/tocguide/documentation.html) | Install, sidebar, shortcode, builders |
+| [Support policy](https://matthummel-pa.github.io/tocguide/support.html) | What we cover |
+| [User guide](docs/USER_SOP.md) | Site owners (repo copy) |
+| [Developer SOP](docs/DEVELOPER_SOP.md) | Contributors |
+| [Support policy (repo)](SUPPORT.md) | Buyers / WordPress.org users |
+| [Security](SECURITY.md) · [Privacy](PRIVACY.md) | Vulns and data handling |
+| [Marketplace kit](docs/marketplace/README.md) | WordPress.org and CodeCanyon |
+| [Changelog](CHANGELOG.md) | Release history |
+| [WordPress.org rules](docs/wordpress-org/PLUGIN_DIRECTORY.md) | Plugin Directory FAQ + guidelines |
+| [Naming](docs/NAMING.md) | Locked slug / text domain |
 
 ---
 
