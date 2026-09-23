@@ -18,6 +18,7 @@ jobs:
           node-version-file: .nvmrc
           cache: npm
       - run: npm ci
+      - run: npm run docs:check
       - run: npm run build
       - run: npm run plugin-zip
       - uses: softprops/action-gh-release@v3

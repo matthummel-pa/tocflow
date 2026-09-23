@@ -49,7 +49,9 @@
 		"lint:js": "wp-scripts lint-js",
 		"packages-update": "wp-scripts packages-update",
 		"plugin-zip": "wp-scripts plugin-zip",
-		"package:svn": "node scripts/package-wporg-svn.js"
+		"package:svn": "node scripts/package-wporg-svn.js",
+		"docs:sync": "node scripts/sync-release-docs.js",
+		"docs:check": "node scripts/sync-release-docs.js --check"
 	},
 	"devDependencies": {
 		"@wordpress/scripts": "^34.2.0"

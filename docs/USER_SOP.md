@@ -6,6 +6,8 @@ TOCguide adds one block — **Table of Contents** — that builds a linked outli
 
 Online version: https://matthummel-pa.github.io/tocguide/
 
+Current release: **<!-- tocguide-release:version -->1.6.2<!-- /tocguide-release:version -->**.
+
 ---
 
 ## 1. Install
