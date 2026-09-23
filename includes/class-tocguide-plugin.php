@@ -39,6 +39,7 @@ class TOCguide_Plugin {
 	public function boot() {
 		add_action( 'init', array( $this, 'register_block' ) );
 		add_action( 'init', array( $this, 'register_shortcode' ) );
+		add_action( 'enqueue_block_editor_assets', array( $this, 'editor_settings' ) );
 		add_action( 'admin_init', array( 'TOCguide_Settings', 'register' ) );
 
 		// Gutenberg: ID injection via block rendering pipeline.
@@ -67,6 +68,27 @@ class TOCguide_Plugin {
 			return;
 		}
 		register_block_type( $build );
+	}
+
+	/**
+	 * Pass design settings into the block editor so the canvas matches the front end.
+	 */
+	public function editor_settings() {
+		$handle = 'tocguide-table-of-contents-editor-script';
+		if ( ! wp_script_is( $handle, 'registered' ) ) {
+			return;
+		}
+
+		$config = array(
+			'excludeThemeStyles' => ! empty( TOCguide_Settings::get_value( 'exclude_theme_styles', 1 ) ),
+			'designVars'          => TOCguide_Settings::design_css_vars(),
+		);
+
+		wp_add_inline_script(
+			$handle,
+			'window.tocguideEditor = ' . wp_json_encode( $config ) . ';',
+			'before'
+		);
 	}
 
 	/**

@@ -13,7 +13,9 @@
 	padding: var(--tocguide-padding, 1.25rem 1.5rem);
 	background: var(--tocguide-bg, color-mix(in srgb, currentcolor 4%, transparent));
 	color: var(--tocguide-color, inherit);
+	font-family: var(--tocguide-font-family, inherit);
 	font-size: var(--tocguide-font-size, 0.95em);
+	letter-spacing: var(--tocguide-letter-spacing, normal);
 	line-height: var(--tocguide-line-height, inherit);
 	max-width: 100%;
 }
@@ -30,8 +32,9 @@
 .wp-block-tocguide-table-of-contents .tocguide__title,
 .tocguide .tocguide__title {
 	margin: 0 0 0.65rem;
-	font-weight: 700;
-	letter-spacing: -0.02em;
+	font-size: var(--tocguide-title-size, inherit);
+	font-weight: var(--tocguide-title-weight, 700);
+	letter-spacing: var(--tocguide-letter-spacing, -0.02em);
 }
 
 .wp-block-tocguide-table-of-contents .tocguide__header .tocguide__title,
@@ -43,7 +46,8 @@
 .tocguide .tocguide__toggle {
 	appearance: none;
 	border: 1px solid var(--tocguide-line, #d5ddd8);
-	background: transparent;
+	background: color-mix(in srgb, var(--tocguide-accent) 8%, transparent);
+	color: inherit;
 	border-radius: 999px;
 	width: 2rem;
 	height: 2rem;
@@ -52,6 +56,14 @@
 	display: inline-flex;
 	align-items: center;
 	justify-content: center;
+	flex-shrink: 0;
+	transition: background 0.15s ease, border-color 0.15s ease;
+}
+
+.wp-block-tocguide-table-of-contents .tocguide__toggle:hover,
+.tocguide .tocguide__toggle:hover {
+	background: color-mix(in srgb, var(--tocguide-accent) 16%, transparent);
+	border-color: color-mix(in srgb, var(--tocguide-accent) 45%, transparent);
 }
 
 .wp-block-tocguide-table-of-contents .tocguide__toggle-icon,
@@ -90,11 +102,16 @@
 	padding-inline-start: 1.25rem;
 }
 
+.wp-block-tocguide-table-of-contents.is-theme-isolated .tocguide__list,
+.tocguide.is-theme-isolated .tocguide__list {
+	padding-inline-start: 0;
+}
+
 .wp-block-tocguide-table-of-contents .tocguide__item,
 .wp-block-tocguide-table-of-contents li,
 .tocguide .tocguide__item,
 .tocguide li {
-	margin: 0.28rem 0;
+	margin: var(--tocguide-item-gap, 0.28rem) 0;
 }
 
 .wp-block-tocguide-table-of-contents .tocguide__link,
@@ -114,6 +131,7 @@
 .tocguide .tocguide__link:focus-visible,
 .tocguide a:hover,
 .tocguide a:focus-visible {
+	color: var(--tocguide-link-hover, var(--tocguide-link-color, inherit));
 	text-decoration: underline;
 }
 
@@ -221,29 +239,9 @@
 	padding-inline-start: 0;
 }
 
-.wp-block-tocguide-table-of-contents.is-nested-counters ol,
-.tocguide.is-nested-counters ol {
-	list-style: none;
-	padding-inline-start: 0;
-	counter-reset: tocguide;
-}
-
 .wp-block-tocguide-table-of-contents.is-nested-counters .tocguide__sub,
 .tocguide.is-nested-counters .tocguide__sub {
 	padding-inline-start: 1.1rem;
-}
-
-.wp-block-tocguide-table-of-contents.is-nested-counters li,
-.tocguide.is-nested-counters li {
-	counter-increment: tocguide;
-}
-
-.wp-block-tocguide-table-of-contents.is-nested-counters .tocguide__link::before,
-.tocguide.is-nested-counters .tocguide__link::before {
-	content: counters(tocguide, ".") ". ";
-	font-variant-numeric: tabular-nums;
-	margin-inline-end: 0.2em;
-	color: var(--tocguide-accent);
 }
 
 .wp-block-tocguide-table-of-contents.has-columns-2 > .tocguide__body > .tocguide__list,
@@ -293,7 +291,7 @@
 .tocguide h2.tocguide__title,
 .tocguide h3.tocguide__title,
 .tocguide h4.tocguide__title {
-	font-size: 1.05em;
+	font-size: var(--tocguide-title-size, 1.05em);
 }
 
 @media (max-width: 600px) {
@@ -320,13 +318,136 @@
 	margin-bottom: 0.55rem;
 }
 
-// Link row: link + read-time badge side by side
+// Marker, heading, then icon buttons to the right of the text.
 .wp-block-tocguide-table-of-contents .tocguide__item-row,
 .tocguide .tocguide__item-row {
 	display: flex;
-	align-items: baseline;
-	gap: 0.4rem;
-	justify-content: space-between;
+	align-items: center;
+	flex-wrap: wrap;
+	gap: 0.35rem 0.5rem;
+}
+
+.wp-block-tocguide-table-of-contents .tocguide__item-tools,
+.tocguide .tocguide__item-tools {
+	display: inline-flex;
+	align-items: center;
+	gap: 0.3rem;
+	flex-shrink: 0;
+}
+
+.wp-block-tocguide-table-of-contents .tocguide__marker,
+.tocguide .tocguide__marker {
+	display: none;
+	align-items: center;
+	justify-content: center;
+	flex-shrink: 0;
+	min-width: 1.4rem;
+	height: 1.4rem;
+	padding: 0 0.35rem;
+	border-radius: 999px;
+	background: var(--tocguide-marker-bg, var(--tocguide-accent));
+	color: var(--tocguide-marker-color, #fff);
+	font-size: 0.72em;
+	font-weight: 700;
+	font-variant-numeric: tabular-nums;
+	line-height: 1;
+	letter-spacing: 0;
+}
+
+.wp-block-tocguide-table-of-contents .tocguide__marker--bullet,
+.tocguide .tocguide__marker--bullet {
+	width: 0.45rem;
+	min-width: 0.45rem;
+	height: 0.45rem;
+	padding: 0;
+	background: var(--tocguide-marker-bg, var(--tocguide-accent));
+}
+
+.wp-block-tocguide-table-of-contents .tocguide__svg,
+.tocguide .tocguide__svg {
+	display: block;
+	width: 15px;
+	height: 15px;
+}
+
+.wp-block-tocguide-table-of-contents .tocguide__icon-btn,
+.tocguide .tocguide__icon-btn {
+	appearance: none;
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	width: 1.75rem;
+	height: 1.75rem;
+	padding: 0;
+	border: 1px solid var(--tocguide-line, #d7e0ea);
+	border-radius: 8px;
+	background: color-mix(in srgb, var(--tocguide-accent) 6%, #fff);
+	color: var(--tocguide-accent);
+	cursor: pointer;
+	line-height: 1;
+	box-shadow: 0 1px 0 rgba(255, 255, 255, 0.6) inset;
+	transition: background 0.15s ease, border-color 0.15s ease, color 0.15s ease;
+}
+
+.wp-block-tocguide-table-of-contents .tocguide__icon-btn:hover,
+.tocguide .tocguide__icon-btn:hover,
+.wp-block-tocguide-table-of-contents .tocguide__icon-btn.has-content,
+.tocguide .tocguide__icon-btn.has-content {
+	background: color-mix(in srgb, var(--tocguide-accent) 14%, #fff);
+	border-color: color-mix(in srgb, var(--tocguide-accent) 45%, transparent);
+	color: var(--tocguide-accent);
+}
+
+// Drop theme list counters and link decorations inside the outline.
+.wp-block-tocguide-table-of-contents.is-theme-isolated,
+.tocguide.is-theme-isolated {
+
+	ol,
+	ul {
+		list-style: none !important; /* stylelint-disable-line declaration-no-important */
+		margin: 0;
+	}
+
+	li::marker {
+		content: none;
+	}
+
+	li::before,
+	li::after,
+	.tocguide__link::before,
+	.tocguide__link::after {
+		content: none !important; /* stylelint-disable-line declaration-no-important */
+	}
+
+	.tocguide__marker {
+		display: inline-flex;
+	}
+
+	a,
+	button,
+	textarea {
+		font-family: inherit;
+	}
+
+	a {
+		background-image: none;
+		box-shadow: none;
+	}
+
+	button {
+		width: auto;
+		max-width: none;
+		min-height: 0;
+		text-transform: none;
+		letter-spacing: inherit;
+		text-shadow: none;
+		box-shadow: none;
+	}
+
+	.tocguide__icon-btn {
+		width: 1.75rem;
+		height: 1.75rem;
+	}
 }
 
 // ─ Read-time badge
@@ -385,35 +506,11 @@
 }
 
 // ─ Author note
-.wp-block-tocguide-table-of-contents .tocguide__note-wrap,
-.tocguide .tocguide__note-wrap {
-	display: flex;
-	align-items: center;
-	gap: 0.35rem;
-	margin-top: 0.3rem;
-	flex-wrap: wrap;
-}
-
-.wp-block-tocguide-table-of-contents .tocguide__note-toggle,
-.tocguide .tocguide__note-toggle {
-	appearance: none;
-	background: color-mix(in srgb, var(--tocguide-accent) 10%, transparent);
-	border: 1px solid color-mix(in srgb, var(--tocguide-accent) 28%, transparent);
-	border-radius: 4px;
-	padding: 0.1em 0.45em;
-	font-size: 0.72em;
-	cursor: pointer;
-	color: var(--tocguide-accent);
-	line-height: 1.5;
-	transition: background 0.15s;
-	display: inline-flex;
-	align-items: center;
-	gap: 0.25em;
-}
-
-.wp-block-tocguide-table-of-contents .tocguide__note-toggle:hover,
-.tocguide .tocguide__note-toggle:hover {
-	background: color-mix(in srgb, var(--tocguide-accent) 18%, transparent);
+.wp-block-tocguide-table-of-contents .tocguide__note[hidden],
+.wp-block-tocguide-table-of-contents .tocguide__rnote-pad[hidden],
+.tocguide .tocguide__note[hidden],
+.tocguide .tocguide__rnote-pad[hidden] {
+	display: none;
 }
 
 .wp-block-tocguide-table-of-contents .tocguide__note,
@@ -451,14 +548,14 @@
 .wp-block-tocguide-table-of-contents .tocguide__reaction,
 .tocguide .tocguide__reaction {
 	appearance: none;
-	background: transparent;
-	border: 1px solid transparent;
-	border-radius: 6px;
-	padding: 0.15em 0.3em;
+	background: color-mix(in srgb, var(--tocguide-accent) 5%, transparent);
+	border: 1px solid var(--tocguide-line, #e2e8f0);
+	border-radius: 8px;
+	padding: 0.2em 0.35em;
 	font-size: 0.9em;
 	cursor: pointer;
 	line-height: 1;
-	opacity: 0.38;
+	opacity: 0.72;
 	transition: opacity 0.15s, background 0.15s, transform 0.15s;
 	user-select: none;
 }
@@ -483,30 +580,6 @@
 }
 
 // ─ Citation button
-.wp-block-tocguide-table-of-contents .tocguide__cite-btn,
-.tocguide .tocguide__cite-btn {
-	appearance: none;
-	background: transparent;
-	border: 1px solid var(--tocguide-line);
-	border-radius: 4px;
-	padding: 0.1em 0.5em;
-	font-size: 0.72em;
-	cursor: pointer;
-	color: inherit;
-	opacity: 0.42;
-	line-height: 1.5;
-	transition: opacity 0.15s, background 0.15s, color 0.15s, border-color 0.15s;
-	display: inline-flex;
-	align-items: center;
-	gap: 0.25em;
-}
-
-.wp-block-tocguide-table-of-contents .tocguide__cite-btn:hover,
-.tocguide .tocguide__cite-btn:hover {
-	opacity: 0.78;
-	background: var(--tocguide-line);
-}
-
 .wp-block-tocguide-table-of-contents .tocguide__cite-btn.is-copied,
 .tocguide .tocguide__cite-btn.is-copied {
 	opacity: 1;
@@ -554,18 +627,21 @@
 .wp-block-tocguide-table-of-contents .tocguide__resume-btn,
 .tocguide .tocguide__resume-btn {
 	appearance: none;
-	background: color-mix(in srgb, var(--tocguide-accent) 12%, transparent);
+	display: inline-flex;
+	align-items: center;
+	gap: 0.35em;
+	background: color-mix(in srgb, var(--tocguide-accent) 12%, #fff);
 	border: 1px solid color-mix(in srgb, var(--tocguide-accent) 35%, transparent);
 	border-radius: 999px;
 	color: var(--tocguide-accent);
 	cursor: pointer;
 	font-family: inherit;
 	font-size: 0.75em;
-	font-weight: 600;
+	font-weight: 700;
 	line-height: 1;
 	margin-inline-start: auto;
-	padding: 0.3em 0.8em;
-	transition: background 0.15s, box-shadow 0.15s;
+	padding: 0.4em 0.75em 0.4em 0.55em;
+	transition: background 0.15s, border-color 0.15s;
 }
 
 .wp-block-tocguide-table-of-contents .tocguide__resume-btn:hover,
@@ -616,27 +692,7 @@
 
 .wp-block-tocguide-table-of-contents .tocguide__rnote-toggle,
 .tocguide .tocguide__rnote-toggle {
-	appearance: none;
-	background: transparent;
-	border: 1px solid var(--tocguide-line, #e2e8f0);
-	border-radius: 4px;
-	color: inherit;
-	cursor: pointer;
 	font-family: inherit;
-	font-size: 0.78em;
-	line-height: 1;
-	opacity: 0.5;
-	padding: 0.2em 0.5em;
-	transition: opacity 0.15s, background 0.15s;
-}
-
-.wp-block-tocguide-table-of-contents .tocguide__rnote-toggle:hover,
-.wp-block-tocguide-table-of-contents .tocguide__rnote-toggle.has-content,
-.tocguide .tocguide__rnote-toggle:hover,
-.tocguide .tocguide__rnote-toggle.has-content {
-	background: color-mix(in srgb, var(--tocguide-accent) 8%, transparent);
-	border-color: color-mix(in srgb, var(--tocguide-accent) 30%, transparent);
-	opacity: 1;
 }
 
 .wp-block-tocguide-table-of-contents .tocguide__rnote-toggle:focus-visible,
@@ -758,17 +814,17 @@
 	appearance: none;
 	display: inline-flex;
 	align-items: center;
-	gap: 0.3em;
-	background: transparent;
-	border: 1px solid var(--tocguide-line, #e2e8f0);
-	border-radius: 4px;
-	padding: 0.2em 0.6em;
+	gap: 0.35em;
+	background: color-mix(in srgb, var(--tocguide-accent) 6%, #fff);
+	border: 1px solid var(--tocguide-line, #d7e0ea);
+	border-radius: 999px;
+	padding: 0.35em 0.7em;
 	font-size: 0.75em;
+	font-weight: 600;
 	cursor: pointer;
 	color: inherit;
-	opacity: 0.55;
-	line-height: 1.4;
-	transition: opacity 0.15s, background 0.15s;
+	line-height: 1;
+	transition: background 0.15s, border-color 0.15s, color 0.15s;
 	font-family: inherit;
 }
 

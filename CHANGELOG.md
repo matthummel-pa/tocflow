@@ -3,6 +3,15 @@
 All notable changes to TOCguide are documented here.
 This project adheres to [Semantic Versioning](https://semver.org/).
 
+## [1.6.0] - 2026-09-23
+
+### Fixed
+- Theme list counters no longer print a leading “0.” on every section when **Exclude theme styles** is on. Numbered outlines use text badges (`1`, `1.1`) instead of CSS `counters()`.
+
+### Changed
+- Reader-note, author-note, and citation buttons sit in the heading row, to the right of the title. Resume and export controls use the same icon-button treatment.
+- **Settings → TOCguide → Design** can exclude theme fonts, link decorations, and list markers (on by default). New controls: font, title size, title weight, letter spacing, item spacing, link hover, accent, and number-badge colours. Fonts are device sans or monospace only — nothing is loaded from a CDN.
+
 ## [1.5.0] - 2026-09-21
 
 One identity for the whole product: **TOCguide** / **`tocguide`**. Built for WordPress.org guideline 17 (no implied affiliation) and for a slug that matches the folder, text domain, block name, and GitHub repo.

@@ -84,3 +84,32 @@ export function filterAndNormalize( headings, levels ) {
 		level: map[ heading.level ],
 	} ) );
 }
+
+/**
+ * Marker label for one row in a nested preview list.
+ *
+ * @param {number}  index               Zero-based index among siblings.
+ * @param {string}  parentMarker        Parent nested label, or ''.
+ * @param {Object}  options
+ * @param {boolean} options.ordered
+ * @param {string}  options.numbering
+ * @param {boolean} options.hideMarkers
+ * @return {string} Empty, "bullet", or a number such as "1.2".
+ */
+export function itemMarker( index, parentMarker, options ) {
+	const ordered = !! options.ordered;
+	const numbering = options.numbering || 'default';
+	const hideMarkers = !! options.hideMarkers;
+	const nested = ordered && numbering === 'nested';
+	if ( hideMarkers && ! nested ) {
+		return '';
+	}
+	if ( ! ordered ) {
+		return 'bullet';
+	}
+	const n = String( index + 1 );
+	if ( nested && parentMarker ) {
+		return `${ parentMarker }.${ n }`;
+	}
+	return n;
+}

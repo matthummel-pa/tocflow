@@ -69,12 +69,22 @@ class TOCguide_Settings {
 			'auto_export'           => 0,
 
 			// Design & Appearance (empty = use built-in styles).
+			'exclude_theme_styles'  => 1,
 			'design_bg_color'       => '',
 			'design_text_color'     => '',
 			'design_link_color'     => '',
+			'design_link_hover'     => '',
+			'design_accent_color'   => '',
+			'design_marker_color'   => '',
+			'design_marker_text'    => '',
+			'design_font_family'    => '',
 			'design_font_size'      => '',
 			'design_font_weight'    => '',
+			'design_title_size'     => '',
+			'design_title_weight'   => '',
 			'design_line_height'    => '',
+			'design_letter_spacing' => '',
+			'design_item_gap'       => '',
 			'design_border_width'   => '',
 			'design_border_color'   => '',
 			'design_border_style'   => '',
@@ -258,6 +268,85 @@ class TOCguide_Settings {
 	}
 
 	/**
+	 * Sanitize a CSS length that may be negative (letter-spacing).
+	 *
+	 * @param mixed $value Raw value.
+	 * @return string
+	 */
+	private static function sanitize_css_signed_length( $value ) {
+		$v = trim( (string) $value );
+		if ( '' === $v ) {
+			return '';
+		}
+		if ( preg_match( '/^-?[\d.]+(px|rem|em)$/', $v ) ) {
+			return $v;
+		}
+		return '';
+	}
+
+	/**
+	 * Sans and mono stacks the outline may use. No serif families.
+	 *
+	 * @return array<string, string> Key => CSS font-family value.
+	 */
+	public static function font_family_stacks() {
+		return array(
+			'system'    => 'system-ui, "Segoe UI", sans-serif',
+			'geometric' => '"Avenir Next", "Segoe UI", system-ui, sans-serif',
+			'neutral'   => 'Arial, Helvetica, sans-serif',
+			'mono'      => 'ui-monospace, Menlo, Consolas, monospace',
+		);
+	}
+
+	/**
+	 * CSS custom properties for the outline, from saved design settings.
+	 *
+	 * @return array<string, string> Property => value.
+	 */
+	public static function design_css_vars() {
+		$settings = self::get();
+		$vars     = array();
+		$map      = array(
+			'design_bg_color'       => '--tocguide-bg',
+			'design_text_color'     => '--tocguide-color',
+			'design_link_color'     => '--tocguide-link-color',
+			'design_link_hover'     => '--tocguide-link-hover',
+			'design_accent_color'   => '--tocguide-accent',
+			'design_marker_color'   => '--tocguide-marker-bg',
+			'design_marker_text'    => '--tocguide-marker-color',
+			'design_font_size'      => '--tocguide-font-size',
+			'design_font_weight'    => '--tocguide-font-weight',
+			'design_title_size'     => '--tocguide-title-size',
+			'design_title_weight'   => '--tocguide-title-weight',
+			'design_line_height'    => '--tocguide-line-height',
+			'design_letter_spacing' => '--tocguide-letter-spacing',
+			'design_item_gap'       => '--tocguide-item-gap',
+			'design_border_width'   => '--tocguide-border-width',
+			'design_border_color'   => '--tocguide-border-color',
+			'design_border_style'   => '--tocguide-border-style',
+			'design_border_radius'  => '--tocguide-radius',
+			'design_padding'        => '--tocguide-padding',
+		);
+
+		foreach ( $map as $setting_key => $css_prop ) {
+			$val = isset( $settings[ $setting_key ] ) ? trim( (string) $settings[ $setting_key ] ) : '';
+			if ( '' !== $val ) {
+				$vars[ $css_prop ] = $val;
+			}
+		}
+
+		$stacks = self::font_family_stacks();
+		$family = isset( $settings['design_font_family'] ) ? $settings['design_font_family'] : '';
+		if ( isset( $stacks[ $family ] ) ) {
+			$vars['--tocguide-font-family'] = $stacks[ $family ];
+		} elseif ( ! empty( $settings['exclude_theme_styles'] ) ) {
+			$vars['--tocguide-font-family'] = $stacks['system'];
+		}
+
+		return $vars;
+	}
+
+	/**
 	 * Sanitize settings before saving to the database.
 	 *
 	 * @param mixed $input Raw form data.
@@ -304,6 +393,7 @@ class TOCguide_Settings {
 			'auto_bookmark',
 			'auto_reader_notes',
 			'auto_export',
+			'exclude_theme_styles',
 		);
 		foreach ( $checkboxes as $key ) {
 			$clean[ $key ] = empty( $input[ $key ] ) ? 0 : 1;
@@ -353,15 +443,27 @@ class TOCguide_Settings {
 		$clean['auto_citation_style'] = in_array( $cite, $allowed_citation, true ) ? $cite : 'apa';
 
 		// Design & Appearance.
-		$clean['design_bg_color']    = self::sanitize_hex_color( isset( $input['design_bg_color'] ) ? $input['design_bg_color'] : '' );
-		$clean['design_text_color']  = self::sanitize_hex_color( isset( $input['design_text_color'] ) ? $input['design_text_color'] : '' );
-		$clean['design_link_color']  = self::sanitize_hex_color( isset( $input['design_link_color'] ) ? $input['design_link_color'] : '' );
-		$clean['design_font_size']   = self::sanitize_css_length( isset( $input['design_font_size'] ) ? $input['design_font_size'] : '' );
-		$clean['design_line_height'] = self::sanitize_css_number( isset( $input['design_line_height'] ) ? $input['design_line_height'] : '' );
+		$clean['design_bg_color']       = self::sanitize_hex_color( isset( $input['design_bg_color'] ) ? $input['design_bg_color'] : '' );
+		$clean['design_text_color']     = self::sanitize_hex_color( isset( $input['design_text_color'] ) ? $input['design_text_color'] : '' );
+		$clean['design_link_color']     = self::sanitize_hex_color( isset( $input['design_link_color'] ) ? $input['design_link_color'] : '' );
+		$clean['design_link_hover']     = self::sanitize_hex_color( isset( $input['design_link_hover'] ) ? $input['design_link_hover'] : '' );
+		$clean['design_accent_color']   = self::sanitize_hex_color( isset( $input['design_accent_color'] ) ? $input['design_accent_color'] : '' );
+		$clean['design_marker_color']   = self::sanitize_hex_color( isset( $input['design_marker_color'] ) ? $input['design_marker_color'] : '' );
+		$clean['design_marker_text']    = self::sanitize_hex_color( isset( $input['design_marker_text'] ) ? $input['design_marker_text'] : '' );
+		$clean['design_font_size']      = self::sanitize_css_length( isset( $input['design_font_size'] ) ? $input['design_font_size'] : '' );
+		$clean['design_title_size']     = self::sanitize_css_length( isset( $input['design_title_size'] ) ? $input['design_title_size'] : '' );
+		$clean['design_line_height']    = self::sanitize_css_number( isset( $input['design_line_height'] ) ? $input['design_line_height'] : '' );
+		$clean['design_letter_spacing'] = self::sanitize_css_signed_length( isset( $input['design_letter_spacing'] ) ? $input['design_letter_spacing'] : '' );
+		$clean['design_item_gap']       = self::sanitize_css_length( isset( $input['design_item_gap'] ) ? $input['design_item_gap'] : '' );
 
-		$allowed_fw                  = array( '100', '200', '300', '400', '500', '600', '700', '800', '900', 'normal', 'bold' );
-		$fw                          = isset( $input['design_font_weight'] ) ? trim( (string) $input['design_font_weight'] ) : '';
-		$clean['design_font_weight'] = in_array( $fw, $allowed_fw, true ) ? $fw : '';
+		$allowed_fw                   = array( '100', '200', '300', '400', '500', '600', '700', '800', '900', 'normal', 'bold' );
+		$fw                           = isset( $input['design_font_weight'] ) ? trim( (string) $input['design_font_weight'] ) : '';
+		$clean['design_font_weight']  = in_array( $fw, $allowed_fw, true ) ? $fw : '';
+		$title_weight                 = isset( $input['design_title_weight'] ) ? trim( (string) $input['design_title_weight'] ) : '';
+		$clean['design_title_weight'] = in_array( $title_weight, $allowed_fw, true ) ? $title_weight : '';
+
+		$family_key                    = isset( $input['design_font_family'] ) ? sanitize_key( $input['design_font_family'] ) : '';
+		$clean['design_font_family']   = array_key_exists( $family_key, self::font_family_stacks() ) ? $family_key : '';
 
 		$clean['design_border_width']  = self::sanitize_css_length( isset( $input['design_border_width'] ) ? $input['design_border_width'] : '' );
 		$clean['design_border_color']  = self::sanitize_hex_color( isset( $input['design_border_color'] ) ? $input['design_border_color'] : '' );

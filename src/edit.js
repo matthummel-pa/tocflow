@@ -27,7 +27,37 @@ import {
 	ToolbarButton,
 } from '@wordpress/components';
 import { formatListBullets, formatListNumbered } from '@wordpress/icons';
-import { collectHeadings, filterAndNormalize } from './headings';
+import { collectHeadings, filterAndNormalize, itemMarker } from './headings';
+
+/**
+ * Document icon shown to the right of a heading when reader notes are on.
+ *
+ * @return {Object} SVG element.
+ */
+function NoteIcon() {
+	return (
+		<svg
+			className="tocguide__svg"
+			xmlns="http://www.w3.org/2000/svg"
+			viewBox="0 0 24 24"
+			width="16"
+			height="16"
+			fill="none"
+			stroke="currentColor"
+			strokeWidth="1.75"
+			strokeLinecap="round"
+			strokeLinejoin="round"
+			aria-hidden="true"
+			focusable="false"
+		>
+			<path d="M7 3.75h6.5L18.25 8.5V19.25a1.25 1.25 0 0 1-1.25 1.25H7A1.25 1.25 0 0 1 5.75 19.25V5A1.25 1.25 0 0 1 7 3.75z" />
+			<path d="M13.5 3.75V8.5h4.75" />
+			<path d="M8.5 12.5h4" />
+			<path d="M8.5 15.5h2.5" />
+			<path d="m14.15 16.35 3.15-3.15 1.35 1.35-3.15 3.15-1.7.35z" />
+		</svg>
+	);
+}
 
 /** @type {Object} Status emoji map */
 const STATUS_ICON = { draft: '✏️', progress: '🔄', done: '✅' };
@@ -38,9 +68,19 @@ const STATUS_ICON = { draft: '✏️', progress: '🔄', done: '✅' };
  * @param {Object}  props
  * @param {Array}   props.items
  * @param {boolean} props.ordered
- * @param {Object}  props.sectionStatus Writing status map slug→status.
+ * @param {string}  props.numbering
+ * @param {boolean} props.hideMarkers
+ * @param {boolean} props.showReaderNotes
+ * @param {Object}  props.sectionStatus   Writing status map slug→status.
  */
-function PreviewList( { items, ordered, sectionStatus = {} } ) {
+function PreviewList( {
+	items,
+	ordered,
+	numbering,
+	hideMarkers,
+	showReaderNotes,
+	sectionStatus = {},
+} ) {
 	const Tag = ordered ? 'ol' : 'ul';
 	const tree = [];
 	const stack = [ tree ];
@@ -63,41 +103,84 @@ function PreviewList( { items, ordered, sectionStatus = {} } ) {
 		stack[ stack.length - 1 ].push( { ...item, children: [] } );
 	} );
 
-	const renderItems = ( nodes, depth ) => (
+	const renderItems = ( nodes, depth, parentMarker ) => (
 		<Tag className={ depth === 0 ? 'tocguide__list' : 'tocguide__sub' }>
-			{ nodes.map( ( node, index ) => (
-				<li
-					key={ `${ node.slug }-${ index }` }
-					className="tocguide__item"
-				>
-					{ node.text ? (
-						<a
-							className="tocguide__link"
-							href={ `#${ node.slug }` }
-						>
-							{ node.text }
-							{ sectionStatus[ node.slug ] && (
-								<span
-									className="tocguide__status-dot"
-									title={ sectionStatus[ node.slug ] }
-									aria-hidden="true"
+			{ nodes.map( ( node, index ) => {
+				const marker = node.text
+					? itemMarker( index, parentMarker, {
+							ordered,
+							numbering,
+							hideMarkers,
+					  } )
+					: '';
+				const childMarker =
+					ordered && numbering === 'nested' && marker !== 'bullet'
+						? marker
+						: '';
+				return (
+					<li
+						key={ `${ node.slug }-${ index }` }
+						className="tocguide__item"
+					>
+						{ node.text ? (
+							<div className="tocguide__item-row">
+								{ marker === 'bullet' ? (
+									<span
+										className="tocguide__marker tocguide__marker--bullet"
+										aria-hidden="true"
+									/>
+								) : null }
+								{ marker && marker !== 'bullet' ? (
+									<span
+										className="tocguide__marker"
+										aria-hidden="true"
+									>
+										{ marker }
+									</span>
+								) : null }
+								<a
+									className="tocguide__link"
+									href={ `#${ node.slug }` }
 								>
-									{ STATUS_ICON[
-										sectionStatus[ node.slug ]
-									] || '' }
-								</span>
-							) }
-						</a>
-					) : null }
-					{ node.children?.length
-						? renderItems( node.children, depth + 1 )
-						: null }
-				</li>
-			) ) }
+									{ node.text }
+									{ sectionStatus[ node.slug ] && (
+										<span
+											className="tocguide__status-dot"
+											title={ sectionStatus[ node.slug ] }
+											aria-hidden="true"
+										>
+											{ STATUS_ICON[
+												sectionStatus[ node.slug ]
+											] || '' }
+										</span>
+									) }
+								</a>
+								{ showReaderNotes ? (
+									<span className="tocguide__item-tools">
+										<span
+											className="tocguide__icon-btn"
+											aria-hidden="true"
+										>
+											<NoteIcon />
+										</span>
+									</span>
+								) : null }
+							</div>
+						) : null }
+						{ node.children?.length
+							? renderItems(
+									node.children,
+									depth + 1,
+									childMarker
+							  )
+							: null }
+					</li>
+				);
+			} ) }
 		</Tag>
 	);
 
-	return renderItems( tree, 0 );
+	return renderItems( tree, 0, '' );
 }
 
 export default function Edit( { attributes, setAttributes } ) {
@@ -164,7 +247,13 @@ export default function Edit( { attributes, setAttributes } ) {
 		levels.length ? levels : [ 2 ]
 	);
 
-	const style = {};
+	const editorConfig =
+		typeof window !== 'undefined' && window.tocguideEditor
+			? window.tocguideEditor
+			: {};
+	const isolateTheme = editorConfig.excludeThemeStyles !== false;
+
+	const style = { ...( editorConfig.designVars || {} ) };
 	if ( scrollOffset >= 0 ) {
 		style[ '--tocguide-offset' ] = `${ scrollOffset }px`;
 	}
@@ -175,6 +264,7 @@ export default function Edit( { attributes, setAttributes } ) {
 	const blockProps = useBlockProps( {
 		className: [
 			'tocguide',
+			isolateTheme ? 'is-theme-isolated' : '',
 			sticky ? 'is-sticky' : '',
 			collapsible ? 'is-collapsible' : '',
 			compact ? 'is-compact' : '',
@@ -827,6 +917,9 @@ export default function Edit( { attributes, setAttributes } ) {
 							<PreviewList
 								items={ items }
 								ordered={ ordered }
+								numbering={ numbering }
+								hideMarkers={ hideMarkers }
+								showReaderNotes={ showReaderNotes }
 								sectionStatus={ sectionStatus }
 							/>
 						) : (

@@ -457,6 +457,72 @@ class TOCguide_Headings {
 	}
 
 	/**
+	 * Inline SVG icon. Paths are hardcoded; nothing here is user input.
+	 *
+	 * @param string $name Icon key.
+	 * @return string
+	 */
+	public static function icon_svg( $name ) {
+		$paths = array(
+			'note'     => '<path d="M7 3.75h6.5L18.25 8.5V19.25a1.25 1.25 0 0 1-1.25 1.25H7A1.25 1.25 0 0 1 5.75 19.25V5A1.25 1.25 0 0 1 7 3.75z"/><path d="M13.5 3.75V8.5h4.75"/><path d="M8.5 12.5h4"/><path d="M8.5 15.5h2.5"/><path d="m14.15 16.35 3.15-3.15 1.35 1.35-3.15 3.15-1.7.35z"/>',
+			'pencil'   => '<path d="M4.5 19.5h3.8L18.2 9.6a1.7 1.7 0 0 0 0-2.4l-.4-.4a1.7 1.7 0 0 0-2.4 0L5.5 16.7v2.8z"/><path d="m13.6 6.6 3.8 3.8"/>',
+			'cite'     => '<path d="M9.2 7H6.4A1.4 1.4 0 0 0 5 8.4V12h3.4V7.6"/><path d="M17.2 7h-2.8A1.4 1.4 0 0 0 13 8.4V12h3.4V7.6"/><path d="M8.4 12.2c0 2.1-1.1 3.4-2.8 4"/><path d="M16.4 12.2c0 2.1-1.1 3.4-2.8 4"/>',
+			'copy'     => '<rect x="8" y="8" width="11" height="11" rx="1.6"/><path d="M6.2 16H5.6A1.6 1.6 0 0 1 4 14.4v-8.8A1.6 1.6 0 0 1 5.6 4h8.8A1.6 1.6 0 0 1 16 5.6V6.2"/>',
+			'download' => '<path d="M12 4v10"/><path d="m8 10 4 4 4-4"/><path d="M5 19h14"/>',
+			'print'    => '<path d="M7 9V4.75h10V9"/><path d="M7 16.25H5.6A1.6 1.6 0 0 1 4 14.65v-3.9A1.6 1.6 0 0 1 5.6 9.15h12.8A1.6 1.6 0 0 1 20 10.75v3.9a1.6 1.6 0 0 1-1.6 1.6H17"/><path d="M7 14.25h10v5.5H7z"/>',
+			'resume'   => '<path d="M9 14.25 4.75 10 9 5.75"/><path d="M5.25 10h8.1a4.75 4.75 0 1 1 0 9.5H12"/>',
+		);
+
+		if ( ! isset( $paths[ $name ] ) ) {
+			return '';
+		}
+
+		return '<svg class="tocguide__svg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">' . $paths[ $name ] . '</svg>';
+	}
+
+	/**
+	 * Visible marker for one outline row.
+	 *
+	 * Numbers are real text, not CSS counters. Theme counters were printing a
+	 * leading "0." because counters() includes the list's reset value.
+	 *
+	 * @param array  $counts    Depth => count, updated by reference.
+	 * @param int    $level     Normalized depth, starting at 1.
+	 * @param bool   $ordered   Numbered list.
+	 * @param string $numbering 'default' or 'nested'.
+	 * @param bool   $hide      Hide bullets and numbers.
+	 * @return string Empty, "bullet", or a number label such as "1.2".
+	 */
+	private static function marker_label( &$counts, $level, $ordered, $numbering, $hide ) {
+		$level = max( 1, (int) $level );
+		foreach ( array_keys( $counts ) as $depth ) {
+			if ( (int) $depth > $level ) {
+				unset( $counts[ $depth ] );
+			}
+		}
+		if ( ! isset( $counts[ $level ] ) ) {
+			$counts[ $level ] = 0;
+		}
+		++$counts[ $level ];
+
+		$nested = $ordered && 'nested' === $numbering;
+		if ( $hide && ! $nested ) {
+			return '';
+		}
+		if ( ! $ordered ) {
+			return 'bullet';
+		}
+		if ( $nested ) {
+			$parts = array();
+			for ( $d = 1; $d <= $level; $d++ ) {
+				$parts[] = isset( $counts[ $d ] ) ? (string) (int) $counts[ $d ] : '1';
+			}
+			return implode( '.', $parts );
+		}
+		return (string) (int) $counts[ $level ];
+	}
+
+	/**
 	 * Render nested list markup from heading data.
 	 *
 	 * @param array  $headings Heading data with normalized 'level'.
@@ -480,6 +546,10 @@ class TOCguide_Headings {
 		$show_reader_notes = ! empty( $guide['show_reader_notes'] );
 		$notes             = isset( $guide['section_notes'] ) && is_array( $guide['section_notes'] ) ? $guide['section_notes'] : array();
 		$any_guide         = $show_time || $show_density || $show_preview || $show_reactions || $show_citations || ! empty( $notes ) || $preview_on_hover || $show_reader_notes;
+		$ordered           = ! empty( $guide['ordered'] );
+		$numbering         = isset( $guide['numbering'] ) ? sanitize_key( $guide['numbering'] ) : 'default';
+		$hide_markers      = ! empty( $guide['hide_markers'] );
+		$marker_counts     = array();
 
 		// Denominator for density bar proportions.
 		$max_words = 1;
@@ -496,9 +566,10 @@ class TOCguide_Headings {
 		$open = 0;
 
 		foreach ( $headings as $heading ) {
-			$level = (int) $heading['level'];
-			$slug  = $heading['slug'];
-			$text  = $heading['text'];
+			$level  = (int) $heading['level'];
+			$slug   = $heading['slug'];
+			$text   = $heading['text'];
+			$marker = self::marker_label( $marker_counts, $level, $ordered, $numbering, $hide_markers );
 
 			if ( $level > $prev ) {
 				for ( $i = 0; $i < ( $level - $prev ); $i++ ) {
@@ -538,12 +609,19 @@ class TOCguide_Headings {
 				$html .= '<li class="tocguide__item">';
 			}
 
-			// ── Link row (link + optional read-time badge) ────────────────────
-			if ( $any_guide ) {
-				$html .= '<div class="tocguide__item-row">';
+			$has_author_note = isset( $notes[ $slug ] ) && '' !== (string) $notes[ $slug ];
+			$note_id         = $has_author_note ? 'tocguide-note-' . sanitize_html_class( $slug ) : '';
+			$rnote_id        = $show_reader_notes ? 'tocguide-rnote-' . sanitize_html_class( $slug ) : '';
+			$has_tools       = $show_reader_notes || $has_author_note || $show_citations;
+
+			// ── Link row: marker, heading, then icons on the right ───────────
+			$html .= '<div class="tocguide__item-row">';
+			if ( 'bullet' === $marker ) {
+				$html .= '<span class="tocguide__marker tocguide__marker--bullet" aria-hidden="true"></span>';
+			} elseif ( '' !== $marker ) {
+				$html .= '<span class="tocguide__marker" aria-hidden="true">' . esc_html( $marker ) . '</span>';
 			}
 
-			// Link — include aria-describedby when hover tooltip is active.
 			if ( $tip_id ) {
 				$html .= '<a class="tocguide__link" href="#' . esc_attr( $slug ) . '"'
 					. ' aria-describedby="' . esc_attr( $tip_id ) . '">'
@@ -559,9 +637,35 @@ class TOCguide_Headings {
 					. esc_html( __( 'min', 'tocguide' ) )
 					. '</span>';
 			}
-			if ( $any_guide ) {
-				$html .= '</div>';
+
+			if ( $has_tools ) {
+				$html .= '<span class="tocguide__item-tools">';
+				if ( $show_reader_notes ) {
+					$html .= '<button type="button" class="tocguide__icon-btn tocguide__rnote-toggle"'
+						. ' aria-expanded="false"'
+						. ' aria-controls="' . esc_attr( $rnote_id ) . '"'
+						. ' aria-label="' . esc_attr( sprintf( /* translators: %s = heading text */ __( 'My note for: %s', 'tocguide' ), $text ) ) . '">'
+						. self::icon_svg( 'note' )
+						. '</button>';
+				}
+				if ( $has_author_note ) {
+					$html .= '<button type="button" class="tocguide__icon-btn tocguide__note-toggle"'
+						. ' aria-expanded="false"'
+						. ' aria-controls="' . esc_attr( $note_id ) . '"'
+						. ' aria-label="' . esc_attr__( "Author's note", 'tocguide' ) . '">'
+						. self::icon_svg( 'pencil' )
+						. '</button>';
+				}
+				if ( $show_citations ) {
+					$html .= '<button type="button" class="tocguide__icon-btn tocguide__cite-btn"'
+						. ' aria-label="' . esc_attr__( 'Copy citation for this section', 'tocguide' ) . '">'
+						. self::icon_svg( 'cite' )
+						. '<span class="tocguide__visually-hidden">' . esc_html__( 'Cite', 'tocguide' ) . '</span>'
+						. '</button>';
+				}
+				$html .= '</span>';
 			}
+			$html .= '</div>';
 
 			// ── Hover tooltip label (screen-reader target for aria-describedby) ─
 			if ( $preview_on_hover && ! empty( $heading['preview'] ) ) {
@@ -582,74 +686,43 @@ class TOCguide_Headings {
 				$html .= '<span class="tocguide__preview">' . esc_html( $heading['preview'] ) . '</span>';
 			}
 
-			// ── Author note ───────────────────────────────────────────────────
-			if ( isset( $notes[ $slug ] ) && '' !== (string) $notes[ $slug ] ) {
-				$note_id = 'tocguide-note-' . sanitize_html_class( $slug );
-				$html   .= '<div class="tocguide__note-wrap">'
-					. '<button type="button" class="tocguide__note-toggle"'
-					. ' aria-expanded="false"'
-					. ' aria-controls="' . esc_attr( $note_id ) . '">'
-					. '<span class="tocguide__note-icon" aria-hidden="true">&#x270D;</span>'
-					. '<span class="tocguide__visually-hidden">' . esc_html__( "Author's note", 'tocguide' ) . '</span>'
-					. '</button>'
-					. '<span class="tocguide__note" id="' . esc_attr( $note_id ) . '" hidden>'
+			// ── Author note body ──────────────────────────────────────────────
+			if ( $has_author_note ) {
+				$html .= '<span class="tocguide__note" id="' . esc_attr( $note_id ) . '" hidden>'
 					. esc_html( (string) $notes[ $slug ] )
-					. '</span>'
-					. '</div>';
+					. '</span>';
 			}
 
-			// ── Reader note pad ───────────────────────────────────────────────
+			// ── Reader note pad (toggle lives in the heading row) ─────────────
 			if ( $show_reader_notes ) {
-				$rnote_id = 'tocguide-rnote-' . sanitize_html_class( $slug );
-				$html    .= '<div class="tocguide__rnote-wrap">'
-					. '<button type="button" class="tocguide__rnote-toggle"'
-					. ' aria-expanded="false"'
-					. ' aria-controls="' . esc_attr( $rnote_id ) . '"'
-					. ' aria-label="' . esc_attr( sprintf( /* translators: %s = heading text */ __( 'My note for: %s', 'tocguide' ), $text ) ) . '">'
-					. '<span class="tocguide__rnote-icon" aria-hidden="true">&#x1F4DD;</span>'
-					. '</button>'
-					. '<div class="tocguide__rnote-pad" id="' . esc_attr( $rnote_id ) . '" hidden>'
+				$html .= '<div class="tocguide__rnote-pad" id="' . esc_attr( $rnote_id ) . '" hidden>'
 					. '<textarea class="tocguide__rnote-ta" rows="3"'
-					. ' placeholder="' . esc_attr__( 'Your notes for this section\xe2\x80\xa6', 'tocguide' ) . '"'
+					. ' placeholder="' . esc_attr__( 'Your notes for this section…', 'tocguide' ) . '"'
 					. ' aria-label="' . esc_attr( sprintf( /* translators: %s = heading text */ __( 'Notes for: %s', 'tocguide' ), $text ) ) . '">'
 					. '</textarea>'
-					. '</div>'
 					. '</div>';
 			}
 
-			// ── Reactions + citation row ───────────────────────────────────────
-			if ( $show_reactions || $show_citations ) {
-				$html .= '<div class="tocguide__actions">';
-
-				if ( $show_reactions ) {
-					$reaction_map = array(
-						'💡' => __( 'Insightful', 'tocguide' ),
-						'⭐' => __( 'Saved', 'tocguide' ),
-						'🤔' => __( 'Unclear', 'tocguide' ),
-						'✅' => __( 'Got it', 'tocguide' ),
-					);
-					$html        .= '<div class="tocguide__reactions" role="group" aria-label="'
-						. esc_attr__( 'React to this section', 'tocguide' ) . '">';
-					foreach ( $reaction_map as $emoji => $label ) {
-						$html .= '<button type="button" class="tocguide__reaction"'
-							. ' aria-pressed="false"'
-							. ' aria-label="' . esc_attr( $label ) . '"'
-							. ' data-reaction="' . esc_attr( $emoji ) . '">'
-							. $emoji
-							. '</button>';
-					}
-					$html .= '</div>';
-				}
-
-				if ( $show_citations ) {
-					$html .= '<button type="button" class="tocguide__cite-btn"'
-						. ' aria-label="' . esc_attr__( 'Copy citation for this section', 'tocguide' ) . '">'
-						. '<span class="tocguide__cite-icon" aria-hidden="true">§</span>'
-						. '<span class="tocguide__visually-hidden">' . esc_html__( 'Cite', 'tocguide' ) . '</span>'
+			// ── Reactions ─────────────────────────────────────────────────────
+			if ( $show_reactions ) {
+				$reaction_map = array(
+					'💡' => __( 'Insightful', 'tocguide' ),
+					'⭐' => __( 'Saved', 'tocguide' ),
+					'🤔' => __( 'Unclear', 'tocguide' ),
+					'✅' => __( 'Got it', 'tocguide' ),
+				);
+				$html        .= '<div class="tocguide__actions">';
+				$html        .= '<div class="tocguide__reactions" role="group" aria-label="'
+					. esc_attr__( 'React to this section', 'tocguide' ) . '">';
+				foreach ( $reaction_map as $emoji => $label ) {
+					$html .= '<button type="button" class="tocguide__reaction"'
+						. ' aria-pressed="false"'
+						. ' aria-label="' . esc_attr( $label ) . '"'
+						. ' data-reaction="' . esc_attr( $emoji ) . '">'
+						. $emoji
 						. '</button>';
 				}
-
-				$html .= '</div>';
+				$html .= '</div></div>';
 			}
 
 			$prev = $level;
@@ -798,6 +871,9 @@ class TOCguide_Headings {
 		if ( ! empty( $attributes['ordered'] ) && isset( $attributes['numbering'] ) && 'nested' === $attributes['numbering'] ) {
 			$classes[] = 'is-nested-counters';
 		}
+		if ( ! empty( $settings['exclude_theme_styles'] ) ) {
+			$classes[] = 'is-theme-isolated';
+		}
 
 		$highlight = array_key_exists( 'highlightActive', $attributes )
 			? ! empty( $attributes['highlightActive'] )
@@ -852,22 +928,7 @@ class TOCguide_Headings {
 			$style_parts[] = '--tocguide-max-height:' . $max_height . 'px';
 		}
 
-		// Global design overrides — set CSS custom properties from settings.
-		$design_map = array(
-			'design_bg_color'      => '--tocguide-bg',
-			'design_text_color'    => '--tocguide-color',
-			'design_link_color'    => '--tocguide-link-color',
-			'design_font_size'     => '--tocguide-font-size',
-			'design_font_weight'   => '--tocguide-font-weight',
-			'design_line_height'   => '--tocguide-line-height',
-			'design_border_width'  => '--tocguide-border-width',
-			'design_border_color'  => '--tocguide-border-color',
-			'design_border_style'  => '--tocguide-border-style',
-			'design_border_radius' => '--tocguide-radius',
-			'design_padding'       => '--tocguide-padding',
-		);
-		foreach ( $design_map as $setting_key => $css_prop ) {
-			$val = isset( $settings[ $setting_key ] ) ? trim( (string) $settings[ $setting_key ] ) : '';
+		foreach ( TOCguide_Settings::design_css_vars() as $css_prop => $val ) {
 			if ( '' !== $val ) {
 				$style_parts[] = $css_prop . ':' . $val;
 			}
@@ -988,8 +1049,8 @@ class TOCguide_Headings {
 			}
 			if ( $has_resume ) {
 				$html .= '<button type="button" class="tocguide__resume-btn" hidden>'
-					. '<span aria-hidden="true">&#x21A9;</span>&thinsp;'
-					. esc_html__( 'Resume', 'tocguide' )
+					. self::icon_svg( 'resume' )
+					. '<span>' . esc_html__( 'Resume', 'tocguide' ) . '</span>'
 					. '</button>';
 			}
 			$html .= '</div>';
@@ -1005,6 +1066,10 @@ class TOCguide_Headings {
 				. '</div>';
 		}
 
+		$guide['ordered']      = ( 'ol' === $list_tag );
+		$guide['numbering']    = isset( $attributes['numbering'] ) ? sanitize_key( $attributes['numbering'] ) : 'default';
+		$guide['hide_markers'] = ! empty( $attributes['hideMarkers'] );
+
 		$html .= '<div class="tocguide__body">';
 		$html .= self::render_list( $items, $list_tag, $guide );
 		$html .= '</div>';
@@ -1018,26 +1083,26 @@ class TOCguide_Headings {
 
 			$html .= '<button type="button" class="tocguide__export-btn" data-tocguide-action="copy-md"'
 				. ' aria-label="' . esc_attr__( 'Copy outline as Markdown', 'tocguide' ) . '">'
-				. '<span aria-hidden="true">📋</span> '
+				. self::icon_svg( 'copy' )
 				. '<span>' . esc_html__( 'Copy', 'tocguide' ) . '</span>'
 				. '<span class="tocguide__export-confirm tocguide__visually-hidden" role="status" aria-live="polite"></span>'
 				. '</button>';
 
 			$html .= '<button type="button" class="tocguide__export-btn" data-tocguide-action="download-md"'
 				. ' aria-label="' . esc_attr__( 'Download outline as Markdown file', 'tocguide' ) . '">'
-				. '<span aria-hidden="true">⬇</span> '
+				. self::icon_svg( 'download' )
 				. '<span>' . esc_html__( '.md', 'tocguide' ) . '</span>'
 				. '</button>';
 
 			$html .= '<button type="button" class="tocguide__export-btn" data-tocguide-action="download-doc"'
 				. ' aria-label="' . esc_attr__( 'Download outline as Word document', 'tocguide' ) . '">'
-				. '<span aria-hidden="true">⬇</span> '
+				. self::icon_svg( 'download' )
 				. '<span>' . esc_html__( '.doc', 'tocguide' ) . '</span>'
 				. '</button>';
 
 			$html .= '<button type="button" class="tocguide__export-btn" data-tocguide-action="print"'
 				. ' aria-label="' . esc_attr__( 'Print table of contents', 'tocguide' ) . '">'
-				. '<span aria-hidden="true">🖨</span> '
+				. self::icon_svg( 'print' )
 				. '<span>' . esc_html__( 'Print', 'tocguide' ) . '</span>'
 				. '</button>';
 

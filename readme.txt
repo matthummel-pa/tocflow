@@ -5,7 +5,7 @@ Tags: table of contents, toc, reading guide, block, study tools
 Requires at least: 6.4
 Tested up to: 7.1
 Requires PHP: 7.4
-Stable tag: 1.5.0
+Stable tag: 1.6.0
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -212,6 +212,11 @@ Deactivate leaves settings in place. Delete runs `uninstall.php`, which removes 
 4. Docs & Support tab in wp-admin (links to the documentation site).
 
 == Changelog ==
+
+= 1.6.0 =
+* Fix: section labels no longer pick up a theme list counter that printed “0.” in front of every heading. Numbered lists use real badges (1, 2, 3 or 1.1) when Exclude theme styles is on.
+* The note, citation, resume, and export controls are icon buttons. The note button sits to the right of the heading instead of on the line below.
+* Settings → TOCguide → Design: Exclude theme styles (on by default), plus font, title size and weight, letter spacing, item spacing, accent, hover, and number-badge colours.
 
 = 1.5.0 =
 * One identity: PHP (`tocguide_*` / `TOCguide_*` / `TOCGUIDE_*`), CSS (`.tocguide`, `--tocguide-*`), block `tocguide/table-of-contents`, shortcode `[tocguide]`, option `tocguide_settings`, skip class `tocguide-skip`.
