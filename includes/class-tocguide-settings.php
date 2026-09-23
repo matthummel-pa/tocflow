@@ -249,7 +249,28 @@ class TOCguide_Settings {
 		if ( '' === $v ) {
 			return '';
 		}
+		if ( '0' === $v ) {
+			return '0';
+		}
 		if ( preg_match( '/^[\d.]+(%|px|rem|em)$/', $v ) ) {
+			return $v;
+		}
+		return '';
+	}
+
+	/**
+	 * Sanitize one to four CSS lengths (padding shorthand). Empty if invalid.
+	 *
+	 * @param mixed $value Raw value.
+	 * @return string
+	 */
+	private static function sanitize_css_box( $value ) {
+		$v = trim( (string) $value );
+		if ( '' === $v ) {
+			return '';
+		}
+		$part = '(?:0|[\\d.]+(?:%|px|rem|em))';
+		if ( preg_match( '/^' . $part . '(?:\\s+' . $part . '){0,3}$/', $v ) ) {
 			return $v;
 		}
 		return '';
@@ -514,7 +535,7 @@ class TOCguide_Settings {
 		$clean['design_border_width']  = self::sanitize_css_length( isset( $input['design_border_width'] ) ? $input['design_border_width'] : '' );
 		$clean['design_border_color']  = self::sanitize_hex_color( isset( $input['design_border_color'] ) ? $input['design_border_color'] : '' );
 		$clean['design_border_radius'] = self::sanitize_css_length( isset( $input['design_border_radius'] ) ? $input['design_border_radius'] : '' );
-		$clean['design_padding']       = self::sanitize_css_length( isset( $input['design_padding'] ) ? $input['design_padding'] : '' );
+		$clean['design_padding']       = self::sanitize_css_box( isset( $input['design_padding'] ) ? $input['design_padding'] : '' );
 
 		$allowed_bs                   = array( '', 'solid', 'dashed', 'dotted', 'double', 'none' );
 		$bs                           = isset( $input['design_border_style'] ) ? sanitize_key( $input['design_border_style'] ) : '';

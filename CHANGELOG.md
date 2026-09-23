@@ -3,6 +3,17 @@
 All notable changes to TOCguide are documented here.
 This project adheres to [Semantic Versioning](https://semver.org/).
 
+## [1.6.2] - 2026-09-23
+
+### Fixed
+- Design colours, fonts, borders, and spacing apply to the outline title and links even when the theme sets its own heading and link styles.
+- Minimal, Boxed, Underline, and Card each change the outline’s frame. Compact tightens padding, type, and number badges. Turning markers off hides the badges as well as the theme’s list markers.
+- Padding accepts one to four lengths (`1rem` or `1.25rem 1.5rem`).
+- Saving settings clears common full-page caches so the new look shows up.
+
+### Changed
+- Settings → TOCguide uses a tab for each section (Reading, Auto-insert, Design, Reading Guide, Study tools, SEO & data, Accessibility) and shows a live outline preview.
+
 ## [1.6.1] - 2026-09-23
 
 ### Fixed

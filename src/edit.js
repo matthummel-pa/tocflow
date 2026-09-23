@@ -285,9 +285,22 @@ export default function Edit( { attributes, setAttributes } ) {
 		style[ '--tocguide-max-height' ] = `${ maxHeight }px`;
 	}
 
+	const styleMatch = ( attributes.className || '' ).match(
+		/(?:^|\s)is-style-([a-z0-9-]+)/
+	);
+	const styleSlug = styleMatch
+		? styleMatch[ 1 ]
+		: attributes.stylePreset || '';
+	const legacyStyle =
+		! styleMatch &&
+		[ 'minimal', 'boxed', 'underline', 'card' ].includes( styleSlug )
+			? `is-style-${ styleSlug } tocguide--${ styleSlug }`
+			: '';
+
 	const blockProps = useBlockProps( {
 		className: [
 			'tocguide',
+			legacyStyle,
 			isolateTheme ? 'is-theme-isolated' : '',
 			markerStyle === 'square' ? 'is-marker-square' : '',
 			markerStyle === 'plain' ? 'is-marker-plain' : '',

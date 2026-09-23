@@ -1,5 +1,5 @@
 .tocguide-admin {
-	max-width: 880px;
+	max-width: 960px;
 	margin-top: 12px;
 }
 
@@ -46,7 +46,64 @@
 }
 
 .tocguide-admin__tabs {
-	margin: 16px 0 20px;
+	margin: 16px 0 12px;
+}
+
+.tocguide-admin__sections {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 6px;
+	margin: 0 0 16px;
+}
+
+.tocguide-admin__section {
+	display: inline-block;
+	padding: 6px 12px;
+	border: 1px solid #d8e2db;
+	border-radius: 999px;
+	background: #fff;
+	color: #1c3d2e;
+	font-size: 13px;
+	font-weight: 700;
+	line-height: 1.4;
+	text-decoration: none;
+}
+
+.tocguide-admin__section:hover,
+.tocguide-admin__section:focus {
+	border-color: #1c3d2e;
+	color: #1c3d2e;
+}
+
+.tocguide-admin__section.is-active {
+	background: #1c3d2e;
+	border-color: #1c3d2e;
+	color: #fff;
+}
+
+.tocguide-preview {
+	margin: 0 0 16px;
+	padding: 14px 16px 16px;
+	background: #e7eeea;
+	border: 1px solid #d8e2db;
+	border-radius: 10px;
+}
+
+.tocguide-preview__label {
+	margin: 0 0 4px;
+	color: #1c3d2e;
+	font-size: 11px;
+	font-weight: 700;
+	letter-spacing: 0.08em;
+	text-transform: uppercase;
+}
+
+.tocguide-preview .description {
+	margin-top: 0;
+}
+
+.tocguide-preview .wp-block-tocguide-table-of-contents {
+	margin-top: 12px;
 }
 
 .tocguide-admin__grid {

@@ -82,12 +82,20 @@ class TOCguide_Admin {
 			array(),
 			TOCGUIDE_VERSION
 		);
+		wp_enqueue_style( 'tocguide-table-of-contents-style' );
 		wp_enqueue_script(
 			'tocguide-admin',
 			TOCGUIDE_URL . 'admin/js/admin.js',
 			array(),
 			TOCGUIDE_VERSION,
 			true
+		);
+		wp_localize_script(
+			'tocguide-admin',
+			'tocguideAdmin',
+			array(
+				'fontStacks' => TOCguide_Settings::font_family_stacks(),
+			)
 		);
 	}
 

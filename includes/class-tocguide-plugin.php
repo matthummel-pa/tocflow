@@ -39,7 +39,9 @@ class TOCguide_Plugin {
 	public function boot() {
 		add_action( 'init', array( $this, 'register_block' ) );
 		add_action( 'init', array( $this, 'register_shortcode' ) );
-		add_action( 'enqueue_block_editor_assets', array( $this, 'editor_settings' ) );
+		add_action( 'enqueue_block_editor_assets', array( $this, 'editor_settings' ), 20 );
+		add_action( 'update_option_' . TOCguide_Settings::OPTION, array( $this, 'purge_page_cache' ) );
+		add_action( 'add_option_' . TOCguide_Settings::OPTION, array( $this, 'purge_page_cache' ) );
 		add_action( 'admin_init', array( 'TOCguide_Settings', 'register' ) );
 
 		// Gutenberg: ID injection via block rendering pipeline.
@@ -92,6 +94,27 @@ class TOCguide_Plugin {
 			'window.tocguideEditor = ' . wp_json_encode( $config ) . ';',
 			'before'
 		);
+	}
+
+	/**
+	 * Drop full-page caches after design or layout settings change.
+	 *
+	 * Saved colours and presets are printed into the post HTML. A page cache
+	 * would keep showing the previous outline until it expired.
+	 */
+	public function purge_page_cache() {
+		if ( has_action( 'litespeed_purge_all' ) ) {
+			do_action( 'litespeed_purge_all' );
+		}
+		if ( function_exists( 'rocket_clean_domain' ) ) {
+			rocket_clean_domain();
+		}
+		if ( function_exists( 'w3tc_flush_posts' ) ) {
+			w3tc_flush_posts();
+		}
+		if ( function_exists( 'wp_cache_clear_cache' ) ) {
+			wp_cache_clear_cache();
+		}
 	}
 
 	/**

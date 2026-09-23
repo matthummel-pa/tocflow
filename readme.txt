@@ -5,7 +5,7 @@ Tags: table of contents, toc, reading guide, block, study tools
 Requires at least: 6.4
 Tested up to: 7.1
 Requires PHP: 7.4
-Stable tag: 1.6.1
+Stable tag: 1.6.2
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -212,6 +212,11 @@ Deactivate leaves settings in place. Delete runs `uninstall.php`, which removes 
 4. Docs & Support tab in wp-admin (links to the documentation site).
 
 == Changelog ==
+
+= 1.6.2 =
+* Fix: Design colours, fonts, and spacing stay on the outline, including the title, when the theme styles every heading and link.
+* Minimal, Boxed, Underline, and Card are distinct, and Compact tightens padding and type. Saved settings clear the page cache so the front end updates.
+* Settings → TOCguide is split into section tabs, with a live outline preview.
 
 = 1.6.1 =
 * Fix: with Exclude theme styles on, the outline is not a theme list, so theme counters can no longer print “0.” in front of every heading. Note and citation buttons stay on the right of the heading.

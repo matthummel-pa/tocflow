@@ -32,10 +32,12 @@
 .wp-block-tocguide-table-of-contents .tocguide__title,
 .tocguide .tocguide__title {
 	margin: 0 0 0.65rem;
-	color: var(--tocguide-title-color, inherit);
+	color: var(--tocguide-title-color, var(--tocguide-color, inherit));
+	font-family: inherit;
 	font-size: var(--tocguide-title-size, inherit);
 	font-weight: var(--tocguide-title-weight, 700);
 	letter-spacing: var(--tocguide-letter-spacing, -0.02em);
+	line-height: var(--tocguide-line-height, 1.3);
 }
 
 .wp-block-tocguide-table-of-contents .tocguide__header .tocguide__title,
@@ -123,6 +125,7 @@
 .tocguide a {
 	text-decoration: none;
 	color: var(--tocguide-link-color, inherit);
+	font-family: inherit;
 	font-weight: var(--tocguide-font-weight, inherit);
 	text-transform: var(--tocguide-text-transform, none);
 	flex: 1 1 auto;
@@ -166,34 +169,32 @@
 .wp-block-tocguide-table-of-contents.is-style-minimal,
 .tocguide.is-style-minimal,
 .tocguide.tocguide--minimal {
-
-	/* Override design custom props so preset always wins. */
-	--tocguide-border-width: 0px; /* stylelint-disable-line length-zero-no-unit */
-	--tocguide-bg: transparent;
-	--tocguide-padding: 0px; /* stylelint-disable-line length-zero-no-unit */
-	--tocguide-radius: 0px; /* stylelint-disable-line length-zero-no-unit */
+	background: var(--tocguide-bg, transparent);
 	border: 0;
-	background: transparent;
-	padding: 0;
 	border-radius: 0;
+	box-shadow: none;
+	padding: var(--tocguide-padding, 0);
 }
 
 .wp-block-tocguide-table-of-contents.is-style-boxed,
 .tocguide.is-style-boxed,
 .tocguide.tocguide--boxed {
-	background: #f8fafc;
-	border: 1px solid #d7e0ea;
-	box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.7);
+	background: var(--tocguide-bg, #f4f7f5);
+	border: var(--tocguide-border-width, 1px) solid var(--tocguide-border-color, #c5d4c8);
+	border-radius: var(--tocguide-radius, 8px);
+	box-shadow: inset 0 0 0 4px color-mix(in srgb, var(--tocguide-accent, #2f6f4e) 14%, transparent);
+	padding: var(--tocguide-padding, 1.15rem 1.35rem);
 }
 
 .wp-block-tocguide-table-of-contents.is-style-underline,
 .tocguide.is-style-underline,
 .tocguide.tocguide--underline {
+	background: var(--tocguide-bg, transparent);
 	border: 0;
-	background: transparent;
 	border-radius: 0;
-	padding: 0 0 0.25rem;
-	border-block-start: 2px solid currentcolor;
+	box-shadow: none;
+	padding: var(--tocguide-padding, 0.85rem 0 0.35rem);
+	border-block-start: 3px solid var(--tocguide-accent, currentcolor);
 }
 
 .wp-block-tocguide-table-of-contents.is-style-underline .tocguide__title,
@@ -205,10 +206,11 @@
 .wp-block-tocguide-table-of-contents.is-style-card,
 .tocguide.is-style-card,
 .tocguide.tocguide--card {
-	background: #fff;
+	background: var(--tocguide-bg, #fff);
 	border: 0;
-	box-shadow: 0 10px 30px rgba(28, 61, 46, 0.08);
-	padding: 1.35rem 1.6rem;
+	border-radius: var(--tocguide-radius, 18px);
+	box-shadow: 0 18px 44px rgba(15, 23, 42, 0.16);
+	padding: var(--tocguide-padding, 1.5rem 1.75rem);
 }
 
 .wp-block-tocguide-table-of-contents.has-shadow-soft,
@@ -246,13 +248,24 @@
 
 .wp-block-tocguide-table-of-contents.is-compact,
 .tocguide.is-compact {
-	padding: 0.85rem 1rem;
-	font-size: 0.9em;
+	padding: var(--tocguide-padding, 0.35rem 0.65rem);
+	font-size: var(--tocguide-font-size, 0.8em);
 }
 
 .wp-block-tocguide-table-of-contents.is-compact .tocguide__item,
 .tocguide.is-compact .tocguide__item {
-	margin: 0.1rem 0;
+	margin: var(--tocguide-item-gap, 0) 0;
+}
+
+.wp-block-tocguide-table-of-contents.is-compact .tocguide__title,
+.tocguide.is-compact .tocguide__title {
+	margin-bottom: 0.2rem;
+}
+
+.wp-block-tocguide-table-of-contents.is-style-minimal.is-compact,
+.tocguide.is-style-minimal.is-compact,
+.tocguide.tocguide--minimal.is-compact {
+	padding: var(--tocguide-padding, 0);
 }
 
 .wp-block-tocguide-table-of-contents.is-no-markers .tocguide__list,
@@ -378,6 +391,7 @@
 	color: var(--tocguide-marker-color, #fff);
 	font-size: 0.72em;
 	font-weight: 700;
+	font-family: inherit;
 	font-variant-numeric: tabular-nums;
 	line-height: 1;
 	letter-spacing: 0;
@@ -1003,4 +1017,18 @@
 	.tocguide .tocguide__export-btn {
 		transition: none;
 	}
+}
+
+// Hide the badge when the visitor turned markers off. Isolation turns the
+// badge on; this rule comes later and is more specific so the setting wins.
+.wp-block-tocguide-table-of-contents.is-theme-isolated.is-no-markers .tocguide__marker,
+.tocguide.is-theme-isolated.is-no-markers .tocguide__marker {
+	display: none;
+}
+
+.wp-block-tocguide-table-of-contents.tocguide.is-compact .tocguide__marker:not(.tocguide__marker--bullet),
+.tocguide.tocguide.is-compact .tocguide__marker:not(.tocguide__marker--bullet) {
+	min-width: 1.05rem;
+	height: 1.05rem;
+	font-size: 0.65em;
 }
