@@ -555,6 +555,7 @@ class TOCguide_Headings {
 		$item_tag  = 'li';
 		$list_role = '';
 		$item_role = '';
+
 		/*
 		 * Theme ordered-list rules often paint a counter on li::before / ::marker.
 		 * That counter is frequently 0, so every row reads "0. Heading" beside our
