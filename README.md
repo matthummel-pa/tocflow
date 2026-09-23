@@ -24,7 +24,7 @@
 
 <p align="center">
   <a href="https://github.com/matthummel-pa/tocguide/actions/workflows/ci.yml"><img alt="CI" src="https://github.com/matthummel-pa/tocguide/actions/workflows/ci.yml/badge.svg"></a>
-  <img alt="Version" src="https://img.shields.io/badge/version-1.5.0-275c3e">
+  <!-- tocguide-release:badge --><img alt="Version" src="https://img.shields.io/badge/version-1.6.2-275c3e"><!-- /tocguide-release:badge -->
   <img alt="WordPress" src="https://img.shields.io/badge/WordPress-6.4%2B-3858e9">
   <img alt="PHP" src="https://img.shields.io/badge/PHP-7.4%2B-777bb3">
   <img alt="License" src="https://img.shields.io/badge/license-GPLv2%20or%20later-1b1f24">
@@ -61,28 +61,31 @@ Zero config for the default path: insert the block, get an accessible `<nav>`.
 
 ## Releases at a glance
 
+<!-- tocguide-release:timeline -->
 ```mermaid
 timeline
     title TOCguide
-    1.5.0 : One identity — tocguide everywhere
-         : Breaking prefix rename
-         : Docs + support URLs
-    1.4.0 : Directory name TOCguide
-         : Guideline 17 independence
-    1.3.0 : Global design + a11y settings
-    1.2.0 : Study assistant tools
-    1.1.0 : Reading Guide + builders
-    1.0.0 : Block, shortcode, auto-insert
+    1.6.2 : Design colours, fonts, borders, and spacing apply to the outline
+    1.6.1 : Exclude theme styles now renders the outline as a list of divs (
+    1.6.0 : Theme list counters no longer print a leading “0.” on every sect
+    1.5.0 : One identity for the whole product TOCguide / tocguide.
+    1.4.0 : WordPress.org identity display name is TOCguide; slug, folder,
+    1.3.3 : $guide_attrs was reset to array() immediately after data-tocguid
 ```
+<!-- /tocguide-release:timeline -->
 
 | Version | Ship | What people notice |
 | :---: | :---: | --- |
-| **1.5.0** | **Now** | One slug everywhere: PHP, CSS, block `tocguide/table-of-contents`, `[tocguide]`, settings key. **Re-insert the block** if you used an earlier zip. |
-| 1.4.0 | Sep 2026 | Public name TOCguide for WordPress.org guideline 17. |
-| 1.3.x | Sep 2026 | Sitewide colors/fonts, focus rings, and the color-picker escape fix. |
-| 1.2.x | Sep 2026 | Progress bar, bookmark, reader notes, Section Planner. |
-| 1.1.0 | — | Reading Guide, citations, hover previews, page-builder headings. |
-| 1.0.x | — | Core TOC block, shortcode, auto-insert, five Block Styles. |
+<!-- tocguide-release:release-table -->
+| **1.6.2** | **Now** | Design colours, fonts, borders, and spacing apply to the outline title and links even when the theme sets its own heading and link styles. |
+| 1.6.1 | 2026-09-23 | Exclude theme styles now renders the outline as a list of divs (role="list" / role="listitem") so theme ol / li::before counters cannot print a leading “0.”. |
+| 1.6.0 | 2026-09-23 | Theme list counters no longer print a leading “0.” on every section when Exclude theme styles is on. Numbered outlines use text badges (1, 1.1) instead of CSS counters(). |
+| 1.5.0 | 2026-09-21 | One identity for the whole product: TOCguide / tocguide. |
+| 1.4.0 | 2026-09-19 | WordPress.org identity: display name is TOCguide; slug, folder, text domain, and main file are tocguide. |
+| 1.3.3 | 2026-09-09 | $guide_attrs was reset to array() immediately after data-tocguide-focus was written into it — the accessibility focus-ring data- attribute was always discarded. |
+| 1.3.1 | 2026-09-09 | WordPress.Security.EscapeOutput: $swatch_val in the admin colour-picker printf() was pre-escaped at construction time but not at the call site — PHPCS (and WordPress.org reviewers) |
+| 1.3.0 | 2026-09-08 | Settings → Design & Appearance: global background colour, text colour, link colour, font size, font weight, line height, border (width / style / colour / radius), and padding. |
+<!-- /tocguide-release:release-table -->
 
 Full prose: [`CHANGELOG.md`](CHANGELOG.md) · directory copy: [`readme.txt`](readme.txt).
 
@@ -199,7 +202,7 @@ TOCguide is built to add **zero measurable overhead** on pages that don't use it
 
 ## Install
 
-Current version: **1.5.0**.
+Current version: **<!-- tocguide-release:version -->1.6.2<!-- /tocguide-release:version -->**.
 
 1. Download `tocguide.zip` from [Releases](https://github.com/matthummel-pa/tocguide/releases).
 2. In WordPress: **Plugins → Add New → Upload Plugin**.
@@ -265,7 +268,7 @@ composer phpcs
 
 Filters (documented in [`docs/documentation.html`](https://matthummel-pa.github.io/tocguide/documentation.html)): `tocguide_headings`, `tocguide_nav_classes`, `tocguide_render_nav`, `tocguide_skip_post_types`.
 
-Release: bump `tocguide.php`, `TOCGUIDE_VERSION`, `package.json`, `src/block.json`, `readme.txt` Stable tag, then tag `vX.Y.Z` (Actions builds `tocguide.zip`). WordPress.org: `npm run package:svn` and commit that tree to SVN (`docs/marketplace/wordpress-org.md`).
+Release: bump `tocguide.php`, `TOCGUIDE_VERSION`, `package.json`, `src/block.json`, `readme.txt` Stable tag, and the changelog, then `npm run docs:sync` and tag `vX.Y.Z` (Actions builds `tocguide.zip`). WordPress.org: `npm run package:svn` and commit that tree to SVN (`docs/marketplace/wordpress-org.md`).
 
 See [`docs/DEVELOPER_SOP.md`](docs/DEVELOPER_SOP.md) and [`CONTRIBUTING.md`](CONTRIBUTING.md).
 

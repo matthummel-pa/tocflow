@@ -144,7 +144,7 @@
 
 <header class="hero">
   <div class="wrap">
-    <p class="kicker">WordPress plugin · slug <strong>tocguide</strong> · v1.5.0</p>
+    <p class="kicker">WordPress plugin · slug <strong>tocguide</strong> · v<!-- tocguide-release:version -->1.6.2<!-- /tocguide-release:version --></p>
     <h1>Lightweight TOC.<br><em>Zero setup.</em></h1>
     <p class="lede">Lightweight, server-rendered Table of Contents block for the WordPress block editor (Gutenberg). TOCguide auto-builds an accessible, SEO-friendly linked outline from your post headings — numbered or bulleted, no configuration required. Independent plugin. Not affiliated with any other product.</p>
     <p class="lede">Optional Reading Guide adds section previews, read-time, hover tooltips, emoji reactions, and one-click citations. All in the first HTML response. No accounts. No tracking. No external APIs.</p>
@@ -154,7 +154,7 @@
       <a class="btn ghost" href="support.html">Support</a>
     </div>
     <div class="chips">
-      <span class="chip green">v1.5.0</span>
+      <span class="chip green">v<!-- tocguide-release:version -->1.6.2<!-- /tocguide-release:version --></span>
       <span class="chip">WordPress 6.4 – 7.1</span>
       <span class="chip">PHP 7.4 – 8.3</span>
       <span class="chip">GPL-2.0-or-later</span>
@@ -177,40 +177,32 @@
 
   <section id="whats-new">
     <p class="chap">What's new</p>
-    <h2>v1.5.0 — one name, everywhere.</h2>
-    <p style="color:var(--muted);max-width:38rem">Display name TOCguide. Slug, text domain, block, shortcode, CSS, and GitHub repo are all <code>tocguide</code>. Independent plugin — not affiliated with any other product.</p>
+    <!-- tocguide-release:whats-new -->
+    <h2>v1.6.2</h2>
+    <p style="color:var(--muted);max-width:38rem">Design colours, fonts, borders, and spacing apply to the outline title and links even when the theme sets its own heading and link styles.</p>
     <div class="grid">
-      <article class="card">
-        <span class="icon">1.5</span>
-        <h3>Identity</h3>
-        <p>PHP, CSS, block <code>tocguide/table-of-contents</code>, shortcode <code>[tocguide]</code>, option <code>tocguide_settings</code>.</p>
-      </article>
-      <article class="card">
-        <span class="icon">!</span>
-        <h3>Breaking</h3>
-        <p>Re-insert the block and re-save Settings if you used an earlier zip. Old keys are not migrated.</p>
-      </article>
-      <article class="card">
-        <span class="icon">1.4</span>
-        <h3>WordPress.org</h3>
-        <p>Guideline 17: a coined name that does not imply affiliation. Five tags. GPLv2 or later. No tracking.</p>
-      </article>
-      <article class="card">
-        <span class="icon">1.3</span>
-        <h3>Design &amp; a11y</h3>
-        <p>Sitewide colours, type, borders, and focus rings that actually print on the <code>&lt;nav&gt;</code>.</p>
-      </article>
-      <article class="card">
-        <span class="icon">1.2</span>
-        <h3>Study tools</h3>
-        <p>Progress bar, resume bookmark, reader notes — all opt-in, all on-device.</p>
-      </article>
-      <article class="card">
-        <span class="icon">1.1</span>
-        <h3>Reading Guide</h3>
-        <p>Previews, density, citations, and page-builder headings. Still the feature most people come for.</p>
-      </article>
+    <article class="card">
+      <span class="icon">Fix</span>
+      <h3>Fixed</h3>
+      <p>Minimal, Boxed, Underline, and Card each change the outline’s frame. Compact tightens padding, type, and number badges. Turning markers off hides the badges as well as the theme’s list markers.</p>
+    </article>
+    <article class="card">
+      <span class="icon">Fix</span>
+      <h3>Fixed</h3>
+      <p>Padding accepts one to four lengths (1rem or 1.25rem 1.5rem).</p>
+    </article>
+    <article class="card">
+      <span class="icon">Fix</span>
+      <h3>Fixed</h3>
+      <p>Saving settings clears common full-page caches so the new look shows up.</p>
+    </article>
+    <article class="card">
+      <span class="icon">New</span>
+      <h3>Changed</h3>
+      <p>Settings → TOCguide uses a tab for each section (Reading, Auto-insert, Design, Reading Guide, Study tools, SEO &amp; data, Accessibility) and shows a live outline preview.</p>
+    </article>
     </div>
+<!-- /tocguide-release:whats-new -->
   </section>
 
   <!-- ── Standard features ── -->

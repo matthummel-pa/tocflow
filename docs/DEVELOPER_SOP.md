@@ -99,11 +99,12 @@ PR against `matthummel-pa/tocguide:main`. Fill in the template.
 
 Bump **all** of: `tocguide.php` (`Version` + `TOCGUIDE_VERSION`), `package.json`, `src/block.json`, `readme.txt` (`Stable tag`).
 
-1. Dated `CHANGELOG.md` + `readme.txt` changelog.
-2. `npm run build` && `npm run plugin-zip`
-3. Push a tag `vX.Y.Z`. GitHub Actions attaches `tocguide.zip` to the release.
-4. WordPress.org: `npm run package:svn`, then commit trunk, `assets/`, and `tags/<Stable tag>` (see `docs/marketplace/wordpress-org.md`). Do not upload a zip into SVN.
-5. CodeCanyon: upload the same ZIP + HTML docs.
+1. Dated `CHANGELOG.md` (the first heading must be `## [X.Y.Z] - YYYY-MM-DD` for that version) + `readme.txt` changelog.
+2. `npm run docs:sync`. This rewrites the version badge, docs site, user guide, and release table from that changelog. Commit the result with the version bump. `npm run docs:check` fails CI if a slot is still on an older release.
+3. `npm run build` && `npm run plugin-zip`
+4. Push a tag `vX.Y.Z`. GitHub Actions attaches `tocguide.zip` to the release.
+5. WordPress.org: `npm run package:svn`, then commit trunk, `assets/`, and `tags/<Stable tag>` (see `docs/marketplace/wordpress-org.md`). Do not upload a zip into SVN.
+6. CodeCanyon: upload the same ZIP + HTML docs.
 
 ---
 
