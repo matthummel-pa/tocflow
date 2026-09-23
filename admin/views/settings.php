@@ -113,7 +113,7 @@ $tocguide_support_url = 'https://github.com/matthummel-pa/tocguide/issues';
 				<h2><?php esc_html_e( 'Shortcode', 'tocguide' ); ?></h2>
 				<p><?php esc_html_e( 'Use this in classic content, page-builder text widgets, or a theme template (via do_shortcode):', 'tocguide' ); ?></p>
 				<p><code>[tocguide]</code></p>
-				<p><?php esc_html_e( 'Layout &amp; behavior:', 'tocguide' ); ?> <code>title</code>, <code>showtitle</code>, <code>titletag</code>, <code>h1</code>&ndash;<code>h6</code>, <code>ordered</code>, <code>numbering</code>, <code>markers</code>, <code>collapsible</code>, <code>collapsed</code>, <code>sticky</code>, <code>compact</code>, <code>columns</code>, <code>underline</code>, <code>highlight</code>, <code>maxheight</code>, <code>min</code>, <code>smooth</code>, <code>style</code></p>
+				<p><?php esc_html_e( 'Layout &amp; behavior:', 'tocguide' ); ?> <code>title</code>, <code>showtitle</code>, <code>titletag</code>, <code>h1</code>&ndash;<code>h6</code>, <code>ordered</code>, <code>numbering</code>, <code>markers</code>, <code>collapsible</code>, <code>collapsed</code>, <code>sticky</code>, <code>compact</code>, <code>columns</code>, <code>underline</code>, <code>highlight</code>, <code>maxheight</code>, <code>min</code>, <code>smooth</code>, <code>style</code>, <code>theme="exclude|include"</code></p>
 			<p><?php esc_html_e( 'Reading Guide:', 'tocguide' ); ?> <code>preview="1"</code> <?php esc_html_e( '(hover tooltip)', 'tocguide' ); ?>, <code>guide="1"</code> <?php esc_html_e( '(full guide mode)', 'tocguide' ); ?>, <code>previews="1"</code>, <code>density="1"</code>, <code>readtime="1"</code>, <code>progress="1"</code>, <code>reactions="1"</code>, <code>citations="1"</code>, <code>citation="apa|mla|chicago|harvard|plain"</code></p>
 			<p><?php esc_html_e( 'Study tools:', 'tocguide' ); ?> <code>rprogress="1"</code> <?php esc_html_e( '(reading progress bar)', 'tocguide' ); ?>, <code>bookmark="1"</code> <?php esc_html_e( '(resume reading)', 'tocguide' ); ?>, <code>rnotes="1"</code> <?php esc_html_e( '(reader note pads per section)', 'tocguide' ); ?></p>
 			<p><?php esc_html_e( 'Export &amp; print:', 'tocguide' ); ?> <code>export="1"</code> <?php esc_html_e( '(adds Copy / .md / .doc / Print buttons)', 'tocguide' ); ?></p>
@@ -391,7 +391,7 @@ $tocguide_support_url = 'https://github.com/matthummel-pa/tocguide/issues';
 						<td>
 							<label>
 								<input type="checkbox" name="<?php echo esc_attr( $tocguide_opt ); ?>[exclude_theme_styles]" value="1" <?php checked( $settings['exclude_theme_styles'], 1 ); ?>>
-								<?php esc_html_e( 'Keep the outline independent of the theme. This removes theme list numbers (including a stray “0.”), link decorations, and theme fonts. Turn off to inherit those from the theme.', 'tocguide' ); ?>
+								<?php esc_html_e( 'Keep the outline independent of the theme. The list is drawn with TOCguide badges instead of the theme’s numbers, so a stray “0.” cannot appear in front of a heading. Turn off to let the theme style the list.', 'tocguide' ); ?>
 							</label>
 						</td>
 					</tr>
@@ -406,6 +406,16 @@ $tocguide_support_url = 'https://github.com/matthummel-pa/tocguide/issues';
 								<option value="mono" <?php selected( $settings['design_font_family'], 'mono' ); ?>><?php esc_html_e( 'Monospace', 'tocguide' ); ?></option>
 							</select>
 							<p class="description"><?php esc_html_e( 'Sans-serif and monospace only, using fonts already on the device. No remote font files.', 'tocguide' ); ?></p>
+						</td>
+					</tr>
+					<tr>
+						<th scope="row"><label for="tocguide-design-transform"><?php esc_html_e( 'Link case', 'tocguide' ); ?></label></th>
+						<td>
+							<select id="tocguide-design-transform" name="<?php echo esc_attr( $tocguide_opt ); ?>[design_text_transform]">
+								<option value="" <?php selected( $settings['design_text_transform'], '' ); ?>><?php esc_html_e( 'As written', 'tocguide' ); ?></option>
+								<option value="capitalize" <?php selected( $settings['design_text_transform'], 'capitalize' ); ?>><?php esc_html_e( 'Capitalize words', 'tocguide' ); ?></option>
+								<option value="uppercase" <?php selected( $settings['design_text_transform'], 'uppercase' ); ?>><?php esc_html_e( 'Uppercase', 'tocguide' ); ?></option>
+							</select>
 						</td>
 					</tr>
 					<tr>
@@ -441,11 +451,45 @@ $tocguide_support_url = 'https://github.com/matthummel-pa/tocguide/issues';
 						</td>
 					</tr>
 					<tr>
+						<th scope="row"><?php esc_html_e( 'Title colour', 'tocguide' ); ?></th>
+						<td>
+							<?php $tocguide_color_field( 'design_title_color', $settings['design_title_color'], __( 'Title colour (hex)', 'tocguide' ) ); ?>
+						</td>
+					</tr>
+					<tr>
+						<th scope="row"><?php esc_html_e( 'Icon colour', 'tocguide' ); ?></th>
+						<td>
+							<?php $tocguide_color_field( 'design_icon_color', $settings['design_icon_color'], __( 'Icon colour (hex)', 'tocguide' ) ); ?>
+							<p class="description"><?php esc_html_e( 'Note, citation, collapse, and resume buttons.', 'tocguide' ); ?></p>
+						</td>
+					</tr>
+					<tr>
 						<th scope="row"><?php esc_html_e( 'Number badge', 'tocguide' ); ?></th>
 						<td>
 							<?php $tocguide_color_field( 'design_marker_color', $settings['design_marker_color'], __( 'Badge background (hex)', 'tocguide' ) ); ?>
 							<?php $tocguide_color_field( 'design_marker_text', $settings['design_marker_text'], __( 'Badge text (hex)', 'tocguide' ) ); ?>
 							<p class="description"><?php esc_html_e( 'Shown when Exclude theme styles is on and the list is numbered.', 'tocguide' ); ?></p>
+						</td>
+					</tr>
+					<tr>
+						<th scope="row"><label for="tocguide-design-marker"><?php esc_html_e( 'Number style', 'tocguide' ); ?></label></th>
+						<td>
+							<select id="tocguide-design-marker" name="<?php echo esc_attr( $tocguide_opt ); ?>[design_marker_style]">
+								<option value="" <?php selected( $settings['design_marker_style'], '' ); ?>><?php esc_html_e( 'Circle badge', 'tocguide' ); ?></option>
+								<option value="square" <?php selected( $settings['design_marker_style'], 'square' ); ?>><?php esc_html_e( 'Rounded square', 'tocguide' ); ?></option>
+								<option value="plain" <?php selected( $settings['design_marker_style'], 'plain' ); ?>><?php esc_html_e( 'Plain number', 'tocguide' ); ?></option>
+							</select>
+						</td>
+					</tr>
+					<tr>
+						<th scope="row"><label for="tocguide-design-shadow"><?php esc_html_e( 'Shadow', 'tocguide' ); ?></label></th>
+						<td>
+							<select id="tocguide-design-shadow" name="<?php echo esc_attr( $tocguide_opt ); ?>[design_shadow]">
+								<option value="" <?php selected( $settings['design_shadow'], '' ); ?>><?php esc_html_e( 'None', 'tocguide' ); ?></option>
+								<option value="soft" <?php selected( $settings['design_shadow'], 'soft' ); ?>><?php esc_html_e( 'Soft', 'tocguide' ); ?></option>
+								<option value="medium" <?php selected( $settings['design_shadow'], 'medium' ); ?>><?php esc_html_e( 'Medium', 'tocguide' ); ?></option>
+							</select>
+							<p class="description"><?php esc_html_e( 'The Minimal style stays flat.', 'tocguide' ); ?></p>
 						</td>
 					</tr>
 					<tr>

@@ -5,7 +5,7 @@ Tags: table of contents, toc, reading guide, block, study tools
 Requires at least: 6.4
 Tested up to: 7.1
 Requires PHP: 7.4
-Stable tag: 1.6.0
+Stable tag: 1.6.1
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -212,6 +212,11 @@ Deactivate leaves settings in place. Delete runs `uninstall.php`, which removes 
 4. Docs & Support tab in wp-admin (links to the documentation site).
 
 == Changelog ==
+
+= 1.6.1 =
+* Fix: with Exclude theme styles on, the outline is not a theme list, so theme counters can no longer print “0.” in front of every heading. Note and citation buttons stay on the right of the heading.
+* Note, collapse, resume, and export controls share one icon-button style.
+* Design settings: link case, title colour, icon colour, number style (circle, square, or plain), and shadow. Per-block Theme styles can follow the site setting or override it. Shortcode: `theme="exclude"` or `theme="include"`.
 
 = 1.6.0 =
 * Fix: section labels no longer pick up a theme list counter that printed “0.” in front of every heading. Numbered lists use real badges (1, 2, 3 or 1.1) when Exclude theme styles is on.

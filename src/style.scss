@@ -32,6 +32,7 @@
 .wp-block-tocguide-table-of-contents .tocguide__title,
 .tocguide .tocguide__title {
 	margin: 0 0 0.65rem;
+	color: var(--tocguide-title-color, inherit);
 	font-size: var(--tocguide-title-size, inherit);
 	font-weight: var(--tocguide-title-weight, 700);
 	letter-spacing: var(--tocguide-letter-spacing, -0.02em);
@@ -45,9 +46,9 @@
 .wp-block-tocguide-table-of-contents .tocguide__toggle,
 .tocguide .tocguide__toggle {
 	appearance: none;
-	border: 1px solid var(--tocguide-line, #d5ddd8);
-	background: color-mix(in srgb, var(--tocguide-accent) 8%, transparent);
-	color: inherit;
+	border: 1px solid color-mix(in srgb, var(--tocguide-icon-color, var(--tocguide-accent)) 32%, transparent);
+	background: color-mix(in srgb, var(--tocguide-icon-color, var(--tocguide-accent)) 8%, transparent);
+	color: var(--tocguide-icon-color, var(--tocguide-accent));
 	border-radius: 999px;
 	width: 2rem;
 	height: 2rem;
@@ -62,18 +63,20 @@
 
 .wp-block-tocguide-table-of-contents .tocguide__toggle:hover,
 .tocguide .tocguide__toggle:hover {
-	background: color-mix(in srgb, var(--tocguide-accent) 16%, transparent);
-	border-color: color-mix(in srgb, var(--tocguide-accent) 45%, transparent);
+	background: var(--tocguide-icon-color, var(--tocguide-accent));
+	border-color: transparent;
+	color: #fff;
 }
 
 .wp-block-tocguide-table-of-contents .tocguide__toggle-icon,
 .tocguide .tocguide__toggle-icon {
-	display: block;
-	width: 0.55rem;
-	height: 0.55rem;
-	border-inline-end: 2px solid currentcolor;
-	border-bottom: 2px solid currentcolor;
-	transform: rotate(45deg) translateY(-1px);
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	width: 1rem;
+	height: 1rem;
+	border: 0;
+	transform: none;
 	transition: transform 0.2s ease;
 }
 
@@ -84,7 +87,7 @@
 
 .wp-block-tocguide-table-of-contents.is-collapsed .tocguide__toggle-icon,
 .tocguide.is-collapsed .tocguide__toggle-icon {
-	transform: rotate(-45deg) translateY(2px);
+	transform: rotate(180deg);
 }
 
 .wp-block-tocguide-table-of-contents.is-collapsed .tocguide__header,
@@ -121,6 +124,11 @@
 	text-decoration: none;
 	color: var(--tocguide-link-color, inherit);
 	font-weight: var(--tocguide-font-weight, inherit);
+	text-transform: var(--tocguide-text-transform, none);
+	flex: 1 1 auto;
+	min-width: 0;
+	width: auto;
+	overflow-wrap: break-word;
 }
 
 .wp-block-tocguide-table-of-contents .tocguide__link:hover,
@@ -145,6 +153,7 @@
 .wp-block-tocguide-table-of-contents .tocguide__sub,
 .tocguide .tocguide__sub {
 	margin-block-start: 0.25rem;
+	padding-inline-start: 1.15rem;
 }
 
 .wp-block-tocguide-table-of-contents.is-sticky,
@@ -200,6 +209,25 @@
 	border: 0;
 	box-shadow: 0 10px 30px rgba(28, 61, 46, 0.08);
 	padding: 1.35rem 1.6rem;
+}
+
+.wp-block-tocguide-table-of-contents.has-shadow-soft,
+.tocguide.has-shadow-soft {
+	box-shadow: 0 8px 24px rgba(15, 23, 42, 0.07);
+}
+
+.wp-block-tocguide-table-of-contents.has-shadow-medium,
+.tocguide.has-shadow-medium {
+	box-shadow: 0 14px 36px rgba(15, 23, 42, 0.12);
+}
+
+.wp-block-tocguide-table-of-contents.is-style-minimal.has-shadow-soft,
+.wp-block-tocguide-table-of-contents.is-style-minimal.has-shadow-medium,
+.tocguide.is-style-minimal.has-shadow-soft,
+.tocguide.is-style-minimal.has-shadow-medium,
+.tocguide.tocguide--minimal.has-shadow-soft,
+.tocguide.tocguide--minimal.has-shadow-medium {
+	box-shadow: none;
 }
 
 .wp-block-tocguide-table-of-contents .tocguide__visually-hidden,
@@ -318,21 +346,22 @@
 	margin-bottom: 0.55rem;
 }
 
-// Marker, heading, then icon buttons to the right of the text.
+// Marker, heading, then icon buttons pinned to the right of the row.
 .wp-block-tocguide-table-of-contents .tocguide__item-row,
 .tocguide .tocguide__item-row {
 	display: flex;
 	align-items: center;
-	flex-wrap: wrap;
-	gap: 0.35rem 0.5rem;
+	flex-wrap: nowrap;
+	gap: 0.45rem 0.6rem;
 }
 
 .wp-block-tocguide-table-of-contents .tocguide__item-tools,
 .tocguide .tocguide__item-tools {
 	display: inline-flex;
 	align-items: center;
-	gap: 0.3rem;
-	flex-shrink: 0;
+	gap: 0.35rem;
+	flex: 0 0 auto;
+	margin-inline-start: auto;
 }
 
 .wp-block-tocguide-table-of-contents .tocguide__marker,
@@ -376,29 +405,32 @@
 	display: inline-flex;
 	align-items: center;
 	justify-content: center;
-	width: 1.75rem;
-	height: 1.75rem;
+	width: 1.85rem;
+	height: 1.85rem;
 	padding: 0;
-	border: 1px solid var(--tocguide-line, #d7e0ea);
-	border-radius: 8px;
-	background: color-mix(in srgb, var(--tocguide-accent) 6%, #fff);
-	color: var(--tocguide-accent);
+	border: 1px solid color-mix(in srgb, var(--tocguide-icon-color, var(--tocguide-accent)) 32%, transparent);
+	border-radius: 9px;
+	background: color-mix(in srgb, var(--tocguide-icon-color, var(--tocguide-accent)) 8%, #fff);
+	color: var(--tocguide-icon-color, var(--tocguide-accent));
 	cursor: pointer;
 	line-height: 1;
-	box-shadow: 0 1px 0 rgba(255, 255, 255, 0.6) inset;
-	transition: background 0.15s ease, border-color 0.15s ease, color 0.15s ease;
+	box-shadow: 0 1px 2px rgba(15, 23, 42, 0.06);
+	transition: background 0.15s ease, border-color 0.15s ease, color 0.15s ease, box-shadow 0.15s ease;
 }
 
 .wp-block-tocguide-table-of-contents .tocguide__icon-btn:hover,
 .tocguide .tocguide__icon-btn:hover,
 .wp-block-tocguide-table-of-contents .tocguide__icon-btn.has-content,
 .tocguide .tocguide__icon-btn.has-content {
-	background: color-mix(in srgb, var(--tocguide-accent) 14%, #fff);
-	border-color: color-mix(in srgb, var(--tocguide-accent) 45%, transparent);
-	color: var(--tocguide-accent);
+	background: var(--tocguide-icon-color, var(--tocguide-accent));
+	border-color: transparent;
+	color: #fff;
+	box-shadow: 0 4px 10px color-mix(in srgb, var(--tocguide-icon-color, var(--tocguide-accent)) 28%, transparent);
 }
 
 // Drop theme list counters and link decorations inside the outline.
+// Themes often paint "0." with li::before or ::marker. Those selectors can
+// outrank a single class, so the resets below repeat the block classes.
 .wp-block-tocguide-table-of-contents.is-theme-isolated,
 .tocguide.is-theme-isolated {
 
@@ -408,19 +440,31 @@
 		margin: 0;
 	}
 
+	.tocguide__item::marker,
 	li::marker {
-		content: none;
+		content: "" !important; /* stylelint-disable-line declaration-no-important */
+		font-size: 0 !important; /* stylelint-disable-line declaration-no-important */
 	}
 
-	li::before,
-	li::after,
+	.tocguide__item::before,
+	.tocguide__item::after,
 	.tocguide__link::before,
-	.tocguide__link::after {
+	.tocguide__link::after,
+	.tocguide__list::before,
+	.tocguide__list::after,
+	li::before,
+	li::after {
 		content: none !important; /* stylelint-disable-line declaration-no-important */
 	}
 
 	.tocguide__marker {
 		display: inline-flex;
+	}
+
+	.tocguide__item-row {
+		display: flex !important; /* stylelint-disable-line declaration-no-important */
+		flex-wrap: nowrap !important; /* stylelint-disable-line declaration-no-important */
+		align-items: center !important; /* stylelint-disable-line declaration-no-important */
 	}
 
 	a,
@@ -429,8 +473,12 @@
 		font-family: inherit;
 	}
 
-	a {
-		background-image: none;
+	a.tocguide__link {
+		display: block !important; /* stylelint-disable-line declaration-no-important */
+		width: auto !important; /* stylelint-disable-line declaration-no-important */
+		max-width: none !important; /* stylelint-disable-line declaration-no-important */
+		float: none !important; /* stylelint-disable-line declaration-no-important */
+		background-image: none !important; /* stylelint-disable-line declaration-no-important */
 		box-shadow: none;
 	}
 
@@ -441,13 +489,38 @@
 		text-transform: none;
 		letter-spacing: inherit;
 		text-shadow: none;
-		box-shadow: none;
+	}
+
+	.tocguide__item-tools {
+		display: inline-flex !important; /* stylelint-disable-line declaration-no-important */
+		float: none !important; /* stylelint-disable-line declaration-no-important */
+		width: auto !important; /* stylelint-disable-line declaration-no-important */
+		margin-inline-start: auto !important; /* stylelint-disable-line declaration-no-important */
 	}
 
 	.tocguide__icon-btn {
-		width: 1.75rem;
-		height: 1.75rem;
+		display: inline-flex !important; /* stylelint-disable-line declaration-no-important */
+		width: 1.85rem !important; /* stylelint-disable-line declaration-no-important */
+		height: 1.85rem !important; /* stylelint-disable-line declaration-no-important */
+		float: none !important; /* stylelint-disable-line declaration-no-important */
+		position: static !important; /* stylelint-disable-line declaration-no-important */
 	}
+}
+
+.wp-block-tocguide-table-of-contents.is-marker-square .tocguide__marker,
+.tocguide.is-marker-square .tocguide__marker {
+	border-radius: 5px;
+}
+
+.wp-block-tocguide-table-of-contents.is-marker-plain .tocguide__marker:not(.tocguide__marker--bullet),
+.tocguide.is-marker-plain .tocguide__marker:not(.tocguide__marker--bullet) {
+	min-width: 0;
+	height: auto;
+	padding: 0;
+	border-radius: 0;
+	background: transparent;
+	color: var(--tocguide-marker-bg, var(--tocguide-accent));
+	font-size: 0.85em;
 }
 
 // ─ Read-time badge
@@ -630,10 +703,10 @@
 	display: inline-flex;
 	align-items: center;
 	gap: 0.35em;
-	background: color-mix(in srgb, var(--tocguide-accent) 12%, #fff);
-	border: 1px solid color-mix(in srgb, var(--tocguide-accent) 35%, transparent);
+	background: color-mix(in srgb, var(--tocguide-icon-color, var(--tocguide-accent)) 10%, #fff);
+	border: 1px solid color-mix(in srgb, var(--tocguide-icon-color, var(--tocguide-accent)) 35%, transparent);
 	border-radius: 999px;
-	color: var(--tocguide-accent);
+	color: var(--tocguide-icon-color, var(--tocguide-accent));
 	cursor: pointer;
 	font-family: inherit;
 	font-size: 0.75em;
@@ -646,7 +719,9 @@
 
 .wp-block-tocguide-table-of-contents .tocguide__resume-btn:hover,
 .tocguide .tocguide__resume-btn:hover {
-	background: color-mix(in srgb, var(--tocguide-accent) 20%, transparent);
+	background: var(--tocguide-icon-color, var(--tocguide-accent));
+	border-color: transparent;
+	color: #fff;
 }
 
 .wp-block-tocguide-table-of-contents .tocguide__resume-btn:focus-visible,

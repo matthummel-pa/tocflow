@@ -464,13 +464,14 @@ class TOCguide_Headings {
 	 */
 	public static function icon_svg( $name ) {
 		$paths = array(
-			'note'     => '<path d="M7 3.75h6.5L18.25 8.5V19.25a1.25 1.25 0 0 1-1.25 1.25H7A1.25 1.25 0 0 1 5.75 19.25V5A1.25 1.25 0 0 1 7 3.75z"/><path d="M13.5 3.75V8.5h4.75"/><path d="M8.5 12.5h4"/><path d="M8.5 15.5h2.5"/><path d="m14.15 16.35 3.15-3.15 1.35 1.35-3.15 3.15-1.7.35z"/>',
+			'note'     => '<path d="M7.5 4h6l4 4v11.1a1.4 1.4 0 0 1-1.4 1.4H7.5a1.4 1.4 0 0 1-1.4-1.4V5.4A1.4 1.4 0 0 1 7.5 4z"/><path d="M13.4 4.2V8.2h4"/><path d="M8.6 12.2h3.6"/><path d="m11.7 16.7 3.2-3.2.9.9-3.2 3.2h-.9z"/>',
 			'pencil'   => '<path d="M4.5 19.5h3.8L18.2 9.6a1.7 1.7 0 0 0 0-2.4l-.4-.4a1.7 1.7 0 0 0-2.4 0L5.5 16.7v2.8z"/><path d="m13.6 6.6 3.8 3.8"/>',
 			'cite'     => '<path d="M9.2 7H6.4A1.4 1.4 0 0 0 5 8.4V12h3.4V7.6"/><path d="M17.2 7h-2.8A1.4 1.4 0 0 0 13 8.4V12h3.4V7.6"/><path d="M8.4 12.2c0 2.1-1.1 3.4-2.8 4"/><path d="M16.4 12.2c0 2.1-1.1 3.4-2.8 4"/>',
 			'copy'     => '<rect x="8" y="8" width="11" height="11" rx="1.6"/><path d="M6.2 16H5.6A1.6 1.6 0 0 1 4 14.4v-8.8A1.6 1.6 0 0 1 5.6 4h8.8A1.6 1.6 0 0 1 16 5.6V6.2"/>',
 			'download' => '<path d="M12 4v10"/><path d="m8 10 4 4 4-4"/><path d="M5 19h14"/>',
 			'print'    => '<path d="M7 9V4.75h10V9"/><path d="M7 16.25H5.6A1.6 1.6 0 0 1 4 14.65v-3.9A1.6 1.6 0 0 1 5.6 9.15h12.8A1.6 1.6 0 0 1 20 10.75v3.9a1.6 1.6 0 0 1-1.6 1.6H17"/><path d="M7 14.25h10v5.5H7z"/>',
 			'resume'   => '<path d="M9 14.25 4.75 10 9 5.75"/><path d="M5.25 10h8.1a4.75 4.75 0 1 1 0 9.5H12"/>',
+			'chevron'  => '<path d="m6 9 6 6 6-6"/>',
 		);
 
 		if ( ! isset( $paths[ $name ] ) ) {
@@ -523,6 +524,20 @@ class TOCguide_Headings {
 	}
 
 	/**
+	 * Drop a leading "0." left in heading text by a theme list counter.
+	 *
+	 * @param string $text Heading text.
+	 * @return string
+	 */
+	private static function strip_stray_zero( $text ) {
+		$clean = preg_replace( '/^0\.\s+/u', '', (string) $text );
+		if ( is_string( $clean ) && '' !== $clean ) {
+			return $clean;
+		}
+		return (string) $text;
+	}
+
+	/**
 	 * Render nested list markup from heading data.
 	 *
 	 * @param array  $headings Heading data with normalized 'level'.
@@ -535,7 +550,22 @@ class TOCguide_Headings {
 			return '';
 		}
 
-		$list_tag = ( 'ol' === $list_tag ) ? 'ol' : 'ul';
+		$list_tag  = ( 'ol' === $list_tag ) ? 'ol' : 'ul';
+		$isolate   = ! empty( $guide['isolate'] );
+		$item_tag  = 'li';
+		$list_role = '';
+		$item_role = '';
+		/*
+		 * Theme ordered-list rules often paint a counter on li::before / ::marker.
+		 * That counter is frequently 0, so every row reads "0. Heading" beside our
+		 * own badge. A div list does not match those selectors.
+		 */
+		if ( $isolate ) {
+			$list_tag  = 'div';
+			$item_tag  = 'div';
+			$list_role = ' role="list"';
+			$item_role = ' role="listitem"';
+		}
 
 		$show_time         = ! empty( $guide['show_read_time'] );
 		$show_density      = ! empty( $guide['show_density'] );
@@ -569,19 +599,22 @@ class TOCguide_Headings {
 			$level  = (int) $heading['level'];
 			$slug   = $heading['slug'];
 			$text   = $heading['text'];
+			if ( $isolate ) {
+				$text = self::strip_stray_zero( $text );
+			}
 			$marker = self::marker_label( $marker_counts, $level, $ordered, $numbering, $hide_markers );
 
 			if ( $level > $prev ) {
 				for ( $i = 0; $i < ( $level - $prev ); $i++ ) {
 					$class = 0 === $open ? ' class="tocguide__list"' : ' class="tocguide__sub"';
-					$html .= '<' . $list_tag . $class . '>';
+					$html .= '<' . $list_tag . $class . $list_role . '>';
 					++$open;
 				}
 			} else {
-				$html .= '</li>';
+				$html .= '</' . $item_tag . '>';
 				if ( $level < $prev ) {
 					for ( $i = 0; $i < ( $prev - $level ); $i++ ) {
-						$html .= '</' . $list_tag . '></li>';
+						$html .= '</' . $list_tag . '></' . $item_tag . '>';
 						--$open;
 					}
 				}
@@ -601,12 +634,12 @@ class TOCguide_Headings {
 					$density    = $max_words > 0 ? min( 1.0, (float) $heading['word_count'] / $max_words ) : 0.0;
 					$item_style = ' style="--tocguide-density:' . esc_attr( number_format( $density, 3, '.', '' ) ) . '"';
 				}
-				$html .= '<li' . $item_extra
+				$html .= '<' . $item_tag . $item_extra
 					. ' data-tocguide-slug="' . esc_attr( $slug ) . '"'
 					. ' data-tocguide-heading="' . esc_attr( $text ) . '"'
-					. $item_style . '>';
+					. $item_style . $item_role . '>';
 			} else {
-				$html .= '<li class="tocguide__item">';
+				$html .= '<' . $item_tag . ' class="tocguide__item"' . $item_role . '>';
 			}
 
 			$has_author_note = isset( $notes[ $slug ] ) && '' !== (string) $notes[ $slug ];
@@ -728,11 +761,11 @@ class TOCguide_Headings {
 			$prev = $level;
 		}
 
-		$html .= '</li>';
+		$html .= '</' . $item_tag . '>';
 		for ( $i = 0; $i < $open; $i++ ) {
 			$html .= '</' . $list_tag . '>';
 			if ( $i < $open - 1 ) {
-				$html .= '</li>';
+				$html .= '</' . $item_tag . '>';
 			}
 		}
 
@@ -871,9 +904,11 @@ class TOCguide_Headings {
 		if ( ! empty( $attributes['ordered'] ) && isset( $attributes['numbering'] ) && 'nested' === $attributes['numbering'] ) {
 			$classes[] = 'is-nested-counters';
 		}
-		if ( ! empty( $settings['exclude_theme_styles'] ) ) {
+		$isolate = TOCguide_Settings::excludes_theme_styles( $attributes );
+		if ( $isolate ) {
 			$classes[] = 'is-theme-isolated';
 		}
+		$classes = array_merge( $classes, TOCguide_Settings::appearance_classes() );
 
 		$highlight = array_key_exists( 'highlightActive', $attributes )
 			? ! empty( $attributes['highlightActive'] )
@@ -1019,7 +1054,7 @@ class TOCguide_Headings {
 				$expanded = empty( $attributes['collapsedDefault'] ) ? 'true' : 'false';
 				$html    .= '<button type="button" class="tocguide__toggle" aria-expanded="' . esc_attr( $expanded ) . '">';
 				$html    .= '<span class="tocguide__visually-hidden">' . esc_html__( 'Toggle table of contents', 'tocguide' ) . '</span>';
-				$html    .= '<span class="tocguide__toggle-icon" aria-hidden="true"></span>';
+				$html    .= '<span class="tocguide__toggle-icon" aria-hidden="true">' . self::icon_svg( 'chevron' ) . '</span>';
 				$html    .= '</button>';
 			}
 			$html .= '</div>';
@@ -1066,7 +1101,8 @@ class TOCguide_Headings {
 				. '</div>';
 		}
 
-		$guide['ordered']      = ( 'ol' === $list_tag );
+		$guide['ordered']      = ! empty( $attributes['ordered'] );
+		$guide['isolate']      = $isolate;
 		$guide['numbering']    = isset( $attributes['numbering'] ) ? sanitize_key( $attributes['numbering'] ) : 'default';
 		$guide['hide_markers'] = ! empty( $attributes['hideMarkers'] );
 

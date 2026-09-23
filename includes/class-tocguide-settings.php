@@ -90,6 +90,11 @@ class TOCguide_Settings {
 			'design_border_style'   => '',
 			'design_border_radius'  => '',
 			'design_padding'        => '',
+			'design_title_color'    => '',
+			'design_icon_color'     => '',
+			'design_text_transform' => '',
+			'design_marker_style'   => '',
+			'design_shadow'         => '',
 
 			// Accessibility.
 			'focus_style'           => 'default',
@@ -326,6 +331,9 @@ class TOCguide_Settings {
 			'design_border_style'   => '--tocguide-border-style',
 			'design_border_radius'  => '--tocguide-radius',
 			'design_padding'        => '--tocguide-padding',
+			'design_title_color'    => '--tocguide-title-color',
+			'design_icon_color'     => '--tocguide-icon-color',
+			'design_text_transform' => '--tocguide-text-transform',
 		);
 
 		foreach ( $map as $setting_key => $css_prop ) {
@@ -344,6 +352,44 @@ class TOCguide_Settings {
 		}
 
 		return $vars;
+	}
+
+	/**
+	 * Whether this outline should ignore theme list, link, and font styles.
+	 *
+	 * Block and shortcode may override the site setting.
+	 *
+	 * @param array $attributes Block attributes. `excludeThemeStyles`: inherit, yes, no.
+	 * @return bool
+	 */
+	public static function excludes_theme_styles( $attributes ) {
+		$choice = isset( $attributes['excludeThemeStyles'] ) ? sanitize_key( (string) $attributes['excludeThemeStyles'] ) : 'inherit';
+		if ( in_array( $choice, array( 'yes', 'exclude' ), true ) ) {
+			return true;
+		}
+		if ( in_array( $choice, array( 'no', 'include' ), true ) ) {
+			return false;
+		}
+		return ! empty( self::get_value( 'exclude_theme_styles', 1 ) );
+	}
+
+	/**
+	 * Extra classes for marker shape and shadow from Design settings.
+	 *
+	 * @return string[]
+	 */
+	public static function appearance_classes() {
+		$settings = self::get();
+		$classes  = array();
+		$marker   = isset( $settings['design_marker_style'] ) ? $settings['design_marker_style'] : '';
+		if ( in_array( $marker, array( 'square', 'plain' ), true ) ) {
+			$classes[] = 'is-marker-' . $marker;
+		}
+		$shadow = isset( $settings['design_shadow'] ) ? $settings['design_shadow'] : '';
+		if ( in_array( $shadow, array( 'soft', 'medium' ), true ) ) {
+			$classes[] = 'has-shadow-' . $shadow;
+		}
+		return $classes;
 	}
 
 	/**
@@ -473,6 +519,19 @@ class TOCguide_Settings {
 		$allowed_bs                   = array( '', 'solid', 'dashed', 'dotted', 'double', 'none' );
 		$bs                           = isset( $input['design_border_style'] ) ? sanitize_key( $input['design_border_style'] ) : '';
 		$clean['design_border_style'] = in_array( $bs, $allowed_bs, true ) ? $bs : '';
+
+		$clean['design_title_color'] = self::sanitize_hex_color( isset( $input['design_title_color'] ) ? $input['design_title_color'] : '' );
+		$clean['design_icon_color']  = self::sanitize_hex_color( isset( $input['design_icon_color'] ) ? $input['design_icon_color'] : '' );
+
+		$transform                      = isset( $input['design_text_transform'] ) ? sanitize_key( $input['design_text_transform'] ) : '';
+		$allowed_transform              = array( '', 'none', 'uppercase', 'capitalize' );
+		$clean['design_text_transform'] = in_array( $transform, $allowed_transform, true ) ? $transform : '';
+
+		$marker                       = isset( $input['design_marker_style'] ) ? sanitize_key( $input['design_marker_style'] ) : '';
+		$clean['design_marker_style'] = in_array( $marker, array( '', 'circle', 'square', 'plain' ), true ) && 'circle' !== $marker ? $marker : '';
+
+		$shadow                 = isset( $input['design_shadow'] ) ? sanitize_key( $input['design_shadow'] ) : '';
+		$clean['design_shadow'] = in_array( $shadow, array( '', 'none', 'soft', 'medium' ), true ) && 'none' !== $shadow ? $shadow : '';
 
 		// Accessibility.
 		$allowed_focus        = array( 'default', 'bold', 'high-contrast' );

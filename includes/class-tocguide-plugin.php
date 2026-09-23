@@ -79,9 +79,12 @@ class TOCguide_Plugin {
 			return;
 		}
 
+		$design = TOCguide_Settings::get();
 		$config = array(
-			'excludeThemeStyles' => ! empty( TOCguide_Settings::get_value( 'exclude_theme_styles', 1 ) ),
-			'designVars'          => TOCguide_Settings::design_css_vars(),
+			'excludeThemeStyles' => ! empty( $design['exclude_theme_styles'] ),
+			'markerStyle'        => isset( $design['design_marker_style'] ) ? $design['design_marker_style'] : '',
+			'shadow'             => isset( $design['design_shadow'] ) ? $design['design_shadow'] : '',
+			'designVars'         => TOCguide_Settings::design_css_vars(),
 		);
 
 		wp_add_inline_script(
@@ -162,6 +165,7 @@ class TOCguide_Plugin {
 				'min'         => '-1',
 				'smooth'      => 'inherit',
 				'style'       => 'default',
+				'theme'       => 'inherit',
 				// Reading Guide shortcode attributes.
 				'preview'     => '0',   // hover-preview tooltip on TOC links.
 				'guide'       => '0',   // full Reading Guide mode.
@@ -220,6 +224,17 @@ class TOCguide_Plugin {
 			$citation_style = 'apa';
 		}
 
+		$theme = sanitize_key( $atts['theme'] );
+		if ( ! in_array( $theme, array( 'inherit', 'exclude', 'include' ), true ) ) {
+			$theme = 'inherit';
+		}
+		$exclude_theme = 'inherit';
+		if ( 'exclude' === $theme ) {
+			$exclude_theme = 'yes';
+		} elseif ( 'include' === $theme ) {
+			$exclude_theme = 'no';
+		}
+
 		$attributes = array(
 			'title'               => sanitize_text_field( $atts['title'] ),
 			'showTitle'           => $this->is_truthy( $atts['showtitle'] ),
@@ -239,6 +254,7 @@ class TOCguide_Plugin {
 			'compact'             => $this->is_truthy( $atts['compact'] ),
 			'twoColumns'          => (int) $atts['columns'] >= 2,
 			'underlineLinks'      => $this->is_truthy( $atts['underline'] ),
+			'excludeThemeStyles'  => $exclude_theme,
 			'stylePreset'         => $style,
 			'className'           => 'is-style-' . $style,
 			'highlightActive'     => $highlight,

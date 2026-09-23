@@ -50,11 +50,10 @@ function NoteIcon() {
 			aria-hidden="true"
 			focusable="false"
 		>
-			<path d="M7 3.75h6.5L18.25 8.5V19.25a1.25 1.25 0 0 1-1.25 1.25H7A1.25 1.25 0 0 1 5.75 19.25V5A1.25 1.25 0 0 1 7 3.75z" />
-			<path d="M13.5 3.75V8.5h4.75" />
-			<path d="M8.5 12.5h4" />
-			<path d="M8.5 15.5h2.5" />
-			<path d="m14.15 16.35 3.15-3.15 1.35 1.35-3.15 3.15-1.7.35z" />
+			<path d="M7.5 4h6l4 4v11.1a1.4 1.4 0 0 1-1.4 1.4H7.5a1.4 1.4 0 0 1-1.4-1.4V5.4A1.4 1.4 0 0 1 7.5 4z" />
+			<path d="M13.4 4.2V8.2h4" />
+			<path d="M8.6 12.2h3.6" />
+			<path d="m11.7 16.7 3.2-3.2.9.9-3.2 3.2h-.9z" />
 		</svg>
 	);
 }
@@ -71,6 +70,7 @@ const STATUS_ICON = { draft: '✏️', progress: '🔄', done: '✅' };
  * @param {string}  props.numbering
  * @param {boolean} props.hideMarkers
  * @param {boolean} props.showReaderNotes
+ * @param {boolean} props.isolate         Drop theme list markup.
  * @param {Object}  props.sectionStatus   Writing status map slug→status.
  */
 function PreviewList( {
@@ -79,9 +79,16 @@ function PreviewList( {
 	numbering,
 	hideMarkers,
 	showReaderNotes,
+	isolate,
 	sectionStatus = {},
 } ) {
-	const Tag = ordered ? 'ol' : 'ul';
+	let Tag = 'ul';
+	if ( isolate ) {
+		Tag = 'div';
+	} else if ( ordered ) {
+		Tag = 'ol';
+	}
+	const Item = isolate ? 'div' : 'li';
 	const tree = [];
 	const stack = [ tree ];
 
@@ -104,9 +111,17 @@ function PreviewList( {
 	} );
 
 	const renderItems = ( nodes, depth, parentMarker ) => (
-		<Tag className={ depth === 0 ? 'tocguide__list' : 'tocguide__sub' }>
+		<Tag
+			className={ depth === 0 ? 'tocguide__list' : 'tocguide__sub' }
+			role={ isolate ? 'list' : undefined }
+		>
 			{ nodes.map( ( node, index ) => {
-				const marker = node.text
+				let label = node.text || '';
+				if ( isolate && label ) {
+					const stripped = String( label ).replace( /^0\.\s+/, '' );
+					label = stripped || label;
+				}
+				const marker = label
 					? itemMarker( index, parentMarker, {
 							ordered,
 							numbering,
@@ -118,11 +133,12 @@ function PreviewList( {
 						? marker
 						: '';
 				return (
-					<li
+					<Item
 						key={ `${ node.slug }-${ index }` }
 						className="tocguide__item"
+						role={ isolate ? 'listitem' : undefined }
 					>
-						{ node.text ? (
+						{ label ? (
 							<div className="tocguide__item-row">
 								{ marker === 'bullet' ? (
 									<span
@@ -142,7 +158,7 @@ function PreviewList( {
 									className="tocguide__link"
 									href={ `#${ node.slug }` }
 								>
-									{ node.text }
+									{ label }
 									{ sectionStatus[ node.slug ] && (
 										<span
 											className="tocguide__status-dot"
@@ -174,7 +190,7 @@ function PreviewList( {
 									childMarker
 							  )
 							: null }
-					</li>
+					</Item>
 				);
 			} ) }
 		</Tag>
@@ -197,6 +213,7 @@ export default function Edit( { attributes, setAttributes } ) {
 		ordered,
 		numbering,
 		hideMarkers,
+		excludeThemeStyles,
 		collapsible,
 		collapsedDefault,
 		sticky,
@@ -251,7 +268,14 @@ export default function Edit( { attributes, setAttributes } ) {
 		typeof window !== 'undefined' && window.tocguideEditor
 			? window.tocguideEditor
 			: {};
-	const isolateTheme = editorConfig.excludeThemeStyles !== false;
+	const markerStyle = editorConfig.markerStyle || '';
+	const shadow = editorConfig.shadow || '';
+	let isolateTheme = editorConfig.excludeThemeStyles !== false;
+	if ( excludeThemeStyles === 'yes' ) {
+		isolateTheme = true;
+	} else if ( excludeThemeStyles === 'no' ) {
+		isolateTheme = false;
+	}
 
 	const style = { ...( editorConfig.designVars || {} ) };
 	if ( scrollOffset >= 0 ) {
@@ -265,6 +289,10 @@ export default function Edit( { attributes, setAttributes } ) {
 		className: [
 			'tocguide',
 			isolateTheme ? 'is-theme-isolated' : '',
+			markerStyle === 'square' ? 'is-marker-square' : '',
+			markerStyle === 'plain' ? 'is-marker-plain' : '',
+			shadow === 'soft' ? 'has-shadow-soft' : '',
+			shadow === 'medium' ? 'has-shadow-medium' : '',
 			sticky ? 'is-sticky' : '',
 			collapsible ? 'is-collapsible' : '',
 			compact ? 'is-compact' : '',
@@ -404,6 +432,36 @@ export default function Edit( { attributes, setAttributes } ) {
 					title={ __( 'List & layout', 'tocguide' ) }
 					initialOpen={ false }
 				>
+					<SelectControl
+						__nextHasNoMarginBottom
+						__next40pxDefaultSize
+						label={ __( 'Theme styles', 'tocguide' ) }
+						value={ excludeThemeStyles || 'inherit' }
+						options={ [
+							{
+								label: __( 'Use the site setting', 'tocguide' ),
+								value: 'inherit',
+							},
+							{
+								label: __( 'Exclude theme styles', 'tocguide' ),
+								value: 'yes',
+							},
+							{
+								label: __(
+									'Inherit theme list styles',
+									'tocguide'
+								),
+								value: 'no',
+							},
+						] }
+						onChange={ ( value ) =>
+							setAttributes( { excludeThemeStyles: value } )
+						}
+						help={ __(
+							'Exclude theme styles removes the theme’s list numbers, including a stray “0.”, and uses TOCguide badges instead. Fonts, colours, and shadow are set under Settings → TOCguide → Design.',
+							'tocguide'
+						) }
+					/>
 					{ ordered && (
 						<SelectControl
 							__nextHasNoMarginBottom
@@ -920,6 +978,7 @@ export default function Edit( { attributes, setAttributes } ) {
 								numbering={ numbering }
 								hideMarkers={ hideMarkers }
 								showReaderNotes={ showReaderNotes }
+								isolate={ isolateTheme }
 								sectionStatus={ sectionStatus }
 							/>
 						) : (

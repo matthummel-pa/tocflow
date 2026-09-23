@@ -3,6 +3,17 @@
 All notable changes to TOCguide are documented here.
 This project adheres to [Semantic Versioning](https://semver.org/).
 
+## [1.6.1] - 2026-09-23
+
+### Fixed
+- Exclude theme styles now renders the outline as a list of `div`s (`role="list"` / `role="listitem"`) so theme `ol` / `li::before` counters cannot print a leading “0.”. Number badges stay TOCguide’s own.
+- Note, citation, and other row buttons stay on the right of the heading instead of wrapping underneath it.
+
+### Changed
+- Collapse, note, resume, and export controls use one icon-button style (accent border, filled on hover).
+- Design settings add link case, title colour, icon colour, number style (circle, square, plain), and a soft or medium shadow.
+- Each block can follow the site “Exclude theme styles” setting or override it. Shortcode: `theme="exclude"` or `theme="include"`.
+
 ## [1.6.0] - 2026-09-23
 
 ### Fixed
