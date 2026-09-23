@@ -3,6 +3,14 @@
 All notable changes to TOCguide are documented here.
 This project adheres to [Semantic Versioning](https://semver.org/).
 
+## [1.6.3] - 2026-09-23
+
+### Changed
+- The Table of Contents block and the `[tocguide]` shortcode have a default `1.5rem` margin above and below the outline. A margin chosen in the block sidebar replaces it.
+
+### Fixed
+- Theme checklist styles no longer draw a checkmark on each outline row. The outline uses its own dot or number badge.
+
 ## [1.6.2] - 2026-09-23
 
 ### Fixed

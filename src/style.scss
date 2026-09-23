@@ -18,6 +18,7 @@
 	letter-spacing: var(--tocguide-letter-spacing, normal);
 	line-height: var(--tocguide-line-height, inherit);
 	max-width: 100%;
+	margin-block: 1.5rem;
 }
 
 .wp-block-tocguide-table-of-contents .tocguide__header,
@@ -379,7 +380,7 @@
 
 .wp-block-tocguide-table-of-contents .tocguide__marker,
 .tocguide .tocguide__marker {
-	display: none;
+	display: inline-flex;
 	align-items: center;
 	justify-content: center;
 	flex-shrink: 0;
@@ -1019,10 +1020,10 @@
 	}
 }
 
-// Hide the badge when the visitor turned markers off. Isolation turns the
-// badge on; this rule comes later and is more specific so the setting wins.
-.wp-block-tocguide-table-of-contents.is-theme-isolated.is-no-markers .tocguide__marker,
-.tocguide.is-theme-isolated.is-no-markers .tocguide__marker {
+// Hide the badge when the visitor turned markers off. This follows every
+// rule that shows the badge, and it does not depend on theme isolation.
+.wp-block-tocguide-table-of-contents.tocguide.is-no-markers .tocguide__marker,
+.tocguide.tocguide.is-no-markers .tocguide__marker {
 	display: none;
 }
 
@@ -1031,4 +1032,38 @@
 	min-width: 1.05rem;
 	height: 1.05rem;
 	font-size: 0.65em;
+}
+
+// Checklist themes paint a check on li::before. That must not replace the
+// outline marker. These selectors follow the isolation resets and match them
+// in specificity so a later theme stylesheet does not put the check back.
+.wp-block-tocguide-table-of-contents.tocguide ol,
+.wp-block-tocguide-table-of-contents.tocguide ul,
+.tocguide.tocguide ol,
+.tocguide.tocguide ul {
+	list-style: none !important; /* stylelint-disable-line declaration-no-important */
+}
+
+.wp-block-tocguide-table-of-contents.tocguide .tocguide__item::marker,
+.wp-block-tocguide-table-of-contents.tocguide li::marker,
+.tocguide.tocguide .tocguide__item::marker,
+.tocguide.tocguide li::marker {
+	content: none !important; /* stylelint-disable-line declaration-no-important */
+}
+
+.wp-block-tocguide-table-of-contents.tocguide .tocguide__item::before,
+.wp-block-tocguide-table-of-contents.tocguide .tocguide__item::after,
+.wp-block-tocguide-table-of-contents.tocguide .tocguide__link::before,
+.wp-block-tocguide-table-of-contents.tocguide .tocguide__link::after,
+.wp-block-tocguide-table-of-contents.tocguide li::before,
+.wp-block-tocguide-table-of-contents.tocguide li::after,
+.tocguide.tocguide .tocguide__item::before,
+.tocguide.tocguide .tocguide__item::after,
+.tocguide.tocguide .tocguide__link::before,
+.tocguide.tocguide .tocguide__link::after,
+.tocguide.tocguide li::before,
+.tocguide.tocguide li::after {
+	content: none !important; /* stylelint-disable-line declaration-no-important */
+	background: none !important; /* stylelint-disable-line declaration-no-important */
+	background-image: none !important; /* stylelint-disable-line declaration-no-important */
 }

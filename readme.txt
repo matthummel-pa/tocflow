@@ -5,7 +5,7 @@ Tags: table of contents, toc, reading guide, block, study tools
 Requires at least: 6.4
 Tested up to: 7.1
 Requires PHP: 7.4
-Stable tag: 1.6.2
+Stable tag: 1.6.3
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -212,6 +212,10 @@ Deactivate leaves settings in place. Delete runs `uninstall.php`, which removes 
 4. Docs & Support tab in wp-admin (links to the documentation site).
 
 == Changelog ==
+
+= 1.6.3 =
+* The outline has default space above and below it. A margin set on the block still replaces that default.
+* Theme checklist marks no longer paint a check in front of each heading. The outline keeps its own dot or number.
 
 = 1.6.2 =
 * Fix: Design colours, fonts, and spacing stay on the outline, including the title, when the theme styles every heading and link.
